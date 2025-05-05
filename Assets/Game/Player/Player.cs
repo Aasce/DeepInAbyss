@@ -37,13 +37,13 @@ namespace Asce.Game.Players
         private void ControlCharacter()
         {
             if (Character == null) return;
-            Character.Move(InputManager.Instance.MoveAxis);
+            Character.Movement.Move(InputManager.Instance.MoveAxis);
         }
 
         private void OnJump(InputAction.CallbackContext context)
         {
             if (Character == null) return;
-            Character.Jump();
+            Character.Movement.Jump();
         }
     }
 }

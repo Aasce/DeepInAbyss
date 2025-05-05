@@ -2,14 +2,18 @@
 
 namespace Asce.Game.Entities
 {
-    public abstract class Creature : Entity, IMovable
+    public abstract class Creature : Entity, IHasMovement<CreatureMovement>
     {
-        [SerializeField] private CreatureColliderController _collider;
+        [SerializeField] private CreaturePhysicController _collider;
+        [SerializeField] private CreatureMovement _movement;
 
-        public bool IsMovable => true;
+        public CreaturePhysicController PhysicController => _collider;
+        public CreatureMovement Movement => _movement;
 
-        public CreatureColliderController Collider => _collider;
+        protected virtual void Awake()
+        {
+            if (Movement != null) Movement.Owner = this;
+        }
 
-        public abstract void Move(Vector2 direction);
     }
 }
