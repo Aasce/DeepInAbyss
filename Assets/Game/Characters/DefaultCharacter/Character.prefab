@@ -66,6 +66,7 @@ Transform:
   m_Children:
   - {fileID: 3101803790144867345}
   - {fileID: 548013318073285820}
+  - {fileID: 652726011163003735}
   - {fileID: 3693824158665091707}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -83,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collider: {fileID: 5641633219944309814}
   _movement: {fileID: 1281540882325850914}
+  _stats: {fileID: 1368912005807370560}
 --- !u!114 &5641633219944309814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,8 +107,6 @@ MonoBehaviour:
     m_Bits: 64
   _isUseGravity: 1
   _garvityScale: 3
-  _moveForceScale: 10
-  _jumpForceScale: 2
   _climbableLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -174,6 +174,74 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!1 &1984070646422451452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 652726011163003735}
+  - component: {fileID: 1368912005807370560}
+  m_Layer: 8
+  m_Name: Stats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &652726011163003735
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984070646422451452}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5335167956543928960}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1368912005807370560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984070646422451452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ae727b2a8c6b2943981083d12ddba90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseStats: {fileID: 11400000, guid: 0616ff4acaa61f745826d355f92eeed2, type: 2}
+  _health:
+    _value: 0
+    _agents: []
+    _currentValue: 0
+    _currentAgents: []
+  _stamina:
+    _value: 0
+    _agents: []
+    _currentValue: 0
+    _currentAgents: []
+  _hunger:
+    _value: 0
+    _agents: []
+    _currentValue: 0
+    _currentAgents: []
+  _thirsty:
+    _value: 0
+    _agents: []
+    _currentValue: 0
+    _currentAgents: []
+  _speed:
+    _value: 0
+    _agents: []
 --- !u!1 &4768575784569940049
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +411,6 @@ MonoBehaviour:
   _canJump: 1
   _jumbCooldown: 0.2
   _jumpForce: 7.5
-  _speed: 3
   _moveSpeed: 5
   _airSpeed: 5
   _climbSpeed: 2
