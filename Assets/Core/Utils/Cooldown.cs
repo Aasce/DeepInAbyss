@@ -105,6 +105,28 @@ namespace Asce.Managers.Utils
             CurrentTime -= deltaTime;
         }
 
+
+        /// <summary>
+        ///     Set base time to <paramref name="baseTime"/> value
+        ///     and <see cref="Reset"/> cooldown time.
+        /// </summary>
+        /// <param name="baseTime"> Value will be set to Base Time. </param>
+        /// <param name="isReset"> (Optional) If true, reset cooldown. </param>
+        public void SetBaseTime(float baseTime, bool isReset = true)
+        {
+            BaseTime = baseTime;
+            if (isReset) this.Reset();
+        }
+
+        /// <summary>
+        ///     Set current time to the ratio value of base time.
+        /// </summary>
+        /// <param name="ratio"></param>
+        public void SetCurrentByRatio(float ratio)
+        {
+            CurrentTime = BaseTime * ratio;
+        }
+
         /// <summary>
         ///     Immediately completes the cooldown by setting current time to zero.
         /// </summary>

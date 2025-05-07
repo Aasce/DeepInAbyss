@@ -224,22 +224,72 @@ MonoBehaviour:
     _agents: []
     _currentValue: 0
     _currentAgents: []
+    _changeValue: 0
+    _changeAgents: []
+    _isSelfChangeable: 1
+    _changeInterval:
+      _baseTime: 1
+      _currentTime: 1
   _stamina:
     _value: 0
     _agents: []
     _currentValue: 0
     _currentAgents: []
+    _changeValue: 0
+    _changeAgents: []
+    _isSelfChangeable: 1
+    _changeInterval:
+      _baseTime: 1
+      _currentTime: 1
   _hunger:
     _value: 0
     _agents: []
     _currentValue: 0
     _currentAgents: []
-  _thirsty:
+    _changeValue: 0
+    _changeAgents: []
+    _isSelfChangeable: 1
+    _changeInterval:
+      _baseTime: 10
+      _currentTime: 10
+  _thirst:
     _value: 0
     _agents: []
     _currentValue: 0
     _currentAgents: []
+    _changeValue: 0
+    _changeAgents: []
+    _isSelfChangeable: 1
+    _changeInterval:
+      _baseTime: 10
+      _currentTime: 10
+  _breath:
+    _value: 0
+    _agents: []
+    _currentValue: 0
+    _currentAgents: []
+    _changeValue: 0
+    _changeAgents: []
+    _isSelfChangeable: 1
+    _changeInterval:
+      _baseTime: 1
+      _currentTime: 1
+  _strength:
+    _value: 0
+    _agents: []
+  _armor:
+    _value: 0
+    _agents: []
+  _resistance:
+    _value: 0
+    _agents: []
+  _shield:
+    _value: 0
+    _agents: []
   _speed:
+    _value: 0
+    _agents: []
+  _jumpForce:
     _value: 0
     _agents: []
 --- !u!1 &4768575784569940049
@@ -410,7 +460,6 @@ MonoBehaviour:
   _isClimbing: 0
   _canJump: 1
   _jumbCooldown: 0.2
-  _jumpForce: 7.5
-  _moveSpeed: 5
-  _airSpeed: 5
-  _climbSpeed: 2
+  _walkSpeedScale: 1
+  _airSpeedScale: 1
+  _climbSpeedScale: 0.5

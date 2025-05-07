@@ -16,8 +16,9 @@ namespace Asce.Game.Entities
         }
 
 
-        protected virtual void Start()
+        protected override void Start()
         {
+            base.Start();
             Movement?.ResetJump();
         }
     }

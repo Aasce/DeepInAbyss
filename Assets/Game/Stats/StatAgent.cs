@@ -129,5 +129,8 @@ namespace Asce.Game.Stats
             Duration.Reset();
             Position = position;
         }
+
+
+        public virtual void ToNotClearable() => IsClearable = false;
     }
 }

@@ -13,7 +13,18 @@ MonoBehaviour:
   m_Name: Default Character Base Stats
   m_EditorClassIdentifier: 
   _maxHealth: 100
+  _healthRegen: 1
   _maxStamina: 100
-  _maxHunger: 20
-  _maxThirsty: 10
+  _staminaRegen: 5
+  _maxHunger: 90
+  _hungry: 2
+  _maxThirst: 60
+  _thirsty: 2
+  _maxBreath: 60
+  _breathe: 10
+  _strength: 0
+  _armor: 0
+  _resistance: 0
   _speed: 5
+  _viewRadius: 20
+  _jumpForce: 7.5

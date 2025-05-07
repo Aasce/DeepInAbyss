@@ -15,9 +15,9 @@ namespace Asce.Game.Stats
         /// <summary>
         ///     The default duration (in seconds) that a value-affecting agent remains active.
         /// </summary>
-        public readonly float affectDuration = 10f;
+        public static readonly float baseAffectDuration = 10f;
 
-        [Header("ResourceStat")]
+        [Header("Resource Stat")]
         [SerializeField] protected float _currentValue;
         [SerializeField] protected List<StatAgent> _currentAgents = new();
 
@@ -63,28 +63,39 @@ namespace Asce.Game.Stats
         public float Ratio => Value <= 0f ? 0f:  CurrentValue / Value;
 
         /// <summary>
+        ///     True if CurrentValue greater than or equals Value.
+        /// </summary>
+        public bool IsFull => CurrentValue >= Value;
+
+        /// <summary>
+        ///     True if CurrentValue less than or equals zero.
+        /// </summary>
+        public bool IsEmpty => CurrentValue <= 0f;
+
+
+        /// <summary>
         ///     A list of active <see cref="StatAgent"/>s currently affecting the <see cref="CurrentValue"/>.
         /// </summary>
         protected List<StatAgent> CurrentAgents => _currentAgents;
 
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="ResourceStat"/> class.
+        /// </summary>
+        public ResourceStat() : base() { }
+
+
+        /// <summary>
         ///     Updates all stat agents and removes expired ones.
         ///     <br/>
         ///     override from <see cref="Stat.Update(float)"/>
+        ///     <br/>
+        ///     See <see cref="StatUtils.UpdateAgents"/>
         /// </summary>
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
-
-            for (int i = CurrentAgents.Count - 1; i >= 0; i--)
-            {
-                CurrentAgents[i].Duration.Update(deltaTime);
-                if (CurrentAgents[i].Duration.IsComplete)
-                {
-                    CurrentAgents.RemoveAt(i);
-                }
-            }
+            StatUtils.UpdateAgents(CurrentAgents, deltaTime);
         }
 
 
@@ -107,6 +118,10 @@ namespace Asce.Game.Stats
             return agent;
         }
 
+        /// <summary>
+        ///     Removes all agents affecting the stat and the current stat. 
+        ///     See <see cref="StatUtils.ClearAgents"/>
+        /// </summary>
         public override void Clear(bool forceClear = false)
         {
             base.Clear(forceClear);
@@ -120,10 +135,13 @@ namespace Asce.Game.Stats
         /// <param name="author"> The source of the change. </param>
         /// <param name="reason"> The reason for the change. </param>
         /// <param name="value"> The value to add. </param>
-        /// <param name="type"> The type of value (flat or ratio). </param>
-        public virtual void AddToCurrentValue(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat)
+        /// <param name="type"> (Optionals) The type of value (flat or ratio). </param>
+        /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="CurrentAgents"/> </param>
+        public virtual void AddToCurrentValue(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat, bool isAddToAgent = true)
         {
-            CurrentAgents.Add(new StatAgent(author, reason, value, type, affectDuration));
+            if (isAddToAgent) 
+                CurrentAgents.Add(new StatAgent(author, reason, value, type, baseAffectDuration));
+
             CurrentValue = type switch
             {
                 StatValueType.Plat => CurrentValue + value,
@@ -138,10 +156,13 @@ namespace Asce.Game.Stats
         /// <param name="author"> The source of the change. </param>
         /// <param name="reason"> The reason for the change. </param>
         /// <param name="value"> The new value to set. </param>
-        public virtual void SetCurrentValue(GameObject author, string reason, float value)
+        /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="CurrentAgents"/> </param>
+        public virtual void SetCurrentValue(GameObject author, string reason, float value, bool isAddToAgent = true)
         {
             // The value is the difference between the value to be changed and the current value
-            CurrentAgents.Add(new StatAgent(author, reason, value - CurrentValue, affectDuration));
+            if (isAddToAgent) 
+                CurrentAgents.Add(new StatAgent(author, reason, value - CurrentValue, baseAffectDuration));
+
             CurrentValue = value;
         }
 

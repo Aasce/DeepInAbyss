@@ -31,7 +31,7 @@ namespace Asce.Game.Stats
             get => _value;
             protected set
             {
-                float oldValue = Value;
+                float oldValue = _value;
                 _value = value;
                 OnValueChanged?.Invoke(this, new ValueChangedEventArgs(oldValue, _value));
             }
@@ -44,24 +44,22 @@ namespace Asce.Game.Stats
 
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="Stat"/> class.
+        /// </summary>
+        public Stat() { }
+
+
+        /// <summary>
         ///     Updates the duration of all active agents, and recalculates <see cref="Value"/> 
         ///     if any agents have expired.
+        ///     <br/>
+        ///     See <see cref="StatUtils.UpdateAgents"/>
         /// </summary>
         /// <param name="deltaTime"> The elapsed time since the last update. </param>
         public virtual void Update(float deltaTime)
         {
-            bool updated = false;
-            for (int i = Agents.Count - 1; i >= 0; i--)
-            {
-                Agents[i].Duration.Update(deltaTime);
-                if (Agents[i].Duration.IsComplete)
-                {
-                    Agents.RemoveAt(i);
-                    updated = true;
-                }
-            }
-
-            if (updated) UpdateValue();
+            if (StatUtils.UpdateAgents(Agents, deltaTime))
+                this.UpdateValue();
         }
 
         /// <summary>
@@ -138,7 +136,8 @@ namespace Asce.Game.Stats
 
         /// <summary>
         ///     Removes all agents from the stat that match 
-        ///     the given <paramref name="author"/> and <paramref name="reason"/>.
+        ///     the given <paramref name="author"/> and <paramref name="reason"/>. 
+        ///     See <see cref="StatUtils.RemoveAllAgents"/>
         ///     <br/>
         ///     Recalculates <see cref="Value"/> if any agents is removed
         /// </summary>
@@ -146,63 +145,26 @@ namespace Asce.Game.Stats
         /// <param name="reason"> The reason of the agents (optional). </param>
         public virtual void RemoveAllAgents(GameObject author, string reason = null)
         {
-            int count = Agents.RemoveAll((agent) =>
-            {
-                if (agent.Author != author) return false;
-                if (string.IsNullOrEmpty(reason)) return true;
-                if (agent.Reason.Equals(reason)) return true;
-                return false;
-            });
-
-            if (count > 0) this.UpdateValue();
+            if (StatUtils.RemoveAllAgents(Agents, author, reason)) 
+                this.UpdateValue();
         }
 
         /// <summary>
-        ///     Removes all agents affecting the stat.
+        ///     Removes all agents affecting the stat. 
+        ///     See <see cref="StatUtils.ClearAgents"/>
         /// </summary>
-        /// <param name="forceClear">
-        ///     If true, all agents are removed regardless of their <see cref="StatAgent.IsClearable"/> flag.
-        ///     <br/>
-        ///     If false, only agents with <see cref="StatAgent.IsClearable"/> == true (or null-safe) will be removed.
-        /// </param>
         public virtual void Clear(bool forceClear = false)
         {
-            if (forceClear)
-            {
-                Agents.Clear();
+            if (StatUtils.ClearAgents(Agents, forceClear))
                 this.UpdateValue();
-                return;
-            }
-
-            int count = Agents.RemoveAll((agent) => agent?.IsClearable ?? true);
-            if (count > 0) this.UpdateValue();
         }
 
         /// <summary>
         ///     Recalculates the stat's value based on all currently active agents.
+        ///     See <see cref="StatUtils.CalculateValue"/>
         /// </summary>
-        protected virtual void UpdateValue()
-        {
-            _platValue = 0f;
-            _ratioValue = 1f;
-
-            foreach (StatAgent agent in Agents)
-            {
-                if (agent == null) continue;
-
-                switch (agent.ValueType)
-                {
-                    case StatValueType.Plat:
-                        _platValue += agent.Value;
-                        break;
-                    case StatValueType.Ratio:
-                        _ratioValue *= 1 + agent.Value; // multiplicative stacking
-                        break;
-                }
-            }
-
-            Value = _platValue * _ratioValue;
-        }
+        protected virtual void UpdateValue() 
+            => Value = StatUtils.CalculateValue(Agents, out _platValue, out _ratioValue);
 
     }
 }

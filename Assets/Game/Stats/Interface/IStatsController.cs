@@ -8,5 +8,6 @@ namespace Asce.Game.Stats
 
         public void LoadBaseStats();
         public void UpdateStats(float deltaTime);
+        public void ResetStats(bool isForceClear = false);
     }
 }

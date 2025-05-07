@@ -12,10 +12,17 @@ namespace Asce.Game.Entities
         public CreatureMovement Movement => _movement;
         public CreatureStats Stats => _stats;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             if (Movement != null) Movement.Owner = this;
+            if (Stats != null) Stats.Owner = this;
         }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            if (Stats != null) Stats.ResetStats();
+        }
     }
 }

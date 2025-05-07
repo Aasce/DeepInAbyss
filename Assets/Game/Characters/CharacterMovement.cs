@@ -8,16 +8,17 @@ namespace Asce.Game.Entities
     ///     Inherits from <see cref="CreatureMovement"/> 
     ///     and implements <see cref="IMovable"/>, <see cref="IWalkable"/>, <see cref="IClimbale"/>, and <see cref="IJumpable"/>.
     /// </summary>
-    public class CharacterMovement : CreatureMovement, IMovable, IWalkable, IClimbale, IJumpable
+    public class CharacterMovement : CreatureMovement, IHasOwner<Character>, IMovable, IWalkable, IClimbale, IJumpable
     {
         [SerializeField] private bool _isClimbing;
         [SerializeField] private bool _canJump = true;
         [SerializeField] private float _jumbCooldown = 0.2f;
-        [SerializeField] private float _jumpForce = 5f;
 
-        [SerializeField] private float _moveSpeed = 3f;
-        [SerializeField] private float _airSpeed = 3f;
-        [SerializeField] private float _climbSpeed = 2f;
+        [SerializeField] private float _walkSpeedScale = 1f;
+        [SerializeField] private float _airSpeedScale = 1f;
+        [SerializeField] private float _climbSpeedScale = .5f;
+
+        protected float _speedScale;
 
         /// <summary>
         ///     Reference to the character that owns this movement controller.
@@ -31,7 +32,12 @@ namespace Asce.Game.Entities
         /// <summary>
         ///     The current movement speed applied to the character, depending on the state (walking, climbing, etc.).
         /// </summary>
-        public float Speed {  get; set; }
+        public float Speed { get; protected set; }
+
+        /// <summary>
+        ///     The current jump force applied to the character.
+        /// </summary>
+        public float JumpForce { get; protected set; }
 
         /// <summary>
         ///     Whether the character is currently in climbing state.
@@ -64,7 +70,7 @@ namespace Asce.Game.Entities
         protected override void Update()
         {
             base.Update();
-            this.SpeedHandle();
+            this.StatsHandle();
             this.ClimbHandle();
         }
 
@@ -136,7 +142,7 @@ namespace Asce.Game.Entities
             if (Owner.PhysicController.IsGrounded || IsClimbing)
             {
                 Owner.PhysicController.SetVelocity(y: 0f);
-                Owner.PhysicController.AddForce(Vector2.up * _jumpForce);
+                Owner.PhysicController.AddForce(Vector2.up * JumpForce);
                 IsClimbing = false;
 
                 CanJump = false;
@@ -153,13 +159,19 @@ namespace Asce.Game.Entities
         }
 
         /// <summary>
-        ///     Sets the appropriate movement speed based on whether the character is climbing, in the air, or grounded.
+        ///     Sets the appropriate movement speed based on Speed Stat 
+        ///     and based on whether the character is climbing, in the air, or grounded.
+        ///     <br/>
+        ///     Sets the jump force base on JumpForce Stat
         /// </summary>
-        protected virtual void SpeedHandle()
+        protected virtual void StatsHandle()
         {
-            if (IsClimbing) Speed = _climbSpeed;
-            else if (Owner.PhysicController.IsOnAir) Speed = _airSpeed;
-            else Speed = _moveSpeed;
+            if (IsClimbing) _speedScale = _climbSpeedScale;
+            else if (Owner.PhysicController.IsOnAir) _speedScale = _airSpeedScale;
+            else _speedScale = _walkSpeedScale;
+
+            Speed = Owner?.Stats?.Speed?.Value ?? 5f * _speedScale;
+            JumpForce = Owner?.Stats?.JumpForce?.Value ?? 7.5f;
         }
 
         /// <summary>
