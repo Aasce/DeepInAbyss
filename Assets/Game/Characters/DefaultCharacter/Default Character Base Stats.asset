@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a043e794f035a19439614cfce0834bc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c9e324de27d70d4aacd9e9b3ac98919, type: 3}
   m_Name: Default Character Base Stats
   m_EditorClassIdentifier: 
   _maxHealth: 100
@@ -22,9 +22,9 @@ MonoBehaviour:
   _thirsty: 2
   _maxBreath: 60
   _breathe: 10
-  _strength: 0
-  _armor: 0
-  _resistance: 0
+  _strength: 20
+  _armor: 25
+  _resistance: 5
   _speed: 5
   _viewRadius: 20
   _jumpForce: 7.5
