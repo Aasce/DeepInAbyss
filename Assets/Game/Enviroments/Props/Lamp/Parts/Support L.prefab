@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1760300978640231778}
+  - component: {fileID: 7420163309320926509}
   - component: {fileID: 1529591737103735445}
   - component: {fileID: 1036215529146523379}
   - component: {fileID: 2284910491894247959}
@@ -27,13 +28,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133272498992480078}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0625, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7420163309320926509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133272498992480078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b82f5923d44854b9ba4a4dcbb53af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &1529591737103735445
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -82,8 +95,8 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1.3125, y: 3}
+  m_DrawMode: 1
+  m_Size: {x: 1.5, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -123,17 +136,17 @@ BoxCollider2D:
   m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.5, y: 0.02}
+  m_Offset: {x: -0.7, y: 0.019999996}
   m_SpriteTilingProperty:
     border: {x: 0.59375, y: 0, z: 0.3125, w: 0}
     pivot: {x: 0.030303031, y: 0.80769235}
     oldSize: {x: 1.03125, y: 0.8125}
-    newSize: {x: 1.3125, y: 3}
+    newSize: {x: 1.5, y: 1}
     adaptiveTilingThreshold: 0.5
-    drawMode: 0
+    drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.25}
+  m_Size: {x: 1.5, y: 0.25}
   m_EdgeRadius: 0
 --- !u!251 &2284910491894247959
 PlatformEffector2D:
@@ -146,7 +159,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1783
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 1
