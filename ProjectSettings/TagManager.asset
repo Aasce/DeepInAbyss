@@ -39,20 +39,23 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Back Water
-    uniqueID: 2965279787
-    locked: 0
   - name: Back Props
     uniqueID: 2463483371
+    locked: 0
+  - name: Back Water
+    uniqueID: 2965279787
     locked: 0
   - name: Back Tilemap
     uniqueID: 354116469
     locked: 0
-  - name: Water
-    uniqueID: 801219365
-    locked: 0
   - name: Props
     uniqueID: 1739016841
+    locked: 0
+  - name: Entity
+    uniqueID: 3281474535
+    locked: 0
+  - name: Water
+    uniqueID: 801219365
     locked: 0
   - name: Tilemap
     uniqueID: 3001007757

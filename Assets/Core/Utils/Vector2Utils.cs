@@ -27,5 +27,19 @@ namespace Asce.Managers.Utils
             return new Vector2(rotatedX, rotatedY).normalized;
         }
 
+
+        /// <summary>
+        ///     Checks if a given point lies within a circle defined by its center and radius.
+        /// </summary>
+        /// <param name="center"> The center position of the circle. </param>
+        /// <param name="radius"> The radius of the circle. </param>
+        /// <param name="point"> The point to test for inclusion within the circle. </param>
+        /// <returns>
+        ///     True if the point is inside the circle, false otherwise. 
+        /// </returns>
+        public static bool IsPointInsideCircle(Vector2 center, float radius, Vector2 point)
+        {
+            return Vector2.Distance(point, center) < radius;
+        }
     }
 }
