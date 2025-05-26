@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using Asce.Managers.Utils;
+using UnityEngine;
 
 namespace Asce.Game.Entities
 {
     public abstract class CreatureAction : MonoBehaviour, IHasOwner<Creature>, IMovable
     {
-        [SerializeField] private Creature _owner;
+        [SerializeField, HideInInspector] private Creature _owner;
 
         /// <summary>
         ///     Reference to the creature that owns this movement controller.
@@ -15,11 +16,39 @@ namespace Asce.Game.Entities
             set => _owner = value;
         }
 
+        protected virtual void Reset()
+        {
+            if (transform.LoadComponent(out _owner))
+            {
+                Owner.Action = this;
+            }
+        }
+
+        protected virtual void Awake()
+        {
+
+        }
+
+        protected virtual void OnEnable()
+        {
+
+        }
+
+        protected virtual void Start()
+        {
+
+        }
+
+        protected virtual void Update()
+        {
+
+            this.UpdateFacing();
+        }
 
 
-
-
-
-
+        protected virtual void UpdateFacing()
+        {
+            
+        }
     }
 }

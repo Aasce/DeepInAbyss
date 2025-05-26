@@ -2,9 +2,15 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CharacterAnimationEventReceiver : MonoBehaviour
+    public class CharacterAnimationEventReceiver : MonoBehaviour, IHasOwner<Character>
     {
-        [SerializeField] private CharacterPhysicController characterController;
+        [SerializeField] private Character _owner;
+
+        public Character Owner 
+        { 
+            get => _owner; 
+            set => _owner = value; 
+        }
 
         /// <summary>
         /// 
@@ -15,7 +21,7 @@ namespace Asce.Game.Entities
         /// <param name="evt"></param>
         public void OnFootstep(AnimationEvent evt)
         {
-            characterController.OnFootstep(evt);
+            Owner.PhysicController.OnFootstep(evt);
         }
 
 
@@ -105,7 +111,7 @@ namespace Asce.Game.Entities
         /// </remarks>
         public void OnLedgeClimbLocked()
         {
-            if (characterController) characterController.OnLedgeClimbLocked();
+            if (Owner) Owner.Action.OnLedgeClimbLocked();
         }
 
         /// <summary>
@@ -116,7 +122,7 @@ namespace Asce.Game.Entities
         /// </remarks>
         public void OnLedgeClimbFinised()
         {
-            if (characterController) characterController.OnLedgeClimbFinised();
+            if (Owner) Owner.Action.OnLedgeClimbFinised();
         }
 
         #endregion
@@ -131,7 +137,7 @@ namespace Asce.Game.Entities
         /// </remarks>
         public void OnLadderEntered()
         {
-            if (characterController) characterController.OnLadderEntered();
+            if (Owner) Owner.Action.OnLadderEntered();
         }
 
         /// <summary>
@@ -142,7 +148,7 @@ namespace Asce.Game.Entities
         /// </remarks>
         public void OnLadderExited()
         {
-            if (characterController) characterController.OnLadderExited();
+            if (Owner) Owner.Action.OnLadderExited();
         }
 
         #endregion
@@ -157,7 +163,7 @@ namespace Asce.Game.Entities
         /// </remarks>
         public void OnCrawlEnter()
         {
-            if (characterController) characterController.OnCrawlEnter();
+            if (Owner) Owner.Action.OnCrawlEnter();
         }
 
         /// <summary>
@@ -168,7 +174,7 @@ namespace Asce.Game.Entities
         /// </remarks>
         public void OnCrawlEntered()
         {
-            if (characterController) characterController.OnCrawlEntered();
+            if (Owner) Owner.Action.OnCrawlEntered();
         }
 
         /// <summary>
@@ -179,7 +185,7 @@ namespace Asce.Game.Entities
         /// </remarks>
         public void OnCrawlExit()
         {
-            if (characterController) characterController.OnCrawlExit();
+            if (Owner) Owner.Action.OnCrawlExit();
         }
 
         /// <summary>
@@ -190,7 +196,7 @@ namespace Asce.Game.Entities
         /// </remarks>
         public void OnCrawlExited()
         {
-            if (characterController) characterController.OnCrawlExited();
+            if (Owner) Owner.Action.OnCrawlExited();
         }
 
         #endregion
@@ -205,7 +211,7 @@ namespace Asce.Game.Entities
         /// </remarks>
         public void OnDodgeStart()
         {
-            if (characterController) characterController.DodgeStart();
+            if (Owner) Owner.Action.DodgeStart();
         }
 
         /// <summary>
@@ -216,7 +222,7 @@ namespace Asce.Game.Entities
         /// </remarks>
         public void OnDodgeEnd()
         {
-            if (characterController) characterController.DodgeEnd();
+            if (Owner) Owner.Action.DodgeEnd();
         }
 
         #endregion

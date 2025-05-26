@@ -1,11 +1,12 @@
 using Asce.Game.Stats;
+using Asce.Managers.Utils;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
     public class CreatureStats : MonoBehaviour, IHasOwner<Creature>, IStatsController<SO_CreatureBaseStats>, IHasSurvivalStats, IHasCombatStats, IHasUtilitiesStats
     {
-        [SerializeField] private Creature _owner;
+        [SerializeField, HideInInspector] private Creature _owner;
         [SerializeField] private SO_CreatureBaseStats _baseStats;
 
         [Header("Survival")]
@@ -50,6 +51,13 @@ namespace Asce.Game.Entities
         public Stat Speed => _speed;
         public ViewRadiusStat ViewRadius => _viewRadius;
 
+        protected virtual void Awake()
+        {
+            if (transform.LoadComponent(out _owner))
+            {
+                Owner.Stats = this;
+            }
+        }
 
         protected virtual void Start()
         {

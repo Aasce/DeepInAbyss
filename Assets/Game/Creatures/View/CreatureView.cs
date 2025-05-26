@@ -1,3 +1,4 @@
+using Asce.Managers.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,17 +7,15 @@ namespace Asce.Game.Entities
 {
     public abstract class CreatureView : MonoBehaviour, IHasOwner<Creature>
     {
-        [SerializeField] private Creature _owner;
-        [SerializeField] protected Animator _animator;
-        [SerializeField] protected EntityRootMotionReceiver _rootMotionReceiver;
+        [SerializeField, HideInInspector] private Creature _owner;
+        [SerializeField, HideInInspector] protected Animator _animator;
+        [SerializeField, HideInInspector] protected EntityRootMotionReceiver _rootMotionReceiver;
 
         protected readonly List<Renderer> _renderers = new();
         protected MaterialPropertyBlock _mpbAlpha;
 
         [Space]
-        [SerializeField] protected FacingType _facing = FacingType.None;
         [SerializeField] protected float _alpha = 1.0f;
-        [SerializeField] protected bool _isDead;
 
         [SerializeField] protected bool _isLookingAtTarget;
 
@@ -36,25 +35,6 @@ namespace Asce.Game.Entities
         protected virtual List<Renderer> Renderers => _renderers;
         protected virtual MaterialPropertyBlock MPBAlpha => _mpbAlpha ??= new MaterialPropertyBlock();
 
-        public virtual FacingType Facing
-        {
-            get => _facing;
-            set
-            {
-                if (value == FacingType.None) return;
-                if (_facing == value) return;
-
-                _facing = value;
-
-                if (Animator != null)
-                {
-                    Animator.transform.localScale = new Vector3(1.0f, 1.0f, (int)_facing);
-                    Vector3 pos = Animator.transform.localPosition;
-                    pos.x = 0.064f * -(int)_facing;
-                    Animator.transform.localPosition = pos;
-                }
-            }
-        }
 
         public virtual float Alpha
         {
@@ -72,39 +52,84 @@ namespace Asce.Game.Entities
             }
         }
 
-        public virtual bool IsDead
-        {
-            get => _isDead;
-            set
-            {
-                if (_isDead == value) return;
-                _isDead = value;
-                Animator.SetBool("IsDead", _isDead);
-            }
-        }
-
         public virtual bool IsLookingAtTarget 
         { 
             get => _isLookingAtTarget;
             set => _isLookingAtTarget = value; 
         }
 
-        public virtual void LookAtTarget(bool isLooking, Vector2 targetPosition)
+        protected virtual void Reset()
+        {
+            transform.LoadComponent(out _animator);
+            transform.LoadComponent(out _rootMotionReceiver);
+            if (transform.LoadComponent(out _owner))
+            {
+                Owner.View = this;
+            }
+        }
+
+        protected virtual void Awake()
+        {
+
+        }
+
+        protected virtual void Start()
+        {
+            if (Owner != null)
+            {
+                Owner.Status.OnDeath += Status_OnDeath;
+                Owner.Status.OnRevive += Status_OnRevive;
+                Owner.Status.OnFacingChanged += Status_OnFacingChanged;
+            }
+        }
+
+        protected virtual void Update()
+        {
+            this.UpdateAnimator();
+        }
+
+        public virtual void LookAtTarget()
         {
 
         }
 
         //the look at target override _facing
-        public FacingType LookAtTargetFacing(Vector3 inputTarget, FacingType facingDir)
+        public FacingType LookAtTargetFacing(Vector3 inputTarget)
         {
             FacingType targetFacing = EnumUtils.GetFacingByDirection(Mathf.Sign(inputTarget.x - transform.position.x));
-            if (targetFacing == 0) targetFacing = facingDir;
+            if (targetFacing == 0) targetFacing = Owner.Status.FacingDirection;
             return targetFacing;
+        }
+
+        protected virtual void UpdateAnimator()
+        {
+
         }
 
         protected virtual void ResetRendererList()
         {
             Renderers.Clear();
+        }
+
+        protected virtual void Status_OnDeath(object sender)
+        {
+            Animator.SetBool("IsDead", true);
+        }
+
+        protected virtual void Status_OnRevive(object sender)
+        {
+            Animator.SetBool("IsDead", false);
+        }
+
+        protected virtual void Status_OnFacingChanged(object sender, FacingType facing)
+        {
+            if (Animator != null)
+            {
+                Animator.transform.localScale = new Vector3(1.0f, 1.0f, (int)facing);
+                Vector3 pos = Animator.transform.localPosition;
+                pos.x = 0.064f * -(int)facing;
+                Animator.transform.localPosition = pos;
+            }
         }
     }
 }

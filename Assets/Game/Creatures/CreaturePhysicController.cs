@@ -8,41 +8,37 @@ namespace Asce.Game.Entities
 {
     public class CreaturePhysicController : MonoBehaviour, IHasOwner<Creature>
     {
-        #region Fields ---------------------------------------------------------------------
-        [SerializeField] private Creature _owner;                                   // the creature that owns this controller
+        #region - FIELDS -
 
         [Header("Reference")]
+        [SerializeField, HideInInspector] private Creature _owner;                                   // the creature that owns this controller
+        [SerializeField, HideInInspector] protected Rigidbody2D _rigidbody;
         [SerializeField] protected Collider2D _bodyCollider;
-        [SerializeField] protected Rigidbody2D _rigidbody;
-
-        protected float _weight = 50.0f;
 
         [Header("Physic")]
+        [SerializeField] protected float _weight = 50.0f;
         [SerializeField] protected float _groundDrag = 10.0f;                         // braking acceleration (from movement to still) while on ground
         [SerializeField] protected float _airDrag = 0.75f;                            // braking acceleration (from movement to still) while in air
         [SerializeField] protected float _gravityScale = 1f;
-        protected float _currentGravityScale;
-        protected Vector2 _currentVelocity;
-
-        protected Vector2 _colliderSize = new(0.375f, 1.3125f);
-        protected Vector2 _colliderOffset = new(0.0f, 1.15625f);
+        public float currentGravityScale;
+        public Vector2 currentVelocity;
 
         [Header("Ground")]
         [SerializeField] protected LayerMask _groundCheckLayerMask;
         protected bool _isGrounded;
         protected float _groundYPosition;
 
-        /// <summary>
-        ///  The velocity y threshold to triger the OnLand event
-        /// </summary>
-        protected readonly float _landEventThreshold = 3.0f;
-        protected virtual float GroundRaycastDistance => 18 * Constants.PIXEL_SIZE;
-
         // Ground lift
+        [SerializeField] protected float _groundLiftMaxSpeed;
         protected float _groundLiftSpeed;
 
-        // Sliding
-        private readonly float _slideMaxSpeed = 5.0f; // the maxSpeed speed the character slide down a slope it can not stand on
+        /// <summary>
+        ///     The velocity y threshold to triger the OnLand event
+        /// </summary>
+        protected readonly float _landEventThreshold = 3.0f;
+
+        [Header("Sliding")]
+        [SerializeField] private float _slideMaxSpeed = 5.0f; // the maxSpeed speed the character slide down a slope it can not stand on
         protected bool _isSliding;
         protected float _slideSpeed;
         protected Vector2 _slideVelocity;
@@ -51,10 +47,10 @@ namespace Asce.Game.Entities
         protected Cooldown _getDownPlatformCooldown = new(0.1f);
 
         protected bool _isStandingOnPlatform; // is the character standing on a one-way platform
-        protected List<Collider2D> _standingColliders = new(); // collider the character is standing on
-        protected List<Vector2> _standingPosList = new();
-        protected HashSet<Collider2D> _ignoreColliders = new();
-        protected HashSet<Collider2D> _checkList = new();
+        protected readonly List<Collider2D> _standingColliders = new(); // collider the character is standing on
+        protected readonly List<Vector2> _standingPosList = new();
+        protected readonly HashSet<Collider2D> _ignoreColliders = new();
+        protected readonly HashSet<Collider2D> _checkList = new();
 
         [Header("Surface")]
         [Tooltip("the maxSpeed angle of a slope the character can stand on, if the slope angle is larger than this, the character will slide down the slope")]
@@ -68,8 +64,6 @@ namespace Asce.Game.Entities
         protected float _surfaceSpeedMultiply = 1.0f;
 
         // Others
-        protected bool _isDead;
-        protected FacingType _facingDirection = FacingType.None;
         protected bool _isUpdateCollider;
 
         // Timer
@@ -83,7 +77,7 @@ namespace Asce.Game.Entities
 
         #endregion
 
-        #region Properties -----------------------------------------------------------------
+        #region - PROPERTIES -
         public Creature Owner
         {
             get => _owner;
@@ -98,37 +92,34 @@ namespace Asce.Game.Entities
 
         public Rigidbody2D Rigidbody => _rigidbody;
 
+        public virtual float Weight
+        {
+            get => _weight;
+            set => _weight = value;
+        }
+
+        #region - GROUND PROPERTIES -
 
         /// <summary>
-        ///     Is the character dead? if dead, plays dead animation and disable control
+        ///     Is the character on ground
         /// </summary>
-        public bool IsDead
+        public virtual bool IsGrounded
         {
-            get => _isDead;
+            get => _isGrounded;
             set
             {
-                if (_isDead == value) return;
-                _isDead = value;
-                Owner.View.IsDead = value;
+                if (_isGrounded == value) return;
+                _isGrounded = value;
+
+                //ground event
+                if (_isGrounded && currentVelocity.y < -_landEventThreshold) OnLand?.Invoke(this);
             }
         }
 
-        public FacingType FacingDirection
-        {
-            get => _facingDirection;
-            set => _facingDirection = value;
-        }
-
-        protected bool IsUpdateCollider
-        {
-            get => _isUpdateCollider;
-            set => _isUpdateCollider = value;
-        }
-
         /// <summary>
-        ///     Returns the Collider2D that the Creature is standing on.
+        /// 
         /// </summary>
-        public Collider2D StandingCollider => _standingColliders.Count <= 0 ? null : _standingColliders[0];
+        public virtual float GroundRaycastDistance => Constants.PIXEL_SIZE * 18f;
 
         /// <summary>
         ///     raycast parameters for ground check
@@ -145,42 +136,44 @@ namespace Asce.Game.Entities
         /// <summary>
         ///     raycast parameters for ground check
         /// </summary>
-        public virtual Vector2 GroundRaycastFrontPosition => GroundRaycastMidPosition + new Vector2(Constants.PIXEL_SIZE * 6f * (int)FacingDirection, 0.0f);
+        public virtual Vector2 GroundRaycastFrontPosition => GroundRaycastMidPosition + new Vector2(Constants.PIXEL_SIZE * 6f * Owner.Status.FacingDirectionValue, 0.0f);
 
         /// <summary>
         ///     raycast parameters for ground check
         /// </summary>
-        public virtual Vector2 GroundRaycastBackPosition => GroundRaycastMidPosition + new Vector2(Constants.PIXEL_SIZE * 6f * -(int)FacingDirection, 0.0f);
-
-
+        public virtual Vector2 GroundRaycastBackPosition => GroundRaycastMidPosition + new Vector2(Constants.PIXEL_SIZE * 6f * -Owner.Status.FacingDirectionValue, 0.0f);
 
         /// <summary>
-        ///     Is the character on ground
+        ///     
         /// </summary>
-        public virtual bool IsGrounded
+        public float GroundLiftSpeed
         {
-            get => _isGrounded;
-            protected set
-            {
-                if (_isGrounded == value) return;
-                _isGrounded = value;
-
-                //ground event
-                if (_isGrounded && _currentVelocity.y < -_landEventThreshold) OnLand?.Invoke(this);
-            }
+            get => _groundLiftSpeed;
+            protected set => _groundLiftSpeed = value;
+        }
+        public float GroundLiftMaxSpeed
+        {
+            get => _groundLiftMaxSpeed;
+            protected set => _groundLiftMaxSpeed = value;
         }
 
-        public virtual bool IsStandingOnPlatform
-        {
-            get => _isStandingOnPlatform;
-            protected set => _isStandingOnPlatform = value;
-        }
+        #endregion
 
+        #region - SLIDING PROPERTIES -
         public bool IsSliding
         {
             get => _isSliding;
             protected set => _isSliding = value;
         }
+
+        public float SlideSpeed
+        {
+            get => _slideSpeed;
+            protected set => _slideSpeed = value;
+        }
+
+        public float SlideMaxSpeed => _slideMaxSpeed;
+        
 
         public Vector2 SlideVelocity
         {
@@ -188,12 +181,22 @@ namespace Asce.Game.Entities
             protected set => _slideVelocity = value;
         }
 
-        public float GroundLiftSpeed
+        #endregion
+
+        #region - STANDING COLLIDER PROPERTIES -
+        public virtual bool IsStandingOnPlatform
         {
-            get => _groundLiftSpeed;
-            protected set => _groundLiftSpeed = value;
+            get => _isStandingOnPlatform;
+            protected set => _isStandingOnPlatform = value;
         }
 
+        /// <summary>
+        ///     Returns the Collider2D that the Creature is standing on.
+        /// </summary>
+        public Collider2D StandingCollider => _standingColliders.Count <= 0 ? null : _standingColliders[0];
+        #endregion
+
+        #region - SURFACE PROPERTIES -
         public Vector2 SurfaceDirection
         {
             get => _surfaceDirection;
@@ -214,6 +217,23 @@ namespace Asce.Game.Entities
             get => _surfaceAngleForward;
             protected set => _surfaceAngleForward = value;
         }
+        public Vector2 SurfaceDirectionDown
+        {
+            get => _surfaceDirectionDown;
+            protected set => _surfaceDirectionDown = value;
+        }
+        public float SurfaceSpeedMultiply
+        {
+            get => _surfaceSpeedMultiply;
+            set => _surfaceSpeedMultiply = value;
+        }
+        #endregion
+
+        public bool IsUpdateCollider
+        {
+            get => _isUpdateCollider;
+            set => _isUpdateCollider = value;
+        }
 
         public virtual bool IsInAir => !IsGrounded;
         public float AirTime
@@ -224,10 +244,18 @@ namespace Asce.Game.Entities
 
         #endregion
 
-
         #region - METHODS -
 
         #region - UNITY METHODS -
+        protected virtual void Reset()
+        {
+            transform.LoadComponent(out _rigidbody);
+            if (transform.LoadComponent(out _owner))
+            {
+                Owner.PhysicController = this;
+            }
+        }
+
         protected virtual void Awake()
         {
 
@@ -248,10 +276,112 @@ namespace Asce.Game.Entities
             this.HandleGround();
             this.GroundLift();
             this.HandleSpeedAndAcceleration();
+            this.SlideDownOnSlope(Time.fixedDeltaTime);
+
         }
 
         #endregion
 
+        #region - UPDATE AND HANDLE METHODS -
+
+        /// <summary>
+        ///     Check if the creature is on ground
+        /// </summary>
+        protected virtual void HandleGround()
+        {
+            //get raycast results
+            RaycastHit2D leftRaycastHit = gameObject.Raycast(GroundRaycastFrontPosition, Vector2.down, GroundRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
+            RaycastHit2D midRaycastHit = gameObject.Raycast(GroundRaycastMidPosition, Vector2.down, GroundRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
+            RaycastHit2D rightRraycastHit = gameObject.Raycast(GroundRaycastBackPosition, Vector2.down, GroundRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
+
+            this.SetStandingCollider(leftRaycastHit, midRaycastHit, rightRraycastHit);
+            this.SetGroundYPosition(leftRaycastHit, midRaycastHit, rightRraycastHit);
+
+            //check grounded
+            bool isHit = leftRaycastHit.collider || midRaycastHit.collider || rightRraycastHit.collider;
+            if (isHit && _groundYPosition >= transform.position.y - Constants.PIXEL_SIZE)
+            {
+                IsGrounded = true;
+                this.RevertIgnoredPlatforms();
+            }
+            else IsGrounded = false;
+
+            currentGravityScale = IsGrounded ? 0.0f : _gravityScale;
+
+            this.HandleSurface(leftRaycastHit, midRaycastHit, rightRraycastHit);
+
+            // If the character is grounded, remove the velocity component that is pushing into the ground
+            if (IsGrounded)
+            {
+                float dot = Vector2.Dot(currentVelocity, SurfaceNormal); // Project the velocity onto the surface normal
+
+                // If the projection indicates movement into the surface, cancel it
+                if (dot < 0f) currentVelocity -= dot * SurfaceNormal;
+            }
+        }
+
+        /// <summary>
+        ///     Handle sliding down slopes.
+        /// </summary>
+        protected virtual void HandleSlideDown()
+        {
+            IsSliding = true;
+
+            if (!IsGrounded) IsSliding = false;
+            if (SurfaceAngle < _surfaceAngleLimit) IsSliding = false;
+        }
+
+        /// <summary>
+        ///     Handles surface-related calculations based on raycast hits.
+        ///     Computes surface normal, direction, angle, and adjusts velocity if grounded.
+        /// </summary>
+        /// <param name="raycastHits"> Array of raycast hit results used to determine surface information. </param>
+        protected virtual void HandleSurface(params RaycastHit2D[] raycastHits)
+        {
+            SurfaceNormal = CalculateSurfaceNormal(raycastHits); // Calculate the average surface normal from the given raycast hits
+
+            // Determine the surface direction by rotating the normal -90 degrees 
+            // (clockwise or counter-clockwise depending on the character's facing direction)
+            SurfaceDirection = Vector2Utils.RotateVector(SurfaceNormal, -90.0f * Owner.Status.FacingDirectionValue);
+
+            // If the surface direction is pointing upward, invert it to get the downward direction
+            if (SurfaceDirection.y > 0) SurfaceDirectionDown = -SurfaceDirection;
+            else SurfaceDirectionDown = SurfaceDirection;
+
+            SurfaceAngle = Vector2.Angle(SurfaceNormal, Vector2.up); // Calculate the angle between the surface normal and the upward direction
+            SurfaceAngleForward = Vector2.Angle(SurfaceDirection, Vector2.up); // Calculate the angle between the surface movement direction and the upward direction
+        }
+
+        /// <summary>
+        ///     Handle the speed and acceleration of the creature.
+        /// </summary>
+        protected virtual void HandleSpeedAndAcceleration()
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected virtual void UpdateCollider()
+        {
+
+        }
+
+        /// <summary>
+        ///     Update the time
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        protected virtual void UpdateTime(float deltaTime)
+        {
+            //air timer
+            if (IsInAir) AirTime += deltaTime;
+            else AirTime = 0.0f;
+        }
+
+        #endregion
+
+        #region - GROUND METHODS -
         /// <summary>
         ///     Keep creature above ground
         /// </summary>
@@ -261,7 +391,7 @@ namespace Asce.Game.Entities
             if (!CheckIsGroundLift()) return;
 
             //the speed to lift the character on ground
-            GroundLiftSpeed = Mathf.Max(0.0f, _groundYPosition - transform.position.y) * 7.5f;
+            GroundLiftSpeed = Mathf.Max(0.0f, _groundYPosition - transform.position.y) * GroundLiftMaxSpeed;
 
             //apply force to standing rigidbody
             Vector2 force = _weight * Physics2D.gravity;
@@ -278,33 +408,13 @@ namespace Asce.Game.Entities
             return true;
         }
 
-        /// <summary>
-        ///     Check if the creature is on ground
-        /// </summary>
-        protected virtual void HandleGround()
+        protected virtual void SetGroundYPosition(RaycastHit2D leftRaycastHit, RaycastHit2D midRaycastHit, RaycastHit2D rightRraycastHit)
         {
-            //get raycast results
-            RaycastHit2D leftRaycastHit = gameObject.Raycast(GroundRaycastFrontPosition, Vector2.down, GroundRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
-            RaycastHit2D midRaycastHit = gameObject.Raycast(GroundRaycastMidPosition, Vector2.down, GroundRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
-            RaycastHit2D rightRraycastHit = gameObject.Raycast(GroundRaycastBackPosition, Vector2.down, GroundRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
-
-            bool isHit = leftRaycastHit.collider || midRaycastHit.collider || rightRraycastHit.collider;
             _groundYPosition = Mathf.Max(leftRaycastHit.point.y, midRaycastHit.point.y, rightRraycastHit.point.y);
-
-            this.SetStandingCollider(leftRaycastHit, midRaycastHit, rightRraycastHit);
-
-            //check grounded
-            if (isHit && _groundYPosition >= transform.position.y - Constants.PIXEL_SIZE)
-            {
-                IsGrounded = true;
-                this.RevertIgnoredPlatforms();
-            }
-            else IsGrounded = false;
-
-            _currentGravityScale = IsGrounded ? 0.0f : _gravityScale;
-
-            this.HandleSurface(leftRaycastHit, midRaycastHit, rightRraycastHit);
         }
+        #endregion
+
+        #region - STANDING COLLIDER METHODS -
 
         /// <summary>
         ///     Set the standing collider and position list, and check if the Creature is standing on a platform.
@@ -318,7 +428,7 @@ namespace Asce.Game.Entities
             foreach (RaycastHit2D hit in raycastHits)
             {
                 if (hit.collider == null) continue; // Skip if no collider
-                
+
                 _standingColliders.Add(hit.collider);
                 _standingPosList.Add(hit.point);
             }
@@ -356,25 +466,61 @@ namespace Asce.Game.Entities
             _ignoreColliders.RemoveWhere(collider => !_checkList.Contains(collider));
         }
 
-        protected virtual void HandleSurface(params RaycastHit2D[] raycastHits)
+        /// <summary>
+        ///    Ignore the standing platforms, so the creature can fall through them.
+        /// </summary>
+        /// <param name="colliders"></param>
+        protected virtual void IgnoreStandingPlatforms()
         {
-            SurfaceNormal = CalculateSurfaceNormal(raycastHits);
-
-            SurfaceDirection = Vector2Utils.RotateVector(SurfaceNormal, -90.0f * (int)FacingDirection);
-            if (SurfaceDirection.y > 0) _surfaceDirectionDown = -SurfaceDirection;
-            else _surfaceDirectionDown = SurfaceDirection;
-
-            SurfaceAngle = Vector2.Angle(SurfaceNormal, Vector2.up);
-            SurfaceAngleForward = Vector2.Angle(SurfaceDirection, Vector2.up);
-
-            // cancel velocity parts that is perpendicular to ground surface
-            if (IsGrounded)
+            foreach (Collider2D collider in _standingColliders)
             {
-                float dot = Vector2.Dot(_currentVelocity, SurfaceNormal);
-                if (dot < 0f) _currentVelocity -= dot * SurfaceNormal;
+                if (collider == null) continue; // Skip if no collider
+                // if (_ignoreColliders.Contains(collider)) continue;
+                if (collider.gameObject.TryGetComponent<Platform>(out _)) _ignoreColliders.Add(collider);
             }
         }
 
+        /// <summary>
+        ///     Apply force to the standing colliders.
+        /// </summary>
+        /// <param name="force"></param>
+        public virtual void ApplyForceToStandingColliders(Vector2 force)
+        {
+            if (_standingColliders == null || _standingColliders.Count <= 0) return;
+
+            Vector2 finalForce = force / _standingColliders.Count;
+            for (int i = 0; i < _standingColliders.Count; i++)
+            {
+                Collider2D collider = _standingColliders[i];
+                Vector2 position = _standingPosList[i];
+
+                if (collider == null) continue; // Skip if no collider
+                if (collider.attachedRigidbody) collider.attachedRigidbody.AddForceAtPosition(finalForce, position);
+            }
+        }
+        #endregion
+
+        #region - SLIDING METHODS -
+
+        /// <summary>
+        ///     Slide down slope if the angle is too steep
+        /// </summary>
+        protected virtual void SlideDownOnSlope(float deltaTime)
+        {
+            if (!IsSliding)
+            {
+                SlideSpeed = Mathf.Lerp(SlideSpeed, 0f, 2f * deltaTime);
+                return;
+            }
+
+            float targetSlideSpeed = Mathf.Lerp(0f, 1f, SurfaceAngle / 90.0f) * SlideMaxSpeed;
+            SlideSpeed = Mathf.Lerp(SlideSpeed, targetSlideSpeed, 2.0f * deltaTime);
+            SlideVelocity = Mathf.Lerp(0.0f, 1.0f, SurfaceAngle / 90.0f) * SlideSpeed * SurfaceDirectionDown;
+            Rigidbody.MovePosition(Rigidbody.position + SlideVelocity * deltaTime);
+        }
+        #endregion
+
+        #region - SURFACE METHODS -
         protected virtual Vector2 CalculateSurfaceNormal(params RaycastHit2D[] raycastHits)
         {
             if (!IsGrounded) return Vector2.up;
@@ -397,102 +543,11 @@ namespace Asce.Game.Entities
             return normal;
         }
 
-        /// <summary>
-        ///    Ignore the standing platforms, so the creature can fall through them.
-        /// </summary>
-        /// <param name="colliders"></param>
-        protected virtual void IgnoreStandingPlatforms()
-        {
-            foreach (Collider2D collider in _standingColliders)
-            {
-                if (collider == null) continue; // Skip if no collider
-                // if (_ignoreColliders.Contains(collider)) continue;
-                if (collider.gameObject.TryGetComponent<Platform>(out _)) _ignoreColliders.Add(collider);
-            }
-        }
+        #endregion
 
-        /// <summary>
-        ///     Apply force to the standing colliders.
-        /// </summary>
-        /// <param name="force"></param>
-        protected virtual void ApplyForceToStandingColliders(Vector2 force)
-        {
-            if (_standingColliders == null || _standingColliders.Count <= 0) return;
 
-            Vector2 finalForce = force / _standingColliders.Count;
-            for (int i = 0; i < _standingColliders.Count; i++)
-            {
-                Collider2D collider = _standingColliders[i];
-                Vector2 position = _standingPosList[i];
-
-                if (collider == null) continue; // Skip if no collider
-                if (collider.attachedRigidbody) collider.attachedRigidbody.AddForceAtPosition(finalForce, position);
-            }
-        }
-
-        /// <summary>
-        ///     Slide down slope if the angle is too steep
-        /// </summary>
-        protected virtual void SlideDownOnSlope(float deltaTime)
-        {
-            this.HandleSlideDown();
-
-            if (IsSliding == false)
-            {
-                _slideSpeed = Mathf.Lerp(_slideSpeed, 0.0f, 2.0f * Time.deltaTime);
-                return;
-            }
-
-            float targetSlideSpeed = Mathf.Lerp(0.0f, 1.0f, SurfaceAngle / 90.0f) * _slideMaxSpeed;
-            _slideSpeed = Mathf.Lerp(_slideSpeed, targetSlideSpeed, 2.0f * Time.deltaTime);
-            SlideVelocity = Mathf.Lerp(0.0f, 1.0f, SurfaceAngle / 90.0f) * _slideSpeed * _surfaceDirectionDown;
-            transform.position += (Vector3)SlideVelocity * deltaTime;
-        }
-
-        protected virtual void HandleSlideDown()
-        {
-            IsSliding = true;
-
-            if (!IsGrounded) IsSliding = false;
-            if (SurfaceAngle < _surfaceAngleLimit) IsSliding = false;
-        }
-
-        protected virtual void UpdateTime(float deltaTime)
-        {
-            //air timer
-            if (IsInAir) AirTime += deltaTime;
-            else AirTime = 0.0f;
-        }
-
-        protected virtual void UpdateFacing(float moveDirection, Vector2 targetPosition)
-        {
-            // Look at target
-            if (Owner.View.IsLookingAtTarget)
-            {
-                FacingDirection = Owner.View.LookAtTargetFacing(targetPosition, FacingDirection);
-                return;
-            }
-
-            // Move
-            if (Mathf.Abs(moveDirection) > Constants.MOVE_THRESHOLD)
-            {
-                FacingDirection = (FacingType)Mathf.RoundToInt(Mathf.Sign(moveDirection));
-                return;
-            }
-        }
-
-        protected virtual void HandleSpeedAndAcceleration()
-        {
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected virtual void UpdateCollider()
-        {
-
-        }
+        public virtual void TriggerUpdateCollider() => IsUpdateCollider = true;
+        
         #endregion
     }
 }

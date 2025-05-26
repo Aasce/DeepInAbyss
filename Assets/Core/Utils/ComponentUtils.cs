@@ -5,6 +5,28 @@ namespace Asce.Managers.Utils
     public static class ComponentUtils
     {
         /// <summary>
+        ///     Load component of type T if it exists in the GameObject, its children, or its parents.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="component"></param>
+        /// <param name="result"></param>
+        /// <returns> Returns true if load successful. </returns>
+        public static bool LoadComponent<T>(this Component component, out T result) where T : Component
+        {
+            result = component.GetComponent<T>();
+            if (result != null) return true;
+            
+            result = component.GetComponentInChildren<T>();
+            if (result != null) return true;
+
+            result = component.GetComponentInParent<T>();
+            if (result != null) return true;
+
+            return false;
+        }
+
+
+        /// <summary>
         ///     Get component of type T if it exists, otherwise add it to the GameObject.
         /// </summary>
         /// <typeparam name="T"></typeparam>

@@ -25,6 +25,6 @@ MonoBehaviour:
   _strength: 20
   _armor: 25
   _resistance: 5
-  _speed: 5
+  _speed: 3
   _viewRadius: 20
-  _jumpForce: 7.5
+  _jumpForce: 5.5

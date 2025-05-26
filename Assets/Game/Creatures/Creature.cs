@@ -1,48 +1,64 @@
-﻿using System;
+﻿using Asce.Managers.Utils;
+using System;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public abstract class Creature : Entity, IHasView<CreatureView>, IHasMovement<CreatureAction>, IHasStats<CreatureStats, SO_CreatureBaseStats>
+    public abstract class Creature : Entity, IHasView<CreatureView>, IHasAction<CreatureAction>, IHasStats<CreatureStats, SO_CreatureBaseStats>
     {
-        [SerializeField] private CreaturePhysicController _collider;
-        [SerializeField] private CreatureView _view;
-        [SerializeField] private CreatureAction _movement;
-        [SerializeField] private CreatureStats _stats;
-
-        [Space]
-        [SerializeField] private bool _isDead;
-
-        public event Action<object> OnDead;
+        [SerializeField, HideInInspector] private CreaturePhysicController _physicController;
+        [SerializeField, HideInInspector] private CreatureView _view;
+        [SerializeField, HideInInspector] private CreatureAction _action;
+        [SerializeField, HideInInspector] private CreatureStats _stats;
 
 
-        public CreaturePhysicController PhysicController => _collider;
-        public CreatureView View => _view;
-        public CreatureAction Movement => _movement;
-        public CreatureStats Stats => _stats;
-
-        public bool IsDead
+        public CreaturePhysicController PhysicController
         {
-            get => _isDead;
-            set
+            get => _physicController;
+            set => _physicController = value;
+        }
+
+        public CreatureView View
+        {
+            get => _view;
+            set => _view = value;
+        }
+
+        public CreatureAction Action
+        {
+            get => _action; 
+            set => _action = value;
+        }
+
+        public CreatureStats Stats
+        {
+            get => _stats;
+            set => _stats = value;
+        }
+
+        protected virtual void Reset()
+        {
+            if (transform.LoadComponent(out _physicController))
             {
-                if (!_isDead && value == true)
-                {
-                    _isDead = true;
-                    OnDead?.Invoke(this);
-                    return;
-                }
-                _isDead = value;
+                PhysicController.Owner = this;
+            }
+            if (transform.LoadComponent(out _view))
+            {
+                View.Owner = this;
+            }
+            if (transform.LoadComponent(out _action))
+            {
+                Action.Owner = this;
+            }
+            if (transform.LoadComponent(out _stats))
+            {
+                Stats.Owner = this;
             }
         }
 
         protected override void Awake()
         {
             base.Awake();
-            if (PhysicController != null) PhysicController.Owner = this;
-            if (Movement != null) Movement.Owner = this;
-            if (Stats != null) Stats.Owner = this;
-            if (View != null) View.Owner = this;
         }
 
         protected override void OnEnable()

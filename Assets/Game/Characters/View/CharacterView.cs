@@ -1,4 +1,5 @@
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace Asce.Game.Entities
@@ -183,14 +184,6 @@ namespace Asce.Game.Entities
                 Animator.SetBool("IsEyeClosed", _isEyeCloed);
             }
         }
-        public override FacingType Facing
-        {
-            set
-            {
-                base.Facing = value;
-                if (_weaponSlot != null) _weaponSlot.transform.localScale = new Vector3(1.0f, 1.0f, (int)_facing);
-            }
-        }
 
         public override bool IsLookingAtTarget
         {
@@ -237,13 +230,15 @@ namespace Asce.Game.Entities
 
         #region - UNITY METHODS -
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             this.ResetRendererList();
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             if (!Application.isPlaying) return;
 
             _blinkTimer = Random.Range(_blinkInterval.x, _blinkInterval.y);
@@ -252,9 +247,16 @@ namespace Asce.Game.Entities
             Animator.SetFloat("CycleOffset", Random.value);
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
             BlinkUpdate();
+        }
+
+        protected virtual void LateUpdate()
+        {
+            this.LookAtTarget();
+            this.PointAtTarget();
         }
 
         #endregion
@@ -263,7 +265,7 @@ namespace Asce.Game.Entities
 
         private void BlinkUpdate()
         {
-            if (IsDead) return;
+            if (Owner.Status.IsDead) return;
 
             _blinkTimer -= Time.deltaTime;
             if (_blinkTimer <= 0.0f)
@@ -276,12 +278,14 @@ namespace Asce.Game.Entities
             }
         }
 
-        public override void LookAtTarget(bool isLooking, Vector2 targetPosition)
+        public override void LookAtTarget()
         {
+            Vector2 targetPosition = Owner.Action.TargetPosition;
+
             //check should turn on looking at target or not
             bool shouldLookAtTarget = false;
-            if (isLooking) shouldLookAtTarget = true;
-            if (IsDead) shouldLookAtTarget = false;
+            if (Owner.Action.IsLooking) shouldLookAtTarget = true;
+            if (Owner.Status.IsDead) shouldLookAtTarget = false;
 
             IsLookingAtTarget = shouldLookAtTarget;
 
@@ -336,18 +340,19 @@ namespace Asce.Game.Entities
             _rotation.z = Mathf.LerpAngle(_rotation.z, _targetHeadRotation, _lookAtTargetPercent);
             RigHead.localRotation = Quaternion.Euler(_rotation);
         }
-        public virtual void PointAtTarget(Vector2 targetPosition, bool isCrawling, bool isDodging, float attackSpeedMul = 1.0f)
+        public virtual void PointAtTarget()
         {
             bool shouldPointAtTarget = false;
-            if (isCrawling) shouldPointAtTarget = false;
-            if (isDodging) shouldPointAtTarget = false;
-            if (IsDead) shouldPointAtTarget = false;
+            if (Owner.Action.IsCrawling) shouldPointAtTarget = false;
+            if (Owner.Action.IsDodging) shouldPointAtTarget = false;
+            if (Owner.Status.IsDead) shouldPointAtTarget = false;
 
+            float attackSpeedMul = 1.0f;
             IsPointingAtTarget = shouldPointAtTarget;
 
             _pointAtTargetPercent = Mathf.Lerp(_pointAtTargetPercent, IsPointingAtTarget ? 1.0f : 0.0f, _pointAtTargetLerpSpeed * Time.deltaTime * attackSpeedMul);
 
-            Vector2 pointAtTargetDirection = (targetPosition - (Vector2)RigUpperArmR.position).normalized;
+            Vector2 pointAtTargetDirection = (Owner.Action.TargetPosition - (Vector2)RigUpperArmR.position).normalized;
             _targetArmRotation = Vector2.Angle(Vector2.up, pointAtTargetDirection) - 90.0f;
 
             _targetArmRotation = Mathf.Clamp(_targetArmRotation, _armRotationRange.x, _armRotationRange.y);
@@ -395,6 +400,34 @@ namespace Asce.Game.Entities
         public void SetLadderExitHeightAnimation(float value) => Animator.SetFloat("LadderExitHeight", value);
 
 
+        protected override void UpdateAnimator()
+        {
+            if (Owner.Status.IsDead) return;
+            base.UpdateAnimator();
+
+            SetVelocityAnimation(Owner.PhysicController.currentVelocity);
+            SetIsMovingAnimation(Owner.Action.IsMoving);
+            SetIsRunningAnimation(Owner.Action.IsRunning);
+            SetIsDashingAnimation(Owner.Action.IsDashing);
+            SetMoveBlendAnimation(Owner.Action.MoveBlend);
+            SetMoveDirectionAnimation(Owner.Action.HorizontalMoveDirection);
+
+            SetIsGroundedAnimation(Owner.PhysicController.IsGrounded);
+            SetIsCrouchingAnimation(Owner.Action.IsCrouching);
+            SetIsCrawlingAnimation(Owner.Action.IsCrawling);
+            SetIsClimbingLadderAnimation(Owner.Action.IsClimbingLadder);
+            SetClimbingSpeedMultiplyAnimation(Owner.Action.ClimbingSpeedMultiply);
+
+            SetIsClimbingLedgeAnimation(Owner.Action.IsClimbingLedge);
+            if (Owner.Action.IsClimbingLedge) SetLedgeHeightAnimation(Owner.Action.LedgeHeight);
+
+            SetIsEnteringLadderAnimation(Owner.Action.IsEnteringLadder);
+            if (Owner.Action.IsEnteringLadder) SetLadderEnterHeightAnimation(Owner.Action.LadderEnterHeight);
+
+            SetIsExitingLadderAnimation(Owner.Action.IsExitingLadder);
+            if (Owner.Action.IsExitingLadder) SetLadderExitHeightAnimation(Owner.Action.LadderExitHeight);
+
+        }
         private void UpdateHairVisibility()
         {
             if (_hairRenderer == null) return;
@@ -433,6 +466,12 @@ namespace Asce.Game.Entities
                 _expressionRenderer,
                 _bodyRenderer
             }.Where(renderer => renderer != null));
+        }
+
+        protected override void Status_OnFacingChanged(object sender, FacingType facing)
+        {
+            base.Status_OnFacingChanged(sender, facing);
+            if (_weaponSlot != null) _weaponSlot.transform.localScale = new Vector3(1.0f, 1.0f, (int)facing);
         }
 
         #endregion

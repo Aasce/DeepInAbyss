@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 6427425624652676764}
   - component: {fileID: 5091308472702825161}
   m_Layer: 8
-  m_Name: Movement
+  m_Name: Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,6 +76,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _owner: {fileID: 4053743200521334916}
+  _isLooking: 0
+  _targetPosition: {x: 0, y: 0}
+  _isMoveEnable: 1
+  _baseSpeed: 3
+  _walkSpeedScale: 1
+  _walkAcceleration: 10
+  _runSpeedScale: 1.5
+  _runAcceleration: 15
+  _crouchSpeedScale: 0.5
+  _crouchAcceleration: 5
+  _crawlSpeedScale: 0.4
+  _crawlAcceleration: 5
+  _dashStartSpeedScale: 2
+  _dashSpeedScale: 2
+  _dashAcceleration: 20
+  _isDashEnabled: 1
+  _dashingTime:
+    _baseTime: 0.2
+    _currentTime: 1
+  _dashCooldown:
+    _baseTime: 1
+    _currentTime: 1
+  _jumpEnabled: 1
+  _jumpForce: 5.5
+  _jumpTolerance: 0.15
+  _jumpGravityMutiplier: 0.6
+  _fallGravityMutiplier: 1.3
+  _jumpCooldown:
+    _baseTime: 0.2
+    _currentTime: 0.2
+  _climbEnabled: 1
+  _climbSpeed: 1
+  _climbSpeedFast: 1.5
+  _isDdodgeEnabled: 1
+  _dodgeSpeedMultiply: 1.25
+  _dodgeCooldown:
+    _baseTime: 0.1
+    _currentTime: 0.1
+  _ledgeEnabled: 1
+  _controlMove: {x: 0, y: 0}
+  _controlRun: 0
+  _controlDash: 0
+  _controlDodge: 0
+  _controlCrouch: 0
+  _controlCrawl: 0
+  _controlJump: 0
 --- !u!1 &2327455691202144450
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,7 +159,6 @@ Transform:
   - {fileID: 8178147066064418690}
   - {fileID: 6427425624652676764}
   - {fileID: 7036894534453416333}
-  - {fileID: 9163433242688316160}
   - {fileID: 3551186745814107597}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -129,11 +174,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8f36fbb61f50a45b831faf22a90991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 8947564771953539130}
+  _status:
+    _currentStatus: 1
+    _facingDirection: 0
+  _physicController: {fileID: 8947564771953539130}
   _view: {fileID: 2637123865751815699}
-  _movement: {fileID: 5091308472702825161}
+  _action: {fileID: 5091308472702825161}
   _stats: {fileID: 2386274247785948579}
-  _isDead: 0
 --- !u!114 &8947564771953539130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,62 +193,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 802f04eea4d2eb042a59945ab27329ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _owner: {fileID: 0}
-  _bodyCollider: {fileID: 5453454627449091958}
+  _owner: {fileID: 4053743200521334916}
   _rigidbody: {fileID: 7204596740729220638}
+  _bodyCollider: {fileID: 5453454627449091958}
+  _weight: 50
   _groundDrag: 10
   _airDrag: 0.75
   _gravityScale: 1
+  currentGravityScale: 0
+  currentVelocity: {x: 0, y: 0}
   _groundCheckLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _groundLiftMaxSpeed: 7.5
+  _slideMaxSpeed: 5
   _surfaceAngleLimit: 46
-  _walkMaxSpeed: 2.5
-  _walkAcceleration: 10
-  _runMaxSpeed: 5
-  _runAcceleration: 15
-  _dashSpeedStart: 7
-  _dashMaxSpeed: 7
-  _dashAcceleration: 20
-  _crouchMaxSpeed: 1
-  _crouchAcceleration: 8
-  _crawlMaxSpeed: 1
-  _crawlAcceleration: 8
   _airMaxSpeed: 2
   _airAcceleration: 8
-  _isLooking: 0
-  _targetPosition: {x: 0, y: 0}
-  _jumpEnabled: 1
-  _jumpSpeed: 5
-  _jumpTolerance: 0.15
-  _jumpGravityMutiplier: 0.6
-  _fallGravityMutiplier: 1.3
-  _jumpCooldown:
-    _baseTime: 0.2
-    _currentTime: 0.2
-  _isDashEnabled: 1
-  _dashingTime:
-    _baseTime: 0.25
-    _currentTime: 1
-  _dashCooldown:
-    _baseTime: 1
-    _currentTime: 1
-  _isDdodgeEnabled: 1
-  _dodgeSpeedMultiply: 1.25
-  _dodgeCooldown:
-    _baseTime: 0.1
-    _currentTime: 0.1
-  _climbEnabled: 1
-  _climbSpeed: 1
-  _climbSpeedFast: 1.5
-  _ledgeEnabled: 1
-  _controlMoving: {x: 0, y: 0}
-  _controlRunning: 0
-  _controlDash: 0
-  _controlDodge: 0
-  _controlCrouching: 0
-  _controlCrawling: 0
-  _controlJumping: 0
   debug_drawLedgePos: 0
   debug_drawLedgeRaycast: 0
   debug_drawGroundCheckRaycast: 0
@@ -322,37 +330,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!1 &3092518136365457333
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9163433242688316160}
-  m_Layer: 8
-  m_Name: Ground Check
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9163433242688316160
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3092518136365457333}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8143387239495235201}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5059087804392068394
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,12 +375,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ae8b1d1a40eb2146bf7dfed049b95e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _owner: {fileID: 0}
+  _owner: {fileID: 4053743200521334916}
   _animator: {fileID: 5672580966134689844}
   _rootMotionReceiver: {fileID: 2480740893888141298}
-  _facing: 0
   _alpha: 1
-  _isDead: 0
+  _isLookingAtTarget: 0
   _view: {fileID: 11400000, guid: 424888039144773418d99199a74882d5, type: 2}
   _hatRenderer: {fileID: 5672580966138793702}
   _hairRenderer: {fileID: 5672580966138793700}
@@ -431,15 +407,15 @@ MonoBehaviour:
   _rigUpperArmR: {fileID: 5672580966142402554}
   _rigHandR: {fileID: 5672580966142402542}
   _rigWeapon: {fileID: 5672580966142402486}
-  weaponSlot: {fileID: 3551186745814107597}
+  _weaponSlot: {fileID: 3551186745814107597}
   _rootMotionVelocity: {x: 0, y: 0}
   _clipHair: 0
   _hideHair: 0
-  _isShoesFrontPants: 0
   _expression: 0
   _isEyeCloed: 0
   _blinkInterval: {x: 0.5, y: 5}
   _blinkTimer: 0
+  _isShoesFrontPants: 0
 --- !u!1 &8246827923773210625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,6 +1000,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100006, guid: cf146b5a9fdb6de47992bd2ea4bc150a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2480740893888141298}
+    - targetCorrespondingSourceObject: {fileID: 100006, guid: cf146b5a9fdb6de47992bd2ea4bc150a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7512362973275616563}
   m_SourcePrefab: {fileID: 100100000, guid: cf146b5a9fdb6de47992bd2ea4bc150a, type: 3}
 --- !u!137 &4454075628087534079 stripped
 SkinnedMeshRenderer:
@@ -1127,7 +1106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a808d67308f437d46a64ddaf9f211fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterController: {fileID: 8947564771953539130}
+  _owner: {fileID: 4053743200521334916}
 --- !u!114 &2480740893888141298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,6 +1119,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f34628bdd62f545ab157bbb21ecf2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!210 &7512362973275616563
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5672580966141969394}
+  m_Enabled: 1
+  m_SortingLayerID: -1013492761
+  m_SortingLayer: -3
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!4 &5672580966142402486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400098, guid: cf146b5a9fdb6de47992bd2ea4bc150a, type: 3}
