@@ -57,15 +57,15 @@ namespace Asce.Game.Players
             }
             else
             {
-                Character.PhysicController.ControlLooking(Input.LookInput, Input.MousePosition);
+                Character.Action.ControlLooking(Input.LookInput, Input.MousePosition);
 
-                Character.PhysicController.ControlMoving(Input.MoveInput, Input.RunInput);
-                Character.PhysicController.ControlDashing(Input.DashInput);
-                Character.PhysicController.ControlDodging(Input.DodgeInput);
+                Character.Action.ControlMoving(Input.MoveInput, Input.RunInput);
+                Character.Action.ControlDashing(Input.DashInput);
+                Character.Action.ControlDodging(Input.DodgeInput);
 
-                Character.PhysicController.ControlJumping(Input.JumpInput);
-                Character.PhysicController.ControlCrouching(Input.CrouchInput);
-                Character.PhysicController.ControlCrawling(Input.CrawlInput);
+                Character.Action.ControlJumping(Input.JumpInput);
+                Character.Action.ControlCrouching(Input.CrouchInput);
+                Character.Action.ControlCrawling(Input.CrawlInput);
             }
         }
 

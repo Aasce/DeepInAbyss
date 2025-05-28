@@ -33,5 +33,17 @@ namespace Asce.Game.Entities
 
             JumpForce.Update(deltaTime);
         }
+
+        public override void ClearStats(bool isForceClear = false)
+        {
+            base.ClearStats(isForceClear);
+            JumpForce.Clear(isForceClear);
+        }
+
+        public override void ResetStats()
+        {
+            base.ResetStats();
+            JumpForce.Reset();
+        }
     }
 }

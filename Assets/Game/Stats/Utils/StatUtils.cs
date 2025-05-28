@@ -13,28 +13,35 @@ namespace Asce.Game.Stats
         /// <param name="plat"> Total plat value </param>
         /// <param name="ratio"> Total ratio value, by multiplicative stacking </param>
         /// <returns> Returns total value of <paramref name="agents"/> </returns>
-        public static float CalculateValue(List<StatAgent> agents, out float plat, out float ratio)
+        public static float CalculateValue<T>(ICollection<T> agents, out float plat, out float ratio, out float scale) where T : StatAgent
         {
             plat = 0f;
             ratio = 1f;
+            scale = 1f;
 
             if (agents == null) return 0f;
 
-            foreach (StatAgent agent in agents)
+            foreach (T agent in agents)
             {
                 if (agent == null) continue;
                 switch (agent.ValueType)
                 {
+                    case StatValueType.Base:
                     case StatValueType.Plat:
                         plat += agent.Value;
                         break;
+
                     case StatValueType.Ratio:
                         ratio *= 1 + agent.Value; // multiplicative stacking
+                        break;
+
+                    case StatValueType.Scale:
+                        scale *= agent.Value;
                         break;
                 }
             }
 
-            return plat * ratio;
+            return plat * ratio * scale;
         }
 
         /// <summary>
@@ -44,7 +51,7 @@ namespace Asce.Game.Stats
         /// <param name="agents"> Agents list need to update. </param>
         /// <param name="deltaTime"> The elapsed time since the last update. </param>
         /// <returns> Returns true if <paramref name="agents"/> have any agent is removed. </returns>
-        public static bool UpdateAgents(List<StatAgent> agents, float deltaTime)
+        public static bool UpdateAgents<T>(IList<T> agents, float deltaTime) where T : StatAgent
         {
             bool updated = false;
             for (int i = agents.Count - 1; i >= 0; i--)
@@ -69,7 +76,7 @@ namespace Asce.Game.Stats
         /// <param name="author"> The source of the agents. </param>
         /// <param name="reason"> The reason of the agents (optional). </param>
         /// <returns> Returns true if <paramref name="agents"/> have any agent is removed. </returns>
-        public static bool RemoveAllAgents(List<StatAgent> agents, GameObject author, string reason = null)
+        public static bool RemoveAllAgents<T>(List<T> agents, GameObject author, string reason = null) where T : StatAgent
         {
             int count = agents.RemoveAll((agent) =>
             {
@@ -92,7 +99,7 @@ namespace Asce.Game.Stats
         ///     If false, only agents with <see cref="StatAgent.IsClearable"/> == true (or null-safe) will be removed.
         /// </param>
         /// <returns> Returns true if <paramref name="agents"/> are clear or if an agent is removed. </returns>
-        public static bool ClearAgents(List<StatAgent> agents, bool isForceClear = false)
+        public static bool ClearAgents<T>(List<T> agents, bool isForceClear = false) where T : StatAgent
         {
             if (isForceClear)
             {
@@ -100,8 +107,32 @@ namespace Asce.Game.Stats
                 return true;
             }
 
-            int count = agents.RemoveAll((agent) => agent?.IsClearable ?? true);
+            // remove if type is not Base
+            int count = agents.RemoveAll((agent) => agent == null || (agent.IsClearable && agent.ValueType != StatValueType.Base));
             return count > 0;
         }
+
+        /// <summary>
+        ///     Finds an agent in the list that matches the specified condition and applies a given action to it.
+        /// </summary>
+        /// <typeparam name="T"> The type of agent, which must inherit from <see cref="StatAgent"/>. </typeparam>
+        /// <param name="agents"> The list of agents to search. </param>
+        /// <param name="match"> The predicate that defines the conditions of the agent to find. </param>
+        /// <param name="setAction"> The action to perform on the found agent if one is found. </param>
+        /// <returns> 
+        ///     True if a matching agent was found and the action was invoked. otherwise, false.
+        /// </returns>
+        public static bool SetAgent<T>(List<T> agents, Predicate<T> match, Action<T> setAction) where T : StatAgent
+        {
+            T foundAgent = agents.Find(match);
+            if (foundAgent != null)
+            {
+                setAction?.Invoke(foundAgent);
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

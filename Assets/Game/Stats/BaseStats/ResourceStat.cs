@@ -1,6 +1,7 @@
 ﻿using Asce.Managers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace Asce.Game.Stats
@@ -20,6 +21,8 @@ namespace Asce.Game.Stats
         [Header("Resource Stat")]
         [SerializeField] protected float _currentValue;
         [SerializeField] protected List<StatAgent> _currentAgents = new();
+
+        private ReadOnlyCollection<StatAgent> _readOnlyCurrentAgents;
 
         /// <summary>
         ///     Invoked when the <see cref="CurrentValue"/> changes.
@@ -60,23 +63,23 @@ namespace Asce.Game.Stats
         /// <summary>
         ///     The normalized value of the resource (<see cref="CurrentValue"/> / <see cref="Value"/>), clamped between 0 and 1.
         /// </summary>
-        public float Ratio => Value <= 0f ? 0f:  CurrentValue / Value;
+        public float Ratio => Value <= 0f ? 0f : CurrentValue / Value;
 
         /// <summary>
-        ///     True if CurrentValue greater than or equals Value.
+        ///     True if Value greater than or equals zero and CurrentValue greater than or equals Value.
         /// </summary>
-        public bool IsFull => CurrentValue >= Value;
+        public bool IsFull => Value >= 0 && CurrentValue >= Value;
 
         /// <summary>
-        ///     True if CurrentValue less than or equals zero.
+        ///     True if Value greater than or equals zero and CurrentValue less than or equals zero.
         /// </summary>
-        public bool IsEmpty => CurrentValue <= 0f;
+        public bool IsEmpty => Value >= 0 && CurrentValue <= 0f;
 
 
         /// <summary>
         ///     A list of active <see cref="StatAgent"/>s currently affecting the <see cref="CurrentValue"/>.
         /// </summary>
-        protected List<StatAgent> CurrentAgents => _currentAgents;
+        public ReadOnlyCollection<StatAgent> CurrentAgents => _readOnlyCurrentAgents ??= _currentAgents.AsReadOnly();
 
 
         /// <summary>
@@ -95,7 +98,7 @@ namespace Asce.Game.Stats
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
-            StatUtils.UpdateAgents(CurrentAgents, deltaTime);
+            StatUtils.UpdateAgents(_currentAgents, deltaTime);
         }
 
 
@@ -125,7 +128,15 @@ namespace Asce.Game.Stats
         public override void Clear(bool forceClear = false)
         {
             base.Clear(forceClear);
-            CurrentAgents.Clear();
+            _currentAgents.Clear();
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+            _currentAgents.Clear();
+
+            this.ToFull(null, "Reset", false);
         }
 
         /// <summary>
@@ -136,11 +147,11 @@ namespace Asce.Game.Stats
         /// <param name="reason"> The reason for the change. </param>
         /// <param name="value"> The value to add. </param>
         /// <param name="type"> (Optionals) The type of value (flat or ratio). </param>
-        /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="CurrentAgents"/> </param>
+        /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="_currentAgents"/> </param>
         public virtual void AddToCurrentValue(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat, bool isAddToAgent = true)
         {
             if (isAddToAgent) 
-                CurrentAgents.Add(new StatAgent(author, reason, value, type, baseAffectDuration));
+                _currentAgents.Add(new StatAgent(author, reason, value, type, baseAffectDuration));
 
             CurrentValue = type switch
             {
@@ -156,29 +167,35 @@ namespace Asce.Game.Stats
         /// <param name="author"> The source of the change. </param>
         /// <param name="reason"> The reason for the change. </param>
         /// <param name="value"> The new value to set. </param>
-        /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="CurrentAgents"/> </param>
+        /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="_currentAgents"/> </param>
         public virtual void SetCurrentValue(GameObject author, string reason, float value, bool isAddToAgent = true)
         {
             // The value is the difference between the value to be changed and the current value
             if (isAddToAgent) 
-                CurrentAgents.Add(new StatAgent(author, reason, value - CurrentValue, baseAffectDuration));
+                _currentAgents.Add(new StatAgent(author, reason, value - CurrentValue, baseAffectDuration));
 
             CurrentValue = value;
         }
 
         /// <summary>
         ///     Sets <see cref="CurrentValue"/> to zero.
+        ///     <br/>
+        ///     see <see cref="SetCurrentValue"/>
         /// </summary>
         /// <param name="author"> The source of the change. </param>
         /// <param name="reason"> The reason for the change. </param>
-        public virtual void ToEmpty(GameObject author, string reason) => this.SetCurrentValue(author, reason, 0f);
+        /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="_currentAgents"/> </param>
+        public virtual void ToEmpty(GameObject author, string reason, bool isAddToAgent = true) => this.SetCurrentValue(author, reason, 0f, isAddToAgent);
 
         /// <summary>
         ///     Sets <see cref="CurrentValue"/> to the max <see cref="Value"/>.
+        ///     <br/>
+        ///     see <see cref="SetCurrentValue"/>
         /// </summary>
         /// <param name="author"> The source of the change. </param>
         /// <param name="reason"> The reason for the change. </param>
-        public virtual void ToFull(GameObject author, string reason) => this.SetCurrentValue(author, reason, Value);
+        /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="_currentAgents"/> </param>
+        public virtual void ToFull(GameObject author, string reason, bool isAddToAgent = true) => this.SetCurrentValue(author, reason, Value, isAddToAgent);
 
     }
 }

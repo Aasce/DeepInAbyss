@@ -2,7 +2,7 @@
 
 namespace Asce.Game.Stats
 {
-    public interface IHasSurvivalStats : IHasHealth, IHasStamina, IHasHunger, IHasThirst, IHasBreath
+    public interface IHasSurvivalStats : IHasHealth, IHasSustenance
     {
 
     }

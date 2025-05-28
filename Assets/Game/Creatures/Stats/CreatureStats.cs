@@ -1,30 +1,38 @@
+using Asce.Game.Combats;
 using Asce.Game.Stats;
 using Asce.Managers.Utils;
+using System;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CreatureStats : MonoBehaviour, IHasOwner<Creature>, IStatsController<SO_CreatureBaseStats>, IHasSurvivalStats, IHasCombatStats, IHasUtilitiesStats
+    public class CreatureStats : MonoBehaviour, IHasOwner<Creature>, IStatsController<SO_CreatureBaseStats>, ISendDamageable, ITakeDamageable, IHasSurvivalStats, IHasCombatStats, IHasUtilitiesStats
     {
+        public static readonly string baseStatsReason = "base stats";
+
         [SerializeField, HideInInspector] private Creature _owner;
         [SerializeField] private SO_CreatureBaseStats _baseStats;
 
+        [Space]
+        [SerializeField] protected bool _isStatsUpdating = true;
+
         [Header("Survival")]
-        [SerializeField] protected HealthStat _health = new();
+        [SerializeField] protected HealthGroupStats _healthGroup = new();
         [SerializeField] protected StaminaStat _stamina = new();
-        [SerializeField] protected HungerStat _hunger = new();
-        [SerializeField] protected ThirstStat _thirst = new();
-        [SerializeField] protected BreathStat _breath = new();
+        [SerializeField] protected SustenanceGroupStats _sustenanceGroup = new();
 
         [Header("Combat")]
         [SerializeField] protected Stat _strength = new();
-        [SerializeField] protected Stat _armor = new();
-        [SerializeField] protected Stat _resistance = new();
-        [SerializeField] protected ShieldStat _shield = new();
+        [SerializeField] protected DefenseGroupStats _defenseGroup = new();
 
         [Header("Utilities")]
         [SerializeField] protected Stat _speed = new();
         [SerializeField] protected ViewRadiusStat _viewRadius = new();
+
+        public event Action<object, DamageContainer> OnBeforeSendDamage;
+        public event Action<object, DamageContainer> OnAfterSendDamage;
+        public event Action<object, DamageContainer> OnBeforeTakeDamage;
+        public event Action<object, DamageContainer> OnAfterTakeDamage;
 
         /// <summary>
         ///     Reference to the creature that owns this stats controller.
@@ -37,19 +45,25 @@ namespace Asce.Game.Entities
 
         public virtual SO_CreatureBaseStats BaseStats => _baseStats;
 
-        public HealthStat Health => _health;
+        public virtual bool IsStatsUpdating
+        {
+            get => _isStatsUpdating;
+            set => _isStatsUpdating = value;
+        }
+
+        public virtual bool IsDead => Owner.Status.IsDead;
+        
+
+        public HealthGroupStats HealthGroup => _healthGroup;
         public StaminaStat Stamina => _stamina;
-        public HungerStat Hunger => _hunger;
-        public ThirstStat Thirst => _thirst;
-        public BreathStat Breath => _breath;
+        public SustenanceGroupStats SustenanceGroup => _sustenanceGroup;
 
         public Stat Strength => _strength;
-        public Stat Armor => _armor;
-        public Stat Resistance => _resistance;
-        public ShieldStat Shield => _shield;
+        public DefenseGroupStats DefenseGroup => _defenseGroup;
 
         public Stat Speed => _speed;
         public ViewRadiusStat ViewRadius => _viewRadius;
+
 
         protected virtual void Awake()
         {
@@ -62,6 +76,8 @@ namespace Asce.Game.Entities
         protected virtual void Start()
         {
             this.LoadBaseStats();
+            Owner.Status.OnDeath += Owner_OnDeath;
+            Owner.Status.OnRevive += Owner_OnRevive;
         }
 
         protected virtual void Update()
@@ -74,62 +90,110 @@ namespace Asce.Game.Entities
         {
             if (BaseStats == null) return;
 
-            Health.AddAgent(gameObject, "base stats", BaseStats.MaxHealth, StatValueType.Plat).ToNotClearable();
-            Health.AddToChangeValue(gameObject, "base stats", BaseStats.HealthRegen, StatValueType.Plat).ToNotClearable();
+            // Health
+            HealthGroup.Health.AddAgent(gameObject, baseStatsReason, BaseStats.MaxHealth, StatValueType.Base).ToNotClearable();
+            HealthGroup.Health.AddToChangeValue(gameObject, baseStatsReason, BaseStats.HealthRegen, StatValueType.Base).ToNotClearable();
 
-            Stamina.AddAgent(gameObject, "base stats", BaseStats.MaxStamina, StatValueType.Plat).ToNotClearable();
-            Stamina.AddToChangeValue(gameObject, "base stats", BaseStats.StaminaRegen, StatValueType.Plat).ToNotClearable();
+            // Stamina
+            Stamina.AddAgent(gameObject, baseStatsReason, BaseStats.MaxStamina, StatValueType.Base).ToNotClearable();
+            Stamina.AddToChangeValue(gameObject, baseStatsReason, BaseStats.StaminaRegen, StatValueType.Base).ToNotClearable();
 
-            Hunger.AddAgent(gameObject, "base stats", BaseStats.MaxHunger, StatValueType.Plat).ToNotClearable();
-            Hunger.AddToChangeValue(gameObject, "base stats", -BaseStats.Hungry, StatValueType.Plat).ToNotClearable();
+            // Sustenance
+            SustenanceGroup.Hunger.AddAgent(gameObject, baseStatsReason, BaseStats.MaxHunger, StatValueType.Base).ToNotClearable();
+            SustenanceGroup.Hunger.AddToChangeValue(gameObject, baseStatsReason, -BaseStats.Hungry, StatValueType.Base).ToNotClearable();
 
-            Thirst.AddAgent(gameObject, "base stats", BaseStats.MaxThirst, StatValueType.Plat).ToNotClearable();
-            Thirst.AddToChangeValue(gameObject, "base stats", -BaseStats.Thirsty, StatValueType.Plat).ToNotClearable();
+            SustenanceGroup.Thirst.AddAgent(gameObject, baseStatsReason, BaseStats.MaxThirst, StatValueType.Base).ToNotClearable();
+            SustenanceGroup.Thirst.AddToChangeValue(gameObject, baseStatsReason, -BaseStats.Thirsty, StatValueType.Base).ToNotClearable();
 
-            Breath.AddAgent(gameObject, "base stats", BaseStats.MaxBreath, StatValueType.Plat).ToNotClearable();
-            Breath.AddToChangeValue(gameObject, "base stats", BaseStats.Breathe, StatValueType.Plat).ToNotClearable();
+            SustenanceGroup.Breath.AddAgent(gameObject, baseStatsReason, BaseStats.MaxBreath, StatValueType.Base).ToNotClearable();
+            SustenanceGroup.Breath.AddToChangeValue(gameObject, baseStatsReason, BaseStats.Breathe, StatValueType.Base).ToNotClearable();
 
+            // Strength
+            Strength.AddAgent(gameObject, baseStatsReason, BaseStats.Strength, StatValueType.Base).ToNotClearable();
 
-            Strength.AddAgent(gameObject, "base stats", BaseStats.Strength, StatValueType.Plat).ToNotClearable();
-            Armor.AddAgent(gameObject, "base stats", BaseStats.Armor, StatValueType.Plat).ToNotClearable();
-            Resistance.AddAgent(gameObject, "base stats", BaseStats.Resistance, StatValueType.Plat).ToNotClearable();
+            // Defense
+            DefenseGroup.Armor.AddAgent(gameObject, baseStatsReason, BaseStats.Armor, StatValueType.Base).ToNotClearable();
+            DefenseGroup.Resistance.AddAgent(gameObject, baseStatsReason, BaseStats.Resistance, StatValueType.Base).ToNotClearable();
 
-            Speed.AddAgent(gameObject, "base stats", BaseStats.Speed, StatValueType.Plat).ToNotClearable();
-            ViewRadius.AddAgent(gameObject, "base stats", BaseStats.ViewRadius, StatValueType.Plat).ToNotClearable();
+            // Utilities
+            Speed.AddAgent(gameObject, baseStatsReason, BaseStats.Speed, StatValueType.Base).ToNotClearable();
+            ViewRadius.AddAgent(gameObject, baseStatsReason, BaseStats.ViewRadius, StatValueType.Base).ToNotClearable();
         }
 
         public virtual void UpdateStats(float deltaTime)
         {
-            Health.Update(deltaTime);
+            if (!IsStatsUpdating) return;
+            
+            HealthGroup.Update(deltaTime);
             Stamina.Update(deltaTime);
-            Hunger.Update(deltaTime);
-            Thirst.Update(deltaTime);
-            Breath.Update(deltaTime);
+            SustenanceGroup.Update(deltaTime);
 
             Strength.Update(deltaTime);
-            Armor.Update(deltaTime);
-            Resistance.Update(deltaTime);
-            Shield.Update(deltaTime);
+            DefenseGroup.Update(deltaTime);
 
             Speed.Update(deltaTime);
             ViewRadius.Update(deltaTime);
         }
 
-        public virtual void ResetStats(bool isForceClear = false)
+        public virtual void ClearStats(bool isForceClear = false)
         {
-            Health.Clear(isForceClear);
+            HealthGroup.Clear(isForceClear);
             Stamina.Clear(isForceClear);
-            Hunger.Clear(isForceClear);
-            Thirst.Clear(isForceClear);
-            Breath.Clear(isForceClear);
+            SustenanceGroup.Clear(isForceClear);
 
             Strength.Clear(isForceClear);
-            Armor.Clear(isForceClear);    
-            Resistance.Clear(isForceClear);
-            Shield.Clear(isForceClear);
+            DefenseGroup.Clear(isForceClear);
 
             Speed.Clear(isForceClear);
             ViewRadius.Clear(isForceClear);
         }
+
+        public virtual void ResetStats()
+        {
+            this.ClearStats();
+            HealthGroup.Reset();
+            Stamina.Reset();
+            SustenanceGroup.Reset();
+
+            Strength.Reset();
+            DefenseGroup.Reset();
+
+            Speed.Reset();
+            ViewRadius.Reset();
+        }
+
+
+        public virtual void BeforeSendDamage(DamageContainer container)
+        {
+            OnBeforeSendDamage?.Invoke(this, container);
+        }
+        public virtual void AfterSendDamage(DamageContainer container)
+        {
+            OnAfterSendDamage?.Invoke(this, container);
+        }
+
+        public virtual void BeforeTakeDamage(DamageContainer container)
+        {
+            OnBeforeTakeDamage?.Invoke(this, container);
+        }
+
+        public virtual void AfterTakeDamage(DamageContainer container)
+        {
+            OnAfterTakeDamage?.Invoke(this, container);
+            if (HealthGroup.Health.IsEmpty) Owner.Status.SetStatus(EntityStatusType.Dead);
+        }
+
+
+        protected virtual void Owner_OnDeath(object sender)
+        {
+            IsStatsUpdating = false;
+        }
+
+        protected virtual void Owner_OnRevive(object sender)
+        {
+            IsStatsUpdating = true;
+            this.ResetStats();
+        }
+
     }
 }

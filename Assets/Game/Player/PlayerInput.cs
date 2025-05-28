@@ -76,5 +76,11 @@ namespace Asce.Game.Players
         {
             return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         }
+
+        public bool IsMouseHit(out RaycastHit2D hit)
+        {
+            hit = Physics2D.Raycast(MousePosition, Vector2.zero, 0f, Settings.MouseLayerMask);
+            return hit.collider != null;
+        }
     }
 }

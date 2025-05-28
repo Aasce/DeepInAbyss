@@ -10,13 +10,13 @@ namespace Asce.Game.Stats
     [Serializable]
     public class StatAgent
     {
-        [SerializeField] private GameObject _author;
-        [SerializeField] private string _reason;
-        [SerializeField] private float _value;
-        [SerializeField] private StatValueType _type;
-        [SerializeField] private Cooldown _duration = new();
-        [SerializeField] private Vector2 _position;
-        [SerializeField] private bool _isClearable = true;
+        [SerializeField] protected GameObject _author;
+        [SerializeField] protected string _reason;
+        [SerializeField] protected float _value;
+        [SerializeField] protected StatValueType _type;
+        [SerializeField] protected Cooldown _duration = new();
+        [SerializeField] protected Vector2 _position;
+        [SerializeField] protected bool _isClearable = true;
 
         /// <summary>
         ///     The GameObject that applied stat modification.

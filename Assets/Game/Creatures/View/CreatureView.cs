@@ -113,11 +113,13 @@ namespace Asce.Game.Entities
 
         protected virtual void Status_OnDeath(object sender)
         {
+            if (Animator == null) return;
             Animator.SetBool("IsDead", true);
         }
 
         protected virtual void Status_OnRevive(object sender)
         {
+            if (Animator == null) return;
             Animator.SetBool("IsDead", false);
         }
 

@@ -25,11 +25,11 @@ Transform:
   m_GameObject: {fileID: 378589094645324396}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.033670425, y: 0.68618727, z: -0.124}
+  m_LocalPosition: {x: -0.033670425, y: 0.68618727, z: -0.12399995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8143387239495235201}
+  m_Father: {fileID: 1826866111617077614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2025632197207552810
 GameObject:
@@ -152,14 +152,14 @@ Transform:
   m_GameObject: {fileID: 2327455691202144450}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.73, y: -3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8178147066064418690}
   - {fileID: 6427425624652676764}
   - {fileID: 7036894534453416333}
-  - {fileID: 3551186745814107597}
+  - {fileID: 1826866111617077614}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4053743200521334916
@@ -416,6 +416,38 @@ MonoBehaviour:
   _blinkInterval: {x: 0.5, y: 5}
   _blinkTimer: 0
   _isShoesFrontPants: 0
+--- !u!1 &6750802327544525344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1826866111617077614}
+  m_Layer: 8
+  m_Name: Equipments
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1826866111617077614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6750802327544525344}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3551186745814107597}
+  m_Father: {fileID: 8143387239495235201}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8246827923773210625
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,17 +494,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _owner: {fileID: 0}
   _baseStats: {fileID: 11400000, guid: 0616ff4acaa61f745826d355f92eeed2, type: 2}
-  _health:
-    _value: 0
-    _agents: []
-    _currentValue: 0
-    _currentAgents: []
-    _changeValue: 0
-    _changeAgents: []
-    _isSelfChangeable: 1
-    _changeInterval:
-      _baseTime: 1
-      _currentTime: 1
+  _isStatsUpdating: 1
+  _healthGroup:
+    _health:
+      _value: 0
+      _agents: []
+      _currentValue: 0
+      _currentAgents: []
+      _changeValue: 0
+      _changeAgents:
+      - _author: {fileID: 0}
+        _reason: heal scale affect
+        _value: 1
+        _type: 3
+        _duration:
+          _baseTime: Infinity
+          _currentTime: Infinity
+        _position: {x: 0, y: 0}
+        _isClearable: 1
+      _isSelfChangeable: 1
+      _changeInterval:
+        _baseTime: 1
+        _currentTime: 1
+    _healScale:
+      _value: 1
+      _agents:
+      - _author: {fileID: 0}
+        _reason: base heal scale
+        _value: 1
+        _type: 0
+        _duration:
+          _baseTime: Infinity
+          _currentTime: Infinity
+        _position: {x: 0, y: 0}
+        _isClearable: 0
   _stamina:
     _value: 0
     _agents: []
@@ -484,51 +539,55 @@ MonoBehaviour:
     _changeInterval:
       _baseTime: 1
       _currentTime: 1
-  _hunger:
-    _value: 0
-    _agents: []
-    _currentValue: 0
-    _currentAgents: []
-    _changeValue: 0
-    _changeAgents: []
-    _isSelfChangeable: 1
-    _changeInterval:
-      _baseTime: 10
-      _currentTime: 10
-  _thirst:
-    _value: 0
-    _agents: []
-    _currentValue: 0
-    _currentAgents: []
-    _changeValue: 0
-    _changeAgents: []
-    _isSelfChangeable: 1
-    _changeInterval:
-      _baseTime: 10
-      _currentTime: 10
-  _breath:
-    _value: 0
-    _agents: []
-    _currentValue: 0
-    _currentAgents: []
-    _changeValue: 0
-    _changeAgents: []
-    _isSelfChangeable: 1
-    _changeInterval:
-      _baseTime: 1
-      _currentTime: 1
+  _sustenanceGroup:
+    _hunger:
+      _value: 0
+      _agents: []
+      _currentValue: 0
+      _currentAgents: []
+      _changeValue: 0
+      _changeAgents: []
+      _isSelfChangeable: 1
+      _changeInterval:
+        _baseTime: 10
+        _currentTime: 10
+    _thirst:
+      _value: 0
+      _agents: []
+      _currentValue: 0
+      _currentAgents: []
+      _changeValue: 0
+      _changeAgents: []
+      _isSelfChangeable: 1
+      _changeInterval:
+        _baseTime: 10
+        _currentTime: 10
+    _breath:
+      _value: 0
+      _agents: []
+      _currentValue: 0
+      _currentAgents: []
+      _changeValue: 0
+      _changeAgents: []
+      _isSelfChangeable: 1
+      _changeInterval:
+        _baseTime: 1
+        _currentTime: 1
   _strength:
     _value: 0
     _agents: []
-  _armor:
-    _value: 0
-    _agents: []
-  _resistance:
-    _value: 0
-    _agents: []
-  _shield:
-    _value: 0
-    _agents: []
+  _defenseGroup:
+    _armor:
+      _value: 0
+      _agents: []
+    _resistance:
+      _value: 0
+      _agents: []
+    _shield:
+      _value: 0
+      _agents: []
+      _currentValue: 0
+      _currentAgents: []
   _speed:
     _value: 0
     _agents: []

@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Asce.Game.Entities;
+using System;
+using UnityEngine;
 
 namespace Asce.Game.Stats
 {
     public interface IHasHealth
     {
-        public HealthStat Health { get; }
+        public HealthGroupStats HealthGroup { get; }
     }
 }

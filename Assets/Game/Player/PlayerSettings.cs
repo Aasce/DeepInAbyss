@@ -5,6 +5,8 @@ namespace Asce.Game.Players
 {
     public class PlayerSettings : MonoBehaviour
     {
+        [SerializeField] private LayerMask _mouseLayerMask = default;
+
         [Header("Control Character")]
         [SerializeField] private KeyCode _runKey = KeyCode.LeftShift;
         [SerializeField] private KeyCode _dashKey = KeyCode.LeftControl;
@@ -34,6 +36,11 @@ namespace Asce.Game.Players
             KeyCode.Alpha4,
         };
 
+        public LayerMask MouseLayerMask
+        {
+            get => _mouseLayerMask;
+            set => _mouseLayerMask = value;
+        }
 
         public KeyCode RunKey
         {

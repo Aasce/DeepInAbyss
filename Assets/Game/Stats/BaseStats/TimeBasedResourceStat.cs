@@ -2,6 +2,7 @@
 using Asce.Managers.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace Asce.Game.Stats
@@ -20,12 +21,14 @@ namespace Asce.Game.Stats
         [Header("Time Based Stat")]
         [SerializeField] protected float _changeValue;
         [SerializeField] protected List<StatAgent> _changeAgents = new();
+        private ReadOnlyCollection<StatAgent> _readOnlyChangeAgents;
 
         [SerializeField] protected bool _isSelfChangeable = true;
         [SerializeField] protected Cooldown _changeInterval = new(baseChangeInterval);
 
         protected float _platChangeValue;
         protected float _ratioChangeValue;
+        protected float _scaleChangeValue;
 
         /// <summary>
         ///     Invoked when the <see cref="ChangeValue"/> changes.
@@ -61,7 +64,7 @@ namespace Asce.Game.Stats
         /// </summary>
         public Cooldown ChangeInterval => _changeInterval;
 
-        protected List<StatAgent> ChangeAgents => _changeAgents;
+        public ReadOnlyCollection<StatAgent> ChangeAgents => _readOnlyChangeAgents ??= _changeAgents.AsReadOnly();
 
         public TimeBasedResourceStat() : base() { }
 
@@ -72,7 +75,7 @@ namespace Asce.Game.Stats
         public override void Update(float deltaTime)
         {
             base.Update(deltaTime);
-            if (StatUtils.UpdateAgents(ChangeAgents, deltaTime))
+            if (StatUtils.UpdateAgents(_changeAgents, deltaTime))
                 this.UpdateChangeValue();
 
             ChangeInterval.Update(deltaTime);
@@ -101,6 +104,12 @@ namespace Asce.Game.Stats
             this.ClearChangeAgents(forceClear);
         }
 
+        public override void Reset()
+        {
+            base.Reset();
+            this.ClearAgents();
+        }
+
         public virtual StatAgent AddToChangeValue(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat, float duration = float.PositiveInfinity, Vector2 position = default)
         {
             StatAgent agent = new StatAgent(author, reason, value, type, duration, position);
@@ -110,7 +119,7 @@ namespace Asce.Game.Stats
         public StatAgent AddToChangeValue(StatAgent agent)
         {
             if (agent == null) return null;
-            ChangeAgents.Add(agent);
+            _changeAgents.Add(agent);
             this.UpdateChangeValue();
             return agent;
         }
@@ -119,7 +128,7 @@ namespace Asce.Game.Stats
         {
             if (agent == null) return null;
 
-            bool isRemoved = ChangeAgents.Remove(agent);
+            bool isRemoved = _changeAgents.Remove(agent);
             if (isRemoved)
             {
                 this.UpdateChangeValue();
@@ -130,11 +139,11 @@ namespace Asce.Game.Stats
 
         /// <summary>
         ///     Removes all agents that match the given author and reason.
-        ///     Recalculates <see cref="ChangeValue"/> if any were removed.
+        ///     Recalculates <see cref="_changeAgents"/> if any were removed.
         /// </summary>
         public virtual void RemoveAllFromChangeValue(GameObject author, string reason = null)
         {
-            if (StatUtils.RemoveAllAgents(ChangeAgents, author, reason))
+            if (StatUtils.RemoveAllAgents(_changeAgents, author, reason))
                 this.UpdateChangeValue();
         }
 
@@ -143,14 +152,49 @@ namespace Asce.Game.Stats
         /// </summary>
         public virtual void ClearChangeAgents(bool forceClear = false)
         {
-            if (StatUtils.ClearAgents(ChangeAgents, forceClear))
+            if (StatUtils.ClearAgents(_changeAgents, forceClear))
                 this.UpdateChangeValue();
         }
+
+        /// <summary>
+        ///     Set the value of the agent that find by <paramref name="match"/> in <see cref="_changeAgents"/>.
+        ///     <br/>
+        ///     Recalculates if change successfully.
+        /// </summary>
+        /// <param name="match"> The predicate that defines the conditions of the agent to find. </param>
+        /// <param name="value"> The value to be set the agent. </param>
+        /// <returns> 
+        ///     True if a matching agent was found and the action was invoked. otherwise, false.
+        /// </returns>
+        public virtual bool SetChangeAgentValue(Predicate<StatAgent> match, float value)
+        {
+            bool isChanged = StatUtils.SetAgent(_changeAgents, match, (foundAgent) => foundAgent.Value = value);
+            if (isChanged) UpdateChangeValue();
+            return isChanged;
+        }
+
+        /// <summary>
+        ///     Set the agent that find by <paramref name="match"/> in <see cref="_changeAgents"/> by <paramref name="setAction"/>
+        ///     <br/>
+        ///     Recalculates if change successfully.
+        /// </summary>
+        /// <param name="match"> The predicate that defines the conditions of the agent to find. </param>
+        /// <param name="setAction"> The action to perform on the found agent if one is found. </param>
+        /// <returns> 
+        ///     True if a matching agent was found and the action was invoked. otherwise, false.
+        /// </returns>
+        public virtual bool SetChangeAgentData(Predicate<StatAgent> match, Action<StatAgent> setAction)
+        {
+            bool isChanged = StatUtils.SetAgent(_changeAgents, match, setAction);
+            if (isChanged) this.UpdateValue();
+            return isChanged;
+        }
+
 
         /// <summary>
         ///     Recalculates the total value applied per interval, based on all agents.
         /// </summary>
         protected virtual void UpdateChangeValue()
-            => ChangeValue = StatUtils.CalculateValue(ChangeAgents, out _platChangeValue, out _ratioChangeValue);
+            => ChangeValue = StatUtils.CalculateValue(_changeAgents, out _platChangeValue, out _ratioChangeValue, out _scaleChangeValue);
     }
 }

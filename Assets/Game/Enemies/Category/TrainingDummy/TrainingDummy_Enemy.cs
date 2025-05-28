@@ -1,0 +1,39 @@
+using Asce.Game.Combats;
+using Asce.Managers.Utils;
+using UnityEngine;
+
+namespace Asce.Game.Entities.Enemies.Category
+{
+    public class TrainingDummy_Enemy : Enemy
+    {
+        [SerializeField] private Cooldown _refreshCooldown = new(5f);
+
+
+        protected override void Start()
+        {
+            base.Start();
+            Stats.OnAfterTakeDamage += Stats_OnAfterTakeDamage;
+        }
+
+        private void Stats_OnAfterTakeDamage(object sender, DamageContainer container)
+        {
+            _refreshCooldown.Reset();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            _refreshCooldown.Update(Time.deltaTime);
+            if (_refreshCooldown.IsComplete)
+            {
+                if (!Stats.HealthGroup.Health.IsFull)
+                {
+                    Combats.CombatSystem.Healing(this, Stats, Stats.HealthGroup.Health.Value);
+                    Status.SetStatus(EntityStatusType.Alive);
+
+                }
+            }
+        }
+    }
+}

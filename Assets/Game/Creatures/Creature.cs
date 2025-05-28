@@ -1,5 +1,4 @@
 ﻿using Asce.Managers.Utils;
-using System;
 using UnityEngine;
 
 namespace Asce.Game.Entities
@@ -64,8 +63,6 @@ namespace Asce.Game.Entities
         protected override void OnEnable()
         {
             base.OnEnable();
-            if (Stats != null) Stats.ResetStats();
         }
-
     }
 }
