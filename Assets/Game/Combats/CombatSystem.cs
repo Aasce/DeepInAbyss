@@ -1,4 +1,5 @@
 using Asce.Game.Entities;
+using Asce.Game.FloatingTexts;
 using Asce.Game.Stats;
 using UnityEngine;
 
@@ -33,12 +34,20 @@ namespace Asce.Game.Combats
             float damageDeal = container.Damage * DeductDamageRatio(finalDefense);
 
             float finalDamage = DamageAffterShield(container.Receiver, damageDeal);
-            container.FinalDamage = finalDamage;
+            float absorbedByShield = damageDeal - finalDamage;
 
+            container.FinalDamage = finalDamage;
             SendDamage(container.Sender, container.Receiver, finalDamage);
 
             container.Receiver.AfterTakeDamage(container);
             container.Sender.AfterSendDamage(container);
+
+            if (absorbedByShield > 0)
+            {
+                StatValuePopupManager.Instance.CreateShieldAbsorptionPopupText(absorbedByShield, container.Position);
+                if (finalDamage > 0) StatValuePopupManager.Instance.CreateDamagePopupText(container.FinalDamage, container.DamageType, container.Position, 0.25f);
+            }
+            else StatValuePopupManager.Instance.CreateDamagePopupText(container.FinalDamage, container.DamageType, container.Position);
         }
 
         /// <summary>
@@ -133,9 +142,11 @@ namespace Asce.Game.Combats
         /// <returns>
         ///     Returns final heal value.
         /// </returns>
-        public static float Healing(IEntity healer, IHasHealth receiver, float heal, StatValueType type = StatValueType.Plat)
+        public static float Healing(IEntity healer, IHasHealth receiver, Vector2 position, float heal, StatValueType type = StatValueType.Plat)
         {
             float healValue = receiver.HealthGroup.Heal(healer, "Healing", heal, type);
+
+            StatValuePopupManager.Instance.CreateHealPopupText(healValue, position);
             return healValue;
         }
 

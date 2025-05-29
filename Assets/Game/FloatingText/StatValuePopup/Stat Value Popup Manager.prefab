@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5967783682847640364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7990440165429086194}
+  - component: {fileID: 1727871287604187376}
+  m_Layer: 0
+  m_Name: Stat Value Popup Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7990440165429086194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5967783682847640364}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1727871287604187376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5967783682847640364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1727f3b489ff1c4ab65d5fa37a1b6b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pools:
+    _prefab: {fileID: 3520361368208253944, guid: 90062c87bc2c8e44b86334bbd2366072, type: 3}
+    _activities: []
+    _isSetActive: 1
+    _parent: {fileID: 7990440165429086194}
+  _offset: {x: 0, y: 2, z: 0}
+  _trueDamageColor: {r: 0.95, g: 0.95, b: 0.95, a: 1}
+  _physicalDamageColor: {r: 1, g: 0.8009413, b: 0.626, a: 1}
+  _magicalDamageColor: {r: 0.76535827, g: 0.575932, b: 0.938, a: 1}
+  _healColor: {r: 0.426, g: 1, b: 0.52596635, a: 1}
+  _absorbedShieldColor: {r: 0.938, g: 0.907056, b: 0.522466, a: 1}
+  _minSize: 30
+  _normalSize: 40
+  _largeSize: 55
+  _extraSize: 70

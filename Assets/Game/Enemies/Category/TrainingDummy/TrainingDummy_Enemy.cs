@@ -29,7 +29,7 @@ namespace Asce.Game.Entities.Enemies.Category
             {
                 if (!Stats.HealthGroup.Health.IsFull)
                 {
-                    Combats.CombatSystem.Healing(this, Stats, Stats.HealthGroup.Health.Value);
+                    Combats.CombatSystem.Healing(this, Stats, transform.position, Stats.HealthGroup.Health.Value);
                     Status.SetStatus(EntityStatusType.Alive);
 
                 }
