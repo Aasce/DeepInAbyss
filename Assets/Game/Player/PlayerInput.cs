@@ -3,8 +3,11 @@ using UnityEngine.EventSystems;
 
 namespace Asce.Game.Players
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInput : MonoBehaviour, IPlayerComponent
     {
+        // Ref
+        [SerializeField, HideInInspector] private Player _player;
+
         [SerializeField] private Vector2 _mousePosition;
 
         [Space]
@@ -25,9 +28,11 @@ namespace Asce.Game.Players
         [Space]
         [SerializeField] private bool _isControlUI = false;
 
-
-        public PlayerSettings Settings { get; set; }
-        public Camera Camera { get; set; }
+        public Player Player
+        {
+            get => _player;
+            set => _player = value;
+        }
 
         public bool IsPointerOverUI => EventSystem.current && EventSystem.current.IsPointerOverGameObject();
         public Vector2 MouseScreenPosition => Input.mousePosition;
@@ -54,22 +59,23 @@ namespace Asce.Game.Players
 
         private void Update()
         {
-            if (Settings == null) return;
+            if (Player.Settings == null) return;
+            if (Player.CameraController.Camera == null) return;
 
-            _mousePosition = Camera?.ScreenToWorldPoint(MouseScreenPosition) ?? Vector2.zero;
+            _mousePosition = Player.CameraController.Camera.ScreenToWorldPoint(MouseScreenPosition);
 
-            _lookInput = Input.GetKey(Settings.LookKey);
+            _lookInput = Input.GetKey(Player.Settings.LookKey);
 
             _moveInput = this.MoveAxis();
-            _runInput = Input.GetKey(Settings.RunKey);
-            _dashInput = Input.GetKey(Settings.DashKey);
-            _dodgeInput = Input.GetKey(Settings.DodgeKey);
+            _runInput = Input.GetKey(Player.Settings.RunKey);
+            _dashInput = Input.GetKey(Player.Settings.DashKey);
+            _dodgeInput = Input.GetKey(Player.Settings.DodgeKey);
 
             _jumpInput = Input.GetAxisRaw("Jump") != 0;
-            _crouchInput = Input.GetKeyDown(Settings.CrounchKey);
-            _crawlInput = Input.GetKeyDown(Settings.CrawlKey);
+            _crouchInput = Input.GetKeyDown(Player.Settings.CrounchKey);
+            _crawlInput = Input.GetKeyDown(Player.Settings.CrawlKey);
 
-            _attackInput = Input.GetKey(Settings.AttackKey);
+            _attackInput = Input.GetKey(Player.Settings.AttackKey);
         }
 
         private Vector2 MoveAxis()
@@ -79,7 +85,7 @@ namespace Asce.Game.Players
 
         public bool IsMouseHit(out RaycastHit2D hit)
         {
-            hit = Physics2D.Raycast(MousePosition, Vector2.zero, 0f, Settings.MouseLayerMask);
+            hit = Physics2D.Raycast(MousePosition, Vector2.zero, 0f, Player.Settings.MouseLayerMask);
             return hit.collider != null;
         }
     }

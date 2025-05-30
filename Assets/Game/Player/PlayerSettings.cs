@@ -3,8 +3,11 @@ using UnityEngine;
 
 namespace Asce.Game.Players
 {
-    public class PlayerSettings : MonoBehaviour
+    public class PlayerSettings : MonoBehaviour, IPlayerComponent
     {
+        // Ref
+        [SerializeField, HideInInspector] private Player _player;
+
         [SerializeField] private LayerMask _mouseLayerMask = default;
 
         [Header("Control Character")]
@@ -35,6 +38,14 @@ namespace Asce.Game.Players
             KeyCode.Alpha3,
             KeyCode.Alpha4,
         };
+
+
+        public Player Player
+        {
+            get => _player;
+            set => _player = value;
+        }
+
 
         public LayerMask MouseLayerMask
         {

@@ -24,7 +24,7 @@ namespace Asce.Game.Entities
         {
             base.LoadBaseStats();
 
-            JumpForce.AddAgent(gameObject, "base stats", BaseStats.JumpForce, StatValueType.Plat);
+            JumpForce.AddAgent(gameObject, baseStatsReason, BaseStats.JumpForce, StatValueType.Base).ToNotClearable();
         }
 
         public override void UpdateStats(float deltaTime)

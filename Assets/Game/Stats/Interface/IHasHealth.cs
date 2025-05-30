@@ -6,6 +6,7 @@ namespace Asce.Game.Stats
 {
     public interface IHasHealth
     {
+        public bool IsDead { get; }
         public HealthGroupStats HealthGroup { get; }
     }
 }
