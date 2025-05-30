@@ -66,7 +66,7 @@ namespace Asce.Editors
             for (int i = 1; i < num - 1; i++)
             {
                 Transform middlePart = _ladder.MiddleParts.GetRandomElement();
-                Transform middle = Instantiate(middlePart, _ladder.transform);
+                Transform middle = (Transform)PrefabUtility.InstantiatePrefab(middlePart, _ladder.transform);
 
                 middle.name = $"{middlePart.name} {i}";
                 middle.SetParent(_ladder.transform, false);

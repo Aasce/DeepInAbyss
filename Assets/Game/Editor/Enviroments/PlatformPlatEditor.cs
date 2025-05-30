@@ -67,7 +67,7 @@ namespace Asce.Editors
 
             for (int i = 0; i < num - 2; i++)
             {
-                Transform middle = Instantiate(_platform.MiddlePrefab, _platform.transform);
+                Transform middle = (Transform)PrefabUtility.InstantiatePrefab(_platform.MiddlePrefab, _platform.transform);
 
                 middle.name = $"{_platform.MiddlePrefab.name} {i}";
                 middle.SetParent(_platform.transform, false);

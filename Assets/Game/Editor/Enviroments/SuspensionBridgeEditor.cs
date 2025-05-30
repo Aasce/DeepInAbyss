@@ -63,7 +63,7 @@ namespace Asce.Editors.Enviroments
             Rigidbody2D previousRigidbody = _bridge.LeftAnchor.GetComponent<Rigidbody2D>();
             for (int i = 0; i < num; i++)
             {
-                Transform partObject = Instantiate(_bridge.PartPrefab, _bridge.transform);
+                Transform partObject = (Transform)PrefabUtility.InstantiatePrefab(_bridge.PartPrefab, _bridge.transform);
 
                 partObject.name = $"{_bridge.PartPrefab.name} {i}";
                 partObject.SetParent(_bridge.transform, false);
@@ -85,9 +85,7 @@ namespace Asce.Editors.Enviroments
                 if (i == num - 1)
                 {
                     if (_bridge.RightAnchor == null) continue;
-
-                    Rigidbody2D rightAnchorRb = _bridge.RightAnchor.GetComponent<Rigidbody2D>();
-                    if (rightAnchorRb == null) continue;
+                    if (!_bridge.RightAnchor.TryGetComponent(out Rigidbody2D rightAnchorRb)) continue;
 
                     HingeJoint2D hingeToRightAnchor = partObject.AddComponent<HingeJoint2D>();
                     hingeToRightAnchor.connectedBody = rightAnchorRb;
