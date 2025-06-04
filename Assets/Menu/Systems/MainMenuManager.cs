@@ -2,7 +2,7 @@ using Asce.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuManager : Singleton<MainMenuManager>
+public class MainMenuManager : MonoBehaviorSingleton<MainMenuManager>
 {
     [SerializeField] private Button _playButton;
     [SerializeField] private Button _settingsButton;

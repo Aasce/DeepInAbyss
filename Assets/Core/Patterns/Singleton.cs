@@ -1,68 +1,50 @@
-using Asce.Managers.Utils;
-using UnityEngine;
+using System;
+using System.Reflection;
 
 namespace Asce.Managers
 {
     /// <summary>
-    ///     A generic singleton base class for MonoBehaviour components.
-    ///     <br/>
-    ///     Ensures only one instance of a MonoBehaviour of type T exists in the scene.
+    ///     A generic singleton base class.
     /// </summary>
-    /// <typeparam name="T"> Type of the MonoBehaviour to be singleton. </typeparam>
-    public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    /// <typeparam name="T"> Type of the Class to be singleton. </typeparam>
+    public abstract class Singleton<T> where T : class
     {
-        // Static reference to the singleton instance
         private static T _instance;
+        private static readonly object _lock = new();
 
         /// <summary>
-        ///     Gets the singleton instance of type T.
-        ///     If no instance is found in the scene, logs an error.
+        ///     Gets the singleton instance of type <typeparamref name="T"/>.
+        ///     Create Instance if instance is null.
         /// </summary>
         public static T Instance
         {
-            get
-            {
-                // If instance is not yet set, try to find it in the scene
-                if (_instance == null)
-                {
-                    _instance = FindAnyObjectByType<T>();
-                    if (_instance == null)
-                    {
-                        // ColorWrap is assumed to be a custom extension for colored logging
-                        Debug.LogError($"[{"Singleton".ColorWrap(Color.red)}] No instance of {typeof(T)} found in scene.");
-                    }
-                }
-
+            get 
+            { 
+                if (_instance == null) _instance = CreateInstance();
                 return _instance;
             }
         }
 
-        /// <summary>
-        ///     Ensures that only one instance of T is assigned.
-        ///     Destroys duplicate instances if they exist.
-        /// </summary>
-        protected virtual void Awake()
-        {
-            if (_instance == null)
-            {
-                // Set this instance as the singleton
-                _instance = this as T;
-            }
-            else if (_instance != this)
-            {
-                // If another instance already exists, destroy this one to enforce singleton
-                Destroy(gameObject);
-            }
-        }
 
         /// <summary>
-        ///     Unity OnDestroy method. Clears the instance reference if it is being destroyed.
+        ///     Create Instance of class <typeparamref name="T"/>. Use Reflection to get its NonPublic Constructor.
         /// </summary>
-        protected virtual void OnDestroy()
+        /// <returns> Returns instance of <typeparamref name="T"/> </returns>
+        /// <exception cref="MissingMethodException"> Throws exception if <typeparamref name="T"/> has no Constructor with no parameters. </exception>
+        private static T CreateInstance()
         {
-            if (_instance == this)
+            lock (_lock)
             {
-                _instance = null;
+                if (_instance == null)
+                {
+                    ConstructorInfo contructor = typeof(T).GetConstructor(
+                        BindingFlags.Instance | BindingFlags.NonPublic,
+                        null, Type.EmptyTypes, null) 
+                    ?? throw new MissingMethodException($"[{typeof(T)}] must have a private or protected parameterless constructor");
+
+                    _instance = (T)contructor.Invoke(null);
+                }
+                return _instance;
             }
         }
     }

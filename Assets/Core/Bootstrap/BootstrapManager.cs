@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Managers
 {
-    public class BootstrapManager : Singleton<BootstrapManager>
+    public class BootstrapManager : MonoBehaviorSingleton<BootstrapManager>
     {
         protected override void Awake()
         {

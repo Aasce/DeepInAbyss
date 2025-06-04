@@ -3,10 +3,11 @@
 namespace Asce.Managers
 {
     /// <summary>
-    ///     A generic singleton class for MonoBehaviour components that persist across scenes.
+    ///     A generic singleton class for <see cref="MonoBehaviour"/> components that persist across scenes.
+    ///     <br/>
     ///     Automatically creates an instance if none exists and prevents recreation when the application is quitting.
     /// </summary>
-    /// <typeparam name="T"> Type of the MonoBehaviour to be singleton. </typeparam>
+    /// <typeparam name="T"> Type of the <see cref="MonoBehaviour"/> to be singleton. </typeparam>
     public abstract class DontDestroyOnLoadSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         // Static reference to the singleton instance
@@ -19,7 +20,7 @@ namespace Asce.Managers
         private static readonly object _lock = new();
 
         /// <summary>
-        ///     Gets the singleton instance of type T. Creates one if it doesn't exist yet.
+        ///     Gets the singleton instance of type <typeparamref name="T"/>. Creates one if it doesn't exist yet.
         ///     Will return null if accessed during application shutdown.
         /// </summary>
         public static T Instance
