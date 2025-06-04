@@ -10,7 +10,7 @@ namespace Asce.Game.FloatingTexts
     /// <summary>
     ///     Manages the display and pooling of floating stat value popups such as damage, healing, or shield absorption.
     /// </summary>
-    public class StatValuePopupManager : Singleton<StatValuePopupManager>
+    public class StatValuePopupManager : MonoBehaviorSingleton<StatValuePopupManager>
     {
         [Tooltip("Object pool used to reuse StatValuePopup instances efficiently.")]
         [SerializeField] protected Pool<StatValuePopup> _pools = new();
