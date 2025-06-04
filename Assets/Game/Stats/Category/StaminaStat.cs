@@ -5,9 +5,7 @@ namespace Asce.Game.Stats
     [Serializable]
     public class StaminaStat : TimeBasedResourceStat
     {
-
-
-        public StaminaStat() : base() 
+        public StaminaStat() : base(StatType.Stamina) 
         {
             
         }

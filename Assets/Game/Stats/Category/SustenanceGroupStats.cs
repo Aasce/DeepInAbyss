@@ -10,13 +10,13 @@ namespace Asce.Game.Stats
     public class SustenanceGroupStats : IGroupStats 
     {
         [Tooltip("The stat representing the entity's hunger level, which decreases over time.")]
-        [SerializeField] protected TimeBasedResourceStat _hunger = new();
+        [SerializeField] protected TimeBasedResourceStat _hunger = new(StatType.Hunger);
 
         [Tooltip("The stat representing the entity's thirst level, which decreases over time.")]
-        [SerializeField] protected TimeBasedResourceStat _thirst = new();
+        [SerializeField] protected TimeBasedResourceStat _thirst = new(StatType.Thirst);
 
         [Tooltip("The stat representing the entity's breath level, which may decrease or recover depending on the environment.")]
-        [SerializeField] protected TimeBasedResourceStat _breath = new();
+        [SerializeField] protected TimeBasedResourceStat _breath = new(StatType.Breath);
 
 
         /// <summary>

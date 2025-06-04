@@ -86,6 +86,7 @@ namespace Asce.Game.Stats
         ///     Initializes a new instance of the <see cref="ResourceStat"/> class.
         /// </summary>
         public ResourceStat() : base() { }
+        public ResourceStat(StatType type) : base(type) { }
 
 
         /// <summary>

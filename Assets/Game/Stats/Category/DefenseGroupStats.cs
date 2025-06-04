@@ -6,9 +6,9 @@ namespace Asce.Game.Stats
     [Serializable]
     public class DefenseGroupStats : IGroupStats
     {
-        [SerializeField] private Stat _armor = new();
-        [SerializeField] private Stat _resistance = new();
-        [SerializeField] private ResourceStat _shield = new();
+        [SerializeField] private Stat _armor = new(StatType.Armor);
+        [SerializeField] private Stat _resistance = new(StatType.Resistance);
+        [SerializeField] private ResourceStat _shield = new(StatType.Shield);
 
         public Stat Armor => _armor;
         public Stat Resistance => _resistance;

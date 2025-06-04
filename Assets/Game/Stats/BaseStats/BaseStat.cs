@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace Asce.Game.Stats
 {
@@ -14,6 +13,7 @@ namespace Asce.Game.Stats
     [Serializable]
     public abstract class BaseStat<T> where T : StatAgent, new()
     {
+        [SerializeField] protected StatType _statType = StatType.None;
         [SerializeField] protected float _value;
         [SerializeField] protected List<T> _agents = new();
         private ReadOnlyCollection<T> _readOnlyAgents;
@@ -27,6 +27,11 @@ namespace Asce.Game.Stats
         /// </summary>
         public event Action<object, ValueChangedEventArgs> OnValueChanged;
 
+        public virtual StatType StatType 
+        {
+            get => _statType;
+            set => _statType = value;
+        }
 
         /// <summary>
         ///     The calculated value of the stat after applying all active agents.
@@ -48,6 +53,10 @@ namespace Asce.Game.Stats
         ///     Initializes a new instance of the <see cref="Stat"/> class.
         /// </summary>
         public BaseStat() { }
+        public BaseStat(StatType type) 
+        { 
+            StatType = type;
+        }
 
 
         /// <summary>

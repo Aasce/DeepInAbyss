@@ -5,7 +5,7 @@ namespace Asce.Game.Stats
     [Serializable]
     public class StrengthStat : Stat
     {
-        public StrengthStat() : base()
+        public StrengthStat() : base(StatType.Strength)
         {
 
         }

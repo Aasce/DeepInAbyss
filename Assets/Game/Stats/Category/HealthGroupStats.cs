@@ -13,10 +13,10 @@ namespace Asce.Game.Stats
         private readonly string _healScaleAffectReason = "heal scale affect";
 
         [Tooltip("The health stat that represents the entity's health.")]
-        [SerializeField] protected TimeBasedResourceStat _health = new();
+        [SerializeField] protected TimeBasedResourceStat _health = new(StatType.Health);
 
         [Tooltip("The stat that scales incoming healing effects.")]
-        [SerializeField] protected Stat _healScale = new();
+        [SerializeField] protected Stat _healScale = new(StatType.HealthScale);
 
         /// <summary>
         ///     Event triggered whenever a healing action occurs.

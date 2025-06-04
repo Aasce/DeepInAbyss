@@ -66,7 +66,11 @@ namespace Asce.Game.Stats
 
         public ReadOnlyCollection<StatAgent> ChangeAgents => _readOnlyChangeAgents ??= _changeAgents.AsReadOnly();
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ResourceStat"/> class.
+        /// </summary>
         public TimeBasedResourceStat() : base() { }
+        public TimeBasedResourceStat(StatType type) : base(type) { }
 
         /// <summary>
         ///     Updates all stat agents and removes expired ones.
