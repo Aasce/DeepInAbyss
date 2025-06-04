@@ -34,7 +34,7 @@ namespace Asce.Game.Players
             set => _player = value;
         }
 
-        public bool IsPointerOverUI => EventSystem.current && EventSystem.current.IsPointerOverGameObject();
+        public bool IsPointerOverUI => Player != null && Player.UI.IsPointerOverScreenSpaceUI(MouseScreenPosition);
         public Vector2 MouseScreenPosition => Input.mousePosition;
         public Vector2 MousePosition => _mousePosition;
 
