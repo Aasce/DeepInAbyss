@@ -22,11 +22,11 @@ namespace Asce.Game.Entities
         [SerializeField] protected SustenanceGroupStats _sustenanceGroup = new();
 
         [Header("Combat")]
-        [SerializeField] protected Stat _strength = new();
+        [SerializeField] protected StrengthStat _strength = new();
         [SerializeField] protected DefenseGroupStats _defenseGroup = new();
 
         [Header("Utilities")]
-        [SerializeField] protected Stat _speed = new();
+        [SerializeField] protected SpeedStat _speed = new();
         [SerializeField] protected ViewRadiusStat _viewRadius = new();
 
         public event Action<object, DamageContainer> OnBeforeSendDamage;
