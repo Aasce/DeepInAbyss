@@ -1,0 +1,18 @@
+{
+    "name": "Asce.Core.Editor",
+    "rootNamespace": "Asce.Editors",
+    "references": [
+        "GUID:072cb86d29c8b834db40af4f2eebb280"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

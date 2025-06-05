@@ -87,7 +87,7 @@ namespace Asce.Editors.Enviroments
                     if (_bridge.RightAnchor == null) continue;
                     if (!_bridge.RightAnchor.TryGetComponent(out Rigidbody2D rightAnchorRb)) continue;
 
-                    HingeJoint2D hingeToRightAnchor = partObject.AddComponent<HingeJoint2D>();
+                    HingeJoint2D hingeToRightAnchor = partObject.gameObject.AddComponent<HingeJoint2D>();
                     hingeToRightAnchor.connectedBody = rightAnchorRb;
                     hingeToRightAnchor.autoConfigureConnectedAnchor = false;
                     hingeToRightAnchor.anchor = Vector2.right * 0.42f;
