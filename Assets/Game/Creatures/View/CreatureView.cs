@@ -88,10 +88,17 @@ namespace Asce.Game.Entities
             this.UpdateAnimator();
         }
 
+        protected virtual void LateUpdate()
+        {
+            this.LookAtTarget();
+        }
+
         public virtual void LookAtTarget()
         {
 
         }
+
+
 
         //the look at target override _facing
         public FacingType LookAtTargetFacing(Vector3 inputTarget)
@@ -125,13 +132,12 @@ namespace Asce.Game.Entities
 
         protected virtual void Status_OnFacingChanged(object sender, FacingType facing)
         {
-            if (Animator != null)
-            {
-                Animator.transform.localScale = new Vector3(1.0f, 1.0f, (int)facing);
-                Vector3 pos = Animator.transform.localPosition;
-                pos.x = 0.064f * -(int)facing;
-                Animator.transform.localPosition = pos;
-            }
+            if (Animator == null) return;
+            
+            Animator.transform.localScale = new Vector3(1.0f, 1.0f, (int)facing);
+            Vector3 pos = Animator.transform.localPosition;
+            pos.x = 0.064f * -(int)facing;
+            Animator.transform.localPosition = pos;
         }
     }
 }

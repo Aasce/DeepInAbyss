@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-
     public class CharacterAction : CreatureAction, IHasOwner<Character>, IMovable
     {
         #region - FIELDS -
@@ -21,8 +20,6 @@ namespace Asce.Game.Entities
         protected float _idleTime;
 
         protected int _horizontalMoveDirection = 1;                                             // move direction, 1: forward, -1:backward
-        protected float _moveBlend;                                                   // current move blend, for blending idle, walk, run animation, lerps to target move blend on frame update
-
 
         [Header("Speed")]
         [SerializeField] protected float _baseSpeed = 5.0f;                            // max speed of the character
@@ -171,12 +168,6 @@ namespace Asce.Game.Entities
         {
             get => _horizontalMoveDirection;
             protected set => _horizontalMoveDirection = (int)Mathf.Sign(value);
-        }
-
-        public float MoveBlend
-        {
-            get => _moveBlend;
-            protected set => _moveBlend = value;
         }
 
         public bool IsIdle => !Owner.Status.IsDead && !IsMoving && !Owner.PhysicController.IsInAir && !IsClimbingLadder && !IsExitingLadder && !IsClimbingLedge;
@@ -499,8 +490,7 @@ namespace Asce.Game.Entities
             HandleJump(ControlJump, ControlMove.x, Time.deltaTime);
             HandleDodge();
             HandleLedgeClimb(ControlMove.x);
-
-            UpdateMoveBlend();
+            HandleGetDownPlatform(Owner.Action.ControlMove.y);
 
             Dash(ControlDash, DashStartSpeed);
 
@@ -516,8 +506,10 @@ namespace Asce.Game.Entities
         #endregion
 
         #region - PHYSIC METHODS -
-        public virtual void PhysicUpdate(float deltaTime)
+        public override void PhysicUpdate(float deltaTime)
         {
+            base.PhysicUpdate(deltaTime);
+
             Move(ControlMove.x);
             Jump(ControlJump, deltaTime);
             LadderClimb(ControlMove.y);
@@ -844,17 +836,6 @@ namespace Asce.Game.Entities
             Owner.PhysicController.currentVelocity = currentVelocity;
         }
 
-        protected virtual void UpdateMoveBlend()
-        {
-            float targetMoveBlend = 0.0f;
-            if (IsMoving)
-            {
-                if (IsRunning) targetMoveBlend = 3.0f;
-                else targetMoveBlend = 1.0f;
-            }
-
-            MoveBlend = Mathf.Lerp(MoveBlend, targetMoveBlend, 7.0f * Time.deltaTime);
-        }
         #endregion
 
         #region - DASH METHODS -
@@ -1270,6 +1251,13 @@ namespace Asce.Game.Entities
             IsLedgeClimbLocked = false;
         }
 
+        #endregion
+
+        #region - GET DOWN PLATFORM METHODS -
+        protected virtual void HandleGetDownPlatform(float yDirection)
+        {
+            Owner.PhysicController.IsGetDownPlatform = yDirection > Constants.MOVE_THRESHOLD;
+        }
         #endregion
 
         #region - EVENT REGISTER METHODS -

@@ -45,10 +45,14 @@ namespace Asce.Game.Entities
             this.UpdateFacing();
         }
 
+        public virtual void PhysicUpdate(float deltaTime)
+        {
+
+        }
 
         protected virtual void UpdateFacing()
         {
-            
+
         }
     }
 }

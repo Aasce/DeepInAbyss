@@ -99,7 +99,11 @@ namespace Asce.Game.Entities
         private bool _isPointingAtTarget;
 
         private float _targetArmRotation;
-        private float _pointAtTargetPercent;
+
+        private float _pointAtTargetPercent; 
+        
+        // current move blend, for blending idle, walk, run animation, lerps to target move blend on frame update
+        protected float _moveBlend;
 
         #endregion
 
@@ -226,6 +230,13 @@ namespace Asce.Game.Entities
             }
         }
 
+        // Move Blend
+        public float MoveBlend
+        {
+            get => _moveBlend;
+            protected set => _moveBlend = value;
+        }
+
         #endregion
 
         #region - UNITY METHODS -
@@ -250,12 +261,13 @@ namespace Asce.Game.Entities
         protected override void Update()
         {
             base.Update();
-            BlinkUpdate();
+            this.BlinkUpdate();
+            this.UpdateMoveBlend();
         }
 
-        protected virtual void LateUpdate()
+        protected override void LateUpdate()
         {
-            this.LookAtTarget();
+            base.LateUpdate();
             this.PointAtTarget();
         }
 
@@ -280,6 +292,7 @@ namespace Asce.Game.Entities
 
         public override void LookAtTarget()
         {
+            base .LookAtTarget();
             Vector2 targetPosition = Owner.Action.TargetPosition;
 
             //check should turn on looking at target or not
@@ -399,7 +412,6 @@ namespace Asce.Game.Entities
         public void SetLadderEnterHeightAnimation(float value) => Animator.SetFloat("LadderEnterHeight", value);
         public void SetLadderExitHeightAnimation(float value) => Animator.SetFloat("LadderExitHeight", value);
 
-
         protected override void UpdateAnimator()
         {
             if (Owner.Status.IsDead) return;
@@ -409,7 +421,7 @@ namespace Asce.Game.Entities
             SetIsMovingAnimation(Owner.Action.IsMoving);
             SetIsRunningAnimation(Owner.Action.IsRunning);
             SetIsDashingAnimation(Owner.Action.IsDashing);
-            SetMoveBlendAnimation(Owner.Action.MoveBlend);
+            SetMoveBlendAnimation(MoveBlend);
             SetMoveDirectionAnimation(Owner.Action.HorizontalMoveDirection);
 
             SetIsGroundedAnimation(Owner.PhysicController.IsGrounded);
@@ -444,6 +456,18 @@ namespace Asce.Game.Entities
                 _hairClippedRenderer.enabled = _clipHair;
             }
         }
+        protected virtual void UpdateMoveBlend()
+        {
+            float targetMoveBlend = 0.0f;
+            if (Owner.Action.IsMoving)
+            {
+                if (Owner.Action.IsRunning) targetMoveBlend = 3.0f;
+                else targetMoveBlend = 1.0f;
+            }
+
+            MoveBlend = Mathf.Lerp(MoveBlend, targetMoveBlend, 7.0f * Time.deltaTime);
+        }
+        
         protected override void ResetRendererList()
         {
             base.ResetRendererList();

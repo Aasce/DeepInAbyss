@@ -197,32 +197,24 @@ namespace Asce.Game.Entities
         protected override void Start()
         {
             base.Start();
-            BodyCollider.offset = _colliderOffset;
-            BodyCollider.size = _colliderSize;
+            UpdateCollider();
         }
 
         protected override void Update()
         {
             this.HandleLadderClimb();
             this.HandleSlideDown();
-            this.GetDownPlatform(Owner.Action.ControlMove.y);
+            this.GetDownPlatform();
 
             base.Update();
         }
 
-        protected override void FixedUpdate()
+        protected override void PhysicUpdate(float deltaTime)
         {
-            currentVelocity = Rigidbody.linearVelocity - Vector2.up * GroundLiftSpeed;
-            currentGravityScale = _gravityScale;
+            base.PhysicUpdate(deltaTime);
 
-            base.FixedUpdate();
-
-            Owner.Action.PhysicUpdate(Time.fixedDeltaTime);
 
             this.ApplyRootMotion();
-
-            Rigidbody.gravityScale = currentGravityScale;
-            Rigidbody.linearVelocity = currentVelocity + Vector2.up * GroundLiftSpeed;
         }
 
         protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -269,10 +261,10 @@ namespace Asce.Game.Entities
         ///     get down this platform
         /// </summary>
         /// <param name="direction"></param>
-        protected virtual void GetDownPlatform(float direction)
+        protected virtual void GetDownPlatform()
         {
             if (!IsStandingOnPlatform) return;
-            if (direction >= -Constants.MOVE_THRESHOLD) return;
+            if (!IsGetDownPlatform) return;
 
             _getDownPlatformCooldown.Update(Time.deltaTime);
 
@@ -519,12 +511,12 @@ namespace Asce.Game.Entities
                 return;
             }
 
-            if (evt.stringParameter == "Walk" && Owner.Action.MoveBlend > 0.1f && Owner.Action.MoveBlend < 1.1f)
+            if (evt.stringParameter == "Walk" && Owner.View.MoveBlend > 0.1f && Owner.View.MoveBlend < 1.1f)
             {
                 OnFootstepEvent?.Invoke(this);
                 return;
             }
-            if (evt.stringParameter == "Run" && Owner.Action.MoveBlend > 1.1f)
+            if (evt.stringParameter == "Run" && Owner.View.MoveBlend > 1.1f)
             {
                 OnFootstepEvent?.Invoke(this);
                 return;

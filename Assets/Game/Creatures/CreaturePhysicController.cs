@@ -29,7 +29,7 @@ namespace Asce.Game.Entities
         protected float _groundYPosition;
 
         // Ground lift
-        [SerializeField] protected float _groundLiftMaxSpeed;
+        [SerializeField] protected float _groundLiftMaxSpeed = 7.5f;
         protected float _groundLiftSpeed;
 
         /// <summary>
@@ -44,6 +44,7 @@ namespace Asce.Game.Entities
         protected Vector2 _slideVelocity;
 
         // Standing colliders
+        protected bool _isGetDownPlatform = false;
         protected Cooldown _getDownPlatformCooldown = new(0.1f);
 
         protected bool _isStandingOnPlatform; // is the character standing on a one-way platform
@@ -183,6 +184,14 @@ namespace Asce.Game.Entities
 
         #endregion
 
+        #region - GET DOWN PLATFORM -
+        public bool IsGetDownPlatform
+        {
+            get => _isGetDownPlatform;
+            set => _isGetDownPlatform = value;
+        }
+        #endregion
+
         #region - STANDING COLLIDER PROPERTIES -
         public virtual bool IsStandingOnPlatform
         {
@@ -273,16 +282,27 @@ namespace Asce.Game.Entities
 
         protected virtual void FixedUpdate()
         {
-            this.HandleGround();
-            this.GroundLift();
-            this.HandleSpeedAndAcceleration();
-            this.SlideDownOnSlope(Time.fixedDeltaTime);
+            currentVelocity = Rigidbody.linearVelocity - Vector2.up * GroundLiftSpeed;
+            currentGravityScale = _gravityScale;
 
+            this.PhysicUpdate(Time.fixedDeltaTime);
+            Owner.Action.PhysicUpdate(Time.fixedDeltaTime);
+
+            Rigidbody.gravityScale = currentGravityScale;
+            Rigidbody.linearVelocity = currentVelocity + Vector2.up * GroundLiftSpeed;
         }
 
         #endregion
 
         #region - UPDATE AND HANDLE METHODS -
+
+        protected virtual void PhysicUpdate(float deltaTime)
+        {
+            this.HandleGround();
+            this.GroundLift();
+            this.HandleSpeedAndAcceleration();
+            this.SlideDownOnSlope(deltaTime);
+        }
 
         /// <summary>
         ///     Check if the creature is on ground
