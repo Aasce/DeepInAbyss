@@ -61,16 +61,17 @@ namespace Asce.Game.Players
         {
             if (Character == null) return;
 
-            Character.Action.ControlLooking(Input.LookInput, Input.MousePosition);
+            Character.Action.Looking(Input.LookInput, Input.MousePosition);
 
-            Character.Action.ControlMoving(Input.MoveInput, Input.RunInput);
-            Character.Action.ControlDashing(Input.DashInput);
-            Character.Action.ControlDodging(Input.DodgeInput);
+            Character.Action.Moving(Input.MoveInput);
+            Character.Action.Running(Input.RunInput);
 
-            Character.Action.ControlJumping(Input.JumpInput);
-            Character.Action.ControlCrouching(Input.CrouchInput);
-            Character.Action.ControlCrawling(Input.CrawlInput);
-            
+            if (Input.DashInput) Character.Action.Dashing();
+            if (Input.DodgeInput) Character.Action.Dodging();
+
+            Character.Action.Jumping(Input.JumpInput);
+            if (Input.CrouchInput) Character.Action.Crouching();
+            if (Input.CrawlInput) Character.Action.Crawling();
         }
 
         private void ControlUI()
@@ -89,15 +90,11 @@ namespace Asce.Game.Players
         private void ResetControlCharacter()
         {
             if (Character == null) return;
-            Character.Action.ControlLooking(false, Character.transform.position);
+            Character.Action.Looking(false, Character.transform.position);
 
-            Character.Action.ControlMoving(Vector2.zero, false);
-            Character.Action.ControlDashing(false);
-            Character.Action.ControlDodging(false);
-
-            Character.Action.ControlJumping(false);
-            Character.Action.ControlCrouching(false);
-            Character.Action.ControlCrawling(false);
+            Character.Action.Moving(Vector2.zero);
+            Character.Action.Running(false);
+            Character.Action.Jumping(false);
         }
     }
 }

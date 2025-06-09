@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public interface IJumpable : IMovable
+    public interface IJumpable : IEntity
     {
-        public bool CanJump { get; }
-        public Cooldown JumpCooldown { get; set; }
+        public bool IsJumpEnabled { get; set; }
+        public bool IsJumping { get; }
+        public float JumpForce { get; }
 
-        public void Jump();
+        public void Jumping(bool isJump);
     }
 }

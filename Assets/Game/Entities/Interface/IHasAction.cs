@@ -2,7 +2,7 @@
 
 namespace Asce.Game.Entities
 {
-    public interface IHasAction<T> : IEntity where T : IMovable
+    public interface IHasAction<T> : IEntity
     {
         public T Action { get; }
     }

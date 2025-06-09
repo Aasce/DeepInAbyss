@@ -293,7 +293,7 @@ namespace Asce.Game.Entities
 
         public bool CheckSurfaceToClimbOn(out RaycastHit2D hit)
         {
-            hit = gameObject.Raycast(Owner.PhysicController.LadderExitRaycastPosition, Vector2.down, Owner.PhysicController.LadderExitRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
+            hit = gameObject.Raycast(LadderExitRaycastPosition, Vector2.down, LadderExitRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
             return (hit.collider != null);
         }
 
@@ -469,7 +469,7 @@ namespace Asce.Game.Entities
             {
                 if (Mathf.Abs(Owner.View.RootMotionVelocity.magnitude) > Constants.MOVE_THRESHOLD)
                 {
-                    currentVelocity.x = Owner.View.RootMotionVelocity.x * Owner.Action.DodgeSpeedMultiply;
+                    currentVelocity.x = Owner.View.RootMotionVelocity.x * Owner.Action.DodgeSpeedRootMotionMultiply;
                     if (currentVelocity.y > 0) currentVelocity.y = 0.0f;
                 }
             }

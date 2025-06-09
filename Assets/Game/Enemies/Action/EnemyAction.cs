@@ -1,12 +1,15 @@
 using Asce.Managers;
 using Asce.Managers.Utils;
 using UnityEngine;
-using static UnityEngine.EventSystems.StandaloneInputModule;
 
 namespace Asce.Game.Entities.Enemies
 {
-    public class EnemyAction : CreatureAction, IHasOwner<Enemy>
+    public class EnemyAction : CreatureAction, IHasOwner<Enemy>, ILookable, IMovable, IRunnable, IJumpable
     {
+        [Header("Look")]
+        [SerializeField] protected bool _isLooking = false;
+        [SerializeField] protected Vector2 _targetPosition = Vector2.zero;
+
         [Header("Speed")]
         [SerializeField] protected float _baseSpeed = 5.0f;
 
@@ -24,8 +27,9 @@ namespace Asce.Game.Entities.Enemies
         protected bool _isRunning;
         protected float _idleTime;
 
-        [Header("Jump")]
-        [SerializeField] protected bool _isJumpEnable = true;
+        [Header("UpdateJump")]
+        [SerializeField] protected bool _isJumpEnabled = true;
+        [SerializeField] protected bool _isJumping;
         [SerializeField] protected float _jumpForce = 5.0f;
 
         [SerializeField] protected float _jumpGravityMutiplier = 0.6f;
@@ -42,8 +46,9 @@ namespace Asce.Game.Entities.Enemies
         private bool _attackTriggered = false;
 
         #region - CONTROL FIELDS- 
-        [SerializeField] private Vector2 _controlMove = Vector2.zero;
-        [SerializeField] private bool _controlRun = false;
+        [Header("Control")]
+        [SerializeField] private Vector2 _moveDirection = Vector2.zero;
+        [SerializeField] private bool _runState = false;
         [SerializeField] private bool _controlJump = false;
         [SerializeField] private bool _controlAttack = false;
         #endregion
@@ -52,6 +57,18 @@ namespace Asce.Game.Entities.Enemies
         {
             get => base.Owner as Enemy;
             set => base.Owner = value;
+        }
+
+        public bool IsLooking
+        {
+            get => _isLooking;
+            protected set => _isLooking = value;
+        }
+
+        public Vector2 TargetPosition
+        {
+            get => _targetPosition;
+            protected set => _targetPosition = value;
         }
 
         public float BaseSpeed
@@ -66,7 +83,7 @@ namespace Asce.Game.Entities.Enemies
         public float RunMaxSpeed => BaseSpeed * _runSpeedScale;
         public float RunAcceleration => _runAcceleration;
 
-        public bool IsMoveEnable
+        public bool IsMoveEnabled
         {
             get => _isMoveEnable;
             set => _isMoveEnable = value;
@@ -76,6 +93,7 @@ namespace Asce.Game.Entities.Enemies
             get => _isMoving;
             protected set => _isMoving = value;
         }
+        public bool IsIdle => !Owner.Status.IsDead && !IsMoving && !Owner.PhysicController.IsInAir;
 
         public bool IsRunning
         {
@@ -83,15 +101,20 @@ namespace Asce.Game.Entities.Enemies
             protected set => _isRunning = value;
         }
 
-        public bool IsJumpEnable
+        public bool IsJumpEnabled
         {
-            get => _isJumpEnable;
-            set => _isJumpEnable = value;
+            get => _isJumpEnabled;
+            set => _isJumpEnabled = value;
+        }
+        public bool IsJumping
+        {
+            get => _isJumping;
+            protected set => _isJumping = value;
         }
         public float JumpForce
         {
             get => _jumpForce;
-            set => _jumpForce = value;
+            protected set => _jumpForce = value;
         }
         public bool IsInJumpPrepare
         {
@@ -117,18 +140,18 @@ namespace Asce.Game.Entities.Enemies
 
 
         #region - CONTROL PROPERTIES -
-        public Vector2 ControlMove
+        public Vector2 MoveDirection
         {
-            get => _controlMove;
-            set => _controlMove = value;
+            get => _moveDirection;
+            set => _moveDirection = value;
         }
 
-        public bool ControlRun
+        public bool RunState
         {
-            get => _controlRun;
-            set => _controlRun = value;
+            get => _runState;
+            set => _runState = value;
         }
-        public bool ControlJump
+        public bool JumpTrigger
         {
             get => _controlJump;
             set => _controlJump = value;
@@ -161,32 +184,44 @@ namespace Asce.Game.Entities.Enemies
         protected override void Update()
         {
             base.Update();
-            this.HandleMove(ControlMove.x);
+            this.HandleMove(MoveDirection.x);
             this.HandleJump(Time.deltaTime);
             this.HandleAttack(Time.deltaTime);
 
-            this.Move(ControlMove.x);
-            this.Jump(ControlJump);
+            this.UpdateMove(Time.deltaTime, MoveDirection.x);
+            this.UpdateJump();
         }
 
-
-        public void ControlMoving(Vector2 moveDiretion, bool isRunning = false)
+        public void Moving(Vector2 diretion)
         {
-            ControlMove = moveDiretion;
-            ControlRun = isRunning;
+            MoveDirection = diretion;
         }
-        public void ControlJumping(bool state)
+        public void Running(bool state)
         {
-            ControlJump = state;
+            RunState = state;
         }
-        public void ControlAttacking()
+        public void Jumping(bool state)
+        {
+            JumpTrigger = state;
+        }
+        public void Attacking()
         {
             if (!_attackCooldown.IsComplete) return;
             _attackTriggered = true;
         }
+        public void Looking(bool isLooking, Vector2 targetPosition = default)
+        {
+            IsLooking = isLooking;
+            if (IsLooking) 
+            { 
+                TargetPosition = targetPosition;
+                float direction = (TargetPosition - (Vector2)Owner.transform.position).x;
+                Owner.Status.FacingDirection = EnumUtils.GetFacingByDirection(direction);
+            }
+        }
 
 
-        protected virtual void Move(float direction)
+        protected virtual void UpdateMove(float deltaTime, float direction)
         {
             float currentSpeed = Owner.PhysicController.CurrentSpeed;
             float currentAcceleration = Owner.PhysicController.CurrentAcceleration;
@@ -200,39 +235,39 @@ namespace Asce.Game.Entities.Enemies
                 bool shouldMove = true;
                 if (direction > 0 && currentVelocityX > currentSpeed)
                 {
-                    currentVelocityX = Mathf.MoveTowards(currentVelocityX, currentSpeed, currentDragAcceleration * Time.deltaTime);
+                    currentVelocityX = Mathf.MoveTowards(currentVelocityX, currentSpeed, currentDragAcceleration * deltaTime);
                     shouldMove = false;
                 }
                 if (direction < 0 && currentVelocityX < -currentSpeed)
                 {
-                    currentVelocityX = Mathf.MoveTowards(currentVelocityX, currentSpeed, currentDragAcceleration * Time.deltaTime);
+                    currentVelocityX = Mathf.MoveTowards(currentVelocityX, currentSpeed, currentDragAcceleration * deltaTime);
                     shouldMove = false;
                 }
 
                 // Otherwise, add movement acceleration to cureent velocity
                 if (shouldMove)
                 {
-                    currentVelocityX += currentAcceleration * Time.deltaTime * direction;
+                    currentVelocityX += currentAcceleration * deltaTime * direction;
                     currentVelocityX = Mathf.Clamp(currentVelocityX, -currentSpeed, currentSpeed);
                 }
             }
             // No horizontal movement input, brake to speed zero
             else
             {
-                currentVelocityX = Mathf.MoveTowards(currentVelocityX, 0.0f, currentDragAcceleration * Time.deltaTime);
+                currentVelocityX = Mathf.MoveTowards(currentVelocityX, 0.0f, currentDragAcceleration * deltaTime);
             }
 
             //set modified velocity back to rigidbody
             Owner.PhysicController.Rigidbody.linearVelocityX = currentVelocityX;
         }
 
-        protected virtual void Jump(bool isJumping)
+        protected virtual void UpdateJump()
         {
-            if (!IsJumpEnable) return; 
+            if (!IsJumpEnabled) return; 
 
             float currentVelocityY = Owner.PhysicController.Rigidbody.linearVelocityY;
 
-            IsInJumpPrepare = isJumping && Owner.PhysicController.IsGrounded && isJumping && _jumpCooldown.IsComplete;
+            IsInJumpPrepare = JumpTrigger && Owner.PhysicController.IsGrounded && _jumpCooldown.IsComplete;
             if (IsInJumpPrepare)
             {
                 _jumpDelayCooldown.Update(Time.deltaTime);
@@ -243,13 +278,14 @@ namespace Asce.Game.Entities.Enemies
 
                     Owner.PhysicController.IsGrounded = false;
                     currentVelocityY += _jumpForce;
+                    IsJumping = true;
                 }
             }
             else _jumpDelayCooldown.Reset();
 
             if (currentVelocityY > 0)
             {
-                float multiplier = isJumping ? _jumpGravityMutiplier : _fallGravityMutiplier;
+                float multiplier = JumpTrigger ? _jumpGravityMutiplier : _fallGravityMutiplier;
                 currentVelocityY += Physics.gravity.y * (multiplier - 1.0f) * Time.deltaTime;
             }
 
@@ -270,24 +306,23 @@ namespace Asce.Game.Entities.Enemies
         protected override void UpdateFacing()
         {
             base.UpdateFacing();
-            if (Mathf.Abs(ControlMove.x) > Constants.MOVE_THRESHOLD)
+            if (Mathf.Abs(MoveDirection.x) > Constants.MOVE_THRESHOLD)
             {
-                Owner.Status.FacingDirectionValue = Mathf.RoundToInt(Mathf.Sign(ControlMove.x));
+                Owner.Status.FacingDirectionValue = Mathf.RoundToInt(Mathf.Sign(MoveDirection.x));
                 return;
             }
-
         }
 
         protected virtual void HandleMove(float direction)
         {
-            if (!IsMoveEnable)
+            if (!IsMoveEnabled)
             {
                 IsRunning = false;
                 IsMoving = false;
                 return;
             }
 
-            IsRunning = _controlRun;
+            IsRunning = RunState;
 
             if (Owner.Status.IsDead) direction = 0.0f;
             if (!CanAttackWhenMoving && (IsAttacking || _attackTriggered)) direction = 0.0f;
@@ -298,7 +333,11 @@ namespace Asce.Game.Entities.Enemies
 
         protected virtual void HandleJump(float deltaTime)
         {
-            if (!Owner.PhysicController.IsGrounded) return;
+            if (!Owner.PhysicController.IsGrounded)
+            {
+                IsJumping = false;
+                return;
+            }
             _jumpCooldown.Update(deltaTime);
         }
 
@@ -310,7 +349,6 @@ namespace Asce.Game.Entities.Enemies
             {
                 IsAttacking = false;
             }
-
 
             if (_attackTriggered)
             {
