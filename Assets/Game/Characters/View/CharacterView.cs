@@ -244,7 +244,6 @@ namespace Asce.Game.Entities
         protected override void Awake()
         {
             base.Awake();
-            this.ResetRendererList();
         }
 
         protected override void Start()

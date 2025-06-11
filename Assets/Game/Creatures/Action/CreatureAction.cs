@@ -45,7 +45,7 @@ namespace Asce.Game.Entities
             this.UpdateFacing();
         }
 
-        public virtual void PhysicUpdate(float deltaTime)
+        public virtual void HandlePhysic(float deltaTime)
         {
 
         }

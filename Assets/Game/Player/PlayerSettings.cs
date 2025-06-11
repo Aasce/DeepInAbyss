@@ -10,7 +10,7 @@ namespace Asce.Game.Players
 
         [SerializeField] private LayerMask _mouseLayerMask = default;
 
-        [Header("Control Character")]
+        [Header("Control Creature")]
         [SerializeField] private KeyCode _runKey = KeyCode.LeftShift;
         [SerializeField] private KeyCode _dashKey = KeyCode.LeftControl;
 
@@ -96,7 +96,6 @@ namespace Asce.Game.Players
         }
 
         public List<KeyCode> UseToolKeys => _useToolKeys;
-
         public List<KeyCode> UseItemKeys => _useItemKeys;
     }
 }

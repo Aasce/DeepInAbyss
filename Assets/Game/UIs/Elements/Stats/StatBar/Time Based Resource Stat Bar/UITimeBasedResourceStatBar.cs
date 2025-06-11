@@ -10,7 +10,7 @@ namespace Asce.Game.UIs.Stats
     public class UITimeBasedResourceStatBar : UIResourceStatBar, IUIStatBar<TimeBasedResourceStat>, IUIStatBarHasText, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] protected TextMeshProUGUI _changedValueTextMesh;
-
+        [SerializeField] protected bool _isShowChangedValueOnHover = true;
 
         public new event Action<object, StatTargetChangedEventArgs<TimeBasedResourceStat>> OnStatTargetChanged;
         
@@ -26,6 +26,12 @@ namespace Asce.Game.UIs.Stats
             }
         }
         public TextMeshProUGUI ChangedValueTextMesh => _changedValueTextMesh;
+
+        public bool IsShowChangedValueOnHover
+        {
+            get => _isShowChangedValueOnHover;
+            set => _isShowChangedValueOnHover = value;
+        }
 
 
         protected override void Start()
@@ -80,12 +86,14 @@ namespace Asce.Game.UIs.Stats
         public override void OnPointerEnter(PointerEventData eventData)
         {
             base.OnPointerEnter(eventData);
+            if (!IsShowChangedValueOnHover) return;
             if (ChangedValueTextMesh != null) ChangedValueTextMesh.gameObject.SetActive(true);
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
             base.OnPointerExit(eventData);
+            if (!IsShowChangedValueOnHover) return;
             if (ChangedValueTextMesh != null) ChangedValueTextMesh.gameObject.SetActive(false);
         }
 

@@ -10,58 +10,61 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1af549fe39c0044d89a3ab5675ea359, type: 3}
-  m_Name: Stat Icon Data
+  m_Name: Stat Data
   m_EditorClassIdentifier: 
-  _data:
+  _icons:
   - _name: Health
     _type: 1
     _icon: {fileID: -1131055115, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.14901961, g: 0.73333335, b: 0.21176472, a: 1}
+    _color: {r: 0.14509805, g: 0.73333335, b: 0.20784315, a: 1}
   - _name: HealthScale
     _type: 2
     _icon: {fileID: 689755745, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.25433248, g: 0.9169811, b: 0.44669014, a: 1}
+    _color: {r: 0.37647063, g: 0.9960785, b: 0.4039216, a: 1}
   - _name: Stamina
     _type: 5
     _icon: {fileID: 2074547149, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.86808926, g: 0.8792453, b: 0.21732287, a: 1}
+    _color: {r: 0.80392164, g: 0.81568635, b: 0.1137255, a: 1}
   - _name: Strength
     _type: 10
     _icon: {fileID: -1254934089, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 1, g: 0.37025458, b: 0.23921567, a: 1}
+    _color: {r: 0.83396226, g: 0.30122152, b: 0.011014553, a: 1}
   - _name: Armor
     _type: 11
     _icon: {fileID: 690390555, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 1, g: 0.7903813, b: 0.21568626, a: 1}
+    _color: {r: 0.8506389, g: 0.86415094, b: 0, a: 1}
   - _name: Resistance
     _type: 12
     _icon: {fileID: -270413866, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.20943397, g: 0.7879269, b: 1, a: 1}
+    _color: {r: 0.4660377, g: 1, b: 0.9792508, a: 1}
   - _name: Shield
     _type: 13
     _icon: {fileID: -904974710, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.9712257, g: 1, b: 0.6924528, a: 1}
+    _color: {r: 1, g: 0.9926895, b: 0.79811317, a: 1}
   - _name: Hunger
     _type: 20
     _icon: {fileID: -41792095, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.78823537, g: 0.46274513, b: 0.1137255, a: 1}
+    _color: {r: 0.78823537, g: 0.46274513, b: 0.10980393, a: 1}
   - _name: Thirst
     _type: 21
     _icon: {fileID: 952855899, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.2392157, g: 0.454902, b: 0.85098046, a: 1}
+    _color: {r: 0.23529413, g: 0.454902, b: 0.85098046, a: 1}
   - _name: Breath
     _type: 22
     _icon: {fileID: 516466931, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.59607846, g: 0.2627451, b: 0.81568635, a: 1}
+    _color: {r: 0.59607846, g: 0.25882354, b: 0.81568635, a: 1}
   - _name: Speed
     _type: 30
     _icon: {fileID: 1156283235, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.60784316, g: 1, b: 0.87001544, a: 1}
+    _color: {r: 0.2703808, g: 0.7292244, b: 0.9245283, a: 1}
   - _name: JumpForce
     _type: 31
     _icon: {fileID: -1661630731, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.60784316, g: 1, b: 0.92549026, a: 1}
+    _color: {r: 0.27058825, g: 0.9254902, b: 0.6333697, a: 1}
   - _name: ViewRadius
     _type: 32
     _icon: {fileID: -1499890854, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
-    _color: {r: 0.60784316, g: 0.9861633, b: 1, a: 1}
+    _color: {r: 0.27058825, g: 0.9254902, b: 0.805787, a: 1}
+  _healthBarCharacterColor: {r: 0.15294118, g: 0.7686275, b: 0.21960786, a: 1}
+  _healthBarNPCColor: {r: 0.27735847, g: 0.56518567, b: 1, a: 1}
+  _healthBarEnemyColor: {r: 0.92549026, g: 0.19215688, b: 0.19215688, a: 1}

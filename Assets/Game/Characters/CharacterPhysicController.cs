@@ -126,7 +126,7 @@ namespace Asce.Game.Entities
         public Ladder Ladder
         {
             get => _ladder;
-            set => _ladder = value;
+            protected set => _ladder = value;
         }
 
         public bool HasReachedLadderTop
@@ -289,6 +289,11 @@ namespace Asce.Game.Entities
         public float CalculateLadderEnterHeight()
         {
             return LadderExitRaycastPosition.y - Ladder.TopPosition.y;
+        }
+
+        public void UnLadder()
+        {
+            this.Ladder = null;
         }
 
         public bool CheckSurfaceToClimbOn(out RaycastHit2D hit)

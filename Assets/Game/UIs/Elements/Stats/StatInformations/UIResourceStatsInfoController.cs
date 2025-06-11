@@ -11,7 +11,7 @@ namespace Asce.Game.UIs.Stats
         [SerializeField] protected UIHealthBarGroup _uiHealthGroup;
         [SerializeField] protected UITimeBasedResourceStatBarGroup _uiStaminaGroup;
                                                           
-        [Header("Sustenance Stats")]                      
+        [Header("Sustenance Data")]                      
         [SerializeField] protected UITimeBasedResourceStatBarGroup _uiHungerGroup;
         [SerializeField] protected UITimeBasedResourceStatBarGroup _uiThirstGroup;
         [SerializeField] protected UITimeBasedResourceStatBarGroup _uiBreathGroup;
@@ -35,12 +35,12 @@ namespace Asce.Game.UIs.Stats
 
         public virtual void SetStats(TimeBasedResourceStat health, ResourceStat shield, TimeBasedResourceStat stamina, TimeBasedResourceStat hunger, TimeBasedResourceStat thirst, TimeBasedResourceStat breath)
         {
-            _uiHealthGroup.StatBar.SetStat(health, shield);
-            _uiStaminaGroup.StatBar.SetStat(stamina);
+            _uiHealthGroup.SetStat(health, shield);
+            _uiStaminaGroup.SetStat(stamina);
 
-            _uiHungerGroup.StatBar.SetStat(hunger);
-            _uiThirstGroup.StatBar.SetStat(thirst);
-            _uiBreathGroup.StatBar.SetStat(breath);
+            _uiHungerGroup.SetStat(hunger);
+            _uiThirstGroup.SetStat(thirst);
+            _uiBreathGroup.SetStat(breath);
 
         }
 

@@ -28,6 +28,7 @@ namespace Asce.Game.Players
         [Space]
         [SerializeField] private bool _isControlUI = false;
 
+
         public Player Player
         {
             get => _player;

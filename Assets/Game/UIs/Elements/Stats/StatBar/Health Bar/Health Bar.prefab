@@ -92,6 +92,7 @@ MonoBehaviour:
   _slider: {fileID: 3123674073912541597}
   _textMesh: {fileID: 5074619601097560371}
   _changedValueTextMesh: {fileID: 8638939639614732625}
+  _isShowChangedValueOnHover: 1
   _shieldSlider: {fileID: 5845391319974129500}
 --- !u!1 &2661535845490504787
 GameObject:

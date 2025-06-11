@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies
 {
-    public class EnemyStats : CreatureStats, IHasOwner<Enemy>, IStatsController<SO_EnemyBaseStats>
+    public class EnemyStats : CreatureStats, IHasOwner<Enemy>, IStatsController<SO_EnemyBaseStats>, IHasJumpForce
     {
         [SerializeField] protected JumpForceStat _jumpForce = new();
 

@@ -11,7 +11,7 @@ namespace Asce.Game.Entities
         [SerializeField, HideInInspector] protected Animator _animator;
         [SerializeField, HideInInspector] protected EntityRootMotionReceiver _rootMotionReceiver;
 
-        protected readonly List<Renderer> _renderers = new();
+        protected List<Renderer> _renderers = new();
         protected MaterialPropertyBlock _mpbAlpha;
 
         [Space]
@@ -33,7 +33,7 @@ namespace Asce.Game.Entities
         public virtual Vector2 RootMotionVelocity => _rootMotionReceiver.RootMotionVelocity;
         
         protected virtual List<Renderer> Renderers => _renderers;
-        protected virtual MaterialPropertyBlock MPBAlpha => _mpbAlpha ??= new MaterialPropertyBlock();
+        protected virtual MaterialPropertyBlock MPBAlpha => _mpbAlpha != null ? _mpbAlpha : _mpbAlpha = new MaterialPropertyBlock();
 
 
         public virtual float Alpha
@@ -43,14 +43,32 @@ namespace Asce.Game.Entities
             {
                 _alpha = Mathf.Clamp01(value);
 
-                MPBAlpha.SetFloat("_Alpha", _alpha);
+                if (Renderers.Count <= 0) return;
+
+                MPBAlpha.Clear();
+                bool supportsAlpha = false;
+
+                Material material = Renderers[0].sharedMaterial;
+                if (material != null && material.HasProperty("_Alpha"))
+                {
+                    MPBAlpha.SetFloat("_Alpha", _alpha);
+                    supportsAlpha = true;
+                }
+
                 foreach (Renderer renderer in Renderers)
                 {
                     if (renderer == null) continue;
-                    renderer.SetPropertyBlock(MPBAlpha);
+
+                    if (supportsAlpha) renderer.SetPropertyBlock(MPBAlpha);
+                    else if (renderer is SpriteRenderer spriteRenderer)
+                    {
+                        Color color = spriteRenderer.color.WithAlpha(_alpha);
+                        spriteRenderer.color = color;
+                    }
                 }
             }
         }
+
 
         public virtual bool IsLookingAtTarget 
         { 
@@ -70,7 +88,7 @@ namespace Asce.Game.Entities
 
         protected virtual void Awake()
         {
-
+            this.ResetRendererList();
         }
 
         protected virtual void Start()

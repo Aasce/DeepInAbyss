@@ -5,60 +5,70 @@ using UnityEngine;
 
 namespace Asce.Game.UIs.Stats 
 {
-    [CreateAssetMenu(menuName = "Asce/UIs/Stat Icon Data", fileName = "Stat Icon Data")]
+    [CreateAssetMenu(menuName = "Asce/UIs/Stat Data", fileName = "Stat Data")]
     public class SO_UIStatData : ScriptableObject
     {
-        [SerializeField] private List<StatDataContainer> _data = new()
+        [SerializeField] private List<StatIconContainer> _icons = new()
         {
-            new StatDataContainer(StatType.Health),
-            new StatDataContainer(StatType.HealthScale),
+            new StatIconContainer(StatType.Health),
+            new StatIconContainer(StatType.HealthScale),
 
-            new StatDataContainer(StatType.Stamina),
-            new StatDataContainer(StatType.Strength),
-            new StatDataContainer(StatType.Armor),
-            new StatDataContainer(StatType.Resistance),
-            new StatDataContainer(StatType.Shield),
+            new StatIconContainer(StatType.Stamina),
+            new StatIconContainer(StatType.Strength),
+            new StatIconContainer(StatType.Armor),
+            new StatIconContainer(StatType.Resistance),
+            new StatIconContainer(StatType.Shield),
 
-            new StatDataContainer(StatType.Hunger),
-            new StatDataContainer(StatType.Thirst),
-            new StatDataContainer(StatType.Breath),
+            new StatIconContainer(StatType.Hunger),
+            new StatIconContainer(StatType.Thirst),
+            new StatIconContainer(StatType.Breath),
 
-            new StatDataContainer(StatType.Speed),
-            new StatDataContainer(StatType.JumpForce),
-            new StatDataContainer(StatType.ViewRadius),
+            new StatIconContainer(StatType.Speed),
+            new StatIconContainer(StatType.JumpForce),
+            new StatIconContainer(StatType.ViewRadius),
         };
+        private Dictionary<StatType, StatIconContainer> _iconDictionary = null;
 
-        private Dictionary<StatType, StatDataContainer> _dataDictionary = null;
+        [Space]
+        [SerializeField] private Color _healthBarCharacterColor;
+        [SerializeField] private Color _healthBarNPCColor;
+        [SerializeField] private Color _healthBarEnemyColor;
 
-        public List<StatDataContainer> Data => _data;
-        public Dictionary<StatType, StatDataContainer> DataDictionary => _dataDictionary ?? this.CreateDictionary();
 
-        private Dictionary<StatType, StatDataContainer> CreateDictionary()
+        public List<StatIconContainer> Data => _icons;
+        public Dictionary<StatType, StatIconContainer> IconDictionary => _iconDictionary ?? this.CreateIconDictionary();
+
+        public Color HealthBarCharacterColor => _healthBarCharacterColor;
+        public Color HealthBarNPCColor => _healthBarNPCColor;
+        public Color HealthBarEnemyColor => _healthBarEnemyColor;
+
+
+        private Dictionary<StatType, StatIconContainer> CreateIconDictionary()
         {
-            if (_dataDictionary == null) _dataDictionary = new();
-            else _dataDictionary.Clear();
+            if (_iconDictionary == null) _iconDictionary = new();
+            else _iconDictionary.Clear();
 
-            foreach (StatDataContainer item in _data)
+            foreach (StatIconContainer item in _icons)
             {
-                if (_dataDictionary.ContainsKey(item.Type)) 
+                if (_iconDictionary.ContainsKey(item.Type)) 
                     continue;
                 
-                _dataDictionary[item.Type] = item;
+                _iconDictionary[item.Type] = item;
             }
 
-            return _dataDictionary;
+            return _iconDictionary;
         }
 
 
-        public StatDataContainer GetStat(StatType type)
+        public StatIconContainer GetStatIcon(StatType type)
         {
-            if (!DataDictionary.ContainsKey(type)) return null;
-            return DataDictionary[type];
+            if (!IconDictionary.ContainsKey(type)) return null;
+            return IconDictionary[type];
         }
     }
 
     [Serializable]
-    public class StatDataContainer
+    public class StatIconContainer
     {
         [SerializeField, HideInInspector] private string _name;
         [SerializeField] private StatType _type = StatType.None;
@@ -73,10 +83,10 @@ namespace Asce.Game.UIs.Stats
         public Color Color => _color;
 
 
-        public StatDataContainer(StatType type = StatType.None) : this (type, null, Color.white) { }
-        public StatDataContainer(StatType type, Sprite icon) : this (type, icon, Color.white) { }
-        public StatDataContainer(StatType type, Color color) : this (type, null, color) { }
-        public StatDataContainer(StatType type, Sprite icon, Color color) 
+        public StatIconContainer(StatType type = StatType.None) : this (type, null, Color.white) { }
+        public StatIconContainer(StatType type, Sprite icon) : this (type, icon, Color.white) { }
+        public StatIconContainer(StatType type, Color color) : this (type, null, color) { }
+        public StatIconContainer(StatType type, Sprite icon, Color color) 
         {
             _name = type.ToString();
             _type = type;

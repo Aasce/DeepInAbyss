@@ -11,7 +11,7 @@ namespace Asce.Game.Stats
     ///     Represents a stat value that can be modified over time by external agents.
     /// </summary>
     [Serializable]
-    public abstract class BaseStat<T> where T : StatAgent, new()
+    public abstract class BaseStat<T> where T : StatAgent
     {
         [SerializeField] protected StatType _statType = StatType.None;
         [SerializeField] protected float _value;
@@ -157,6 +157,11 @@ namespace Asce.Game.Stats
         {
             if (StatUtils.RemoveAllAgents(_agents, author, reason))
                 this.UpdateValue();
+        }
+
+        public virtual T FindAgents(GameObject author, string reason = null)
+        {
+            return StatUtils.FindAgent(_agents, author, reason);
         }
 
         /// <summary>

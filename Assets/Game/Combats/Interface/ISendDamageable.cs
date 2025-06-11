@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Asce.Game.Combats
 {
-    public interface ISendDamageable : IEntity, IHasCombatStats
+    public interface ISendDamageable : IGameObject, IHasCombatStats
     {
         public void BeforeSendDamage(DamageContainer container);
         public void AfterSendDamage(DamageContainer container);

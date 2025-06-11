@@ -90,6 +90,20 @@ namespace Asce.Game.Stats
             return count > 0;
         }
 
+        public static T FindAgent<T>(List<T> agent,  GameObject author, string reason = null) where T : StatAgent
+        {
+            if (agent == null || agent.Count == 0) return null;
+            return agent.Find((agent) =>
+            {
+                if (agent == null) return false; 
+                if (agent.Author != author) return false; // Not the agent to find because the author doesn't match
+                if (string.IsNullOrEmpty(reason)) return true; // If no specific reason is given and matching author
+                if (agent.Reason.Equals(reason)) return true; // Reason matches
+                return false; // Otherwise, not this agent
+            });
+        }
+
+
         /// <summary>
         ///     Removes all agents affecting the <paramref name="agents"/>.
         /// </summary>

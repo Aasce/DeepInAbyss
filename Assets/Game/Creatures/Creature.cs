@@ -3,13 +3,14 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public abstract class Creature : Entity, IHasView<CreatureView>, IHasAction<CreatureAction>, IHasStats<CreatureStats, SO_CreatureBaseStats>
+    public abstract class Creature : Entity, ICreature, IHasView<CreatureView>, IHasAction<CreatureAction>, IHasStats<CreatureStats, SO_CreatureBaseStats>, IHasUI<CreatureUI>
     {
         [SerializeField, HideInInspector] private CreaturePhysicController _physicController;
         [SerializeField, HideInInspector] private CreatureView _view;
         [SerializeField, HideInInspector] private CreatureAction _action;
         [SerializeField, HideInInspector] private CreatureStats _stats;
-
+        [SerializeField, HideInInspector] private CreatureUI _ui;
+        private bool _isControled = false;
 
         public CreaturePhysicController PhysicController
         {
@@ -35,6 +36,18 @@ namespace Asce.Game.Entities
             set => _stats = value;
         }
 
+        public CreatureUI UI
+        {
+            get => _ui;
+            set => _ui = value;
+        }
+
+        public bool IsControled
+        {
+            get => _isControled;
+            set => _isControled = value;
+        }
+
         protected virtual void Reset()
         {
             if (transform.LoadComponent(out _physicController))
@@ -53,6 +66,10 @@ namespace Asce.Game.Entities
             {
                 Stats.Owner = this;
             }
+            if (transform.LoadComponent(out _ui))
+            {
+                UI.Owner = this;
+            }
         }
 
         protected override void Awake()
@@ -63,6 +80,12 @@ namespace Asce.Game.Entities
         protected override void OnEnable()
         {
             base.OnEnable();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+
         }
     }
 }

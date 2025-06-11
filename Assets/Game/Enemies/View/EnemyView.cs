@@ -12,6 +12,9 @@ namespace Asce.Game.Entities.Enemies
         [SerializeField] private GameObject _fx;
         [SerializeField] private GameObject _dieFxPrefab;
 
+        [Space]
+        [SerializeField] protected Renderer _renderer;
+
         public new Enemy Owner
         {
             get => base.Owner as Enemy;
@@ -67,7 +70,11 @@ namespace Asce.Game.Entities.Enemies
             MoveBlend = Mathf.MoveTowards(MoveBlend, targetMoveBlend, Time.deltaTime * _movingBlendTransitionSpeed);
         }
 
-
+        protected override void ResetRendererList()
+        {
+            base.ResetRendererList();
+            if (_renderer != null) Renderers.Add(_renderer);
+        }
         protected override void Status_OnDeath(object sender)
         {
             base.Status_OnDeath(sender);

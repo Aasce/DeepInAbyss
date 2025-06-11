@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public interface ILookable : IEntity
+    public interface ILookable : ICreatureAction
     {
         public bool IsLooking { get; }
         public Vector2 TargetPosition { get; }

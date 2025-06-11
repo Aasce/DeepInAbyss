@@ -12,6 +12,8 @@ namespace Asce.Game.Entities.Enemies.Category
         protected override void Update()
         {
             base.Update();
+            if (IsControled) return;
+
             _targetColliders = Physics2D.OverlapCircleAll(transform.position, Stats.ViewRadius.Value, _targetLayerMask);
 
             _target = null;

@@ -26,31 +26,26 @@ namespace Asce.Game.UIs.Stats
         protected float ShieldValue => ShieldStat == null ? 0f : ShieldStat.CurrentValue;
         public override float TotalResource => base.TotalResource + ShieldValue;
 
-        public override void SetStat(TimeBasedResourceStat healthStat) => this.SetStat(healthStat, null);
         public void SetStat(TimeBasedResourceStat healthStat, ResourceStat shieldStat)
         {
-            this.Unregister();
+            base.SetStat(healthStat);
+            this.SetShield(shieldStat);
+        }
 
-            base.Stat = healthStat;
+        public virtual void SetShield(ResourceStat shieldStat)
+        {
+            this.UnregisterShield();
             ShieldStat = shieldStat;
-
-            this.Register();
+            this.RegisterShield();
         }
 
-        protected override void Register()
+        protected virtual void RegisterShield()
         {
-            base.Register();
-
-            if (Stat != null && ShieldStat != null) 
-                ShieldStat.OnCurrentValueChanged += ShieldStat_OnCurrentValueChanged;
+            if (Stat != null && ShieldStat != null) ShieldStat.OnCurrentValueChanged += ShieldStat_OnCurrentValueChanged;
         }
-
-        protected override void Unregister()
+        protected virtual void UnregisterShield()
         {
-            base.Unregister();
-
-            if (ShieldStat != null)
-                ShieldStat.OnCurrentValueChanged -= ShieldStat_OnCurrentValueChanged;
+            if (ShieldStat != null) ShieldStat.OnCurrentValueChanged -= ShieldStat_OnCurrentValueChanged;
         }
 
         protected override void Stat_OnCurrentValueChanged(object sender, ValueChangedEventArgs args)

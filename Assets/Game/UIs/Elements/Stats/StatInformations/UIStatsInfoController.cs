@@ -9,6 +9,11 @@ namespace Asce.Game.UIs.Stats
     {
         [SerializeField] protected Pool<UIStatInfo> _uiPool = new();
 
+        public virtual void ClearStats()
+        {
+            _uiPool.Clear(true);
+        }
+
         public virtual void AddStat(Stat stat)
         {
             if (stat == null) return;
@@ -18,9 +23,11 @@ namespace Asce.Game.UIs.Stats
 
             UIStatInfo newUIStat = _uiPool.Activate();
 
-            StatDataContainer container = UIIconManager.Instance.Stats.GetStat(stat.StatType);
+            StatIconContainer container = UIStatManager.Instance.Data.GetStatIcon(stat.StatType);
             if (container == null) return;
 
+            newUIStat.name = container.Type.ToString();
+            newUIStat.transform.SetAsLastSibling();
             Sprite statIcon = container.Icon;
             Color statColor = container.Color;
 

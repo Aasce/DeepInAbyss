@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public interface IFlyable : IEntity
+    public interface IFlyable : ICreatureAction
     {
 
     }

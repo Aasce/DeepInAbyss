@@ -271,7 +271,8 @@ namespace Asce.Game.Entities
         }
         protected virtual void Start()
         {
-
+            Owner.Status.OnDeath += Status_OnDeath;
+            Owner.Status.OnRevive += Status_OnRevive;
         }
 
         protected virtual void Update()
@@ -286,7 +287,7 @@ namespace Asce.Game.Entities
             currentGravityScale = _gravityScale;
 
             this.PhysicUpdate(Time.fixedDeltaTime);
-            Owner.Action.PhysicUpdate(Time.fixedDeltaTime);
+            Owner.Action.HandlePhysic(Time.fixedDeltaTime);
 
             Rigidbody.gravityScale = currentGravityScale;
             Rigidbody.linearVelocity = currentVelocity + Vector2.up * GroundLiftSpeed;
@@ -309,6 +310,8 @@ namespace Asce.Game.Entities
         /// </summary>
         protected virtual void HandleGround()
         {
+            if (Owner.Status.IsDead) return;
+
             //get raycast results
             RaycastHit2D leftRaycastHit = gameObject.Raycast(GroundRaycastFrontPosition, Vector2.down, GroundRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
             RaycastHit2D midRaycastHit = gameObject.Raycast(GroundRaycastMidPosition, Vector2.down, GroundRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
@@ -565,6 +568,18 @@ namespace Asce.Game.Entities
 
         #endregion
 
+        #region - EVENT REGISTER -
+
+        protected virtual void Status_OnDeath(object sender)
+        {
+
+        }
+        protected virtual void Status_OnRevive(object sender)
+        {
+
+        }
+
+        #endregion
 
         public virtual void TriggerUpdateCollider() => IsUpdateCollider = true;
         

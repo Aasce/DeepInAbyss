@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    [CreateAssetMenu(menuName = "Asce/Entities/Creature Base Stats", fileName = "Creature Base Stats")]
+    [CreateAssetMenu(menuName = "Asce/Entities/Creature Base Data", fileName = "Creature Base Data")]
     public class SO_CreatureBaseStats : ScriptableObject, IBaseStatsData
     {
         [Header("Survival")]

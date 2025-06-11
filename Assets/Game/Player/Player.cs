@@ -1,13 +1,12 @@
-﻿using Asce.Game.Combats;
-using Asce.Game.Entities;
-using Asce.Game.FloatingTexts;
+﻿using Asce.Game.Entities;
+using Asce.Managers;
 using Asce.Managers.Utils;
 using System;
 using UnityEngine;
 
 namespace Asce.Game.Players
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviourSingleton<Player>
     {
         [SerializeField, HideInInspector] private CameraController _cameraController;
         [SerializeField, HideInInspector] private PlayerSettings _settings;
@@ -15,19 +14,17 @@ namespace Asce.Game.Players
         [SerializeField, HideInInspector] private PlayerUI _ui;
 
         [Space]
-        [SerializeField] private Character _character;
+        [SerializeField] private Character _mainCharacter;
+        [SerializeField] private ICreature _controlledCreature;
 
-        [Space]
-        [SerializeField] private DamageContainer _container;
-
-        public event Action<object, Character> OnCharacterChanged;
+        public event Action<object, ValueChangedEventArgs<ICreature>> OnControlledCreatureChanged;
 
         public CameraController CameraController => _cameraController;
         public PlayerSettings Settings => _settings;
         public PlayerInput Input => _input;
         public PlayerUI UI => _ui;
 
-        public Character Character => _character;
+        public ICreature ControlledCreature => _controlledCreature;
 
         private void Reset()
         {
@@ -39,9 +36,12 @@ namespace Asce.Game.Players
 
         private void Start()
         {
+            if (_mainCharacter != null) this.SetControlledCreature(_mainCharacter);
+            
             if (CameraController == null) return;
-            if (Character == null) return;
-            CameraController.Target = Character.transform;
+            if (ControlledCreature == null) return;
+
+            CameraController.Target = ControlledCreature.gameObject.transform;
         }
 
         private void Update()
@@ -59,19 +59,19 @@ namespace Asce.Game.Players
 
         private void ControlCharacter()
         {
-            if (Character == null) return;
+            if (ControlledCreature == null) return;
 
-            Character.Action.Looking(Input.LookInput, Input.MousePosition);
+            if (ControlledCreature.Action is ILookable lookable) lookable.Looking(Input.LookInput, Input.MousePosition);
 
-            Character.Action.Moving(Input.MoveInput);
-            Character.Action.Running(Input.RunInput);
+            if (ControlledCreature.Action is IMovable movable) movable.Moving(Input.MoveInput);
+            if (ControlledCreature.Action is IRunnable runnable) runnable.Running(Input.RunInput);
 
-            if (Input.DashInput) Character.Action.Dashing();
-            if (Input.DodgeInput) Character.Action.Dodging();
+            if (Input.DashInput) if (ControlledCreature.Action is IDashable dashable) dashable.Dashing();
+            if (Input.DodgeInput) if (ControlledCreature.Action is IDodgeable dodgeable) dodgeable.Dodging();
 
-            Character.Action.Jumping(Input.JumpInput);
-            if (Input.CrouchInput) Character.Action.Crouching();
-            if (Input.CrawlInput) Character.Action.Crawling();
+            if (ControlledCreature.Action is IJumpable jumpable) jumpable.Jumping(Input.JumpInput);
+            if (Input.CrouchInput) if (ControlledCreature.Action is ICrouchable crouchable) crouchable.Crouching();
+            if (Input.CrawlInput) if (ControlledCreature.Action is ICrawlable crawlable) crawlable.Crawling();
         }
 
         private void ControlUI()
@@ -79,22 +79,27 @@ namespace Asce.Game.Players
 
         }
 
-        public void SetCharacter(Character character)
+        public void SetControlledCreature(ICreature creature)
         {
-            if (character == null) return;
+            if (creature == null) return;
+            ICreature oldControlledCreature = ControlledCreature;
+            _controlledCreature = creature;
 
-            _character = character;
-            OnCharacterChanged?.Invoke(this, Character);
+            oldControlledCreature.UncontrolledByPlayer();
+            ControlledCreature.ControlledByPlayer();
+
+            CameraController.Target = ControlledCreature.gameObject.transform;
+            OnControlledCreatureChanged?.Invoke(this, new ValueChangedEventArgs<ICreature>(oldControlledCreature, ControlledCreature));
         }
 
         private void ResetControlCharacter()
         {
-            if (Character == null) return;
-            Character.Action.Looking(false, Character.transform.position);
-
-            Character.Action.Moving(Vector2.zero);
-            Character.Action.Running(false);
-            Character.Action.Jumping(false);
+            if (ControlledCreature == null) return;
+            
+            if (ControlledCreature.Action is ILookable lookable) lookable.Looking(false, ControlledCreature.gameObject.transform.position);
+            if (ControlledCreature.Action is IMovable movable) movable.Moving(Vector2.zero);
+            if (ControlledCreature.Action is IRunnable runnable) runnable.Running(false);
+            if (ControlledCreature.Action is IJumpable jumpable) jumpable.Jumping(false);
         }
     }
 }

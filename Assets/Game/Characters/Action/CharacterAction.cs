@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CharacterAction : CreatureAction, IHasOwner<Character>, ILookable, IMovable, IRunnable, IJumpable, ICrouchable, ICrawlable, ILadderClimbable, IDodgeable
+    public class CharacterAction : CreatureAction, IHasOwner<Character>, ILookable, IMovable, IRunnable, IJumpable, ICrouchable, ICrawlable, ILadderClimbable, IDashable, IDodgeable
     {
         #region - FIELDS -
         [Header("Look")]
@@ -28,35 +28,35 @@ namespace Asce.Game.Entities
 
         [Header("Speed")]
         [Tooltip("Speed of the character")]
-        [SerializeField] protected float _baseSpeed = 5.0f;
+        [SerializeField] protected float _baseSpeed = 5f;
 
         [Space]
         [Tooltip("Speed scale when character walking")]
         [SerializeField] protected float _walkSpeedScale = 1f;
 
         [Tooltip("Acceleration when character walking")]
-        [SerializeField] protected float _walkAcceleration = 10.0f;
+        [SerializeField] protected float _walkAcceleration = 10f;
 
         [Space]
         [Tooltip("Speed scale when character running")]
         [SerializeField] protected float _runSpeedScale = 1.5f;
 
         [Tooltip("Acceleration when character running")]
-        [SerializeField] protected float _runAcceleration = 15.0f;
+        [SerializeField] protected float _runAcceleration = 15f;
 
         [Space]
         [Tooltip("Speed scale when character crouching")]
         [SerializeField] protected float _crouchSpeedScale = 0.5f;
 
         [Tooltip("Acceleration when character crouching")]
-        [SerializeField] protected float _crouchAcceleration = 8.0f;
+        [SerializeField] protected float _crouchAcceleration = 8f;
 
         [Space]
         [Tooltip("Speed scale when character crawling")]
         [SerializeField] protected float _crawlSpeedScale = 0.4f;
 
         [Tooltip("Acceleration when character crawling")]
-        [SerializeField] protected float _crawlAcceleration = 8.0f;
+        [SerializeField] protected float _crawlAcceleration = 8f;
 
         [Space]
         [Tooltip("Start Speed when character dashing")]
@@ -66,11 +66,11 @@ namespace Asce.Game.Entities
         [SerializeField] protected float _dashSpeedScale = 2f;
 
         [Tooltip("Acceleration when character dashing")]
-        [SerializeField] protected float _dashAcceleration = 20.0f;
+        [SerializeField] protected float _dashAcceleration = 20f;
 
         [Space]
         [Tooltip("Speed scale when character climbing Ladder")]
-        [SerializeField] protected float _climbSpeedScale = 1.0f;
+        [SerializeField] protected float _climbSpeedScale = 1f;
 
         [Tooltip("Speed scale when character climbing Ladder and runing")]
         [SerializeField] protected float _climbFastSpeedScale = 1.5f;
@@ -81,8 +81,8 @@ namespace Asce.Game.Entities
         [SerializeField] protected bool _isDashing;
 
         [Space]
-        [SerializeField] protected Cooldown _dashingTime = new(1.0f);
-        [SerializeField] protected Cooldown _dashCooldown = new(1.0f);
+        [SerializeField] protected Cooldown _dashingTime = new(1f);
+        [SerializeField] protected Cooldown _dashCooldown = new(1f);
 
         [Header("Crounch and UpdateCrawl")]
         [SerializeField] protected bool _isCrouching;
@@ -96,8 +96,8 @@ namespace Asce.Game.Entities
         [SerializeField] protected bool _isJumping;
 
         [Tooltip("Vertical force applied to character when jump")]
-        [SerializeField] protected float _jumpForce = 5.0f;
-        
+        [SerializeField] protected float _jumpForce = 5f;
+
         [Tooltip("When the character's air time is less than this value, it is still able to jump")]
         [SerializeField] protected float _jumpTolerance = 0.15f;
 
@@ -107,7 +107,7 @@ namespace Asce.Game.Entities
 
         [Tooltip("Gravity multiplier when character is falling, should be equal or greater than 1.0")]
         [SerializeField] protected float _fallGravityMutiplier = 1.3f;
-        [SerializeField] protected Cooldown _jumpCooldown = new (0.2f);
+        [SerializeField] protected Cooldown _jumpCooldown = new(0.2f);
 
         protected Vector2 _startJumpVelocity;
 
@@ -115,7 +115,7 @@ namespace Asce.Game.Entities
         [Header("Climb")]
         [SerializeField] protected bool _climbEnabled = true;
         protected float _climbingSpeedMultiply;
-        
+
         // Lerp speed when moving the character to the climb position
         protected readonly float _climbPositionLerpSpeed = 7.5f;
 
@@ -130,7 +130,7 @@ namespace Asce.Game.Entities
         protected float _ladderExitPositionZ; // origin position z of the character, used for resetting the position z after exiting the ladder
 
 
-        [Header("UpdateDodge")]
+        [Header("Dodge")]
         [SerializeField] protected bool _isDdodgeEnabled = true;
 
         [Tooltip("Is the character dodging")]
@@ -158,20 +158,39 @@ namespace Asce.Game.Entities
         [SerializeField] protected Vector2 _moveDirection = Vector2.zero;
         [SerializeField] protected bool _runState = false;
         [SerializeField] protected bool _dashTrigger = false;
-        [SerializeField] protected bool _controlDodge = false;
         [SerializeField] protected bool _crouchState = false;
         [SerializeField] protected bool _crawlState = false;
-        [SerializeField] protected bool _controlJump = false;
-        // [SerializeField] private bool inputAttack = false;                 
+        [SerializeField] protected bool _jumpTrigger = false;
+        [SerializeField] protected bool _dodgeTrigger = false;
+        // [SerializeField] private bool inputAttack = false;
         // [SerializeField] private bool inputMelee = false;
         #endregion
 
         #endregion
 
         #region - EVENTS -
+
+        public event Action<object> OnMoveStart;
+        public event Action<object> OnMoveEnd;
+
+        public event Action<object> OnRunStart;
+        public event Action<object> OnRunEnd;
+
+        public event Action<object> OnDash;
+
+        public event Action<object> OnCrouchStart;
+        public event Action<object> OnCrouchEnd;
+
+        public event Action<object> OnCrawlStart;
+        public event Action<object> OnCrawlEnd;
+
         public event Action<object> OnJump;
+
         public event Action<object> OnDodgeStart;
         public event Action<object> OnDodgeEnd;
+
+        public event Action<object> OnClimbStart;
+        public event Action<object> OnClimbEnd;
 
         #endregion
 
@@ -206,13 +225,27 @@ namespace Asce.Game.Entities
         public bool IsMoving
         {
             get => _isMoving;
-            protected set => _isMoving = value;
+            protected set
+            {
+                if (_isMoving == value) return;
+                _isMoving = value;
+
+                if (_isMoving) OnMoveStart?.Invoke(this);
+                else OnMoveEnd?.Invoke(this);
+            }
         }
 
         public bool IsRunning
         {
             get => _isRunning;
-            protected set => _isRunning = value;
+            protected set
+            {
+                if (_isRunning == value) return;
+                _isRunning = value;
+
+                if (_isRunning) OnRunStart?.Invoke(this);
+                else OnRunEnd?.Invoke(this);
+            }
         }
 
         public int HorizontalMoveDirection
@@ -267,7 +300,13 @@ namespace Asce.Game.Entities
         public bool IsDashing
         {
             get => _isDashing;
-            protected set => _isDashing = value;
+            protected set 
+            {
+                if (_isDashing ==  value) return;
+                _isDashing = value;
+
+                if (_isDashing) OnDash?.Invoke(this);
+            }
         }
         #endregion
 
@@ -275,13 +314,29 @@ namespace Asce.Game.Entities
         public bool IsCrouching
         {
             get => _isCrouching;
-            protected set => _isCrouching = value;
+            protected set
+            {
+                if (_isCrouching == value) return;
+                _isCrouching = value;
+
+                // Event
+                if (_isCrouching) OnCrouchStart?.Invoke(this);
+                else OnCrouchEnd?.Invoke(this);
+            }
         }
 
         public bool IsCrawling
         {
             get => _isCrawling;
-            protected set => _isCrawling = value;
+            protected set
+            {
+                if (_isCrawling == value) return;
+                _isCrawling = value;
+
+                // Event
+                if (_isCrawling) OnCrawlStart?.Invoke(this);
+                else OnCrawlEnd?.Invoke(this);
+            }
         }
         public bool IsCrawlEntering
         {
@@ -341,15 +396,18 @@ namespace Asce.Game.Entities
                 if (_isClimbingLadder == value) return;
                 _isClimbingLadder = value;
 
+                if (_isClimbingLadder) OnClimbStart?.Invoke(this);
+                else OnClimbEnd?.Invoke(this);
+
                 //set ladder climb z position
-                Vector3 pos = transform.position;
+                Vector3 pos = Owner.PhysicController.transform.position;
                 if (_isClimbingLadder)
                 {
                     _ladderExitPositionZ = pos.z;
                     pos.z = Owner.PhysicController.Ladder.ClimbPosition.z;
                 }
                 else pos.z = _ladderExitPositionZ;
-                transform.position = pos;
+                Owner.PhysicController.transform.position = pos;
             }
         }
 
@@ -472,8 +530,8 @@ namespace Asce.Game.Entities
         }
         public bool DodgeTrigger
         {
-            get => _controlDodge;
-            set => _controlDodge = value;
+            get => _dodgeTrigger;
+            set => _dodgeTrigger = value;
         }
         public bool CrouchState
         {
@@ -487,8 +545,8 @@ namespace Asce.Game.Entities
         }
         public bool JumpTrigger
         {
-            get => _controlJump;
-            set => _controlJump = value;
+            get => _jumpTrigger;
+            set => _jumpTrigger = value;
         }
 
         // public bool InputAttack
@@ -519,11 +577,11 @@ namespace Asce.Game.Entities
             this.UpdateTime(Time.deltaTime);
 
             this.HandleMove(MoveDirection.x, RunState);
-            this.HandleDash(Time.deltaTime);
-            this.HandleJump(Time.deltaTime, MoveDirection.x);
-            this.HandleDodge(Time.deltaTime, MoveDirection.x);
-            this.HandleLedgeClimb(MoveDirection.x);
-            this.HandleGetDownPlatform(MoveDirection.y);
+            this.UpdateDash(Time.deltaTime);
+            this.UpdateJump(Time.deltaTime, MoveDirection.x);
+            this.UpdateDodge(Time.deltaTime, MoveDirection.x);
+            this.UpdateLedgeClimb(MoveDirection.x);
+            this.UpdateGetDownPlatform(MoveDirection.y);
 
             this.UpdateDash();
 
@@ -537,15 +595,15 @@ namespace Asce.Game.Entities
         #endregion
 
         #region - PHYSIC METHODS -
-        public override void PhysicUpdate(float deltaTime)
+        public override void HandlePhysic(float deltaTime)
         {
-            base.PhysicUpdate(deltaTime);
+            base.HandlePhysic(deltaTime);
 
-            this.UpdateMove(MoveDirection.x);
-            this.UpdateJump(deltaTime);
-            this.UpdateLadderClimb(MoveDirection.y);
-            this.UpdateDodge(deltaTime);
-            this.UpdateLedgeClimb();
+            this.HandleUpdateMove(MoveDirection.x);
+            this.HandleUpdateJump(deltaTime);
+            this.HandleUpdateLadderClimb(deltaTime, MoveDirection.y);
+            this.HandleUpdateDodge(deltaTime);
+            this.HandleUpdateLedgeClimb();
         }
 
         #endregion
@@ -628,7 +686,6 @@ namespace Asce.Game.Entities
 
             // Can't get out of a crouching without enough space
             if (!Owner.PhysicController.CanExitCrouching) CrouchState = true;
-            
 
             // Do not allow entering crouch when climbing ladder
             if (IsClimbingLadder || IsEnteringLadder || IsExitingLadder)
@@ -670,7 +727,7 @@ namespace Asce.Game.Entities
             if (Owner.Status.IsDead) return;
             //idle timer
             if (IsIdle) IdleTime += deltaTime;
-            else IdleTime = 0.0f;
+            else IdleTime = 0f;
         }
 
         protected override void UpdateFacing()
@@ -716,18 +773,24 @@ namespace Asce.Game.Entities
 
             // Set isMoving and isRunning
             IsMoving = (Mathf.Abs(direction) > Constants.MOVE_THRESHOLD);
-            if (!IsMoving) return;
+            if (!IsMoving)
+            {
+                IsRunning = false;
+                return;
+            }
 
             // Disallow running backward
             if (Owner.View.IsLookingAtTarget && Mathf.Sign(direction) != Owner.Status.FacingDirectionValue)
+            {
                 IsRunning = false;
+            }
             else IsRunning = isRunning;
 
-            // Is the characterView moving backward
+            // Is the character moving backward
             HorizontalMoveDirection = (Mathf.Sign(direction) * Owner.Status.FacingDirectionValue) == 1 ? 1 : -1;
         }
 
-        protected virtual void UpdateMove(float direction)
+        protected virtual void HandleUpdateMove(float direction)
         {
             if (IsClimbingLadder) return;
             if (IsClimbingLedge) return;
@@ -745,7 +808,7 @@ namespace Asce.Game.Entities
             {
                 float speed = currentVelocity.magnitude;
                 if (Mathf.Abs(direction) > Constants.MOVE_THRESHOLD && speed > currentSpeed) speed = Mathf.MoveTowards(speed, currentSpeed, currentDragAcceleration * Time.fixedDeltaTime);
-                if (Mathf.Abs(direction) <= Constants.MOVE_THRESHOLD) speed = Mathf.MoveTowards(speed, 0.0f, currentDragAcceleration * Time.fixedDeltaTime);
+                if (Mathf.Abs(direction) <= Constants.MOVE_THRESHOLD) speed = Mathf.MoveTowards(speed, 0f, currentDragAcceleration * Time.fixedDeltaTime);
 
                 currentVelocity = currentVelocity.normalized * speed;
             }
@@ -769,8 +832,8 @@ namespace Asce.Game.Entities
             // Cancel shouldMove if the maxSpeed speed limit is reached at left or right direction
             if (shouldMove)
             {
-                if (direction > 0.0f && currentVelocity.x > currentSpeed) shouldMove = false;
-                else if (direction < 0.0f && currentVelocity.x < -currentSpeed) shouldMove = false;
+                if (direction > 0f && currentVelocity.x > currentSpeed) shouldMove = false;
+                else if (direction < 0f && currentVelocity.x < -currentSpeed) shouldMove = false;
             }
 
             // Apply acceleration
@@ -813,7 +876,7 @@ namespace Asce.Game.Entities
             _dashingTime.Reset();
         }
 
-        protected virtual void HandleDash(float deltaTime)
+        protected virtual void UpdateDash(float deltaTime)
         {
             _dashCooldown.Update(deltaTime);
             _dashingTime.Update(deltaTime);
@@ -827,7 +890,7 @@ namespace Asce.Game.Entities
         protected virtual void UpdateCrouch()
         {
             bool shouldCrouch = CrouchState;
-            if (Owner.PhysicController.AirTime > 1.0f) shouldCrouch = false;
+            if (Owner.PhysicController.AirTime > 1f) shouldCrouch = false;
 
             //if there is no enough space to stand, keep crouching
             if (IsCrouching)
@@ -845,7 +908,7 @@ namespace Asce.Game.Entities
         protected virtual void UpdateCrawl(float direction)
         {
             bool shouldCrawl = CrawlState;
-            if (Owner.PhysicController.AirTime > 1.0f) shouldCrawl = false;
+            if (Owner.PhysicController.AirTime > 1f) shouldCrawl = false;
 
             // If there is no enough space to get up, keep craling
             if (IsCrawling)
@@ -872,25 +935,27 @@ namespace Asce.Game.Entities
         #endregion
 
         #region - JUMP METHODS -
-        protected virtual void UpdateJump(float deltaTime)
+        protected virtual void HandleUpdateJump(float deltaTime)
         {
             if (!IsJumpEnabled) return;
+
+            Vector2 currentVelocity = Owner.PhysicController.currentVelocity;
 
             // Apply start jump velocity
             if (StartJumpVelocity.magnitude > 0.01f)
             {
                 IsJumping = true;
                 Vector2 jumpDirection = StartJumpVelocity.normalized;
-                float dot = Vector2.Dot(Owner.PhysicController.currentVelocity, jumpDirection);
-                if (dot < 0) Owner.PhysicController.currentVelocity -= dot * jumpDirection;
+                float dot = Vector2.Dot(currentVelocity, jumpDirection);
+                if (dot < 0) currentVelocity -= dot * jumpDirection;
 
-                Owner.PhysicController.currentVelocity += StartJumpVelocity;
-                Owner.PhysicController.currentVelocity.y = Mathf.Min(Owner.PhysicController.currentVelocity.y, StartJumpVelocity.y * 1.25f);
+                currentVelocity += StartJumpVelocity;
+                currentVelocity.y = Mathf.Min(currentVelocity.y, StartJumpVelocity.y * 1.25f);
 
                 StartJumpVelocity = Vector2.zero;
 
                 // Apply jump force to standing collider
-                Vector2 force = Physics2D.gravity * JumpForce * Owner.PhysicController.Weight;
+                Vector2 force = JumpForce * Owner.PhysicController.Weight * Physics2D.gravity;
                 Owner.PhysicController.ApplyForceToStandingColliders(force);
 
                 // Event
@@ -901,21 +966,24 @@ namespace Asce.Game.Entities
             // Set jump gravity so that the longer the jump key is pressed, the higher the character can jump
             if (Owner.PhysicController.IsInAir)
             {
-                if (Owner.PhysicController.currentVelocity.y > 0.01f)
+                if (currentVelocity.y > 0.01f)
                 {
-                    float multiplier = (JumpTrigger && Owner.PhysicController.currentVelocity.y > 0) ? _jumpGravityMutiplier : _fallGravityMutiplier;
-                    Owner.PhysicController.currentVelocity.y += Physics2D.gravity.y * (multiplier - 1.0f) * deltaTime;
+                    float multiplier = (JumpTrigger && currentVelocity.y > 0f) ? _jumpGravityMutiplier : _fallGravityMutiplier;
+                    currentVelocity.y += Physics2D.gravity.y * (multiplier - 1f) * deltaTime;
                 }
             }
 
             // Stop jumping when rising ends
-            if (IsJumping && Owner.PhysicController.currentVelocity.y <= 0.01f)
+            if (IsJumping && currentVelocity.y <= 0.01f)
             {
                 IsJumping = false;
             }
+
+            // Reassign to PhysicController
+            Owner.PhysicController.currentVelocity = currentVelocity;
         }
 
-        protected virtual void HandleJump(float deltaTime, float horizontalDirection)
+        protected virtual void UpdateJump(float deltaTime, float horizontalDirection)
         {
             if (Owner.Status.IsDead) return;
             if (!IsJumpEnabled) return;
@@ -961,11 +1029,11 @@ namespace Asce.Game.Entities
                 // Mix ladder direction or move direction to jump direction
                 if (Mathf.Abs(horizontalDirection) < Constants.MOVE_THRESHOLD)
                 {
-                    jumpDirection = Vector2.up + new Vector2((int)Owner.PhysicController.Ladder.Direction, 0.0f) * 0.25f;
+                    jumpDirection = Vector2.up + new Vector2((int)Owner.PhysicController.Ladder.Direction, 0f) * 0.25f;
                 }
                 else
                 {
-                    jumpDirection = Vector2.up + new Vector2(Mathf.Sign(horizontalDirection), 0.0f) * 0.5f;
+                    jumpDirection = Vector2.up + new Vector2(Mathf.Sign(horizontalDirection), 0f) * 0.5f;
                 }
             }
 
@@ -977,7 +1045,7 @@ namespace Asce.Game.Entities
                 IsExitingLadder = false;
                 IsClimbingLadder = false;
 
-                jumpDirection = new Vector2(-Owner.Status.FacingDirectionValue, 0.0f) * 0.5f;
+                jumpDirection = new Vector2(-Owner.Status.FacingDirectionValue, 0f) * 0.5f;
             }
 
             // Jump while climbing ledge
@@ -987,7 +1055,7 @@ namespace Asce.Game.Entities
                 IsClimbingLedge = false;
                 IsLedgeClimbLocked = false;
 
-                jumpDirection = Vector2.up + new Vector2(-Owner.Status.FacingDirectionValue, 0.0f) * 0.5f;
+                jumpDirection = Vector2.up + new Vector2(-Owner.Status.FacingDirectionValue, 0f) * 0.5f;
             }
 
             StartJumpVelocity = jumpDirection.normalized * JumpForce;
@@ -996,69 +1064,70 @@ namespace Asce.Game.Entities
         #endregion
 
         #region - CLIMB METHODS -
-        protected virtual void UpdateLadderClimb(float direction)
+        protected virtual void HandleUpdateLadderClimb(float deltaTime, float yDirection)
         {
             if (!IsClimbEnabled) return;
             if (Owner.Status.IsDead) return;
 
             if (IsExitingLadder)
             {
-                Owner.PhysicController.currentGravityScale = 0.0f;
+                Owner.PhysicController.currentGravityScale = 0f;
             }
 
             if (!IsClimbingLadder) return;
 
-            Owner.PhysicController.currentGravityScale = 0.0f;
-            Owner.PhysicController.currentVelocity.x = 0.0f;
-            float currentClimbSpeed = IsRunning ? ClimbMaxSpeed : ClimbFastMaxSpeed;
+            Owner.PhysicController.currentGravityScale = 0f;
+            Owner.PhysicController.currentVelocity.x = 0f;
+            float currentClimbSpeed = IsRunning ? ClimbFastMaxSpeed : ClimbMaxSpeed;
+            float currentVeloityY = Owner.PhysicController.currentVelocity.y;
 
-            //handle climb movement
-            Owner.PhysicController.currentVelocity.x = 0.0f;
-            if (Mathf.Abs(direction) > Constants.MOVE_THRESHOLD)
+            // Handle climb movement
+            if (Mathf.Abs(yDirection) > Constants.MOVE_THRESHOLD)
             {
-                Owner.PhysicController.currentVelocity.y = currentClimbSpeed * Mathf.Sign(direction);
-                _climbingSpeedMultiply = (Owner.PhysicController.currentVelocity.y / ClimbMaxSpeed);
+                currentVeloityY = currentClimbSpeed * Mathf.Sign(yDirection);
+                _climbingSpeedMultiply = (currentVeloityY / ClimbMaxSpeed);
             }
             else
             {
-                Owner.PhysicController.currentVelocity.y = 0.0f;
-                _climbingSpeedMultiply = 0.0f;
+                currentVeloityY = 0f;
+                _climbingSpeedMultiply = 0f;
             }
-
 
             // Reach top of the ladder
             if (Owner.PhysicController.HasReachedLadderTop)
             {
-                if (Owner.PhysicController.currentVelocity.y > 0.0f)
+                if (currentVeloityY > 0f)
                 {
-                    Owner.PhysicController.currentVelocity.y = 0.0f;
-                    _climbingSpeedMultiply = 0.0f;
+                    currentVeloityY = 0f;
+                    _climbingSpeedMultiply = 0f;
                 }
             }
 
             // Reach top bottom of the ladder
-            // Using 2 pixel size as tolerance
             else if (Owner.PhysicController.HasReachedLadderBottom)
             {
-                if (Owner.PhysicController.currentVelocity.y < 0.0f)
+                if (currentVeloityY < 0f)
                 {
-                    Owner.PhysicController.currentVelocity.y = 0.0f;
-                    _climbingSpeedMultiply = 0.0f;
+                    currentVeloityY = 0f;
+                    _climbingSpeedMultiply = 0f;
                 }
             }
 
-            // Move characterView to the cimbing position defined by the ladder
-            Vector3 pos = transform.position;
-            pos.x = Mathf.Lerp(pos.x, Owner.PhysicController.Ladder.ClimbPosition.x, Time.fixedDeltaTime * _climbPositionLerpSpeed);
-            transform.position = pos;
+            // Move character to the cimbing position defined by the ladder
+            Vector3 pos = Owner.PhysicController.transform.position;
+            pos.x = Mathf.Lerp(pos.x, Owner.PhysicController.Ladder.ClimbPosition.x, deltaTime * _climbPositionLerpSpeed);
+            Owner.PhysicController.transform.position = pos;
 
             // As entering ladder animation's root motion somehow don't work
             // Manual add down input
             if (IsEnteringLadder)
             {
-                Owner.PhysicController.currentVelocity.y = currentClimbSpeed * -1.0f;
-                _climbingSpeedMultiply = (Owner.PhysicController.currentVelocity.y / ClimbMaxSpeed);
+                currentVeloityY = currentClimbSpeed * -1f;
+                _climbingSpeedMultiply = (currentVeloityY / ClimbMaxSpeed);
             }
+
+            // Reassign to PhysicController
+            Owner.PhysicController.currentVelocity.y = currentVeloityY;
         }
 
         protected virtual void LadderExitCheck(Vector2 direction)
@@ -1076,7 +1145,7 @@ namespace Asce.Game.Entities
                 {
                     IsExitingLadder = true;
                     IsClimbingLadder = false;
-                    LadderExitHeight = hit.point.y - transform.position.y;
+                    LadderExitHeight = hit.point.y - Owner.PhysicController.transform.position.y;
                 }
             }
 
@@ -1085,17 +1154,17 @@ namespace Asce.Game.Entities
             {
                 // is grounded, exit ladder
                 if (Owner.PhysicController.IsGrounded) IsClimbingLadder = false;
-                
+
                 // Special case, from ladder to air
-                // Reach ladder bottom, but not grounded, down direction persist more than 0.5s
+                // Reach ladder bottom, but not grounded, down direction persist more than _ladderToAirTime.BaseTime
                 else
                 {
                     _ladderToAirTime.Update(Time.deltaTime);
                     if (_ladderToAirTime.IsComplete)
                     {
-                        Owner.PhysicController.Ladder = null;
                         IsClimbingLadder = false;
 
+                        Owner.PhysicController.UnLadder();
                         Owner.View.TriggerGetDownPlatformAnimation();
                         _ladderToAirTime.Reset();
                     }
@@ -1111,20 +1180,20 @@ namespace Asce.Game.Entities
             // if (isDrawingBow) return;
             if (IsCrawling || IsCrawlEntering || IsCrawlExiting) return;
 
-            if (Owner.PhysicController.CanClimbToLadder())
-            {
-                //climb up to ladder
-                if (direction.y > Constants.MOVE_THRESHOLD) IsClimbingLadder = true;
+            if (!Owner.PhysicController.CanClimbToLadder()) return;
+            
+            // Climb up to ladder
+            if (direction.y > Constants.MOVE_THRESHOLD) 
+                IsClimbingLadder = true;
 
-                //climb down to ladder, may needs ladder enter animation
-                if (direction.y < -Constants.MOVE_THRESHOLD)
+            // Climb down to ladder, may needs ladder enter animation
+            if (direction.y < -Constants.MOVE_THRESHOLD)
+            {
+                IsClimbingLadder = true;
+                LadderEnterHeight = Owner.PhysicController.CalculateLadderEnterHeight();
+                if (LadderEnterHeight > -Mathf.Epsilon && LadderEnterHeight < Constants.PIXEL_SIZE * 41f)
                 {
-                    IsClimbingLadder = true;
-                    LadderEnterHeight = Owner.PhysicController.CalculateLadderEnterHeight();
-                    if (LadderEnterHeight > -Mathf.Epsilon && LadderEnterHeight < Constants.PIXEL_SIZE * 41f)
-                    {
-                        IsEnteringLadder = true;
-                    }
+                    IsEnteringLadder = true;
                 }
             }
         }
@@ -1135,16 +1204,16 @@ namespace Asce.Game.Entities
         #endregion
 
         #region - DODGE METHODS -
-        protected virtual void UpdateDodge(float deltaTime)
+        protected virtual void HandleUpdateDodge(float deltaTime)
         {
-            //snap characterView to ground better when dodging
+            // Snap character to ground better when dodging
             if (IsDodging && Owner.PhysicController.AirTime > 0.01f)
             {
-                Owner.PhysicController.currentVelocity.y -= 25.0f * deltaTime;
+                Owner.PhysicController.currentVelocity.y -= 25f * deltaTime;
             }
         }
 
-        protected virtual void HandleDodge(float deltaTime, float direction)
+        protected virtual void UpdateDodge(float deltaTime, float direction)
         {
             // If dodging but in the air, set to no dodge
             if (IsDodging)
@@ -1161,6 +1230,8 @@ namespace Asce.Game.Entities
 
             if (!IsDodgeEnabled) return;
             if (!DodgeTrigger) return;
+            DodgeTrigger = false;
+
             if (IsCrawling || IsClimbingLedge || IsEnteringLadder || IsExitingLadder) return;
             if (Owner.PhysicController.AirTime > 0.1f) return;
             if (!_dodgeCooldown.IsComplete) return;
@@ -1202,14 +1273,14 @@ namespace Asce.Game.Entities
 
         #region - LEDGE METHODS -
 
-        protected virtual void UpdateLedgeClimb()
+        protected virtual void HandleUpdateLedgeClimb()
         {
             if (!IsClimbingLedge) return;
 
             if (Owner.PhysicController.FindLedgeToClimb(LedgePosition, out RaycastHit2D hit))
             {
                 // Update ledge position and character position in case the ledge collider is moving
-                transform.position += (Vector3)(hit.point - LedgePosition);
+                Owner.PhysicController.transform.position += (Vector3)(hit.point - LedgePosition);
                 LedgePosition = hit.point;
 
                 return;
@@ -1226,7 +1297,7 @@ namespace Asce.Game.Entities
             IsLedgeClimbLocked = false;
         }
 
-        protected virtual void HandleLedgeClimb(float moveDirection)
+        protected virtual void UpdateLedgeClimb(float moveDirection)
         {
             if (Owner.Status.IsDead || !IsLedgeEnabled || IsClimbingLadder || IsExitingLadder || IsCrawling || IsDodging)
             {
@@ -1234,10 +1305,10 @@ namespace Asce.Game.Entities
                 return;
             }
 
-            //ledge climb exit check 
+            // Ledge climb exit check 
             if (IsClimbingLedge)
             {
-                if (transform.position.y > LedgePosition.y)
+                if (Owner.PhysicController.transform.position.y > LedgePosition.y)
                 {
                     IsClimbingLedge = false;
                     return;
@@ -1260,28 +1331,28 @@ namespace Asce.Game.Entities
                 return;
             }
 
-            //ledge climb enter check 
+            // Ledge climb enter check 
 
             // Not moving or moving in the opposite direction
             if (Mathf.Abs(moveDirection) < Constants.MOVE_THRESHOLD || Mathf.Sign(moveDirection) != Owner.Status.FacingDirectionValue)
                 return;
 
-            //check for climbable ledge
+            // Check for climbable ledge
             RaycastHit2D hit = Owner.PhysicController.CanClimbLedge();
             LedgePosition = hit.point;
 
-            //check up direction for enough space to climb
+            // Check up direction for enough space to climb
             bool upAvailable = true;
             if (hit.collider != null)
             {
-                Vector2 upCheckPosition = LedgePosition - new Vector2(0.0f, Constants.PIXEL_SIZE);
+                Vector2 upCheckPosition = LedgePosition - new Vector2(0f, Constants.PIXEL_SIZE);
                 RaycastHit2D hitUp = Owner.PhysicController.CheckSpaceToLedge(upCheckPosition);
                 upAvailable = (hitUp.collider == null);
             }
 
             bool ledgeAvailable = (hit.collider != null) && upAvailable;
 
-            //start climbing ledge
+            // Start climbing ledge
             // Ledge available and not climbing ledge
             if (ledgeAvailable && !IsClimbingLedge)
             {
@@ -1297,7 +1368,7 @@ namespace Asce.Game.Entities
         #endregion
 
         #region - GET DOWN PLATFORM METHODS -
-        protected virtual void HandleGetDownPlatform(float yDirection)
+        protected virtual void UpdateGetDownPlatform(float yDirection)
         {
             Owner.PhysicController.IsGetDownPlatform = yDirection < 0f && Mathf.Abs(yDirection) > Constants.MOVE_THRESHOLD;
         }

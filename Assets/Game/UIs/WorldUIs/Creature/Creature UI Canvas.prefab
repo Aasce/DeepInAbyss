@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1284523350440403522}
+  - component: {fileID: 7135395269528892907}
   - component: {fileID: 1867197696786140141}
   - component: {fileID: 5860064062739601358}
   - component: {fileID: 1145674218721877296}
@@ -40,6 +41,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7135395269528892907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5953666610935159259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc1848c08a66ca4cbd24889a7a85cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 1867197696786140141}
+  _nameText: {fileID: 5237580296034644018}
+  _healthBar: {fileID: 455537123852668355}
 --- !u!223 &1867197696786140141
 Canvas:
   m_ObjectHideFlags: 0
@@ -251,6 +267,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health Bar
       objectReference: {fileID: 0}
+    - target: {fileID: 2603267410153756234, guid: 07b5dedb30a23a84498fd17778a31255, type: 3}
+      propertyPath: _isShowChangedValueOnHover
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2824832217684370544, guid: 07b5dedb30a23a84498fd17778a31255, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -356,6 +376,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07b5dedb30a23a84498fd17778a31255, type: 3}
+--- !u!114 &455537123852668355 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2603267410153756234, guid: 07b5dedb30a23a84498fd17778a31255, type: 3}
+  m_PrefabInstance: {fileID: 2482272240396999561}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee5f54126afc82e4bbf4cc68afe7ddd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8324907071505573138 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5907262201669303963, guid: 07b5dedb30a23a84498fd17778a31255, type: 3}

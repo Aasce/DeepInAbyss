@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Asce.Shared
 {
-    public class LoadingManager : MonoBehaviorSingleton<LoadingManager>
+    public class LoadingManager : MonoBehaviourSingleton<LoadingManager>
     {
         [SerializeField] private Slider _progressSlider;
 

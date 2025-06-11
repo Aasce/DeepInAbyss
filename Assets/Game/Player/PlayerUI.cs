@@ -1,4 +1,6 @@
+using Asce.Game.Stats;
 using Asce.Game.UIs.Characters;
+using Asce.Managers;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -28,7 +30,7 @@ namespace Asce.Game.Players
         private void Start()
         {
             this.SetCharacterInformation();
-            Player.OnCharacterChanged += Player_OnCharacterChanged;
+            Player.OnControlledCreatureChanged += Player_OnCharacterChanged;
         }
 
         public bool IsPointerOverScreenSpaceUI(Vector2 pointer)
@@ -60,25 +62,26 @@ namespace Asce.Game.Players
             if (CharacterInformation == null) return;
             if (CharacterInformation.ResourceStats == null) return;
 
-            if (Player.Character == null) return;
-            if (Player.Character.Stats == null) return;
+            if (Player.ControlledCreature == null) return;
+            if (Player.ControlledCreature.Stats == null) return;
 
             CharacterInformation.ResourceStats.SetStats(
-                    Player.Character.Stats.HealthGroup.Health,
-                    Player.Character.Stats.DefenseGroup.Shield,
-                    Player.Character.Stats.Stamina,
-                    Player.Character.Stats.SustenanceGroup
+                    Player.ControlledCreature.Stats.HealthGroup.Health,
+                    Player.ControlledCreature.Stats.DefenseGroup.Shield,
+                    Player.ControlledCreature.Stats.Stamina,
+                    Player.ControlledCreature.Stats.SustenanceGroup
                 );
 
-            CharacterInformation.Stats.AddStat(Player.Character.Stats.HealthGroup.HealScale);
-            CharacterInformation.Stats.AddStat(Player.Character.Stats.Strength);
-            CharacterInformation.Stats.AddStat(Player.Character.Stats.DefenseGroup.Armor);
-            CharacterInformation.Stats.AddStat(Player.Character.Stats.DefenseGroup.Resistance);
-            CharacterInformation.Stats.AddStat(Player.Character.Stats.Speed);
-            CharacterInformation.Stats.AddStat(Player.Character.Stats.JumpForce);
-            CharacterInformation.Stats.AddStat(Player.Character.Stats.ViewRadius);
+            CharacterInformation.Stats.ClearStats();
+            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.HealthGroup.HealScale);
+            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.Strength);
+            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.DefenseGroup.Armor);
+            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.DefenseGroup.Resistance);
+            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.Speed);
+            if (Player.ControlledCreature.Stats is IHasJumpForce hasJumpForce) CharacterInformation.Stats.AddStat(hasJumpForce.JumpForce);
+            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.ViewRadius);
         }
 
-        private void Player_OnCharacterChanged(object sender, Entities.Character character) => this.SetCharacterInformation();
+        private void Player_OnCharacterChanged(object sender, ValueChangedEventArgs<Entities.ICreature> args) => this.SetCharacterInformation();
     }
 }

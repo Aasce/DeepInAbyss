@@ -56,5 +56,22 @@ namespace Asce.Managers.Utils
         {
             return $"#{ColorUtility.ToHtmlStringRGBA(color)}";
         }
+
+        /// <summary>
+        ///     Returns a new <see cref="Color"/> with the specified alpha value,
+        ///     clamped between 0 and 1.
+        /// </summary>
+        /// <param name="color"> The original color. </param>
+        /// <param name="alpha"> The alpha value to apply, clamped to the range [0, 1]. </param>
+        /// <returns>
+        ///     A new <see cref="Color"/> with the same RGB components as the original,
+        ///     but with the specified alpha value.
+        /// </returns>
+        public static Color WithAlpha(this Color color, float alpha)
+        {
+            alpha = Mathf.Clamp01(alpha);
+            color.a = alpha;
+            return color;
+        }
     }
 }

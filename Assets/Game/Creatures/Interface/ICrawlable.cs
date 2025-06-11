@@ -1,10 +1,13 @@
-using Asce.Managers.Utils;
+using System;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public interface ICrawlable : IEntity
+    public interface ICrawlable : ICreatureAction
     {
+        public event Action<object> OnCrawlStart;
+        public event Action<object> OnCrawlEnd;
+
         public bool IsCrawling { get; }
         public bool IsCrawlEntering { get; }
         public bool IsCrawlExiting { get; }

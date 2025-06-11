@@ -379,6 +379,7 @@ MonoBehaviour:
   _slider: {fileID: 1153236003480168861}
   _textMesh: {fileID: 1055512067216199138}
   _changedValueTextMesh: {fileID: 1691644928897671878}
+  _isShowChangedValueOnHover: 1
 --- !u!114 &1153236003480168861
 MonoBehaviour:
   m_ObjectHideFlags: 0

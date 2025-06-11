@@ -1,5 +1,6 @@
 using Asce.Managers;
 using Asce.Managers.Utils;
+using System;
 using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies
@@ -45,13 +46,26 @@ namespace Asce.Game.Entities.Enemies
         [SerializeField] protected Cooldown _attackCooldown = new(2f); 
         private bool _attackTriggered = false;
 
-        #region - CONTROL FIELDS- 
+        #region - CONTROL FIELDS - 
         [Header("Control")]
         [SerializeField] private Vector2 _moveDirection = Vector2.zero;
         [SerializeField] private bool _runState = false;
         [SerializeField] private bool _controlJump = false;
         [SerializeField] private bool _controlAttack = false;
         #endregion
+
+        #region - EVENTS - 
+
+        public event Action<object> OnMoveStart;
+        public event Action<object> OnMoveEnd;
+
+        public event Action<object> OnRunStart;
+        public event Action<object> OnRunEnd;
+
+        public event Action<object> OnJump;
+
+        #endregion
+
 
         public new Enemy Owner
         {
@@ -91,14 +105,29 @@ namespace Asce.Game.Entities.Enemies
         public bool IsMoving
         {
             get => _isMoving;
-            protected set => _isMoving = value;
+            protected set
+            {
+                if (_isMoving == value) return;
+                _isMoving = value;
+
+                if (_isMoving) OnMoveStart?.Invoke(this);
+                else OnMoveEnd?.Invoke(this);
+            }
         }
         public bool IsIdle => !Owner.Status.IsDead && !IsMoving && !Owner.PhysicController.IsInAir;
 
         public bool IsRunning
         {
             get => _isRunning;
-            protected set => _isRunning = value;
+            protected set
+            {
+                if (_isRunning == value) return;
+                _isRunning = value;
+
+                // Events
+                if (_isRunning) OnRunStart?.Invoke(this);
+                else OnRunEnd?.Invoke(this);
+            }
         }
 
         public bool IsJumpEnabled
@@ -184,12 +213,13 @@ namespace Asce.Game.Entities.Enemies
         protected override void Update()
         {
             base.Update();
-            this.HandleMove(MoveDirection.x);
-            this.HandleJump(Time.deltaTime);
-            this.HandleAttack(Time.deltaTime);
 
-            this.UpdateMove(Time.deltaTime, MoveDirection.x);
-            this.UpdateJump();
+            this.UpdateMove(MoveDirection.x);
+            this.UpdateJump(Time.deltaTime);
+            this.UpdateAttack(Time.deltaTime);
+
+            this.HandleMove(Time.deltaTime, MoveDirection.x);
+            this.HandleJump(Time.deltaTime);
         }
 
         public void Moving(Vector2 diretion)
@@ -221,7 +251,7 @@ namespace Asce.Game.Entities.Enemies
         }
 
 
-        protected virtual void UpdateMove(float deltaTime, float direction)
+        protected virtual void HandleMove(float deltaTime, float direction)
         {
             float currentSpeed = Owner.PhysicController.CurrentSpeed;
             float currentAcceleration = Owner.PhysicController.CurrentAcceleration;
@@ -261,7 +291,7 @@ namespace Asce.Game.Entities.Enemies
             Owner.PhysicController.Rigidbody.linearVelocityX = currentVelocityX;
         }
 
-        protected virtual void UpdateJump()
+        protected virtual void HandleJump(float deltaTime)
         {
             if (!IsJumpEnabled) return; 
 
@@ -270,7 +300,7 @@ namespace Asce.Game.Entities.Enemies
             IsInJumpPrepare = JumpTrigger && Owner.PhysicController.IsGrounded && _jumpCooldown.IsComplete;
             if (IsInJumpPrepare)
             {
-                _jumpDelayCooldown.Update(Time.deltaTime);
+                _jumpDelayCooldown.Update(deltaTime);
                 if (_jumpDelayCooldown.IsComplete)
                 {
                     _jumpDelayCooldown.Reset();
@@ -279,6 +309,9 @@ namespace Asce.Game.Entities.Enemies
                     Owner.PhysicController.IsGrounded = false;
                     currentVelocityY += _jumpForce;
                     IsJumping = true;
+
+                    // Events
+                    OnJump?.Invoke(this);
                 }
             }
             else _jumpDelayCooldown.Reset();
@@ -286,7 +319,7 @@ namespace Asce.Game.Entities.Enemies
             if (currentVelocityY > 0)
             {
                 float multiplier = JumpTrigger ? _jumpGravityMutiplier : _fallGravityMutiplier;
-                currentVelocityY += Physics.gravity.y * (multiplier - 1.0f) * Time.deltaTime;
+                currentVelocityY += Physics.gravity.y * (multiplier - 1.0f) * deltaTime;
             }
 
             //set modified velocity back to rigidbody
@@ -313,7 +346,7 @@ namespace Asce.Game.Entities.Enemies
             }
         }
 
-        protected virtual void HandleMove(float direction)
+        protected virtual void UpdateMove(float direction)
         {
             if (!IsMoveEnabled)
             {
@@ -331,7 +364,7 @@ namespace Asce.Game.Entities.Enemies
             IsMoving = Mathf.Abs(direction) > Constants.MOVE_THRESHOLD;
         }
 
-        protected virtual void HandleJump(float deltaTime)
+        protected virtual void UpdateJump(float deltaTime)
         {
             if (!Owner.PhysicController.IsGrounded)
             {
@@ -341,7 +374,7 @@ namespace Asce.Game.Entities.Enemies
             _jumpCooldown.Update(deltaTime);
         }
 
-        protected virtual void HandleAttack(float deltaTime)
+        protected virtual void UpdateAttack(float deltaTime)
         {
             _attackCooldown.Update(deltaTime);
 

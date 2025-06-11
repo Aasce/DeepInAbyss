@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    [CreateAssetMenu(menuName = "Asce/Entities/Character Base Stats", fileName = "Character Base Stats")]
+    [CreateAssetMenu(menuName = "Asce/Entities/ControlledCreature Base Data", fileName = "ControlledCreature Base Data")]
     public class SO_CharacterBaseStats : SO_CreatureBaseStats, IBaseStatsData
     {
         [SerializeField, Min(0f)] protected float _jumpForce;

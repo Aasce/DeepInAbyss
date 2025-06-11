@@ -15,11 +15,14 @@ namespace Asce.Game.UIs.Stats
         [SerializeField] protected TextMeshProUGUI _textMesh;
         protected ResourceStat _stat;
 
+        private Image _fillImage;
+
         public event Action<object, StatTargetChangedEventArgs<ResourceStat>> OnStatTargetChanged;
 
 
         public Slider Slider => _slider;
         public TextMeshProUGUI TextMesh => _textMesh;
+        public Image FillImage => (_fillImage != null) ? _fillImage : _fillImage = Slider.fillRect.GetComponent<Image>();
 
         public ResourceStat Stat
         {

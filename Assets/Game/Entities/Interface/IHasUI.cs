@@ -1,8 +1,9 @@
 using Asce.Game.UIs;
+using Asce.Game.UIs.Creatures;
 
 namespace Asce.Game.Entities
 {
-    public interface IHasUI<T> where T : IWorldUI
+    public interface IHasUI<T> : IEntity where T : ICreatureUI
     {
         T UI { get; }
     }

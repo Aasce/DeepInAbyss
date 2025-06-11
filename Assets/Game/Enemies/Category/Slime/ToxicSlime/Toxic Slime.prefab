@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _owner: {fileID: 7937573822774822781}
+  _isLooking: 0
+  _targetPosition: {x: 0, y: 0}
   _baseSpeed: 5
   _walkSpeedScale: 1
   _walkAcceleration: 10
@@ -261,7 +263,7 @@ GameObject:
   - component: {fileID: 9152192901658935203}
   - component: {fileID: 7937573822774822781}
   - component: {fileID: 6052147037250727953}
-  - component: {fileID: 8817807701351907451}
+  - component: {fileID: 584405221868725216}
   - component: {fileID: 529080681882863440}
   m_Layer: 8
   m_Name: Toxic Slime
@@ -301,9 +303,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ecf1048c519ad2429505907796ffbce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _information: {fileID: 11400000, guid: 42c6b0aee4402894c8ea8fe45912cd55, type: 2}
   _status:
     _currentStatus: 1
     _facingDirection: 0
+    _height: 1
   _physicController: {fileID: 6052147037250727953}
   _view: {fileID: 5411295879593891842}
   _action: {fileID: 276153758155786963}
@@ -326,7 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _owner: {fileID: 7937573822774822781}
   _rigidbody: {fileID: 529080681882863440}
-  _bodyCollider: {fileID: 8817807701351907451}
+  _bodyCollider: {fileID: 584405221868725216}
   _weight: 50
   _groundDrag: 10
   _airDrag: 0.75
@@ -341,7 +345,7 @@ MonoBehaviour:
   _surfaceAngleLimit: 46
   _airMaxSpeed: 2
   _airAcceleration: 8
---- !u!61 &8817807701351907451
+--- !u!61 &584405221868725216
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -375,7 +379,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.000000029802322, y: 0.45232725}
+  m_Offset: {x: 0, y: 0.42}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -385,8 +389,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.0313301, y: 0.8472662}
-  m_EdgeRadius: 0
+  m_Size: {x: 0.62, y: 0.46}
+  m_EdgeRadius: 0.2
 --- !u!50 &529080681882863440
 Rigidbody2D:
   serializedVersion: 5
@@ -466,6 +470,7 @@ MonoBehaviour:
   _isLookingAtTarget: 0
   _fx: {fileID: 0}
   _dieFxPrefab: {fileID: 0}
+  _renderer: {fileID: 8759304985607045163}
 --- !u!1 &5938318874729432331
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,7 +497,7 @@ Transform:
   m_GameObject: {fileID: 5938318874729432331}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -512,9 +517,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _owner: {fileID: 7937573822774822781}
-  _canvas: {fileID: 844335029485042164}
+  _mainUI: {fileID: 8167335530917775346}
   _isHideOnDead: 1
-  _healthBar: {fileID: 1444622815843041242}
+  _hideCooldown:
+    _baseTime: 10
+    _currentTime: 10
 --- !u!1001 &1323548485571736089
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -589,7 +596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1284523350440403522, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1284523350440403522, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -602,26 +609,6 @@ PrefabInstance:
     - target: {fileID: 1284523350440403522, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237580296034644018, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
-      propertyPath: m_text
-      value: Toxic Slime
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237580296034644018, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.3607843
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237580296034644018, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.4235294
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237580296034644018, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.9019608
-      objectReference: {fileID: 0}
-    - target: {fileID: 5237580296034644018, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4284247270
       objectReference: {fileID: 0}
     - target: {fileID: 5953666610935159259, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
       propertyPath: m_Name
@@ -653,20 +640,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1284523350440403522, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
   m_PrefabInstance: {fileID: 1323548485571736089}
   m_PrefabAsset: {fileID: 0}
---- !u!223 &844335029485042164 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 1867197696786140141, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
-  m_PrefabInstance: {fileID: 1323548485571736089}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1444622815843041242 stripped
+--- !u!114 &8167335530917775346 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 455537123852668355, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7135395269528892907, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
   m_PrefabInstance: {fileID: 1323548485571736089}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee5f54126afc82e4bbf4cc68afe7ddd7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0dc1848c08a66ca4cbd24889a7a85cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8759304985612356489
@@ -750,6 +732,11 @@ PrefabInstance:
 --- !u!95 &8759304985602916073 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: 569ae7d25d82b6f48893dd1c60391d60, type: 3}
+  m_PrefabInstance: {fileID: 8759304985612356489}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &8759304985607045163 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13700002, guid: 569ae7d25d82b6f48893dd1c60391d60, type: 3}
   m_PrefabInstance: {fileID: 8759304985612356489}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8759304985612258603 stripped

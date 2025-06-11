@@ -79,6 +79,8 @@ MonoBehaviour:
   _isLooking: 0
   _targetPosition: {x: 0, y: 0}
   _isMoveEnable: 1
+  _isMoving: 0
+  _isRunning: 0
   _baseSpeed: 3
   _walkSpeedScale: 1
   _walkAcceleration: 10
@@ -91,14 +93,20 @@ MonoBehaviour:
   _dashStartSpeedScale: 2
   _dashSpeedScale: 2
   _dashAcceleration: 20
+  _climbSpeedScale: 0.5
+  _climbFastSpeedScale: 0.75
   _isDashEnabled: 1
+  _isDashing: 0
   _dashingTime:
     _baseTime: 0.2
     _currentTime: 1
   _dashCooldown:
     _baseTime: 1
     _currentTime: 1
+  _isCrouching: 0
+  _isCrawling: 0
   _jumpEnabled: 1
+  _isJumping: 0
   _jumpForce: 5.5
   _jumpTolerance: 0.15
   _jumpGravityMutiplier: 0.6
@@ -107,21 +115,22 @@ MonoBehaviour:
     _baseTime: 0.2
     _currentTime: 0.2
   _climbEnabled: 1
-  _climbSpeed: 1
-  _climbSpeedFast: 1.5
   _isDdodgeEnabled: 1
-  _dodgeSpeedMultiply: 1.25
+  _isDodging: 0
+  _dodgeSpeedRootMotionMultiply: 1.25
   _dodgeCooldown:
     _baseTime: 0.1
     _currentTime: 0.1
   _ledgeEnabled: 1
-  _controlMove: {x: 0, y: 0}
-  _controlRun: 0
-  _controlDash: 0
-  _controlDodge: 0
-  _controlCrouch: 0
-  _controlCrawl: 0
-  _controlJump: 0
+  _isClimbingLedge: 0
+  _isLedgeClimbLocked: 0
+  _moveDirection: {x: 0, y: 0}
+  _runState: 0
+  _dashTrigger: 0
+  _crouchState: 0
+  _crawlState: 0
+  _jumpTrigger: 0
+  _dodgeTrigger: 0
 --- !u!1 &2327455691202144450
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,9 +184,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8f36fbb61f50a45b831faf22a90991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _information: {fileID: 11400000, guid: 66a5dac35e6fd0d44a5568f0df573c1d, type: 2}
   _status:
     _currentStatus: 1
     _facingDirection: 0
+    _height: 2
   _physicController: {fileID: 8947564771953539130}
   _view: {fileID: 2637123865751815699}
   _action: {fileID: 5091308472702825161}
@@ -499,6 +510,7 @@ MonoBehaviour:
   _isStatsUpdating: 1
   _healthGroup:
     _health:
+      _statType: 1
       _value: 0
       _agents: []
       _currentValue: 0
@@ -519,6 +531,7 @@ MonoBehaviour:
         _baseTime: 1
         _currentTime: 1
     _healScale:
+      _statType: 2
       _value: 1
       _agents:
       - _author: {fileID: 0}
@@ -531,6 +544,7 @@ MonoBehaviour:
         _position: {x: 0, y: 0}
         _isClearable: 0
   _stamina:
+    _statType: 5
     _value: 0
     _agents: []
     _currentValue: 0
@@ -543,6 +557,7 @@ MonoBehaviour:
       _currentTime: 1
   _sustenanceGroup:
     _hunger:
+      _statType: 20
       _value: 0
       _agents: []
       _currentValue: 0
@@ -554,6 +569,7 @@ MonoBehaviour:
         _baseTime: 10
         _currentTime: 10
     _thirst:
+      _statType: 21
       _value: 0
       _agents: []
       _currentValue: 0
@@ -565,6 +581,7 @@ MonoBehaviour:
         _baseTime: 10
         _currentTime: 10
     _breath:
+      _statType: 22
       _value: 0
       _agents: []
       _currentValue: 0
@@ -576,29 +593,52 @@ MonoBehaviour:
         _baseTime: 1
         _currentTime: 1
   _strength:
+    _statType: 10
     _value: 0
     _agents: []
   _defenseGroup:
     _armor:
+      _statType: 11
       _value: 0
       _agents: []
     _resistance:
+      _statType: 12
       _value: 0
       _agents: []
     _shield:
+      _statType: 13
       _value: 0
       _agents: []
       _currentValue: 0
       _currentAgents: []
   _speed:
+    _statType: 30
     _value: 0
     _agents: []
+    _currentValue: 0
+    _currentAgents: []
+    _changeValue: 0
+    _changeAgents: []
+    _isSelfChangeable: 1
+    _changeInterval:
+      _baseTime: 1
+      _currentTime: 1
   _viewRadius:
+    _statType: 32
     _value: 0
     _agents: []
   _jumpForce:
+    _statType: 31
     _value: 0
     _agents: []
+    _currentValue: 0
+    _currentAgents: []
+    _changeValue: 0
+    _changeAgents: []
+    _isSelfChangeable: 1
+    _changeInterval:
+      _baseTime: 1
+      _currentTime: 1
 --- !u!1 &8920669099080851377
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,7 +665,7 @@ Transform:
   m_GameObject: {fileID: 8920669099080851377}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -645,9 +685,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _owner: {fileID: 4053743200521334916}
-  _canvas: {fileID: 1679640243944020363}
+  _mainUI: {fileID: 7899557562518071181}
   _isHideOnDead: 1
-  _healthBar: {fileID: 645348554341851045}
+  _hideCooldown:
+    _baseTime: 10
+    _currentTime: 10
 --- !u!1001 &1055770368870339174
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -722,7 +764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1284523350440403522, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 1284523350440403522, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -797,27 +839,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
---- !u!114 &645348554341851045 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 455537123852668355, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
-  m_PrefabInstance: {fileID: 1055770368870339174}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee5f54126afc82e4bbf4cc68afe7ddd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!223 &1679640243944020363 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 1867197696786140141, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
-  m_PrefabInstance: {fileID: 1055770368870339174}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2266808838631436324 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1284523350440403522, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
   m_PrefabInstance: {fileID: 1055770368870339174}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7899557562518071181 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7135395269528892907, guid: ccf8698719169b148aba88f5bfaaa7eb, type: 3}
+  m_PrefabInstance: {fileID: 1055770368870339174}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dc1848c08a66ca4cbd24889a7a85cd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5672580966142002516
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1266,6 +1303,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 64d3f9f39647c3d40a2a87b25ede3f1a, type: 2}
+    - target: {fileID: 13700038, guid: cf146b5a9fdb6de47992bd2ea4bc150a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7e551ff7788d7bb41b69891ef0117f27, type: 2}
     - target: {fileID: 13700042, guid: cf146b5a9fdb6de47992bd2ea4bc150a, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 

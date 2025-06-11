@@ -2,7 +2,7 @@
 
 namespace Asce.Game.Entities
 {
-    public interface ILadderClimbable : IEntity
+    public interface ILadderClimbable : ICreatureAction
     {
         public bool IsClimbEnabled { get; set; }
         public bool IsClimbingLadder { get; set; }

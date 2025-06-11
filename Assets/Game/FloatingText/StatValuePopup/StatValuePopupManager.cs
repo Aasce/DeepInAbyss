@@ -10,7 +10,7 @@ namespace Asce.Game.FloatingTexts
     /// <summary>
     ///     Manages the display and pooling of floating stat value popups such as damage, healing, or shield absorption.
     /// </summary>
-    public class StatValuePopupManager : MonoBehaviorSingleton<StatValuePopupManager>
+    public class StatValuePopupManager : MonoBehaviourSingleton<StatValuePopupManager>
     {
         [Tooltip("Object pool used to reuse StatValuePopup instances efficiently.")]
         [SerializeField] protected Pool<StatValuePopup> _pools = new();
@@ -147,7 +147,7 @@ namespace Asce.Game.FloatingTexts
         /// <param name="size"> Font size of the text. </param>
         /// <param name="position"> World position for the popup. </param>
         /// <returns> The created popup instance. </returns>
-        protected virtual StatValuePopup CreateValuePopup(string text, Color color, float size, Vector2 position)
+        public virtual StatValuePopup CreateValuePopup(string text, Color color, float size, Vector2 position)
         {
             StatValuePopup popup = Pool.Activate();
             popup.DeactiveCooldown.Reset();

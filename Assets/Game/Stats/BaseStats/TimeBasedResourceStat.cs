@@ -151,6 +151,11 @@ namespace Asce.Game.Stats
                 this.UpdateChangeValue();
         }
 
+        public virtual StatAgent FindChangeAgent(GameObject author, string reason = null)
+        {
+            return StatUtils.FindAgent(_changeAgents, author, reason);
+        }
+
         /// <summary>
         ///     Removes all agents affecting the time-based change.
         /// </summary>

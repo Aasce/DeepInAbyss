@@ -11,6 +11,7 @@ namespace Asce.Managers.Utils
     {
         [SerializeField, Min(0f)] private float _baseTime;
         [SerializeField, Min(0f)] private float _currentTime;
+        private bool _completeTrigger = false; // Prevents multiple OnCompleted invocations when CurrentTime <= 0.
 
         /// <summary>
         ///     Invoked when <see cref="BaseTime"/> is changed.
@@ -28,6 +29,15 @@ namespace Asce.Managers.Utils
         /// </summary>
         public event Action<object, float> OnCurrentTimeChanged;
 
+        /// <summary>
+        ///     Invoked when cooldown is reset using <see cref="Reset"/>.
+        /// </summary>
+        public event Action<object> OnTimeReset;
+
+        /// <summary>
+        ///     Invoked once when cooldown completes (CurrentTime <= 0).
+        /// </summary>
+        public event Action<object> OnCompleted;
 
         /// <summary>
         ///     The base cooldown time (in seconds).
@@ -52,6 +62,7 @@ namespace Asce.Managers.Utils
             {
                 _currentTime = Mathf.Max(0f, value);
                 OnCurrentTimeChanged?.Invoke(this, _currentTime);
+                this.HandleComplete();
             }
         }
 
@@ -135,6 +146,27 @@ namespace Asce.Managers.Utils
         /// <summary>
         ///     Resets the current cooldown time to the base time.
         /// </summary>
-        public void Reset() => CurrentTime = BaseTime;
+        public void Reset()
+        {
+            CurrentTime = BaseTime;
+            OnTimeReset?.Invoke(this);
+        }
+
+        /// <summary>
+        ///     Internal logic to trigger OnCompleted only once when cooldown finishes.
+        /// </summary>
+        private void HandleComplete()
+        {
+            // If the cooldown is complete and wasn't already flagged, invoke the event
+            if (IsComplete) 
+            {
+                if (_completeTrigger)
+                {
+                    OnCompleted?.Invoke(this);
+                    _completeTrigger = false; // Prevent firing again until reset
+                }
+            }
+            else _completeTrigger = true; // Cooldown is running again, re-enable the trigger
+        }
     }
 }
