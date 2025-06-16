@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3551186745814107597}
+  - component: {fileID: 7469290734347163586}
   m_Layer: 8
   m_Name: Weapon Slot
   m_TagString: Untagged
@@ -31,6 +32,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1826866111617077614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7469290734347163586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378589094645324396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e44311b5fdc6c541bb60f7b92a181ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentWeapon: {fileID: 0}
 --- !u!1 &2025632197207552810
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,6 +138,12 @@ MonoBehaviour:
   _ledgeEnabled: 1
   _isClimbingLedge: 0
   _isLedgeClimbLocked: 0
+  _isAttacking: 0
+  _attackType: 2
+  _attackCooldown:
+    _baseTime: 1
+    _currentTime: 1
+  _attackSpeedMultiply: 1
   _moveDirection: {x: 0, y: 0}
   _runState: 0
   _dashTrigger: 0
@@ -131,6 +151,8 @@ MonoBehaviour:
   _crawlState: 0
   _jumpTrigger: 0
   _dodgeTrigger: 0
+  _attackTrigger: 0
+  _meleeAttackTrigger: 0
 --- !u!1 &2327455691202144450
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8f36fbb61f50a45b831faf22a90991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _information: {fileID: 11400000, guid: 66a5dac35e6fd0d44a5568f0df573c1d, type: 2}
+  _information: {fileID: 0}
   _status:
     _currentStatus: 1
     _facingDirection: 0
@@ -193,6 +215,7 @@ MonoBehaviour:
   _view: {fileID: 2637123865751815699}
   _action: {fileID: 5091308472702825161}
   _stats: {fileID: 2386274247785948579}
+  _equipment: {fileID: 8158162486582322279}
   _ui: {fileID: 6564054199029186586}
 --- !u!114 &8947564771953539130
 MonoBehaviour:
@@ -438,6 +461,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1826866111617077614}
+  - component: {fileID: 8158162486582322279}
   m_Layer: 8
   m_Name: Equipments
   m_TagString: Untagged
@@ -461,6 +485,20 @@ Transform:
   - {fileID: 3551186745814107597}
   m_Father: {fileID: 8143387239495235201}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8158162486582322279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6750802327544525344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d481a8a20a8dc4d819efdc37f0c113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 4053743200521334916}
+  _weaponSlot: {fileID: 7469290734347163586}
 --- !u!1 &8246827923773210625
 GameObject:
   m_ObjectHideFlags: 0

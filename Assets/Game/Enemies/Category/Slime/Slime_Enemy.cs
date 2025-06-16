@@ -35,7 +35,7 @@ namespace Asce.Game.Entities.Enemies.Category
                 bool isRun = deltaPosition.magnitude > 3f;
                 if (deltaPosition.magnitude <= 1.5f)
                 {
-                    Action.Attacking();
+                    Action.Attacking(true);
                     Action.Moving(Vector2.zero);
                 }
                 else Action.Moving(new Vector2(deltaPosition.x, 0f));
@@ -44,6 +44,7 @@ namespace Asce.Game.Entities.Enemies.Category
             else
             {
                 Action.Looking(false);
+                Action.Attacking(false);
                 Action.Moving(Vector2.zero);
                 Action.Running(false);
             }

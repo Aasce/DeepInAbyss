@@ -1,3 +1,4 @@
+using Asce.Game.Utils;
 using Asce.Managers.Utils;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public abstract class CreatureView : MonoBehaviour, IHasOwner<Creature>
+    public abstract class CreatureView : MonoBehaviour, IHasOwner<Creature>, IView
     {
         [SerializeField, HideInInspector] private Creature _owner;
         [SerializeField, HideInInspector] protected Animator _animator;
@@ -32,8 +33,8 @@ namespace Asce.Game.Entities
 
         public virtual Vector2 RootMotionVelocity => _rootMotionReceiver.RootMotionVelocity;
         
-        protected virtual List<Renderer> Renderers => _renderers;
-        protected virtual MaterialPropertyBlock MPBAlpha => _mpbAlpha != null ? _mpbAlpha : _mpbAlpha = new MaterialPropertyBlock();
+        public virtual List<Renderer> Renderers => _renderers;
+        public virtual MaterialPropertyBlock MPBAlpha => _mpbAlpha != null ? _mpbAlpha : _mpbAlpha = new MaterialPropertyBlock();
 
 
         public virtual float Alpha
@@ -42,30 +43,7 @@ namespace Asce.Game.Entities
             set
             {
                 _alpha = Mathf.Clamp01(value);
-
-                if (Renderers.Count <= 0) return;
-
-                MPBAlpha.Clear();
-                bool supportsAlpha = false;
-
-                Material material = Renderers[0].sharedMaterial;
-                if (material != null && material.HasProperty("_Alpha"))
-                {
-                    MPBAlpha.SetFloat("_Alpha", _alpha);
-                    supportsAlpha = true;
-                }
-
-                foreach (Renderer renderer in Renderers)
-                {
-                    if (renderer == null) continue;
-
-                    if (supportsAlpha) renderer.SetPropertyBlock(MPBAlpha);
-                    else if (renderer is SpriteRenderer spriteRenderer)
-                    {
-                        Color color = spriteRenderer.color.WithAlpha(_alpha);
-                        spriteRenderer.color = color;
-                    }
-                }
+                this.SetRendererAlpha(_alpha);
             }
         }
 
@@ -131,7 +109,7 @@ namespace Asce.Game.Entities
 
         }
 
-        protected virtual void ResetRendererList()
+        public virtual void ResetRendererList()
         {
             Renderers.Clear();
         }

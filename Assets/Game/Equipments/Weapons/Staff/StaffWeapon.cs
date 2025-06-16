@@ -1,0 +1,39 @@
+using UnityEngine;
+
+namespace Asce.Game.Equipments
+{
+    public class StaffWeapon : Weapon
+    {
+        [Header("Staff")]
+        [SerializeField] protected MagicProjectile _magicPrefab;
+
+        [Space]
+        [SerializeField] protected float _speed = 15f;
+
+        public MagicProjectile MagicPrefab => _magicPrefab;
+
+        public float Speed
+        {
+            get => _speed;
+            set => _speed = value;
+        }
+
+        protected override void Reset()
+        {
+            base.Reset();
+            WeaponType = WeaponType.Staff;
+            AttackType = Combats.AttackType.Cast;
+        }
+
+        public void Cast(Vector2 position, Vector2 direction)
+        {
+            if (MagicPrefab == null) return;
+
+            MagicProjectile projectile = Instantiate(MagicPrefab, null);
+            projectile.transform.position = position;
+            projectile.transform.right = direction;
+
+            projectile.Launching(Speed);
+        }
+    }
+}

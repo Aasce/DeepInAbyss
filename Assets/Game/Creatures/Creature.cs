@@ -3,12 +3,13 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public abstract class Creature : Entity, ICreature, IHasView<CreatureView>, IHasAction<CreatureAction>, IHasStats<CreatureStats, SO_CreatureBaseStats>, IHasUI<CreatureUI>
+    public abstract class Creature : Entity, ICreature, IHasView<CreatureView>, IHasAction<CreatureAction>, IHasStats<CreatureStats, SO_CreatureBaseStats>, IHasEquipment<CreatureEquipment>, IHasUI<CreatureUI>
     {
         [SerializeField, HideInInspector] private CreaturePhysicController _physicController;
         [SerializeField, HideInInspector] private CreatureView _view;
         [SerializeField, HideInInspector] private CreatureAction _action;
         [SerializeField, HideInInspector] private CreatureStats _stats;
+        [SerializeField, HideInInspector] private CreatureEquipment _equipment;
         [SerializeField, HideInInspector] private CreatureUI _ui;
         private bool _isControled = false;
 
@@ -34,6 +35,12 @@ namespace Asce.Game.Entities
         {
             get => _stats;
             set => _stats = value;
+        }
+
+        public CreatureEquipment Equipment
+        {
+            get => _equipment;
+            set => _equipment = value;
         }
 
         public CreatureUI UI
@@ -65,6 +72,10 @@ namespace Asce.Game.Entities
             if (transform.LoadComponent(out _stats))
             {
                 Stats.Owner = this;
+            }
+            if (transform.LoadComponent(out _equipment))
+            {
+                Equipment.Owner = this;
             }
             if (transform.LoadComponent(out _ui))
             {

@@ -1,10 +1,10 @@
+using Asce.Game.Combats;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CharacterView : CreatureView, IHasOwner<Character>
+    public class CharacterView : CreatureView, IHasOwner<Character>, IView
     {
         #region - FIELDS -
         [SerializeField] protected SO_CharacterView _view;
@@ -167,6 +167,17 @@ namespace Asce.Game.Entities
         }
 
 
+        public override float Alpha 
+        { 
+            get => base.Alpha; 
+            set
+            {
+                base.Alpha = value;
+                if (Owner.Equipment.WeaponSlot.CurrentWeapon != null) 
+                    Owner.Equipment.WeaponSlot.CurrentWeapon.View.Alpha = value;
+            }
+        }
+
         // Face
         public ExpressionType Expression
         {
@@ -264,6 +275,11 @@ namespace Asce.Game.Entities
             this.UpdateMoveBlend();
         }
 
+        protected virtual void FixedUpdate()
+        {
+            this.UpdateWeaponSlot();
+        }
+
         protected override void LateUpdate()
         {
             base.LateUpdate();
@@ -296,6 +312,10 @@ namespace Asce.Game.Entities
 
             //check should turn on looking at target or not
             bool shouldLookAtTarget = false;
+            if (Owner.Action.IsDrawingBow) shouldLookAtTarget = true;
+            if (Owner.Action.AttackTrigger && Owner.Action.AttackType == AttackType.PointAtTarget) shouldLookAtTarget = true;
+            if (Owner.Action.AttackTrigger && Owner.Action.AttackType == AttackType.Throw) shouldLookAtTarget = true;
+            if (Owner.Action.AttackTrigger && Owner.Action.AttackType == AttackType.Cast) shouldLookAtTarget = true;
             if (Owner.Action.IsLooking) shouldLookAtTarget = true;
             if (Owner.Status.IsDead) shouldLookAtTarget = false;
 
@@ -355,6 +375,10 @@ namespace Asce.Game.Entities
         public virtual void PointAtTarget()
         {
             bool shouldPointAtTarget = false;
+            if (Owner.Action.IsDrawingBow) shouldPointAtTarget = true;
+            if (Owner.Action.AttackTrigger && Owner.Action.AttackType == AttackType.PointAtTarget) shouldPointAtTarget = true;
+            if (Owner.Action.AttackTrigger && Owner.Action.AttackType == AttackType.Throw) shouldPointAtTarget = true;
+            if (Owner.Action.AttackTrigger && Owner.Action.AttackType == AttackType.Cast) shouldPointAtTarget = true;
             if (Owner.Action.IsCrawling) shouldPointAtTarget = false;
             if (Owner.Action.IsDodging) shouldPointAtTarget = false;
             if (Owner.Status.IsDead) shouldPointAtTarget = false;
@@ -373,6 +397,17 @@ namespace Asce.Game.Entities
             _rotation = RigUpperArmR.rotation.eulerAngles;
             _rotation.z += Mathf.LerpAngle(0.0f, _targetArmRotation, _pointAtTargetPercent);
             RigUpperArmR.rotation = Quaternion.Euler(_rotation);
+
+            if (Owner.Action.IsDrawingBow)
+            {
+                _rotation = RigUpperArmL.rotation.eulerAngles;
+                _rotation.z += Mathf.LerpAngle(0.0f, _targetArmRotation, _pointAtTargetPercent);
+                RigUpperArmL.rotation = Quaternion.Euler(_rotation);
+            }
+        }
+        public Vector2 LookDirection(Vector2 target)
+        {
+            return (target - (Vector2)RigUpperArmR.position).normalized;
         }
 
         public bool IsCrawlAnimation() => Animator.GetBool("IsCrawling");
@@ -410,6 +445,15 @@ namespace Asce.Game.Entities
         public void SetIsExitingLadderAnimation(bool state) => Animator.SetBool("IsExitingLadder", state);
         public void SetLadderEnterHeightAnimation(float value) => Animator.SetFloat("LadderEnterHeight", value);
         public void SetLadderExitHeightAnimation(float value) => Animator.SetFloat("LadderExitHeight", value);
+
+        public void SetAttackActionIndexAnimation(int index) => Animator.SetInteger("AttackAction", index);
+        public void SetAttackActionAnimation(AttackType type) => SetAttackActionIndexAnimation(type.ToIntValue());
+        public void SetIsAttackingAnimation(bool state) => Animator.SetBool("IsAttacking", state);
+        public void SetAttackSpeedMultiplyAnimation(float value) => Animator.SetFloat("AttackSpeedMul", value);
+
+        public void SetIsDrawingBowAnimation(bool state) => Animator.SetBool("IsDrawingBow", state);
+        public void SetIsArrowDrawnAnimation(bool state) => Animator.SetBool("IsArrowDrawn", state);
+
 
         protected override void UpdateAnimator()
         {
@@ -466,8 +510,14 @@ namespace Asce.Game.Entities
 
             MoveBlend = Mathf.Lerp(MoveBlend, targetMoveBlend, 7.0f * Time.deltaTime);
         }
-        
-        protected override void ResetRendererList()
+
+        private void UpdateWeaponSlot()
+        {
+            Owner.Equipment.WeaponSlot.transform.position = RigWeapon.transform.position;
+            Owner.Equipment.WeaponSlot.transform.rotation = RigWeapon.transform.rotation * Quaternion.Euler(0.0f, 0.0f, 180.0f);
+        }
+
+        public override void ResetRendererList()
         {
             base.ResetRendererList();
             Renderers.AddRange(new[]
@@ -494,7 +544,8 @@ namespace Asce.Game.Entities
         protected override void Status_OnFacingChanged(object sender, FacingType facing)
         {
             base.Status_OnFacingChanged(sender, facing);
-            if (_weaponSlot != null) _weaponSlot.transform.localScale = new Vector3(1.0f, 1.0f, (int)facing);
+            if (Owner.Equipment.WeaponSlot != null) 
+                Owner.Equipment.WeaponSlot.transform.localScale = new Vector3(1.0f, 1.0f, (int)facing);
         }
 
         #endregion

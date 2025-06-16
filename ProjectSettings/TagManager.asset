@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Character
+  - New tag
   layers:
   - Default
   - TransparentFX
@@ -39,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Back
+    uniqueID: 1674812583
+    locked: 0
   - name: Back Props
     uniqueID: 2463483371
     locked: 0

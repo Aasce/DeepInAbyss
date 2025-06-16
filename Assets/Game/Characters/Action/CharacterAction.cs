@@ -1,11 +1,14 @@
-﻿using Asce.Managers;
+﻿using Asce.Game.Combats;
+using Asce.Game.Equipments;
+using Asce.Managers;
 using Asce.Managers.Utils;
 using System;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace Asce.Game.Entities
 {
-    public class CharacterAction : CreatureAction, IHasOwner<Character>, ILookable, IMovable, IRunnable, IJumpable, ICrouchable, ICrawlable, ILadderClimbable, IDashable, IDodgeable
+    public class CharacterAction : CreatureAction, IHasOwner<Character>, ILookable, IMovable, IRunnable, IJumpable, ICrouchable, ICrawlable, ILadderClimbable, IDashable, IDodgeable, IAttackable, IThrowableWeapon
     {
         #region - FIELDS -
         [Header("Look")]
@@ -153,6 +156,26 @@ namespace Asce.Game.Entities
         protected float _ledgeHeight;
         protected Vector2 _ledgePosition;
 
+
+        [Header("Attack")]
+        [SerializeField] protected bool _isAttacking;
+        [SerializeField] protected AttackType _attackType = AttackType.Swipe;
+        [SerializeField] protected Cooldown _attackCooldown = new(1f);
+
+        [Space]
+        [SerializeField] protected float _attackSpeedMultiply = 1f;
+
+        protected bool _isDrawingBow;
+        protected bool _isArrowReady;
+
+        protected Projectile _projectile;
+        private bool _isStringPulled;
+        private bool _isArrowDrawn;
+
+        [Header("Throw Weapon")]
+        [SerializeField] protected float _throwForce = 5f;
+        [SerializeField] protected float _throwAngularSpeed = 200f;
+
         #region - CONTROL FIELDS- 
         [Header("Control")]
         [SerializeField] protected Vector2 _moveDirection = Vector2.zero;
@@ -162,8 +185,8 @@ namespace Asce.Game.Entities
         [SerializeField] protected bool _crawlState = false;
         [SerializeField] protected bool _jumpTrigger = false;
         [SerializeField] protected bool _dodgeTrigger = false;
-        // [SerializeField] private bool inputAttack = false;
-        // [SerializeField] private bool inputMelee = false;
+        [SerializeField] private bool _attackTrigger = false;
+        [SerializeField] private bool _meleeAttackTrigger = false;
         #endregion
 
         #endregion
@@ -191,6 +214,14 @@ namespace Asce.Game.Entities
 
         public event Action<object> OnClimbStart;
         public event Action<object> OnClimbEnd;
+
+        public event Action<object> OnBowPull;
+        public event Action<object> OnAttackStart;
+        public event Action<object> OnAttackHit;
+        public event Action<object> OnAttackEnd;
+        public event Action<object> OnAttackCast;
+        public event Action<object> OnThrow;
+
 
         #endregion
 
@@ -511,6 +542,104 @@ namespace Asce.Game.Entities
 
         #endregion
 
+        #region - ATTACK - 
+        public AttackType AttackType
+        {
+            get => _attackType;
+            set => _attackType = value;
+        }
+
+        public bool IsAttacking
+        {
+            get => _isAttacking;
+            set => _isAttacking = value;
+        }
+        public float AttackSpeedMultiply
+        {
+            get => _attackSpeedMultiply;
+            set => _attackSpeedMultiply = value;
+        }
+
+        public bool IsDrawingBow 
+        {
+            get => _isDrawingBow;
+            set
+            {
+                if (_isDrawingBow == value) return;
+                if (IsClimbingLadder || IsEnteringLadder || IsExitingLadder) return;
+
+                if (_attackCooldown.IsComplete) _isDrawingBow = value;
+                else _isDrawingBow = false;
+
+                if (!_isDrawingBow)
+                {
+                    if (_isArrowReady && _projectile != null)
+                    {
+                        // Unable to shoot, destroy arrow projectile
+                        if (Owner.Status.IsDead || IsCrawling)
+                        {
+                            Debug.Log($"Destroy Projectile");
+                            Destroy(_projectile.gameObject);
+                        }
+                        // Shoot arrow out
+                        else
+                        {
+                            if (Owner.Equipment.WeaponSlot.CurrentWeapon is BowWeapon bow)
+                            {
+                                bow.Launch(_projectile);
+                                _attackCooldown.Reset();
+                            }
+                        }
+                    }
+
+                    _isArrowReady = false;
+                    IsStringPulled = false;
+                }
+
+                Owner.View.SetIsDrawingBowAnimation(_isDrawingBow);
+            }
+        }
+        public bool IsStringPulled
+        {
+            get => _isStringPulled;
+            set
+            {
+                if (_isStringPulled == value) return;
+
+                if (!IsDrawingBow) _isStringPulled = false;
+                else _isStringPulled = value;
+
+                if (Owner.Equipment.WeaponSlot.CurrentWeapon is BowWeapon bow)
+                    bow.View.IsStringPulled = _isStringPulled;
+            }
+        }
+        public bool IsArrowDrawn
+        {
+            get => _isArrowDrawn;
+            set
+            {
+                if (_isArrowDrawn == value) return;
+                _isArrowDrawn = value;
+
+                Owner.View.SetIsArrowDrawnAnimation(_isArrowDrawn);
+                Owner.View.SetAttackSpeedMultiplyAnimation(AttackSpeedMultiply);
+            }
+        }
+        #endregion
+
+        #region - THROW WEAPON PROPERTIES -
+        public float ThrowForce
+        {
+            get => _throwForce;
+            set => _throwForce = value;
+        }
+        public float ThrowAngularSpeed
+        {
+            get => _throwAngularSpeed;
+            set => _throwAngularSpeed = value;
+        }
+        #endregion
+
         #region - CONTROL PROPERTIES -
         public Vector2 MoveDirection
         {
@@ -549,11 +678,17 @@ namespace Asce.Game.Entities
             set => _jumpTrigger = value;
         }
 
-        // public bool InputAttack
-        // {
-        //     get => inputAttack;
-        //     set => inputAttack = value;
-        // }
+        public bool AttackTrigger
+        {
+            get => _attackTrigger;
+            set => _attackTrigger = value;
+        }
+
+        public bool MeleeAttackTrigger
+        {
+            get => _meleeAttackTrigger;
+            set => _meleeAttackTrigger = value;
+        }
         #endregion
 
         #endregion
@@ -581,6 +716,7 @@ namespace Asce.Game.Entities
             this.UpdateJump(Time.deltaTime, MoveDirection.x);
             this.UpdateDodge(Time.deltaTime, MoveDirection.x);
             this.UpdateLedgeClimb(MoveDirection.x);
+            this.UpdateAttack(Time.deltaTime);
             this.UpdateGetDownPlatform(MoveDirection.y);
 
             this.UpdateDash();
@@ -716,7 +852,16 @@ namespace Asce.Game.Entities
         public void Looking(bool isLooking, Vector2 targetPosition)
         {
             IsLooking = isLooking;
-            if (isLooking) TargetPosition = targetPosition;
+            TargetPosition = targetPosition;
+        }
+
+        public void Attacking(bool isAttacking)
+        {
+            AttackTrigger = isAttacking;
+        }
+        public void MeleeAttacking(bool isAttacking)
+        {
+            MeleeAttackTrigger = isAttacking;
         }
 
         #endregion
@@ -1365,6 +1510,119 @@ namespace Asce.Game.Entities
             IsLedgeClimbLocked = false;
         }
 
+        #endregion
+
+        #region - ATTACK -
+        protected virtual void UpdateAttack(float deltaTime)
+        {
+            int attackIndex = AttackType.ToIntValue();
+            Weapon weapon = Owner.Equipment.WeaponSlot.CurrentWeapon;
+
+            if (IsCrawling && AttackType.CanAttackWhenCrawling())
+            {
+                if (weapon == null) attackIndex = AttackType.Swipe.ToIntValue();
+                else attackIndex = weapon.MeleeAttackType.ToIntValue();
+            }
+            else if (AttackType == AttackType.Archery && weapon is BowWeapon)
+            {
+                IsDrawingBow = AttackTrigger;
+            }
+
+            if (weapon is BowWeapon bow) bow.View.UpdateStringPullPosition(Owner.View.RigHandL.position);
+            
+            _attackCooldown.Update(deltaTime);
+            if (_attackCooldown.IsComplete)
+            {
+                IsAttacking = AttackTrigger || MeleeAttackTrigger;
+            }
+            else IsAttacking = false;
+            
+            Owner.View.SetAttackActionIndexAnimation(attackIndex);
+            Owner.View.SetIsAttackingAnimation(IsAttacking);
+            Owner.View.SetAttackSpeedMultiplyAnimation(AttackSpeedMultiply);
+        }
+
+        public void ArrowDraw()
+        {
+            if (!IsDrawingBow) return;
+
+            BowWeapon bow = (Owner.Equipment.WeaponSlot.CurrentWeapon as BowWeapon);
+            if (bow == null) return;
+
+            _projectile = Instantiate(bow.ArrowPrefab, Owner.View.RigHandL);
+            _projectile.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.Euler(0.0f, 0.0f, 90.0f));
+            _projectile.Owner = Owner.gameObject;
+
+            IsArrowDrawn = true;
+        }
+        public void ArrowNock()
+        {
+            IsStringPulled = true;
+            OnBowPull?.Invoke(this);
+        }
+
+        public void ArrowReady()
+        {
+            if (IsDrawingBow) _isArrowReady = true;
+        }
+
+        public void ArrowPutBack()
+        {
+            IsArrowDrawn = false;
+
+            if (_projectile != null)
+            {
+                Destroy(_projectile.gameObject);
+                _projectile = null;
+            }
+        }
+
+        public void AttackStart()
+        {
+            OnAttackStart?.Invoke(this);
+        }
+
+        public void AttackHit()
+        {
+            OnAttackHit?.Invoke(this);
+        }
+
+        public void AttackEnd()
+        {
+            OnAttackEnd?.Invoke(this);
+            _attackCooldown.Reset();
+        }
+
+        public void AttackCast()
+        {
+            StaffWeapon weapon = Owner.Equipment.WeaponSlot.CurrentWeapon as StaffWeapon;
+            if (weapon == null) return;
+
+            Vector2 position = Owner.Equipment.WeaponSlot.CurrentWeapon.TipPosition;
+            Vector2 dir = Owner.View.IsPointingAtTarget ? Owner.View.LookDirection(TargetPosition) : Owner.Equipment.WeaponSlot.CurrentWeapon.transform.right;
+
+            weapon.Cast(position, dir);
+
+            OnAttackCast?.Invoke(this);
+        }
+        public void Throwing()
+        {
+            if (IsAttacking) return;
+            if (IsArrowDrawn) return;
+
+            Weapon weapon = Owner.Equipment.WeaponSlot.CurrentWeapon;
+            if (weapon == null) return;
+
+            Owner.Equipment.WeaponSlot.DetachWeapon();
+
+            weapon.Rigidbody.linearVelocity = Owner.PhysicController.currentVelocity;
+            weapon.Rigidbody.angularVelocity = -Owner.Status.FacingDirectionValue * ThrowAngularSpeed;
+
+            Vector2 targetDirection = TargetPosition - (Vector2)Owner.transform.position;
+            weapon.Rigidbody.AddForce(targetDirection.normalized * ThrowForce);
+
+            OnThrow?.Invoke(this);
+        }
         #endregion
 
         #region - GET DOWN PLATFORM METHODS -

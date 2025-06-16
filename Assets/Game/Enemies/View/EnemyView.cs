@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies
 {
-    public class EnemyView : CreatureView, IHasOwner<Enemy>
+    public class EnemyView : CreatureView, IHasOwner<Enemy>, IView
     {
         // current move blend, for blending idle, walk, run animation, lerps to target move blend on frame update
         protected float _moveBlend;
@@ -70,7 +70,7 @@ namespace Asce.Game.Entities.Enemies
             MoveBlend = Mathf.MoveTowards(MoveBlend, targetMoveBlend, Time.deltaTime * _movingBlendTransitionSpeed);
         }
 
-        protected override void ResetRendererList()
+        public override void ResetRendererList()
         {
             base.ResetRendererList();
             if (_renderer != null) Renderers.Add(_renderer);

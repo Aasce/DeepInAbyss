@@ -273,6 +273,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6891292370529711943, guid: 3142b08f839db134296c3e0eb2cb075e, type: 3}
+      propertyPath: m_ShadowMesh.m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6891292370529711943, guid: 3142b08f839db134296c3e0eb2cb075e, type: 3}
+      propertyPath: m_ShadowMesh.m_InitialTrim
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

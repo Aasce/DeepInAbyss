@@ -72,6 +72,8 @@ namespace Asce.Game.Players
             if (ControlledCreature.Action is IJumpable jumpable) jumpable.Jumping(Input.JumpInput);
             if (Input.CrouchInput) if (ControlledCreature.Action is ICrouchable crouchable) crouchable.Crouching();
             if (Input.CrawlInput) if (ControlledCreature.Action is ICrawlable crawlable) crawlable.Crawling();
+
+            if (ControlledCreature.Action is IAttackable attackable) attackable.Attacking(Input.AttackInput);
         }
 
         private void ControlUI()

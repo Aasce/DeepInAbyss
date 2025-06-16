@@ -27,50 +27,50 @@ namespace Asce.Game.Entities
 
         #region - ATTACK EVENTS
 
-        //the animatorStateInfo.speed here is used to distinguish
-        //Attack Action - Arm - speed: 1.0
-        //Attack Action - Body - speed: 0.98
-        //events from the body layer is not send to the controller to prevent it form being fired twice
+        // the animatorStateInfo.speed here is used to distinguish
+        // Attack Action - Arm - speed: 1.0
+        // Attack Action - Body - speed: 0.98
+        // events from the body layer is not send to the controller to prevent it form being fired twice
 
-        //when attack action starts
+        // When attack action starts
         public void OnAttackStart(AnimationEvent evt)
         {
             if (evt.animatorStateInfo.speed < 0.99f) return;
 
-            // controller.AttackStart();
+            Owner.Action.AttackStart();
         }
 
-        //when the attack action is supposed to hit the target
-        //for continuous attack action like [Point] and [Summon], this event is fired at the moment the attack animtion enters a looping state
+        // When the attack action is supposed to hit the target
+        // For continuous attack action like [Point] and [Summon], this event is fired at the moment the attack animtion enters a looping state
         public void OnAttackHit(AnimationEvent evt)
         {
             if (evt.animatorStateInfo.speed < 0.99f) return;
 
-            // controller.AttackHit();
+            Owner.Action.AttackHit();
         }
 
-        //when the attack action is supposed to cast a projectile
-        //used only in [Cast] attack action
+        // When the attack action is supposed to cast a projectile
+        // Used only in [Cast] attack action
         public void OnAttackCast(AnimationEvent evt)
         {
             if (evt.animatorStateInfo.speed < 0.99f) return;
 
-            // controller.AttackCast();
+            Owner.Action.AttackCast();
         }
 
-        //when the attack action ends
+        // When the attack action ends
         public void OnAttackEnd(AnimationEvent evt)
         {
             if (evt.animatorStateInfo.speed < 0.99f) return;
 
-            // controller.AttackEnd();
+            Owner.Action.AttackEnd();
         }
 
-        //when the attack action is supposed to throw out the holding weapon
-        //used only in [Throw] attack action
+        // When the attack action is supposed to throw out the holding weapon
+        // Used only in [Throw] attack action
         public void OnThrow()
         {
-            // controller.Throw();
+            Owner.Action.Throwing();
         }
 
         #endregion
@@ -79,22 +79,22 @@ namespace Asce.Game.Entities
 
         public void OnArrowDraw()
         {
-            // if (controller) controller.ArrowDraw();
+            Owner.Action.ArrowDraw();
         }
 
         public void OnArrowNock()
         {
-            // if (controller) controller.ArrowNock();
+            Owner.Action.ArrowNock();
         }
 
         public void OnArrowReady()
         {
-            // if (controller) controller.ArrowReady();
+            Owner.Action.ArrowReady();
         }
 
         public void OnArrowPutBack()
         {
-            // if (controller) controller.ArrowPutBack();
+            Owner.Action.ArrowPutBack();
         }
 
         #endregion

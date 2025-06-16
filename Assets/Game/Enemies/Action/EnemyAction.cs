@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies
 {
-    public class EnemyAction : CreatureAction, IHasOwner<Enemy>, ILookable, IMovable, IRunnable, IJumpable
+    public class EnemyAction : CreatureAction, IHasOwner<Enemy>, ILookable, IMovable, IRunnable, IJumpable, IAttackable
     {
         [Header("Look")]
         [SerializeField] protected bool _isLooking = false;
@@ -43,15 +43,15 @@ namespace Asce.Game.Entities.Enemies
         [SerializeField] protected bool _isAttacking = false;
         [SerializeField] protected bool _canAttackWhenMoving = true;
         [SerializeField] protected bool _canAttackInAir = true;
-        [SerializeField] protected Cooldown _attackCooldown = new(2f); 
-        private bool _attackTriggered = false;
+        [SerializeField] protected Cooldown _attackCooldown = new(2f);
 
         #region - CONTROL FIELDS - 
         [Header("Control")]
         [SerializeField] private Vector2 _moveDirection = Vector2.zero;
         [SerializeField] private bool _runState = false;
-        [SerializeField] private bool _controlJump = false;
-        [SerializeField] private bool _controlAttack = false;
+        [SerializeField] private bool _jumpTrigger = false;
+        [SerializeField] private bool _attackTrigger = false;
+        [SerializeField] private bool _meleeAttackTrigger = false;
         #endregion
 
         #region - EVENTS - 
@@ -182,14 +182,20 @@ namespace Asce.Game.Entities.Enemies
         }
         public bool JumpTrigger
         {
-            get => _controlJump;
-            set => _controlJump = value;
+            get => _jumpTrigger;
+            set => _jumpTrigger = value;
         }
 
-        public bool ControlAttack
+        public bool AttackTrigger
         {
-            get => _controlAttack;
-            set => _controlAttack = value;
+            get => _attackTrigger;
+            set => _attackTrigger = value;
+        }
+
+        public bool MeleeAttackTrigger
+        {
+            get => _meleeAttackTrigger;
+            set => _meleeAttackTrigger = value;
         }
         #endregion
 
@@ -234,11 +240,6 @@ namespace Asce.Game.Entities.Enemies
         {
             JumpTrigger = state;
         }
-        public void Attacking()
-        {
-            if (!_attackCooldown.IsComplete) return;
-            _attackTriggered = true;
-        }
         public void Looking(bool isLooking, Vector2 targetPosition = default)
         {
             IsLooking = isLooking;
@@ -248,6 +249,16 @@ namespace Asce.Game.Entities.Enemies
                 float direction = (TargetPosition - (Vector2)Owner.transform.position).x;
                 Owner.Status.FacingDirection = EnumUtils.GetFacingByDirection(direction);
             }
+        }
+        public void Attacking(bool isAttacking)
+        {
+            if (_attackCooldown.IsComplete) AttackTrigger = isAttacking;
+            else AttackTrigger = false; // Reset attack trigger if cooldown is not complete
+        }
+        public void MeleeAttacking(bool isAttacking)
+        {
+            if (_attackCooldown.IsComplete) MeleeAttackTrigger = isAttacking;
+            else MeleeAttackTrigger = false; // Reset melee attack trigger if cooldown is not complete
         }
 
 
@@ -358,7 +369,7 @@ namespace Asce.Game.Entities.Enemies
             IsRunning = RunState;
 
             if (Owner.Status.IsDead) direction = 0.0f;
-            if (!CanAttackWhenMoving && (IsAttacking || _attackTriggered)) direction = 0.0f;
+            if (!CanAttackWhenMoving && (IsAttacking || AttackTrigger)) direction = 0.0f;
             if (IsInJumpPrepare) direction = 0.0f;
 
             IsMoving = Mathf.Abs(direction) > Constants.MOVE_THRESHOLD;
@@ -383,10 +394,10 @@ namespace Asce.Game.Entities.Enemies
                 IsAttacking = false;
             }
 
-            if (_attackTriggered)
+            if (AttackTrigger)
             {
                 this.Attack();
-                _attackTriggered = false;
+                AttackTrigger = false;
             }
         }
 
