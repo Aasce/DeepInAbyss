@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 378589094645324396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e44311b5fdc6c541bb60f7b92a181ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 225efbe9458c3f64da4f5f083ff5fbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _currentWeapon: {fileID: 0}
@@ -139,11 +139,15 @@ MonoBehaviour:
   _isClimbingLedge: 0
   _isLedgeClimbLocked: 0
   _isAttacking: 0
+  _isMeleeAttacking: 0
   _attackType: 2
+  _meleeAttackType: 2
   _attackCooldown:
     _baseTime: 1
     _currentTime: 1
   _attackSpeedMultiply: 1
+  _throwForce: 5
+  _throwAngularSpeed: 200
   _moveDirection: {x: 0, y: 0}
   _runState: 0
   _dashTrigger: 0
@@ -206,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8f36fbb61f50a45b831faf22a90991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _information: {fileID: 0}
+  _information: {fileID: 11400000, guid: 66a5dac35e6fd0d44a5568f0df573c1d, type: 2}
   _status:
     _currentStatus: 1
     _facingDirection: 0
@@ -443,7 +447,6 @@ MonoBehaviour:
   _rigUpperArmR: {fileID: 5672580966142402554}
   _rigHandR: {fileID: 5672580966142402542}
   _rigWeapon: {fileID: 5672580966142402486}
-  _weaponSlot: {fileID: 3551186745814107597}
   _rootMotionVelocity: {x: 0, y: 0}
   _clipHair: 0
   _hideHair: 0
@@ -452,6 +455,52 @@ MonoBehaviour:
   _blinkInterval: {x: 0.5, y: 5}
   _blinkTimer: 0
   _isShoesFrontPants: 0
+--- !u!1 &6696754159749962083
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2103608436132481070}
+  - component: {fileID: 1760606121283492157}
+  m_Layer: 8
+  m_Name: Left Hand Slot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2103608436132481070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6696754159749962083}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1826866111617077614}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1760606121283492157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6696754159749962083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aeb8a74105789c4d85635c193f549c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectile: {fileID: 0}
+  _isProjectileReady: 0
 --- !u!1 &6750802327544525344
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,6 +532,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3551186745814107597}
+  - {fileID: 2103608436132481070}
   m_Father: {fileID: 8143387239495235201}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8158162486582322279
@@ -499,6 +549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _owner: {fileID: 4053743200521334916}
   _weaponSlot: {fileID: 7469290734347163586}
+  _leftHandSlot: {fileID: 1760606121283492157}
 --- !u!1 &8246827923773210625
 GameObject:
   m_ObjectHideFlags: 0

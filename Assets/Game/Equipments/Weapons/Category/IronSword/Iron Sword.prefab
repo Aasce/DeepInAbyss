@@ -132,9 +132,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ca3d6e6baf90343895b732f0f5f57a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 3321350004688536707}
-  _renderer: {fileID: 5602677087168801736}
+  _weapon: {fileID: 510132762145398444}
   _alpha: 1
+  _renderer: {fileID: 5602677087168801736}
 --- !u!1 &7996479783139715467
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +144,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2675721836952975916}
-  - component: {fileID: 3321350004688536707}
+  - component: {fileID: 510132762145398444}
   - component: {fileID: 5886985823291658602}
   - component: {fileID: 8897191082741524502}
   m_Layer: 9
@@ -170,7 +170,7 @@ Transform:
   - {fileID: 7344646120999484488}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3321350004688536707
+--- !u!114 &510132762145398444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,16 +179,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 7996479783139715467}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ee48f349b19a3459d7080770db879c, type: 3}
+  m_Script: {fileID: 11500000, guid: a0af7722e61b4bc469aea83ca26dc12f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 3293783571100479232}
   _collider: {fileID: 5886985823291658602}
   _rigidBody: {fileID: 8897191082741524502}
+  _information: {fileID: 11400000, guid: 55a667ae6da71534084e7381528594a2, type: 2}
   _tip: {fileID: 0}
-  _weaponType: 2
-  _attackType: 2
-  _meleeAttackType: 2
+  _hitBox:
+    _offset: {x: 0.5, y: 1}
+    _size: {x: 1, y: 1.5}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
+  _stabHitBox:
+    _offset: {x: 0.7, y: 0.8}
+    _size: {x: 1.6, y: 0.8}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
 --- !u!61 &5886985823291658602
 BoxCollider2D:
   m_ObjectHideFlags: 0

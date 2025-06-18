@@ -2,9 +2,9 @@ using Asce.Game.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Asce.Game.Equipments
+namespace Asce.Game.Equipments.Weapons
 {
-    public class WeaponView : MonoBehaviour, IView
+    public class WeaponView : MonoBehaviour, IViewController
     {
         [SerializeField] protected Weapon _weapon;
 

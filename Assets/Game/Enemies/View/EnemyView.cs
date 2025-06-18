@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies
 {
-    public class EnemyView : CreatureView, IHasOwner<Enemy>, IView
+    public class EnemyView : CreatureView, IHasOwner<Enemy>, IViewController
     {
         // current move blend, for blending idle, walk, run animation, lerps to target move blend on frame update
         protected float _moveBlend;
@@ -41,8 +41,6 @@ namespace Asce.Game.Entities.Enemies
             this.UpdateMoveBlend();
         }
 
-        public virtual void InjuredFront() => Animator.SetTrigger("InjuredFront");
-        public virtual void InjuredBack() => Animator.SetTrigger("InjuredBack");
         public virtual void AttackTrigger() => Animator.SetTrigger("Attack");
 
 

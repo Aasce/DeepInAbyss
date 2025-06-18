@@ -5031,12 +5031,18 @@ MonoBehaviour:
   _view: {fileID: 4704970164362215728}
   _collider: {fileID: 5153108147638105535}
   _rigidBody: {fileID: 6509289861347428978}
+  _information: {fileID: 11400000, guid: 65fe931f7f0867341a771c461f2688c3, type: 2}
   _tip: {fileID: 0}
-  _weaponType: 20
-  _attackType: 16384
-  _meleeAttackType: 2
+  _hitBox:
+    _offset: {x: 0.6, y: 1}
+    _size: {x: 1.2, y: 1.5}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
   _magicPrefab: {fileID: 1229896946291252059, guid: 5a49772a0ee7b1a4884017ec8cad3cee, type: 3}
   _speed: 15
+  _damage: 15
+  _penetration: 0
 --- !u!50 &6509289861347428978
 Rigidbody2D:
   serializedVersion: 5

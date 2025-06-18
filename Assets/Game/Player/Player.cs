@@ -73,7 +73,13 @@ namespace Asce.Game.Players
             if (Input.CrouchInput) if (ControlledCreature.Action is ICrouchable crouchable) crouchable.Crouching();
             if (Input.CrawlInput) if (ControlledCreature.Action is ICrawlable crawlable) crawlable.Crawling();
 
-            if (ControlledCreature.Action is IAttackable attackable) attackable.Attacking(Input.AttackInput);
+            if (ControlledCreature.Action is IAttackable attackable)
+            { 
+                attackable.Attacking(Input.AttackInput);
+                attackable.MeleeAttacking(Input.MeleeAttackInput);
+            }
+
+            if (Input.DetachWeaponInput) if (ControlledCreature.Equipment is IHasWeaponSlot hasWeaponSlot) hasWeaponSlot.WeaponSlot.DetachWeapon();
         }
 
         private void ControlUI()

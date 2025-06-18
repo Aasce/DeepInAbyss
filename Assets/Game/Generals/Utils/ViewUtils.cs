@@ -12,9 +12,9 @@ namespace Asce.Game.Utils
         ///     Sets the alpha (transparency) value of all renderers associated with the view.
         ///     Supports both material property blocks with "_Alpha" and SpriteRenderers.
         /// </summary>
-        /// <param name="view"> The view implementing <see cref="IView"/> interface. </param>
+        /// <param name="view"> The view implementing <see cref="IViewController"/> interface. </param>
         /// <param name="alpha"> The alpha value to set, clamped between 0 and 1. </param>
-        public static void SetRendererAlpha(this IView view, float alpha)
+        public static void SetRendererAlpha(this IViewController view, float alpha)
         {
             if (view == null) return;
             if (view.Renderers.Count <= 0) return;
@@ -33,7 +33,7 @@ namespace Asce.Game.Utils
         /// <param name="view"> The view with renderers. </param>
         /// <param name="alpha"> The alpha value. </param>
         /// <returns> Returns true if the alpha was applied using material property block, otherwise false. </returns>
-        private static bool TryApplyMaterialAlpha(IView view, float alpha)
+        private static bool TryApplyMaterialAlpha(IViewController view, float alpha)
         {
             Material sharedMaterial = view.Renderers[0].sharedMaterial;
             if (sharedMaterial == null || !sharedMaterial.HasProperty("_Alpha"))
@@ -56,7 +56,7 @@ namespace Asce.Game.Utils
         /// <param name="view"> The view with renderers. </param>
         /// <param name="alpha"> The target alpha value. </param>
         /// <returns> Returns true if at least one <see cref="SpriteRenderer"> was found and modified, otherwise false. </returns>
-        private static bool TryApplySpriteRendererAlpha(IView view, float alpha)
+        private static bool TryApplySpriteRendererAlpha(IViewController view, float alpha)
         {
             bool applied = false;
 

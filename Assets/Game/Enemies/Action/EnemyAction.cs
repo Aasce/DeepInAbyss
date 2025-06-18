@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies
 {
-    public class EnemyAction : CreatureAction, IHasOwner<Enemy>, ILookable, IMovable, IRunnable, IJumpable, IAttackable
+    public class EnemyAction : CreatureAction, IHasOwner<Enemy>, IActionController, ILookable, IMovable, IRunnable, IJumpable, IAttackable
     {
         [Header("Look")]
         [SerializeField] protected bool _isLooking = false;
@@ -55,6 +55,7 @@ namespace Asce.Game.Entities.Enemies
         #endregion
 
         #region - EVENTS - 
+        public event Action<object> OnFootstep;
 
         public event Action<object> OnMoveStart;
         public event Action<object> OnMoveEnd;
@@ -63,6 +64,8 @@ namespace Asce.Game.Entities.Enemies
         public event Action<object> OnRunEnd;
 
         public event Action<object> OnJump;
+
+        public event Action<object> OnAttack;
 
         #endregion
 
@@ -400,6 +403,9 @@ namespace Asce.Game.Entities.Enemies
                 AttackTrigger = false;
             }
         }
+
+        public virtual void AttackEventCalling() => OnAttack?.Invoke(this);
+        public virtual void FootStepEventCalling() => OnFootstep?.Invoke(this);
 
         #region - EVENT REGISTER METHODS -
         protected virtual void Speed_OnValueChanged(object sender, ValueChangedEventArgs args)

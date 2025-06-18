@@ -1,4 +1,5 @@
-using PlasticPipe.PlasticProtocol.Server.Stubs;
+using Asce.Game.Combats;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies.Category
@@ -9,10 +10,16 @@ namespace Asce.Game.Entities.Enemies.Category
         protected Collider2D[] _targetColliders;
         protected Character _target;
 
+        [SerializeField] protected HitBox _damageHitBox = new();
+        protected HashSet<GameObject> _damagedObject = new ();
+
+        public HitBox DamageHitBox => _damageHitBox;
+
         protected override void Update()
         {
             base.Update();
             if (IsControled) return;
+            if (Status.IsDead) return;
 
             _targetColliders = Physics2D.OverlapCircleAll(transform.position, Stats.ViewRadius.Value, _targetLayerMask);
 
@@ -27,7 +34,7 @@ namespace Asce.Game.Entities.Enemies.Category
                 break;
             }
 
-            if (_target != null)
+            if (_target != null && _target.Status.IsAlive)
             {
                 Vector2 deltaPosition = _target.transform.position - transform.position;
                 Action.Looking(true, _target.transform.position);
@@ -47,6 +54,29 @@ namespace Asce.Game.Entities.Enemies.Category
                 Action.Attacking(false);
                 Action.Moving(Vector2.zero);
                 Action.Running(false);
+            }
+        }
+
+        protected override void Action_OnAttack(object sender)
+        {
+            base.Action_OnAttack(sender);
+            _damagedObject.Clear();
+
+            Collider2D[] colliders = _damageHitBox.Hit(transform.position, Status.FacingDirectionValue);
+            foreach (Collider2D collider in colliders)
+            {
+                if (!collider.enabled) continue;
+                if (collider.transform == transform) continue; // Ignore self
+                if (_damagedObject.Contains(collider.gameObject)) continue; // Avoid dealing damage to the same creature multiple times
+                if (!collider.TryGetComponent(out ICreature creature)) continue;
+
+                CombatSystem.DamageDealing(new DamageContainer(Stats, creature.Stats)
+                {
+                    Damage = Stats.Strength.Value,
+                    DamageType = DamageType.Physical,
+                });
+
+                _damagedObject.Add(collider.gameObject);
             }
         }
 

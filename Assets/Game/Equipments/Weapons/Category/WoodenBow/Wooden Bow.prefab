@@ -378,10 +378,15 @@ MonoBehaviour:
   _view: {fileID: 8403061198646186739}
   _collider: {fileID: 7752515161868346401}
   _rigidBody: {fileID: 4674055290174701610}
+  _information: {fileID: 11400000, guid: 0a9790756b17d1a49b103bdfe9301f91, type: 2}
   _tip: {fileID: 0}
-  _weaponType: 10
-  _attackType: 2097152
-  _meleeAttackType: 2
+  _hitBox:
+    _offset: {x: 0.5, y: 0.9}
+    _size: {x: 1, y: 1.5}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
+  _isDealingDamage: 0
   _arrowPrefab: {fileID: 1939144753012118150, guid: 9693f6d3bc206bc4b95ff0c52512adb0, type: 3}
   _force: 25
 --- !u!60 &7752515161868346401
@@ -400,7 +405,7 @@ PolygonCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

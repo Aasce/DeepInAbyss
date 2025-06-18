@@ -185,10 +185,14 @@ MonoBehaviour:
   _view: {fileID: 972647951657656400}
   _collider: {fileID: 6968168209442288030}
   _rigidBody: {fileID: 4954263606565108170}
+  _information: {fileID: 11400000, guid: 2668470eb6e0c394980aea4ed19fcf0e, type: 2}
   _tip: {fileID: 0}
-  _weaponType: 7
-  _attackType: 2
-  _meleeAttackType: 2
+  _hitBox:
+    _offset: {x: 0.8, y: 0.75}
+    _size: {x: 1.2, y: 2}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
 --- !u!50 &4954263606565108170
 Rigidbody2D:
   serializedVersion: 5

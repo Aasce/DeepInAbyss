@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public abstract class CreatureView : MonoBehaviour, IHasOwner<Creature>, IView
+    public abstract class CreatureView : MonoBehaviour, IHasOwner<Creature>, IViewController
     {
         [SerializeField, HideInInspector] private Creature _owner;
         [SerializeField, HideInInspector] protected Animator _animator;
@@ -76,6 +76,8 @@ namespace Asce.Game.Entities
                 Owner.Status.OnDeath += Status_OnDeath;
                 Owner.Status.OnRevive += Status_OnRevive;
                 Owner.Status.OnFacingChanged += Status_OnFacingChanged;
+
+                Owner.Stats.OnAfterTakeDamage += Stats_OnAfterTakeDamage;
             }
         }
 
@@ -103,6 +105,9 @@ namespace Asce.Game.Entities
             if (targetFacing == 0) targetFacing = Owner.Status.FacingDirection;
             return targetFacing;
         }
+
+        public virtual void InjuredFront() { if (Animator != null) Animator.SetTrigger("InjuredFront"); }
+        public virtual void InjuredBack() { if (Animator != null) Animator.SetTrigger("InjuredBack"); }
 
         protected virtual void UpdateAnimator()
         {
@@ -134,6 +139,21 @@ namespace Asce.Game.Entities
             Vector3 pos = Animator.transform.localPosition;
             pos.x = 0.064f * -(int)facing;
             Animator.transform.localPosition = pos;
+        }
+
+        protected virtual void Stats_OnAfterTakeDamage(object sender, Combats.DamageContainer container)
+        {
+            if (Animator == null) return; 
+            GameObject other = container.Sender.gameObject;
+
+            // Determine the horizontal direction from the attacker to the owner
+            float direction = Mathf.Sign(other.transform.position.x - Owner.transform.position.x);
+
+            // If the attacker is in back of the character, trigger back injured animation
+            if (Mathf.Sign(direction) != Owner.Status.FacingDirectionValue) InjuredBack();
+
+            // Otherwise, trigger front injured animation
+            else InjuredFront();
         }
     }
 }

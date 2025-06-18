@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Game
 {
-    public interface  IView
+    public interface  IViewController
     {
         public List<Renderer> Renderers { get; }
         public MaterialPropertyBlock MPBAlpha { get; }

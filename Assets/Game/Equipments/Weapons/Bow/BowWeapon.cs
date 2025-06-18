@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Asce.Game.Equipments
+namespace Asce.Game.Equipments.Weapons
 {
     public class BowWeapon : Weapon
     {
@@ -23,8 +23,6 @@ namespace Asce.Game.Equipments
         protected override void Reset()
         {
             base.Reset();
-            WeaponType = WeaponType.Bow;
-            AttackType = Combats.AttackType.Archery;
         }
 
         protected override void Start()

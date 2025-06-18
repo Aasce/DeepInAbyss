@@ -7,9 +7,6 @@ namespace Asce.Game.Entities.Enemies
     {
         [SerializeField] private Enemy _owner;
 
-        public event Action<object, Enemy> OnFootstepEvent;
-        public event Action<object, Enemy> OnAttackEvent;
-        public event Action<object, Enemy> OnDieFxEvent;
 
         public Enemy Owner
         {
@@ -19,17 +16,17 @@ namespace Asce.Game.Entities.Enemies
 
         public void OnFootstep()
         {
-            OnFootstepEvent?.Invoke(this, Owner);
+            Owner.Action.FootStepEventCalling();
         }
 
         public void OnAttack()
         {
-            OnAttackEvent?.Invoke(this, Owner);
+            Owner.Action.AttackEventCalling();
         }
 
         public void OnDieFx()
         {
-            OnDieFxEvent?.Invoke(this, Owner);
+
         }
     }
 }

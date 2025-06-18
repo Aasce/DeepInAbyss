@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public abstract class CreatureAction : MonoBehaviour, IHasOwner<Creature>
+    public abstract class CreatureAction : MonoBehaviour, IHasOwner<Creature>, IActionController
     {
         [SerializeField, HideInInspector] private Creature _owner;
 

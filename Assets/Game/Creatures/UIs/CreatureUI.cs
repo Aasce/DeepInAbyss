@@ -34,7 +34,7 @@ namespace Asce.Game.Entities
         {
             if (this.LoadComponent(out _owner))
             {
-
+                Owner.UI = this;
             }
         }
 

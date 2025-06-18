@@ -125,8 +125,9 @@ MonoBehaviour:
     _currentTime: 2
   _moveDirection: {x: 0, y: 0}
   _runState: 0
-  _controlJump: 0
-  _controlAttack: 0
+  _jumpTrigger: 0
+  _attackTrigger: 0
+  _meleeAttackTrigger: 0
 --- !u!1 &5120850210450975925
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,12 +182,12 @@ MonoBehaviour:
       _agents: []
       _currentValue: 0
       _currentAgents: []
-      _changeValue: 1
+      _changeValue: 0
       _changeAgents:
       - _author: {fileID: 0}
         _reason: heal scale affect
         _value: 1
-        _type: 1
+        _type: 3
         _duration:
           _baseTime: Infinity
           _currentTime: Infinity
@@ -416,6 +417,7 @@ MonoBehaviour:
   _view: {fileID: 7049315219833258526}
   _action: {fileID: 3624889274091405363}
   _stats: {fileID: 7952380481961431312}
+  _equipment: {fileID: 0}
   _ui: {fileID: 5510216937476889389}
   _refreshCooldown:
     _baseTime: 5

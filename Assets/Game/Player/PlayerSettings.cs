@@ -20,6 +20,8 @@ namespace Asce.Game.Players
 
         [Space]
         [SerializeField] private KeyCode _attackKey = KeyCode.Mouse0;
+        [SerializeField] private KeyCode _meleeAttackKey = KeyCode.F;
+        [SerializeField] private KeyCode _detachWeaponKey = KeyCode.G;
 
         [Space]
         [SerializeField] private KeyCode _lookKey = KeyCode.Mouse1;
@@ -87,6 +89,18 @@ namespace Asce.Game.Players
         {
             get => _attackKey; 
             set => _attackKey = value;
+        }
+
+        public KeyCode MeleeAttackKey
+        {
+            get => _meleeAttackKey; 
+            set => _meleeAttackKey = value;
+        }
+
+        public KeyCode DetachWeaponKey
+        {
+            get => _detachWeaponKey; 
+            set => _detachWeaponKey = value;
         }
 
         public KeyCode LookKey

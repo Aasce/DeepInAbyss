@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Asce.Game.Equipments
+namespace Asce.Game.Equipments.Weapons
 {
-    public class BowWeaponView : WeaponView, IView
+    public class BowWeaponView : WeaponView, IViewController
     {
         [SerializeField] protected Renderer _stringRenderer;
 

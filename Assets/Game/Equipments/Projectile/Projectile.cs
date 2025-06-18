@@ -1,19 +1,27 @@
+using Asce.Game.Combats;
+using Asce.Game.Entities;
 using Asce.Managers.Utils;
 using System;
 using UnityEngine;
 
 namespace Asce.Game.Equipments 
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
     public class Projectile : MonoBehaviour
     {
         // Ref
         [SerializeField, HideInInspector] protected Rigidbody2D _rigidbody;
-        [SerializeField] GameObject _owner;
+        [SerializeField, HideInInspector] protected Collider2D _collider;
+        protected ICreature _owner;
 
         [SerializeField] protected bool _isLaunched;
         [SerializeField] protected Cooldown _despawnCooldown = new(10f);
         protected bool _hasHit;
+
+        [Space]
+        [SerializeField] protected float _damage = 0f;
+        [SerializeField] protected float _penetration = 0f;
+        [SerializeField] protected DamageType _damageType = DamageType.Physical;
 
         [Space]
         [SerializeField] protected bool _isSetZPositionOnLaunch = false;
@@ -29,14 +37,17 @@ namespace Asce.Game.Equipments
         public event Action<object, Collision2D> OnHit;
 
 
-        public GameObject Owner
+        public ICreature Owner
         {
-            get => _owner; 
+            get => _owner;
             set
             {
                 _owner = value;
             }
         }
+
+        public Rigidbody2D Rigidbody => _rigidbody;
+        public Collider2D Collider => _collider;
 
         public virtual bool IsLaunched
         {
@@ -95,7 +106,8 @@ namespace Asce.Game.Equipments
 
         protected virtual void Reset()
         {
-            this.LoadComponent(out  _rigidbody);
+            this.LoadComponent(out _rigidbody);
+            this.LoadComponent(out _collider);
         }
 
         protected virtual void Start()
@@ -118,10 +130,23 @@ namespace Asce.Game.Equipments
         protected virtual void OnCollisionEnter2D(Collision2D collision)
         {
             if (HasHit) return;
-            if (Owner != null && Owner == collision.gameObject) return;
-            
+            if (Owner != null && Owner.gameObject == collision.gameObject) return;
+
+            if (collision.gameObject.TryGetComponent(out ICreature creature))
+            {
+                Vector2 position = collision.contactCount > 0 ? collision.GetContact(0).point : (Vector2)collision.transform.position;
+                this.DealDamage(creature, position);
+            }
+
             HasHit = true;
             OnHit?.Invoke(this, collision);
+        }
+
+        public virtual void SetDamage(float damage, float penetration = 0f, DamageType damageType = DamageType.Physical)
+        {
+            _damage = damage;
+            _penetration = penetration;
+            _damageType = damageType;
         }
 
         public virtual void Launching(float force)
@@ -129,7 +154,8 @@ namespace Asce.Game.Equipments
             transform.SetParent(null, true);
             transform.localScale = Vector3.one;
             IsLaunched = true;
-            _rigidbody.linearVelocity = force * transform.right;
+            Collider.isTrigger = false;
+            Rigidbody.linearVelocity = force * transform.right;
         }
 
         protected virtual void OnLaunched()
@@ -141,6 +167,21 @@ namespace Asce.Game.Equipments
         protected virtual void Despawn()
         {
             Destroy(gameObject);
+        }
+
+        protected virtual void DealDamage(ICreature target, Vector2 position)
+        {
+            if (target == null) return;
+            if (target.Status.IsDead) return;
+
+            CombatSystem.DamageDealing(new DamageContainer(Owner.Stats, target.Stats)
+            {
+                Damage = _damage,
+                DamageType = _damageType,
+                Penetration = _penetration,
+
+                Position = position,
+            });
         }
     }
 }

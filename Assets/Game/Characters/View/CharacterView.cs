@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CharacterView : CreatureView, IHasOwner<Character>, IView
+    public class CharacterView : CreatureView, IHasOwner<Character>, IViewController
     {
         #region - FIELDS -
         [SerializeField] protected SO_CharacterView _view;
@@ -38,9 +38,6 @@ namespace Asce.Game.Entities
         [SerializeField] protected Transform _rigUpperArmR;
         [SerializeField] protected Transform _rigHandR;
         [SerializeField] protected Transform _rigWeapon;
-
-        [Space]
-        [SerializeField] protected Transform _weaponSlot;
 
         [Space]
         [SerializeField] private Vector2 _rootMotionVelocity;
@@ -275,11 +272,6 @@ namespace Asce.Game.Entities
             this.UpdateMoveBlend();
         }
 
-        protected virtual void FixedUpdate()
-        {
-            this.UpdateWeaponSlot();
-        }
-
         protected override void LateUpdate()
         {
             base.LateUpdate();
@@ -411,8 +403,6 @@ namespace Asce.Game.Entities
         }
 
         public bool IsCrawlAnimation() => Animator.GetBool("IsCrawling");
-        public void InjuredFront() => Animator.SetTrigger("InjuredFront");
-        public void InjuredBack() => Animator.SetTrigger("InjuredBack");
         
         public void SetIsDodgingAnimation(bool state, int dir)
         {
@@ -511,11 +501,6 @@ namespace Asce.Game.Entities
             MoveBlend = Mathf.Lerp(MoveBlend, targetMoveBlend, 7.0f * Time.deltaTime);
         }
 
-        private void UpdateWeaponSlot()
-        {
-            Owner.Equipment.WeaponSlot.transform.position = RigWeapon.transform.position;
-            Owner.Equipment.WeaponSlot.transform.rotation = RigWeapon.transform.rotation * Quaternion.Euler(0.0f, 0.0f, 180.0f);
-        }
 
         public override void ResetRendererList()
         {

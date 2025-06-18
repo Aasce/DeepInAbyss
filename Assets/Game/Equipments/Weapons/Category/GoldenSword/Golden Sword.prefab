@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ca3d6e6baf90343895b732f0f5f57a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 504286902742617933}
-  _renderer: {fileID: 8005951383194466544}
+  _weapon: {fileID: 2703363152124429903}
   _alpha: 1
+  _renderer: {fileID: 8005951383194466544}
 --- !u!1 &8255442328369157595
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,9 +57,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9197665392676145576}
-  - component: {fileID: 504286902742617933}
+  - component: {fileID: 2703363152124429903}
   - component: {fileID: 8969713900865652138}
-  - component: {fileID: 1714996141169522484}
+  - component: {fileID: 5233078030997803362}
   m_Layer: 9
   m_Name: Golden Sword
   m_TagString: Untagged
@@ -83,7 +83,7 @@ Transform:
   - {fileID: 439563647455533486}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &504286902742617933
+--- !u!114 &2703363152124429903
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,16 +92,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 8255442328369157595}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ee48f349b19a3459d7080770db879c, type: 3}
+  m_Script: {fileID: 11500000, guid: a0af7722e61b4bc469aea83ca26dc12f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 8159265147012303350}
-  _collider: {fileID: 1714996141169522484}
+  _collider: {fileID: 5233078030997803362}
   _rigidBody: {fileID: 8969713900865652138}
+  _information: {fileID: 11400000, guid: cb5275fd35cffbe4bbbd9cc1428dedf6, type: 2}
   _tip: {fileID: 0}
-  _weaponType: 2
-  _attackType: 2
-  _meleeAttackType: 2
+  _hitBox:
+    _offset: {x: 0.5, y: 1}
+    _size: {x: 1, y: 1.5}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
+  _stabHitBox:
+    _offset: {x: 0.7, y: 0.8}
+    _size: {x: 1.6, y: 0.8}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
 --- !u!50 &8969713900865652138
 Rigidbody2D:
   serializedVersion: 5
@@ -129,8 +139,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!60 &1714996141169522484
-PolygonCollider2D:
+--- !u!61 &5233078030997803362
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -163,32 +173,18 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.34, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.21, y: 0.5}
-    oldSize: {x: 1.09375, y: 0.40625}
-    newSize: {x: 1.125, y: 0.25}
-    adaptiveTilingThreshold: 0.5
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.18, y: 0.05}
-      - {x: 0.18, y: 0.18}
-      - {x: 0.14, y: 0.18}
-      - {x: 0.14, y: 0.05}
-      - {x: -0.24, y: 0.05}
-      - {x: -0.24, y: -0.05}
-      - {x: 0.14, y: -0.05}
-      - {x: 0.14, y: -0.18}
-      - {x: 0.18, y: -0.18}
-      - {x: 0.18, y: -0.05}
-      - {x: 0.8, y: -0.05}
-      - {x: 0.862, y: 0}
-      - {x: 0.8, y: 0.05}
-  m_UseDelaunayMesh: 0
+  m_Size: {x: 1.1, y: 0.15}
+  m_EdgeRadius: 0
 --- !u!1 &8961374250960526530
 GameObject:
   m_ObjectHideFlags: 0

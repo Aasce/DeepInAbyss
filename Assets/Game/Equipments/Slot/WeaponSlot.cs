@@ -1,15 +1,24 @@
+using Asce.Game.Equipments.Weapons;
 using Asce.Managers;
 using System;
 using UnityEngine;
 
 namespace Asce.Game.Equipments
 {
-    public class WeaponSlot : MonoBehaviour
+    public class WeaponSlot : MonoBehaviour, IEquipmentSlot
     {
+        // Ref
+        [SerializeField] protected IEquipmentController _equipmentOwner;
+
         [SerializeField] protected Weapon _currentWeapon;
 
         public event Action<object, ValueChangedEventArgs<Weapon>> OnWeaponChanged;
 
+        public IEquipmentController EquipmentOwner
+        {
+            get => _equipmentOwner;
+            set => _equipmentOwner = value;
+        }
 
         public Weapon CurrentWeapon
         {
@@ -42,6 +51,7 @@ namespace Asce.Game.Equipments
             this.DetachWeapon(); // Detach any existing weapon before attaching a new one
 
             CurrentWeapon = weapon;
+            CurrentWeapon.Owner = EquipmentOwner.Owner; // Set the owner reference
 
             CurrentWeapon.Collider.isTrigger = true;
             CurrentWeapon.Rigidbody.bodyType = RigidbodyType2D.Kinematic;

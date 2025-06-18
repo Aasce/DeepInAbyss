@@ -22,8 +22,11 @@ namespace Asce.Game.Players
         [SerializeField] private bool _jumpInput;
         [SerializeField] private bool _crouchInput;
         [SerializeField] private bool _crawlInput;
-        
+
+        [Space]
         [SerializeField] private bool _attackInput;
+        [SerializeField] private bool _meleeAttackInput;
+        [SerializeField] private bool _detachWeaponInput;
 
         [Space]
         [SerializeField] private bool _isControlUI = false;
@@ -50,6 +53,8 @@ namespace Asce.Game.Players
         public bool CrouchInput => _crouchInput;
         public bool CrawlInput => _crawlInput; 
         public bool AttackInput => _attackInput;
+        public bool MeleeAttackInput => _meleeAttackInput;
+        public bool DetachWeaponInput => _detachWeaponInput;
 
         public bool IsControlUI
         {
@@ -77,6 +82,8 @@ namespace Asce.Game.Players
             _crawlInput = Input.GetKeyDown(Player.Settings.CrawlKey);
 
             _attackInput = Input.GetKey(Player.Settings.AttackKey);
+            _meleeAttackInput = Input.GetKey(Player.Settings.MeleeAttackKey);
+            _detachWeaponInput = Input.GetKeyDown(Player.Settings.DetachWeaponKey);
         }
 
         private Vector2 MoveAxis()

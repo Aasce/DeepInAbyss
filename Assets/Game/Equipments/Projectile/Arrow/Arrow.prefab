@@ -167,11 +167,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 4647165205519039242}
-  _owner: {fileID: 0}
+  _collider: {fileID: 1732498637185310597}
   _isLaunched: 0
   _despawnCooldown:
     _baseTime: 10
     _currentTime: 10
+  _damage: 0
+  _penetration: 0
   _isSetZPositionOnLaunch: 0
   _isZPostionLaunchLocal: 1
   _zPositionLaunch: 0

@@ -20,14 +20,17 @@ namespace Asce.Game.Entities.Enemies
         protected override void Start()
         {
             base.Start();
+            Action.OnAttack += Action_OnAttack;
         }
-
 
         protected virtual void Update()
         {
             
         }
 
+        protected virtual void Action_OnAttack(object sender)
+        {
 
+        }
     }
 }

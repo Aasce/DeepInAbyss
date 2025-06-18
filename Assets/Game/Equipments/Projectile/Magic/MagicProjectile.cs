@@ -24,7 +24,7 @@ namespace Asce.Game.Equipments
         protected override void OnCollisionEnter2D(Collision2D collision)
         {
             if (HasHit) return;
-            if (Owner != null && Owner == collision.gameObject) return;
+            if (Owner != null && Owner.gameObject == collision.gameObject) return;
 
             if (_hitFxPrefab != null)
             {

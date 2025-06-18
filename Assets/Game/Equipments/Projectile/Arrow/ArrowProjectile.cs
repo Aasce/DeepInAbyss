@@ -39,7 +39,7 @@ namespace Asce.Game.Equipments
         protected override void OnCollisionEnter2D(Collision2D collision)
         {
             if (HasHit) return;
-            if (Owner != null && Owner == collision.gameObject) return;
+            if (Owner != null && Owner.gameObject == collision.gameObject) return;
 
             if (Vector2.Angle(collision.contacts[0].normal, -transform.right) < _insertMaxAngle)
             {
@@ -48,6 +48,7 @@ namespace Asce.Game.Equipments
                 transform.SetParent(collision.collider.transform, true);
                 _hitVel = -collision.relativeVelocity;
                 _rigidbody.simulated = false;
+                _collider.isTrigger = true;
 
                 _despawnCooldown.CurrentTime = 5f;
             }

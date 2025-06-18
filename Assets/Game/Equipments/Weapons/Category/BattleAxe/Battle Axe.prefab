@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1917140585864999969}
-  - component: {fileID: 4683471524224056280}
+  - component: {fileID: 3327814936072430659}
   - component: {fileID: 5168009081835193994}
   - component: {fileID: 6216199604821972848}
   m_Layer: 9
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 3592176598592570633}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4683471524224056280
+--- !u!114 &3327814936072430659
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,16 +44,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 201204875390624215}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ee48f349b19a3459d7080770db879c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5821c07616de7f4419384e8c67c527d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 8565959240073077882}
   _collider: {fileID: 6216199604821972848}
   _rigidBody: {fileID: 5168009081835193994}
+  _information: {fileID: 11400000, guid: 8e3c247b715da344c85763dbad8ab6fb, type: 2}
   _tip: {fileID: 0}
-  _weaponType: 5
-  _attackType: 2
-  _meleeAttackType: 2
+  _hitBox:
+    _offset: {x: 0.3, y: 1}
+    _size: {x: 0.8, y: 1.6}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
+  _bladeHitBox:
+    _offset: {x: 0.8, y: 1}
+    _size: {x: 0.2, y: 1}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
+  _bladeDamageScale: 2
+  _bladePenetration: 10
 --- !u!50 &5168009081835193994
 Rigidbody2D:
   serializedVersion: 5
@@ -179,9 +191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ca3d6e6baf90343895b732f0f5f57a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 4683471524224056280}
-  _renderer: {fileID: 8365583857890954586}
+  _weapon: {fileID: 3327814936072430659}
   _alpha: 1
+  _renderer: {fileID: 8365583857890954586}
 --- !u!1 &7949734992967522539
 GameObject:
   m_ObjectHideFlags: 0

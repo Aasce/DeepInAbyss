@@ -1,14 +1,14 @@
 ﻿using Asce.Game.Combats;
 using Asce.Game.Equipments;
+using Asce.Game.Equipments.Weapons;
 using Asce.Managers;
 using Asce.Managers.Utils;
 using System;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 namespace Asce.Game.Entities
 {
-    public class CharacterAction : CreatureAction, IHasOwner<Character>, ILookable, IMovable, IRunnable, IJumpable, ICrouchable, ICrawlable, ILadderClimbable, IDashable, IDodgeable, IAttackable, IThrowableWeapon
+    public class CharacterAction : CreatureAction, IHasOwner<Character>, IActionController, ILookable, IMovable, IRunnable, IJumpable, ICrouchable, ICrawlable, ILadderClimbable, IDashable, IDodgeable, IAttackable, IThrowableWeapon
     {
         #region - FIELDS -
         [Header("Look")]
@@ -159,17 +159,15 @@ namespace Asce.Game.Entities
 
         [Header("Attack")]
         [SerializeField] protected bool _isAttacking;
+        [SerializeField] protected bool _isMeleeAttacking;
         [SerializeField] protected AttackType _attackType = AttackType.Swipe;
+        [SerializeField] protected AttackType _meleeAttackType = AttackType.Swipe;
         [SerializeField] protected Cooldown _attackCooldown = new(1f);
 
         [Space]
         [SerializeField] protected float _attackSpeedMultiply = 1f;
 
         protected bool _isDrawingBow;
-        protected bool _isArrowReady;
-
-        protected Projectile _projectile;
-        private bool _isStringPulled;
         private bool _isArrowDrawn;
 
         [Header("Throw Weapon")]
@@ -216,10 +214,10 @@ namespace Asce.Game.Entities
         public event Action<object> OnClimbEnd;
 
         public event Action<object> OnBowPull;
-        public event Action<object> OnAttackStart;
-        public event Action<object> OnAttackHit;
-        public event Action<object> OnAttackEnd;
-        public event Action<object> OnAttackCast;
+        public event Action<object, AttackEventArgs> OnAttackStart;
+        public event Action<object, AttackEventArgs> OnAttackHit;
+        public event Action<object, AttackEventArgs> OnAttackEnd;
+        public event Action<object, Vector2> OnAttackCast;
         public event Action<object> OnThrow;
 
 
@@ -548,11 +546,22 @@ namespace Asce.Game.Entities
             get => _attackType;
             set => _attackType = value;
         }
+        public AttackType MeleeAttackType
+        {
+            get => _meleeAttackType;
+            set => _meleeAttackType = value;
+        }
 
         public bool IsAttacking
         {
             get => _isAttacking;
             set => _isAttacking = value;
+        }
+
+        public bool IsMeleeAttacking
+        {
+            get => _isMeleeAttacking;
+            set => _isMeleeAttacking = value;
         }
         public float AttackSpeedMultiply
         {
@@ -571,46 +580,36 @@ namespace Asce.Game.Entities
                 if (_attackCooldown.IsComplete) _isDrawingBow = value;
                 else _isDrawingBow = false;
 
+                BowWeapon bow = Owner.Equipment.WeaponSlot.CurrentWeapon as BowWeapon;
+                Projectile projectile = Owner.Equipment.LeftHandSlot.Projectile;
                 if (!_isDrawingBow)
                 {
-                    if (_isArrowReady && _projectile != null)
+                    if (Owner.Equipment.LeftHandSlot.IsProjectileReady && projectile != null)
                     {
                         // Unable to shoot, destroy arrow projectile
                         if (Owner.Status.IsDead || IsCrawling)
                         {
-                            Debug.Log($"Destroy Projectile");
-                            Destroy(_projectile.gameObject);
+                            Owner.Equipment.LeftHandSlot.DestroyProjectile();
                         }
                         // Shoot arrow out
                         else
                         {
-                            if (Owner.Equipment.WeaponSlot.CurrentWeapon is BowWeapon bow)
+                            if (bow != null)
                             {
-                                bow.Launch(_projectile);
+                                projectile.SetDamage(Owner.Stats.Strength.Value, 10f);
+                                Owner.Equipment.LeftHandSlot.DetachProjectile(); // Detach the projectile from the character
+                                bow.Launch(projectile);
+
                                 _attackCooldown.Reset();
                             }
                         }
                     }
 
-                    _isArrowReady = false;
-                    IsStringPulled = false;
+                    Owner.Equipment.LeftHandSlot.IsProjectileReady = false;
+                    if (bow != null) bow.View.IsStringPulled = false;
                 }
 
                 Owner.View.SetIsDrawingBowAnimation(_isDrawingBow);
-            }
-        }
-        public bool IsStringPulled
-        {
-            get => _isStringPulled;
-            set
-            {
-                if (_isStringPulled == value) return;
-
-                if (!IsDrawingBow) _isStringPulled = false;
-                else _isStringPulled = value;
-
-                if (Owner.Equipment.WeaponSlot.CurrentWeapon is BowWeapon bow)
-                    bow.View.IsStringPulled = _isStringPulled;
             }
         }
         public bool IsArrowDrawn
@@ -1515,29 +1514,35 @@ namespace Asce.Game.Entities
         #region - ATTACK -
         protected virtual void UpdateAttack(float deltaTime)
         {
-            int attackIndex = AttackType.ToIntValue();
             Weapon weapon = Owner.Equipment.WeaponSlot.CurrentWeapon;
+            AttackType currentAttackType = AttackType.Swipe;
 
-            if (IsCrawling && AttackType.CanAttackWhenCrawling())
+            if (weapon != null)
             {
-                if (weapon == null) attackIndex = AttackType.Swipe.ToIntValue();
-                else attackIndex = weapon.MeleeAttackType.ToIntValue();
-            }
-            else if (AttackType == AttackType.Archery && weapon is BowWeapon)
-            {
-                IsDrawingBow = AttackTrigger;
+                currentAttackType = MeleeAttackTrigger ? MeleeAttackType : AttackType;
+                if (IsCrawling)
+                {
+                    currentAttackType = MeleeAttackType;
+                }
+                else if (AttackType == AttackType.Archery && weapon is BowWeapon)
+                {
+                    IsDrawingBow = AttackTrigger;
+                }
             }
 
-            if (weapon is BowWeapon bow) bow.View.UpdateStringPullPosition(Owner.View.RigHandL.position);
-            
             _attackCooldown.Update(deltaTime);
             if (_attackCooldown.IsComplete)
             {
                 IsAttacking = AttackTrigger || MeleeAttackTrigger;
+                IsMeleeAttacking = MeleeAttackTrigger;
             }
-            else IsAttacking = false;
+            else
+            {
+                IsAttacking = false;
+                IsMeleeAttacking = false;
+            }
             
-            Owner.View.SetAttackActionIndexAnimation(attackIndex);
+            Owner.View.SetAttackActionIndexAnimation(currentAttackType.ToIntValue());
             Owner.View.SetIsAttackingAnimation(IsAttacking);
             Owner.View.SetAttackSpeedMultiplyAnimation(AttackSpeedMultiply);
         }
@@ -1545,69 +1550,48 @@ namespace Asce.Game.Entities
         public void ArrowDraw()
         {
             if (!IsDrawingBow) return;
-
-            BowWeapon bow = (Owner.Equipment.WeaponSlot.CurrentWeapon as BowWeapon);
-            if (bow == null) return;
-
-            _projectile = Instantiate(bow.ArrowPrefab, Owner.View.RigHandL);
-            _projectile.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.Euler(0.0f, 0.0f, 90.0f));
-            _projectile.Owner = Owner.gameObject;
+            Owner.Equipment.CreateProjectile();
 
             IsArrowDrawn = true;
         }
         public void ArrowNock()
         {
-            IsStringPulled = true;
+            if (Owner.Equipment.WeaponSlot.CurrentWeapon is BowWeapon bow)
+            {
+                if (IsDrawingBow) bow.View.IsStringPulled = true;
+                else bow.View.IsStringPulled = false;
+            }
             OnBowPull?.Invoke(this);
         }
 
         public void ArrowReady()
         {
-            if (IsDrawingBow) _isArrowReady = true;
+            if (IsDrawingBow) Owner.Equipment.LeftHandSlot.IsProjectileReady = true;
         }
 
         public void ArrowPutBack()
         {
             IsArrowDrawn = false;
-
-            if (_projectile != null)
-            {
-                Destroy(_projectile.gameObject);
-                _projectile = null;
-            }
+            Owner.Equipment.LeftHandSlot.DestroyProjectile();
         }
 
-        public void AttackStart()
-        {
-            OnAttackStart?.Invoke(this);
-        }
-
-        public void AttackHit()
-        {
-            OnAttackHit?.Invoke(this);
-        }
-
+        public void AttackStart() => OnAttackStart?.Invoke(this, new AttackEventArgs(Owner, IsMeleeAttacking ? MeleeAttackType : AttackType));
+        public void AttackHit() => OnAttackHit?.Invoke(this, new AttackEventArgs(Owner, IsMeleeAttacking ? MeleeAttackType : AttackType));
         public void AttackEnd()
         {
-            OnAttackEnd?.Invoke(this);
+            OnAttackEnd?.Invoke(this, new AttackEventArgs(Owner, IsMeleeAttacking ? MeleeAttackType : AttackType));
             _attackCooldown.Reset();
         }
 
         public void AttackCast()
         {
-            StaffWeapon weapon = Owner.Equipment.WeaponSlot.CurrentWeapon as StaffWeapon;
-            if (weapon == null) return;
-
-            Vector2 position = Owner.Equipment.WeaponSlot.CurrentWeapon.TipPosition;
             Vector2 dir = Owner.View.IsPointingAtTarget ? Owner.View.LookDirection(TargetPosition) : Owner.Equipment.WeaponSlot.CurrentWeapon.transform.right;
-
-            weapon.Cast(position, dir);
-
-            OnAttackCast?.Invoke(this);
+            OnAttackCast?.Invoke(this, dir);
         }
+
         public void Throwing()
         {
-            if (IsAttacking) return;
+            if (IsAttacking || IsMeleeAttacking) return;
             if (IsArrowDrawn) return;
 
             Weapon weapon = Owner.Equipment.WeaponSlot.CurrentWeapon;

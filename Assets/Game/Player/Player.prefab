@@ -103,14 +103,7 @@ MonoBehaviour:
   _settings: {fileID: 5611594130479587677}
   _input: {fileID: 837134175672546564}
   _ui: {fileID: 4725438237220081449}
-  _character: {fileID: 0}
-  _container:
-    _damage: 0
-    _damageType: 0
-    _finalDamage: 0
-    _penetration: 0
-    _penetrationType: 1
-    _position: {x: 0, y: 0}
+  _mainCharacter: {fileID: 0}
 --- !u!1 &2139512769480018835
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +158,9 @@ MonoBehaviour:
   _crounchKey: 120
   _crawlKey: 122
   _attackKey: 323
-  _lookKey: 324
+  _meleeAttackKey: 324
+  _detachWeaponKey: 103
+  _lookKey: 325
   _useToolKeys: 6500000071000000
   _useItemKeys: 31000000320000003300000034000000
 --- !u!1 &2923616737633973819
@@ -302,6 +297,8 @@ MonoBehaviour:
   _crouchInput: 0
   _crawlInput: 0
   _attackInput: 0
+  _meleeAttackInput: 0
+  _detachWeaponInput: 0
   _isControlUI: 0
 --- !u!1 &7588783075274313682
 GameObject:

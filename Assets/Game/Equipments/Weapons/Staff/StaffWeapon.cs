@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Asce.Game.Equipments
+namespace Asce.Game.Equipments.Weapons
 {
     public class StaffWeapon : Weapon
     {
@@ -9,6 +9,8 @@ namespace Asce.Game.Equipments
 
         [Space]
         [SerializeField] protected float _speed = 15f;
+        [SerializeField] protected float _damage = 15f;
+        [SerializeField] protected float _penetration = 0f;
 
         public MagicProjectile MagicPrefab => _magicPrefab;
 
@@ -21,8 +23,6 @@ namespace Asce.Game.Equipments
         protected override void Reset()
         {
             base.Reset();
-            WeaponType = WeaponType.Staff;
-            AttackType = Combats.AttackType.Cast;
         }
 
         public void Cast(Vector2 position, Vector2 direction)
@@ -30,8 +30,11 @@ namespace Asce.Game.Equipments
             if (MagicPrefab == null) return;
 
             MagicProjectile projectile = Instantiate(MagicPrefab, null);
+            projectile.Owner = Owner;
             projectile.transform.position = position;
             projectile.transform.right = direction;
+
+            projectile.SetDamage(_damage, _penetration, Combats.DamageType.Magical);
 
             projectile.Launching(Speed);
         }

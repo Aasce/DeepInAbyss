@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weapon: {fileID: 2801868788685183788}
-  _renderer: {fileID: 1230898899272297321}
   _alpha: 1
+  _renderer: {fileID: 1230898899272297321}
 --- !u!1 &2108782593930537491
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,10 +98,14 @@ MonoBehaviour:
   _view: {fileID: 2298607626003764643}
   _collider: {fileID: 7892479318522548856}
   _rigidBody: {fileID: 5004557461029655340}
+  _information: {fileID: 11400000, guid: 922fb2ec05d7c5e408bb801881943bed, type: 2}
   _tip: {fileID: 0}
-  _weaponType: 2
-  _attackType: 0
-  _meleeAttackType: 2
+  _hitBox:
+    _offset: {x: 1.5, y: 0.9}
+    _size: {x: 0.8, y: 0.8}
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
 --- !u!50 &5004557461029655340
 Rigidbody2D:
   serializedVersion: 5
@@ -163,7 +167,7 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.25, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.36363634, y: 0.45454547}
@@ -209,7 +213,7 @@ Transform:
   m_GameObject: {fileID: 3581966720344847310}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -7,5 +7,6 @@ namespace Asce.Game.Entities
         public bool IsAttacking { get; }
 
         public void Attacking(bool isAttacking);
+        public void MeleeAttacking(bool isAttacking);
     }
 }

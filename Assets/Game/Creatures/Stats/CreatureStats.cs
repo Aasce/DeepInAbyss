@@ -65,7 +65,7 @@ namespace Asce.Game.Entities
         public ViewRadiusStat ViewRadius => _viewRadius;
 
 
-        protected virtual void Awake()
+        protected virtual void Reset()
         {
             if (transform.LoadComponent(out _owner))
             {
