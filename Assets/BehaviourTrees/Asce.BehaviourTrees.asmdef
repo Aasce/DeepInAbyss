@@ -1,0 +1,16 @@
+{
+    "name": "Asce.BehaviourTrees",
+    "rootNamespace": "",
+    "references": [
+        "GUID:072cb86d29c8b834db40af4f2eebb280"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -262,6 +262,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9152192901658935203}
+  - component: {fileID: 6382178802273717944}
   - component: {fileID: 7937573822774822781}
   - component: {fileID: 6052147037250727953}
   - component: {fileID: 584405221868725216}
@@ -292,6 +293,28 @@ Transform:
   - {fileID: 3555365651512956789}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6382178802273717944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3652401522839747787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eedb9dbc4cf37bc46ba3f4f8bd914f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _creature: {fileID: 0}
+  _targetLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _idleRandomTime:
+    _min: 4
+    _max: 5
+  _moveRandomTime:
+    _min: 0.5
+    _max: 2
 --- !u!114 &7937573822774822781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,11 +342,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _damageHitBox:
-    _offset: {x: 0.75, y: 0.4}
-    _size: {x: 1.5, y: 0.8}
     _layer:
       serializedVersion: 2
       m_Bits: 256
+    _offset: {x: 0.75, y: 0.4}
+    _size: {x: 1.5, y: 0.8}
+    _angle: 0
 --- !u!114 &6052147037250727953
 MonoBehaviour:
   m_ObjectHideFlags: 0

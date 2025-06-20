@@ -18,43 +18,6 @@ namespace Asce.Game.Entities.Enemies.Category
         protected override void Update()
         {
             base.Update();
-            if (IsControled) return;
-            if (Status.IsDead) return;
-
-            _targetColliders = Physics2D.OverlapCircleAll(transform.position, Stats.ViewRadius.Value, _targetLayerMask);
-
-            _target = null;
-            foreach (Collider2D collider in _targetColliders)
-            {
-                if (!collider.enabled) continue;
-                if (collider.transform ==  transform) continue;
-                if (!collider.TryGetComponent(out Character character)) continue;
-
-                _target = character;
-                break;
-            }
-
-            if (_target != null && _target.Status.IsAlive)
-            {
-                Vector2 deltaPosition = _target.transform.position - transform.position;
-                Action.Looking(true, _target.transform.position);
-                
-                bool isRun = deltaPosition.magnitude > 3f;
-                if (deltaPosition.magnitude <= 1.5f)
-                {
-                    Action.Attacking(true);
-                    Action.Moving(Vector2.zero);
-                }
-                else Action.Moving(new Vector2(deltaPosition.x, 0f));
-                Action.Running(isRun);
-            }
-            else
-            {
-                Action.Looking(false);
-                Action.Attacking(false);
-                Action.Moving(Vector2.zero);
-                Action.Running(false);
-            }
         }
 
         protected override void Action_OnAttack(object sender)
