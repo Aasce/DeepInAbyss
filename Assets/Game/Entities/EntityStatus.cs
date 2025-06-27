@@ -10,9 +10,12 @@ namespace Asce.Game.Entities
     [Serializable]
     public class EntityStatus
     {
-        [SerializeField] private EntityStatusType _currentStatus = EntityStatusType.Alive;
+        protected IEntity _entity;
+
+        [SerializeField] protected EntityStatusType _currentStatus = EntityStatusType.Alive;
         [SerializeField] protected FacingType _facingDirection = FacingType.None;
         [SerializeField] protected float _height = 2f;
+        [SerializeField] protected Vector2 _spawnPosition = Vector2.zero;
 
         public event Action<object> OnDeath;
         public event Action<object> OnRevive;
@@ -20,6 +23,11 @@ namespace Asce.Game.Entities
         public event Action<object, FacingType> OnFacingChanged;
         public event Action<object, ValueChangedEventArgs> OnHeightChanged;
 
+        public IEntity Entity
+        {
+            get => _entity;
+            set => _entity = value;
+        }
         public EntityStatusType CurrentStatus => _currentStatus;
         public bool IsAlive => _currentStatus == EntityStatusType.Alive;
         public bool IsDead => _currentStatus == EntityStatusType.Dead;
@@ -49,9 +57,16 @@ namespace Asce.Game.Entities
                 if (value == _height) return;
                 float oldHeight = _height;
                 _height = value;
-                OnHeightChanged?.Invoke(this, new ValueChangedEventArgs(oldHeight, Height));
+                OnHeightChanged?.Invoke(this, new ValueChangedEventArgs(oldHeight, _height));
             }
         }
+
+        public Vector2 SpawnPosition
+        {
+            get => _spawnPosition;
+            set => _spawnPosition = value;
+        }
+
 
         public void SetStatus(EntityStatusType state)
         {
@@ -61,10 +76,10 @@ namespace Asce.Game.Entities
             switch (_currentStatus)
             {
                 case EntityStatusType.Dead:
-                    OnDeath?.Invoke(this);
+                    OnDeath?.Invoke(Entity);
                     break;
                 case EntityStatusType.Alive:
-                    OnRevive?.Invoke(this);
+                    OnRevive?.Invoke(Entity);
                     break;
                 default:
                     break;

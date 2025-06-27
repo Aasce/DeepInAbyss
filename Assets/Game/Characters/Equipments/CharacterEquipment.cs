@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CharacterEquipment : CreatureEquipment, IHasOwner<Character>, IEquipmentController
+    public class CharacterEquipment : CreatureEquipment, IHasOwner<Character>, IEquipmentController, IHasWeaponSlot
     {
         [SerializeField] protected WeaponSlot _weaponSlot;
         [SerializeField] protected OtherSlot _leftHandSlot;

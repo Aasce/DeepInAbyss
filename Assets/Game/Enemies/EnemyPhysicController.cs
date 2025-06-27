@@ -56,7 +56,7 @@ namespace Asce.Game.Entities.Enemies
                 if (Owner.Action.IsRunning) this.SetSpeedAndAcceleration(Owner.Action.RunAcceleration, Owner.Action.RunMaxSpeed);
                 else this.SetSpeedAndAcceleration(Owner.Action.WalkAcceleration, Owner.Action.WalkMaxSpeed);
 
-                if (Owner.Action.IsInJumpPrepare) CurrentAcceleration = 0;
+                // if (Owner.Action.IsInJumpPrepare) CurrentAcceleration = 0;
 
                 //float targetSurfaceSpeedMultiply = Mathf.Sin(Mathf.Min(SurfaceAngleForward, 90.0f) * Mathf.Deg2Rad);
                 //SurfaceSpeedMultiply = targetSurfaceSpeedMultiply < 1.0f

@@ -32,6 +32,7 @@ namespace Asce.Game.Entities.AIs
 
         protected virtual void Start()
         {
+            this.SetBehaviourBlackboard();
             this.CreateBehaviour();
             this.Register();
         }
@@ -39,6 +40,11 @@ namespace Asce.Game.Entities.AIs
         protected virtual void Update()
         {
             Behaviour.Tick();
+        }
+
+        protected virtual void SetBehaviourBlackboard()
+        {
+
         }
 
         protected virtual void CreateBehaviour()

@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Asce.BehaviourTrees
 {
@@ -21,16 +22,16 @@ namespace Asce.BehaviourTrees
 
         public CheckRangeNode(Func<float> getRangeFunction, float range = 1f)
         {
-            _getRangeFunction = getRangeFunction;
-            _range = range;
+            GetRangeFunction = getRangeFunction;
+            Range = range;
         }
 
         public override NodeState Tick()
         {
-            if (_getRangeFunction == null) throw new InvalidOperationException("GetRangeFunction is not set.");
+            if (GetRangeFunction == null) throw new InvalidOperationException("GetRangeFunction is not set.");
 
-            float currentRange = _getRangeFunction.Invoke();
-            return currentRange <= _range ? NodeState.Success : NodeState.Failure;
+            float currentRange = GetRangeFunction.Invoke();
+            return currentRange <= Range ? NodeState.Success : NodeState.Failure;
         }
     }
 }

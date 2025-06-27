@@ -52,7 +52,7 @@ namespace Asce.Game.Entities.Enemies
             Animator.SetFloat("MovingBlend", MoveBlend);
             Animator.SetFloat("SpeedVertical", Owner.PhysicController.Rigidbody.linearVelocityY);
             Animator.SetBool("IsGrounded", Owner.PhysicController.IsGrounded);
-            Animator.SetBool("IsJumpPrepare", Owner.Action.IsInJumpPrepare);
+            // Animator.SetBool("IsJumpPrepare", Owner.Action.IsInJumpPrepare);
             if (Owner.Action.IsAttacking) Animator.SetTrigger("Attack");
         }
 

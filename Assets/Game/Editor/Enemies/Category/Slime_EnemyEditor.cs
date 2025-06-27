@@ -22,7 +22,11 @@ namespace Asce.Editors
 
         protected virtual void DrawHitBox()
         {
-            _enemy.DamageHitBox.DrawHitBox(_enemy.gameObject.transform.position, _enemy.Status.FacingDirectionValue);
+            // Get the hitbox world position, size, and rotation angle
+            Vector2 position = _enemy.DamageHitBox.GetPosition(_enemy.gameObject.transform.position, _enemy.Status.FacingDirectionValue == 0 ? 1 : _enemy.Status.FacingDirectionValue);
+            Vector2 size = _enemy.DamageHitBox.GetSize();
+            float angle = _enemy.DamageHitBox.GetAngle();
+            SceneEditorUtils.DrawBox(position, size, angle);
         }
     }
 }

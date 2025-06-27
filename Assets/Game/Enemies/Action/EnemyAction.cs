@@ -43,6 +43,7 @@ namespace Asce.Game.Entities.Enemies
         [SerializeField] protected bool _isAttacking = false;
         [SerializeField] protected bool _canAttackWhenMoving = true;
         [SerializeField] protected bool _canAttackInAir = true;
+        [SerializeField] protected bool _isStopWhenAttack = true;
         [SerializeField] protected Cooldown _attackCooldown = new(2f);
 
         #region - CONTROL FIELDS - 
@@ -168,6 +169,11 @@ namespace Asce.Game.Entities.Enemies
         {
             get => _canAttackInAir;
             set => _canAttackInAir = value;
+        }
+        public bool CanMovingWhenAttack
+        {
+            get => _isStopWhenAttack;
+            set => _isStopWhenAttack = value;
         }
 
 
@@ -305,79 +311,56 @@ namespace Asce.Game.Entities.Enemies
             Owner.PhysicController.Rigidbody.linearVelocityX = currentVelocityX;
         }
 
-        protected virtual void HandleJump(float deltaTime)
-        {
-            if (!IsJumpEnabled) return; 
-
-            float currentVelocityY = Owner.PhysicController.Rigidbody.linearVelocityY;
-
-            IsInJumpPrepare = JumpTrigger && Owner.PhysicController.IsGrounded && _jumpCooldown.IsComplete;
-            if (IsInJumpPrepare)
-            {
-                _jumpDelayCooldown.Update(deltaTime);
-                if (_jumpDelayCooldown.IsComplete)
-                {
-                    _jumpDelayCooldown.Reset();
-                    _jumpCooldown.Reset();
-
-                    Owner.PhysicController.IsGrounded = false;
-                    currentVelocityY += _jumpForce;
-                    IsJumping = true;
-
-                    // Events
-                    OnJump?.Invoke(this);
-                }
-            }
-            else _jumpDelayCooldown.Reset();
-
-            if (currentVelocityY > 0)
-            {
-                float multiplier = JumpTrigger ? _jumpGravityMutiplier : _fallGravityMutiplier;
-                currentVelocityY += Physics.gravity.y * (multiplier - 1.0f) * deltaTime;
-            }
-
-            //set modified velocity back to rigidbody
-            Owner.PhysicController.Rigidbody.linearVelocityY = currentVelocityY;
-        }
-
-        protected virtual void Attack()
-        {
-            if (!Owner.PhysicController.IsGrounded && !CanAttackInAir) return;
-            if (!CanAttackWhenMoving && IsMoving) return;
-            if (IsInJumpPrepare) return;
-
-            IsAttacking = true;
-            _attackCooldown.Reset();
-        }
-
-        protected override void UpdateFacing()
-        {
-            base.UpdateFacing();
-            if (Mathf.Abs(MoveDirection.x) > Constants.MOVE_THRESHOLD)
-            {
-                Owner.Status.FacingDirectionValue = Mathf.RoundToInt(Mathf.Sign(MoveDirection.x));
-                return;
-            }
-        }
-
         protected virtual void UpdateMove(float direction)
         {
-            if (!IsMoveEnabled)
+            if (Owner.Status.IsDead || !IsMoveEnabled)
             {
                 IsRunning = false;
                 IsMoving = false;
                 return;
             }
 
+            bool canMove = true;
+            if (!CanMovingWhenAttack && (IsAttacking || AttackTrigger || MeleeAttackTrigger))
+                canMove = false;
+            if (IsInJumpPrepare || JumpTrigger || IsJumping)
+                canMove = false;
+
+            if (!canMove) direction = 0f;
+
             IsRunning = RunState;
-
-            if (Owner.Status.IsDead) direction = 0.0f;
-            if (!CanAttackWhenMoving && (IsAttacking || AttackTrigger)) direction = 0.0f;
-            if (IsInJumpPrepare) direction = 0.0f;
-
             IsMoving = Mathf.Abs(direction) > Constants.MOVE_THRESHOLD;
         }
 
+        protected virtual void HandleJump(float deltaTime)
+        {
+            if (!IsJumpEnabled || !JumpTrigger) return;
+
+            float currentVelocityY = Owner.PhysicController.Rigidbody.linearVelocityY;
+            bool canJump = Owner.PhysicController.IsGrounded && _jumpCooldown.IsComplete;
+
+            if (canJump)
+            {
+                _jumpCooldown.Reset();
+
+                currentVelocityY += _jumpForce;
+                IsJumping = true;
+                Owner.PhysicController.IsGrounded = false;
+
+                // Events
+                OnJump?.Invoke(this);
+            }
+            if (currentVelocityY > 0)
+            {
+                float multiplier = _jumpGravityMutiplier;
+                currentVelocityY += Physics.gravity.y * (multiplier - 1.0f) * deltaTime;
+            }
+
+            JumpTrigger = false;
+
+            //set modified velocity back to rigidbody
+            Owner.PhysicController.Rigidbody.linearVelocityY = currentVelocityY;
+        }
         protected virtual void UpdateJump(float deltaTime)
         {
             if (!Owner.PhysicController.IsGrounded)
@@ -397,12 +380,32 @@ namespace Asce.Game.Entities.Enemies
                 IsAttacking = false;
             }
 
-            if (AttackTrigger)
+            if (AttackTrigger || MeleeAttackTrigger)
             {
                 this.Attack();
                 AttackTrigger = false;
+                MeleeAttackTrigger = false;
             }
         }
+        protected virtual void Attack()
+        {
+            if (!CanAttackInAir && Owner.PhysicController.IsInAir) return;
+            if (!CanAttackWhenMoving && IsMoving) return;
+
+            IsAttacking = true;
+            _attackCooldown.Reset();
+        }
+
+        protected override void UpdateFacing()
+        {
+            base.UpdateFacing();
+            if (Mathf.Abs(MoveDirection.x) > Constants.MOVE_THRESHOLD)
+            {
+                Owner.Status.FacingDirectionValue = Mathf.RoundToInt(Mathf.Sign(MoveDirection.x));
+                return;
+            }
+        }
+
 
         public virtual void AttackEventCalling() => OnAttack?.Invoke(this);
         public virtual void FootStepEventCalling() => OnFootstep?.Invoke(this);

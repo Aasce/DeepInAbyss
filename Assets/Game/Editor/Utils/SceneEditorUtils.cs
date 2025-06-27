@@ -1,4 +1,4 @@
-using Asce.Game.Combats;
+using Asce.Managers.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,6 +6,8 @@ namespace Asce.Editors
 {
     public static class SceneEditorUtils
     {
+        public static readonly GUIStyle labelStyle = new (GUI.skin.label) { fontSize = 10, alignment = TextAnchor.LowerCenter, richText = true };
+
         /// <summary>
         ///     Draws a grid in Scene View that dynamically fills the visible area.
         /// </summary>
@@ -64,15 +66,8 @@ namespace Asce.Editors
         ///     <br/>
         ///     If 0, defaults to 1. 
         /// </param>
-        public static void DrawHitBox(this HitBox hitBox, Vector2 ownerPosition = default, int facingDirection = 0)
+        public static void DrawBox(Vector2 position, Vector2 size, float angle)
         {
-            if (hitBox == null) return;
-
-            // Get the hitbox world position, size, and rotation angle
-            Vector2 position = hitBox.GetPosition(ownerPosition, facingDirection == 0 ? 1 : facingDirection);
-            Vector2 size = hitBox.GetSize();
-            float angle = hitBox.GetAngle();
-
             // Center of the hitbox in world space
             Vector2 center = position;
 
@@ -105,6 +100,148 @@ namespace Asce.Editors
                 new Color(1, 0, 0, 0.05f), // semi-transparent red fill
                 Color.red                   // red outline
             );
+        }
+
+        public static void DrawBox(Vector2 position, Vector2 size)
+        {
+            Vector3[] vertices = new Vector3[4];
+
+            float halfWidth = size.x / 2f;
+            float halfHeight = size.y / 2f;
+
+            vertices[0] = new Vector3(position.x - halfWidth, position.y - halfHeight);
+            vertices[1] = new Vector3(position.x - halfWidth, position.y + halfHeight);
+            vertices[2] = new Vector3(position.x + halfWidth, position.y + halfHeight);
+            vertices[3] = new Vector3(position.x + halfWidth, position.y - halfHeight);
+
+            Handles.DrawSolidRectangleWithOutline(
+                vertices,
+                new Color(0, 0, 1, 0.05f), // semi-transparent blue fill
+                Color.blue                 // blue outline
+            );
+        }
+
+        /// <summary>
+        /// Draws a 2D draggable point in the Scene view with a label.
+        /// Only allows movement in the XY plane. Recommended for 2D projects.
+        /// </summary>
+        /// <param name="label">The label to display near the point.</param>
+        /// <param name="position">Current world position of the point.</param>
+        /// <param name="onMoved">Callback that provides the new position if moved.</param>
+        public static void DrawDraggablePoint2D(Vector3 position, System.Action<Vector3> onMoved, string label = null)
+        {
+            Handles.color = Color.red;
+
+            EditorGUI.BeginChangeCheck();
+
+            // Draw a 2D movement handle restricted to XY plane
+            Vector3 newPosition = Handles.Slider2D(
+                position,
+                Vector3.forward,            // The plane normal (Z axis) — movement restricted to XY
+                Vector3.right,              // Local X axis
+                Vector3.up,                 // Local Y axis
+                0.5f,                       // Handle size
+                Handles.SphereHandleCap,    // Cap type
+                Vector2.zero                // Snap increments (zero = free movement)
+            );
+
+            // Draw the label above the point
+            if (!string.IsNullOrEmpty(label)) Handles.Label(position + Vector3.up * 0.5f, label, labelStyle);
+
+            // Check for changes and invoke the callback
+            if (EditorGUI.EndChangeCheck())
+            {
+                onMoved?.Invoke(newPosition);
+            }
+        }
+
+        /// <summary>
+        /// Draws a resizable 2D rectangle using corner handles, allowing user interaction.
+        /// Returns the updated offset and size.
+        /// </summary>
+        /// <param name="offset">Offset from the owner position (local center of the box).</param>
+        /// <param name="size">Size of the box.</param>
+        /// <param name="ownerPosition">The world position of the owner (e.g., transform.position).</param>
+        /// <param name="label">Optional label to display above the center of the box.</param>
+        /// <returns>Tuple of newOffset and newSize if changed, otherwise null.</returns>
+        public static (Vector2 newOffset, Vector2 newSize)? DrawResizableBox2D(
+            Vector2 offset,
+            Vector2 size,
+            Vector2 ownerPosition,
+            string label = null, 
+            Color color = default,
+            Color outlineColor = default)
+        {
+            // Calculate the center and half size of the box in world space
+            Vector2 center = ownerPosition + offset;
+            Vector2 halfSize = size * 0.5f;
+
+            // Calculate corners of the box in world space
+            Vector2 bottomLeft = center - halfSize;
+            Vector2 topRight = center + halfSize;
+
+            Vector2 topLeft = new(bottomLeft.x, topRight.y);
+            Vector2 bottomRight = new(topRight.x, bottomLeft.y);
+
+            // Draw the solid rectangle and outline
+            if (color == default) color = Color.cyan;
+            if (outlineColor == default) outlineColor = color.WithAlpha(0.05f);
+            Rect rect = new Rect(center - halfSize, size);
+            Handles.color = color;
+            Handles.DrawSolidRectangleWithOutline(rect, outlineColor, color);
+
+            // Begin checking for handle movement
+            EditorGUI.BeginChangeCheck();
+
+            // Draw draggable handles at the top-left and bottom-right corners
+            Vector2 newTopLeft = Handles.Slider2D(
+                topLeft,
+                Vector3.forward,            // Plane normal for 2D
+                Vector3.right,              // X axis direction
+                Vector3.up,                 // Y axis direction
+                0.1f,                       // Handle size
+                Handles.RectangleHandleCap, // Handle shape
+                Vector2.zero                // No snapping
+            );
+
+            Vector2 newBottomRight = Handles.Slider2D(
+                bottomRight,
+                Vector3.forward,
+                Vector3.right,
+                Vector3.up,
+                0.1f,
+                Handles.RectangleHandleCap,
+                Vector2.zero
+            );
+
+            // If either handle has moved, compute the new size and offset
+            if (EditorGUI.EndChangeCheck())
+            {
+                Vector2 newCenter = (newTopLeft + newBottomRight) * 0.5f;
+                Vector2 newSize = new Vector2(
+                    Mathf.Abs(newBottomRight.x - newTopLeft.x),
+                    Mathf.Abs(newTopLeft.y - newBottomRight.y)
+                );
+                Vector2 newOffset = newCenter - ownerPosition;
+
+                // Draw label at updated top-left corner
+                if (!string.IsNullOrEmpty(label))
+                {
+                    Vector2 labelPos = newTopLeft + new Vector2(0.1f, 0.1f);
+                    Handles.Label(labelPos, label);
+                }
+
+                return (newOffset, newSize);
+            }
+
+            // Draw label at original top-left if no change happened
+            if (!string.IsNullOrEmpty(label))
+            {
+                Vector2 labelPos = topLeft + new Vector2(0.1f, 0.5f);
+                Handles.Label(labelPos, label);
+            }
+
+            return null;
         }
 
     }
