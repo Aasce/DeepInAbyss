@@ -6,7 +6,7 @@ namespace Asce.Editors
 {
     public class AnimationClipDuplicator
     {
-        [MenuItem("Tools/Duplicate Animation Clip")]
+        [MenuItem("Asce/Tools/Duplicate Animation Clip")]
         public static void DuplicateAnimation()
         {
             var originalClip = Selection.activeObject as AnimationClip;

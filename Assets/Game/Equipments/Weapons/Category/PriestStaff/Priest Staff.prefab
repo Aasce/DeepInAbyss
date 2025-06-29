@@ -5034,11 +5034,12 @@ MonoBehaviour:
   _information: {fileID: 11400000, guid: 65fe931f7f0867341a771c461f2688c3, type: 2}
   _tip: {fileID: 0}
   _hitBox:
-    _offset: {x: 0.6, y: 1}
-    _size: {x: 1.2, y: 1.5}
     _layer:
       serializedVersion: 2
       m_Bits: 256
+    _offset: {x: 0.6, y: 1}
+    _size: {x: 1.2, y: 1.5}
+    _angle: 0
   _magicPrefab: {fileID: 1229896946291252059, guid: 5a49772a0ee7b1a4884017ec8cad3cee, type: 3}
   _speed: 15
   _damage: 15
@@ -5051,7 +5052,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8827627857560024732}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -5068,7 +5069,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!60 &5153108147638105535
 PolygonCollider2D:
@@ -5090,7 +5091,7 @@ PolygonCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -5100,7 +5101,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

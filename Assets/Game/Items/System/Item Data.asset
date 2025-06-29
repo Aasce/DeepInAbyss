@@ -1,0 +1,191 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf464e6b60c4e647ae8ff1dc9c76e50, type: 3}
+  m_Name: Item Data
+  m_EditorClassIdentifier: 
+  _data:
+  - _name: Battle Axe
+    _information: {fileID: 11400000, guid: 8e3c247b715da344c85763dbad8ab6fb, type: 2}
+  - _name: Emerald Staff
+    _information: {fileID: 11400000, guid: ea7f5936e3421a047ab6bd9238170786, type: 2}
+  - _name: Golden Sword
+    _information: {fileID: 11400000, guid: cb5275fd35cffbe4bbbd9cc1428dedf6, type: 2}
+  - _name: Harpoon
+    _information: {fileID: 11400000, guid: 922fb2ec05d7c5e408bb801881943bed, type: 2}
+  - _name: Iron Sword
+    _information: {fileID: 11400000, guid: 55a667ae6da71534084e7381528594a2, type: 2}
+  - _name: Priest Staff
+    _information: {fileID: 11400000, guid: 65fe931f7f0867341a771c461f2688c3, type: 2}
+  - _name: Ruby Staff
+    _information: {fileID: 11400000, guid: ead80cfbda9ea6b4a8296a2c2f2f35e8, type: 2}
+  - _name: Sickle
+    _information: {fileID: 11400000, guid: 2668470eb6e0c394980aea4ed19fcf0e, type: 2}
+  - _name: Wooden Bow
+    _information: {fileID: 11400000, guid: 0a9790756b17d1a49b103bdfe9301f91, type: 2}
+  - _name: Apple
+    _information: {fileID: 11400000, guid: a11dd4059b9260843b7490ac899eba0c, type: 2}
+  - _name: Beer
+    _information: {fileID: 11400000, guid: c43e8d76e30f7024ba1364d3e40e9c15, type: 2}
+  - _name: Bread
+    _information: {fileID: 11400000, guid: ec3bd10a30a52ee49a9db3f797c9ad63, type: 2}
+  - _name: Cheese
+    _information: {fileID: 11400000, guid: 395858a527968224f8d3b6dcb4688c8b, type: 2}
+  - _name: Fish Steak
+    _information: {fileID: 11400000, guid: 2f84c2a844983924faf940a9427fc133, type: 2}
+  - _name: Green Apple
+    _information: {fileID: 11400000, guid: 53a6325d1503c334e8a1d2e9e59b8487, type: 2}
+  - _name: Ham
+    _information: {fileID: 11400000, guid: 998f6daf80b25f74195322bf9ed986b3, type: 2}
+  - _name: Meat
+    _information: {fileID: 11400000, guid: b9cc899da85782244bcb8b02e254e5d2, type: 2}
+  - _name: Mushroom
+    _information: {fileID: 11400000, guid: 364cdb4d852b5ab4385408565c749284, type: 2}
+  - _name: Wine 2
+    _information: {fileID: 11400000, guid: 0cb364abfc7f9874a87349a3139db87d, type: 2}
+  - _name: Wine
+    _information: {fileID: 11400000, guid: e5eb4b5b0a18d8f47b4a51b9b34c1dda, type: 2}
+  - _name: Fabric
+    _information: {fileID: 11400000, guid: 8a9697011a0ffba4b96b6d5dac7843d9, type: 2}
+  - _name: Leather
+    _information: {fileID: 11400000, guid: fa0ff12b4f47f2345b388d611047b95a, type: 2}
+  - _name: Paper
+    _information: {fileID: 11400000, guid: d31c07e742d21a84db7a198f81a08178, type: 2}
+  - _name: Rope
+    _information: {fileID: 11400000, guid: 55ed1e2e3ce643546b6be24b6e80509c, type: 2}
+  - _name: String
+    _information: {fileID: 11400000, guid: f35a4484ad4e32d4c8ee0ceeb3e628d1, type: 2}
+  - _name: Wood Log
+    _information: {fileID: 11400000, guid: 3cc07ff42d2aa7e4a875815aabddeec7, type: 2}
+  - _name: Wooden Plank
+    _information: {fileID: 11400000, guid: 67936f25ac06b9a46a2520552ab89fb4, type: 2}
+  - _name: Wool
+    _information: {fileID: 11400000, guid: d81d8642b72ca27438c2aaf2e4eadcc3, type: 2}
+  - _name: Bag
+    _information: {fileID: 11400000, guid: 0c4ac339e2938c944be2db9a4207950b, type: 2}
+  - _name: Belt
+    _information: {fileID: 11400000, guid: a076f470b8d5fa94989aec737968c0dd, type: 2}
+  - _name: Helm
+    _information: {fileID: 11400000, guid: 9ec13e980ec687549911c0d356f65a9f, type: 2}
+  - _name: Iron Armor
+    _information: {fileID: 11400000, guid: 5bf503a7d5f988040b8cca0997d383c3, type: 2}
+  - _name: Iron Boot
+    _information: {fileID: 11400000, guid: 9ecb65f6557527546947018802340e45, type: 2}
+  - _name: Iron Helmet
+    _information: {fileID: 11400000, guid: 4e25bdf3ecd3ef545a74aa693d16e137, type: 2}
+  - _name: Leather Armor
+    _information: {fileID: 11400000, guid: 2799ac324a711d245bb99c1f35644e1a, type: 2}
+  - _name: Leather Boot
+    _information: {fileID: 11400000, guid: 0d2a67bbab649e14ea60ce1bc41370ab, type: 2}
+  - _name: Leather Helmet
+    _information: {fileID: 11400000, guid: d5dbf2d95ce742846b9e54cba2804ab4, type: 2}
+  - _name: Wizard Hat
+    _information: {fileID: 11400000, guid: 75780f29032e38846b85554caddd54c2, type: 2}
+  - _name: Wooden Armor
+    _information: {fileID: 11400000, guid: c829320cf9f47164fb8290b81f3ceb83, type: 2}
+  - _name: Silver Ingot
+    _information: {fileID: 11400000, guid: 07469941d3a7f594c8e67a87f19a32e8, type: 2}
+  - _name: Sapphire
+    _information: {fileID: 11400000, guid: a7140a3cce138a543bae8f3fd5d761e5, type: 2}
+  - _name: Ruby
+    _information: {fileID: 11400000, guid: 9e6333d900ce3174891a3d34e6fb91fb, type: 2}
+  - _name: Pearl
+    _information: {fileID: 11400000, guid: 0dc81b14c6365fe4885d04ec676b059a, type: 2}
+  - _name: Obsidian
+    _information: {fileID: 11400000, guid: 8ddb493125d40b44ba224904298cafc8, type: 2}
+  - _name: Golden Ingot
+    _information: {fileID: 11400000, guid: 6e69319ac831fbc4d83a3d3cb9dfd1cf, type: 2}
+  - _name: Emerald
+    _information: {fileID: 11400000, guid: 1ca1103317681a14584f72f55ff89245, type: 2}
+  - _name: Diamond
+    _information: {fileID: 11400000, guid: 3598b39ba71338843b15ed13b7f3ad23, type: 2}
+  - _name: Cut Sapphire
+    _information: {fileID: 11400000, guid: b0382c1d2a0034e4c85b079f367a63a3, type: 2}
+  - _name: Cut Ruby
+    _information: {fileID: 11400000, guid: 2134d3e927e70bb48be9867967094f22, type: 2}
+  - _name: Cut Emerald
+    _information: {fileID: 11400000, guid: e364a2e2af2d4ee43b0cfea2c45fa8ae, type: 2}
+  - _name: Crystal
+    _information: {fileID: 11400000, guid: 2ff0a9bd0623cde4681768b0cc0deb1e, type: 2}
+  - _name: Copper Ingot
+    _information: {fileID: 11400000, guid: cc89853f45d40444989a68815081703b, type: 2}
+  - _name: Coal
+    _information: {fileID: 11400000, guid: e1065f40413f6664da4ceaadfd6d7239, type: 2}
+  - _name: Bone
+    _information: {fileID: 11400000, guid: 28fb7655023896344ac27be79088b416, type: 2}
+  - _name: Egg
+    _information: {fileID: 11400000, guid: 88ab7090ccbf8b84a97db204b183e0ea, type: 2}
+  - _name: Feather
+    _information: {fileID: 11400000, guid: 88dc68cfe565b2548ab20d510cc655ee, type: 2}
+  - _name: Monster Egg
+    _information: {fileID: 11400000, guid: 51ed1da1280207e4cb0554966a96f07e, type: 2}
+  - _name: Monster Eye
+    _information: {fileID: 11400000, guid: 71732c3b0755c434e8532d6f886ec8ca, type: 2}
+  - _name: Monster Meat
+    _information: {fileID: 11400000, guid: b428f0f18a84af14e8149cd0b178def5, type: 2}
+  - _name: Skull
+    _information: {fileID: 11400000, guid: 0ab5c08a07580494dad50e3eb36bcee0, type: 2}
+  - _name: Slime Gel
+    _information: {fileID: 11400000, guid: 537c377556b63364dabdb534e76523b6, type: 2}
+  - _name: Blue Potion 2
+    _information: {fileID: 11400000, guid: cdbab21ee606a4646a7e29a8c0080f4e, type: 2}
+  - _name: Blue Potion 3
+    _information: {fileID: 11400000, guid: 79ae8a86ea9ccc7459b012e05b6f8bf0, type: 2}
+  - _name: Blue Potion
+    _information: {fileID: 11400000, guid: b1fe54a6cda8849489178ccbcaa02a7c, type: 2}
+  - _name: Empty Bottle
+    _information: {fileID: 11400000, guid: 0b3f379ee03f4784a8e674485920ee94, type: 2}
+  - _name: Green Potion 2
+    _information: {fileID: 11400000, guid: d11c50820788a564c97023583e60c504, type: 2}
+  - _name: Green Potion 3
+    _information: {fileID: 11400000, guid: b13fdf126fc06e94b8350dd0a2345f4f, type: 2}
+  - _name: Green Potion
+    _information: {fileID: 11400000, guid: 8b9e7e9bcdb98244d9b9281c51bfa7bd, type: 2}
+  - _name: Red Potion 2
+    _information: {fileID: 11400000, guid: a9a66d57d2feb0d43b071c0c8c45422c, type: 2}
+  - _name: Red Potion 3
+    _information: {fileID: 11400000, guid: 3b62aa5ea95ff67488e92f81ee9d9fc2, type: 2}
+  - _name: Red Potion
+    _information: {fileID: 11400000, guid: cce443c6fae3eb44a90ef5907b1f65eb, type: 2}
+  - _name: Water Bottle
+    _information: {fileID: 11400000, guid: eb724983c6f9ebc4292365cf836e2740, type: 2}
+  - _name: Copper Coin
+    _information: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+  - _name: Golden Coin
+    _information: {fileID: 11400000, guid: b8398d7c76032374a94d712fd7f4154b, type: 2}
+  - _name: Silver Coin
+    _information: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+  - _name: Book 2
+    _information: {fileID: 11400000, guid: d1d77f1ea5b779e44a106caa52c3e406, type: 2}
+  - _name: Book 3
+    _information: {fileID: 11400000, guid: c08672a6660581d4d90fff552163e9b9, type: 2}
+  - _name: Book
+    _information: {fileID: 11400000, guid: 1420a86a8db932f4da642762cba6d69d, type: 2}
+  - _name: Chest
+    _information: {fileID: 11400000, guid: 142f27b6c77bb3e4e9a305cf62c4cb66, type: 2}
+  - _name: Crate
+    _information: {fileID: 11400000, guid: 75e055be68515064388907a68d5ef7ff, type: 2}
+  - _name: Map
+    _information: {fileID: 11400000, guid: 04d59e718cc519a4a8040339407324b3, type: 2}
+  - _name: Scroll
+    _information: {fileID: 11400000, guid: 4975326b76dd65c41985e77004da11dd, type: 2}
+  - _name: Candle
+    _information: {fileID: 11400000, guid: ce0b01734e61661449e75d4f4005fefc, type: 2}
+  - _name: Lantern
+    _information: {fileID: 11400000, guid: 8b6b2523c6f97a74381899dc734c1033, type: 2}
+  - _name: Golden Key
+    _information: {fileID: 11400000, guid: f650d66e32c3ebc4a9b37fc44d0c74cf, type: 2}
+  - _name: Silver Key
+    _information: {fileID: 11400000, guid: da08242e7141119498666b10425ff76a, type: 2}
+  - _name: Iron Key
+    _information: {fileID: 11400000, guid: 9b751e3cb05491648b148a7761eb777c, type: 2}
+  - _name: Rune Stone
+    _information: {fileID: 11400000, guid: 4271f3bef300738418a389f8c5cd8a65, type: 2}

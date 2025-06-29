@@ -101,17 +101,19 @@ MonoBehaviour:
   _information: {fileID: 11400000, guid: cb5275fd35cffbe4bbbd9cc1428dedf6, type: 2}
   _tip: {fileID: 0}
   _hitBox:
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
     _offset: {x: 0.5, y: 1}
     _size: {x: 1, y: 1.5}
+    _angle: 0
+  _stabHitBox:
     _layer:
       serializedVersion: 2
       m_Bits: 256
-  _stabHitBox:
     _offset: {x: 0.7, y: 0.8}
     _size: {x: 1.6, y: 0.8}
-    _layer:
-      serializedVersion: 2
-      m_Bits: 256
+    _angle: 0
 --- !u!50 &8969713900865652138
 Rigidbody2D:
   serializedVersion: 5
@@ -120,7 +122,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8255442328369157595}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -159,7 +161,7 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -169,7 +171,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

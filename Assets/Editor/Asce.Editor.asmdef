@@ -3,7 +3,12 @@
     "rootNamespace": "Asce.Editors",
     "references": [
         "GUID:072cb86d29c8b834db40af4f2eebb280",
-        "GUID:571478923ce226f4689fa6981d6e22a6"
+        "GUID:571478923ce226f4689fa6981d6e22a6",
+        "GUID:813461c5f7361724aaca50ace09c5925",
+        "GUID:e018c3180d863d54786603b298cf38d4",
+        "GUID:29eb9e28a88689c439e680c51f082f95",
+        "GUID:541706c2902ea4e4989dc00885df1558",
+        "GUID:56eda4e7bc3a3504da866e05638b29d5"
     ],
     "includePlatforms": [
         "Editor"

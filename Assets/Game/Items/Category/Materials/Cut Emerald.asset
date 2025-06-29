@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db5031307ce29eb47a25bdc48c5549f9, type: 3}
+  m_Name: Cut Emerald
+  m_EditorClassIdentifier: 
+  _name: Cut Emerald
+  _description: 
+  _icon: {fileID: 21300000, guid: 3281e91e074a48d4eb5d6a1fdd332a36, type: 3}
+  _type: 2
+  _rarity: 0
+  _propertyType: 2
+  _properties:
+  - rid: 5783465910747267309
+  references:
+    version: 2
+    RefIds:
+    - rid: 5783465910747267309
+      type: {class: StackableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
+      data:
+        _name: Stackable
+        _maxStack: 100

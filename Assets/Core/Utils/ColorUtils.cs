@@ -73,5 +73,20 @@ namespace Asce.Managers.Utils
             color.a = alpha;
             return color;
         }
+
+        /// <summary>
+        ///     Returns a grayscale color with the specified intensity and alpha.
+        ///     <br/>
+        ///     The grayscale value is calculated by multiplying white with the given intensity.
+        /// </summary>
+        /// <param name="intensity"> Grayscale intensity between 0 (black) and 1 (white). </param>
+        /// <param name="alpha"> Alpha value for the resulting color (default is 1). </param>
+        /// <returns> Returns a new Color with equal RGB channels and specified alpha. </returns>
+        public static Color Grayscale(float intensity, float alpha = 1f)
+        {
+            // Multiply Color.white (1,1,1) by intensity to get uniform grayscale RGB
+            // Then apply the desired alpha
+            return (Color.white * intensity).WithAlpha(alpha);
+        }
     }
 }
