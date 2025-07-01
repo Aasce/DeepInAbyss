@@ -147,9 +147,9 @@ namespace Asce.Game.Entities
 
 
         //raycast parameters for climbing up ledge
-        public Vector2 LedgeClimbRaycastPosition => (Vector2)transform.position + new Vector2(Constants.PIXEL_SIZE * Owner.Status.FacingDirectionValue * 10f, LedgeClimbRaycastHeight);
-        public float LedgeClimbRaycastHeight => Constants.PIXEL_SIZE * 42f;
-        public float LedgeClimbRaycastDistance => Constants.PIXEL_SIZE * 19f;
+        public Vector2 LedgeClimbRaycastPosition => (Vector2)transform.position + new Vector2(Constants.PIXEL_SIZE * Owner.Status.FacingDirectionValue * 14f, LedgeClimbRaycastHeight);
+        public float LedgeClimbRaycastHeight => Constants.PIXEL_SIZE * 48f;
+        public float LedgeClimbRaycastDistance => Constants.PIXEL_SIZE * 26f;
 
         #endregion
 
@@ -159,7 +159,7 @@ namespace Asce.Game.Entities
         {
             get
             {
-                float xAxis = Owner.Action.IsCrawling ? 15 * Constants.PIXEL_SIZE : 6 * Constants.PIXEL_SIZE;
+                float xAxis = Owner.Action.IsCrawling ? 16f * Constants.PIXEL_SIZE : 8f * Constants.PIXEL_SIZE;
                 return GroundRaycastMidPosition + new Vector2(xAxis * Owner.Status.FacingDirectionValue, 0.0f);
             }
         }
@@ -167,7 +167,7 @@ namespace Asce.Game.Entities
         {
             get
             {
-                float xAxis = Owner.Action.IsCrawling ? 15 * Constants.PIXEL_SIZE : 6 * Constants.PIXEL_SIZE;
+                float xAxis = Owner.Action.IsCrawling ? 16f * Constants.PIXEL_SIZE : 8f * Constants.PIXEL_SIZE;
                 return GroundRaycastMidPosition + new Vector2(xAxis * -Owner.Status.FacingDirectionValue, 0.0f);
             }
         }
@@ -299,6 +299,7 @@ namespace Asce.Game.Entities
         public bool CheckSurfaceToClimbOn(out RaycastHit2D hit)
         {
             hit = gameObject.Raycast(LadderExitRaycastPosition, Vector2.down, LadderExitRaycastDistance, _groundCheckLayerMask, skipColliders: _ignoreColliders);
+            Debug.DrawRay(LadderExitRaycastPosition, Vector2.down * LadderExitRaycastDistance, Color.red, 1f);
             return (hit.collider != null);
         }
 
@@ -308,17 +309,20 @@ namespace Asce.Game.Entities
             float rayDistance = Constants.PIXEL_SIZE * 4.0f;
 
             hit = gameObject.Raycast(rayPosition, Vector2.down, rayDistance, _groundCheckLayerMask, isIgnorePlatform: true, skipColliders: _ignoreColliders);
+            Debug.DrawRay(rayPosition, Vector2.down * (hit.collider != null ? hit.distance : rayDistance), Color.yellow, 1f);
             return hit.collider != null;
         }
 
-        public virtual RaycastHit2D CanClimbLedge()
+        public virtual bool CanClimbLedge(out RaycastHit2D hit)
         {
-            return gameObject.Raycast(LedgeClimbRaycastPosition, Vector2.down, LedgeClimbRaycastDistance, _groundCheckLayerMask, true, _ignoreColliders);
+            hit = gameObject.Raycast(LedgeClimbRaycastPosition, Vector2.down, LedgeClimbRaycastDistance, _groundCheckLayerMask, true, _ignoreColliders);
+            return hit.collider != null;
         }
 
-        public virtual RaycastHit2D CheckSpaceToLedge(Vector2 upCheckPosition)
+        public virtual bool CheckEnoughSpaceToLedge(Vector2 upCheckPosition, out RaycastHit2D hit)
         {
-            return gameObject.Raycast(upCheckPosition, Vector2.up, Constants.PIXEL_SIZE * 32f, _groundCheckLayerMask, true, _ignoreColliders);
+            hit = gameObject.Raycast(upCheckPosition, Vector2.up, Constants.PIXEL_SIZE * 32f, _groundCheckLayerMask, true, _ignoreColliders);
+            return hit.collider == null;
         }
 
         protected virtual void SetSpeedAndAcceleration(float acceleration, float maxSpeed)

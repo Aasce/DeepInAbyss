@@ -1,5 +1,6 @@
 using Asce.Game.Combats;
 using Asce.Game.Entities;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using UnityEngine;
 
@@ -9,9 +10,9 @@ namespace Asce.Game.Equipments.Weapons
     public class Weapon : MonoBehaviour
     {
         // Ref
-        [SerializeField, HideInInspector] protected WeaponView _view;
-        [SerializeField, HideInInspector] protected Collider2D _collider;
-        [SerializeField, HideInInspector] protected Rigidbody2D _rigidBody;
+        [SerializeField, Readonly] protected WeaponView _view;
+        [SerializeField, Readonly] protected Collider2D _collider;
+        [SerializeField, Readonly] protected Rigidbody2D _rigidBody;
 
         [SerializeField] protected SO_WeaponInformation _information;
         protected ICreature _owner;
@@ -31,7 +32,7 @@ namespace Asce.Game.Equipments.Weapons
         public ICreature Owner
         {
             get => _owner;
-            set
+            protected set
             {
                 if (_owner == value) return;
                 _owner = value;
@@ -49,7 +50,7 @@ namespace Asce.Game.Equipments.Weapons
         {
             if (this.LoadComponent(out _view))
             {
-                View.Weapon = this;
+                View.Owner = this;
             }
             this.LoadComponent(out _collider);
             this.LoadComponent(out _rigidBody);
@@ -65,6 +66,26 @@ namespace Asce.Game.Equipments.Weapons
 
         }
 
+        public virtual void OnAttach(ICreature creature)
+        {
+            Owner = creature;
+            View.Alpha = Owner.View.Alpha;
+
+            Collider.isTrigger = true;
+            Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+
+            transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            transform.localScale = Vector3.one;
+        }
+
+        public virtual void OnDetach()
+        {
+            Collider.isTrigger = false;
+            Rigidbody.bodyType = RigidbodyType2D.Dynamic;
+
+            View.Alpha = 1.0f;
+            Owner = null;
+        }
 
         public virtual void StartAttacking(AttackType attackType = AttackType.None)
         {

@@ -15,10 +15,10 @@ namespace Asce.Game.Equipments.Weapons
         [SerializeField] protected bool _isStringPulled;
         private SecondOrderDynamics _secondOrderDynamics = new(4f, 0.3f, 5f);
 
-        public new BowWeapon Weapon
+        public new BowWeapon Owner
         {
-            get => base.Weapon as BowWeapon;
-            set => base.Weapon = value;
+            get => base.Owner as BowWeapon;
+            set => base.Owner = value;
         }
 
         public Renderer StringRenderer => _stringRenderer;
@@ -35,7 +35,7 @@ namespace Asce.Game.Equipments.Weapons
 
         public virtual Vector2 StringPullPosition
         {
-            set => _stringPullPosition = Weapon.transform.InverseTransformPoint(value);
+            set => _stringPullPosition = Owner.transform.InverseTransformPoint(value);
         }
 
 

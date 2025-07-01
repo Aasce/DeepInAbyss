@@ -40,6 +40,8 @@ namespace Asce.Game.Utils
                 return false;
 
             view.MPBAlpha.SetFloat("_Alpha", alpha);
+            view.MPBAlpha.SetVector("unity_SpriteColor", new Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+            view.MPBAlpha.SetVector("unity_SpriteProps", new Vector4(1.0f, 1.0f, -1.0f, 0));
 
             foreach (Renderer renderer in view.Renderers)
             {

@@ -170,7 +170,7 @@ namespace Asce.Game.Entities
         protected bool _isDrawingBow;
         private bool _isArrowDrawn;
 
-        [Header("Throw Weapon")]
+        [Header("Throw Owner")]
         [SerializeField] protected float _throwForce = 5f;
         [SerializeField] protected float _throwAngularSpeed = 200f;
 
@@ -1482,16 +1482,15 @@ namespace Asce.Game.Entities
                 return;
 
             // Check for climbable ledge
-            RaycastHit2D hit = Owner.PhysicController.CanClimbLedge();
+            bool canClimbLedge = Owner.PhysicController.CanClimbLedge(out RaycastHit2D hit);
             LedgePosition = hit.point;
 
             // Check up direction for enough space to climb
             bool upAvailable = true;
-            if (hit.collider != null)
+            if (canClimbLedge)
             {
-                Vector2 upCheckPosition = LedgePosition - new Vector2(0f, Constants.PIXEL_SIZE);
-                RaycastHit2D hitUp = Owner.PhysicController.CheckSpaceToLedge(upCheckPosition);
-                upAvailable = (hitUp.collider == null);
+                Vector2 upCheckPosition = LedgePosition + new Vector2(0f, Constants.PIXEL_SIZE);
+                upAvailable = Owner.PhysicController.CheckEnoughSpaceToLedge(upCheckPosition, out RaycastHit2D hitUp);
             }
 
             bool ledgeAvailable = (hit.collider != null) && upAvailable;

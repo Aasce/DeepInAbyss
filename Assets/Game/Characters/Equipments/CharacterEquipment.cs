@@ -36,8 +36,7 @@ namespace Asce.Game.Entities
         {
             base.Start();
             this.SetAttackType();
-            if (WeaponSlot.CurrentWeapon != null) WeaponSlot.CurrentWeapon.Owner = Owner; // Set the owner reference of the current weapon
-
+            
             WeaponSlot.OnWeaponChanged += WeaponSlot_OnWeaponChanged;
 
             Owner.Action.OnAttackStart += Action_OnAttackStart;
@@ -65,7 +64,7 @@ namespace Asce.Game.Entities
             if (bow == null) return;
 
             Projectile projectile = Instantiate(bow.ArrowPrefab);
-            projectile.Owner = Owner;
+            projectile.OnAttach(Owner);
             LeftHandSlot.HoldProjectile(projectile);
         }
 
@@ -84,8 +83,6 @@ namespace Asce.Game.Entities
 
         protected virtual void WeaponSlot_OnWeaponChanged(object sender, Managers.ValueChangedEventArgs<Weapon> args)
         {
-            if (args.OldValue != null) args.OldValue.Owner = null; // Clear the owner reference of the old weapon
-            if (args.NewValue != null) args.NewValue.Owner = Owner; // Set the owner reference of the new weapon
             this.SetAttackType();
         }
 

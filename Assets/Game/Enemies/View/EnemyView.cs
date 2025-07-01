@@ -68,7 +68,7 @@ namespace Asce.Game.Entities.Enemies
             MoveBlend = Mathf.MoveTowards(MoveBlend, targetMoveBlend, Time.deltaTime * _movingBlendTransitionSpeed);
         }
 
-        public override void ResetRendererList()
+        protected override void ResetRendererList()
         {
             base.ResetRendererList();
             if (_renderer != null) Renderers.Add(_renderer);

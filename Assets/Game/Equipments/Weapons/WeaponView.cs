@@ -1,57 +1,23 @@
-using Asce.Game.Utils;
-using System.Collections.Generic;
+using Asce.Managers.Attributes;
 using UnityEngine;
 
 namespace Asce.Game.Equipments.Weapons
 {
-    public class WeaponView : MonoBehaviour, IViewController
+    public class WeaponView : ViewController
     {
-        [SerializeField] protected Weapon _weapon;
-
-        [Space]
-        [SerializeField] protected float _alpha = 1.0f;
-
+        [SerializeField, Readonly] protected Weapon _weapon;
         [SerializeField] protected Renderer _renderer;
 
-
-        protected List<Renderer> _renderers = new();
-        protected MaterialPropertyBlock _mpbAlpha;
-
-        public virtual List<Renderer> Renderers => _renderers;
-        public virtual MaterialPropertyBlock MPBAlpha => _mpbAlpha != null ? _mpbAlpha : _mpbAlpha = new MaterialPropertyBlock();
-
-
-        public Weapon Weapon
+        public Weapon Owner
         {
             get => _weapon;
             set => _weapon = value;
         }
 
-        public virtual float Alpha
+        protected override void ResetRendererList()
         {
-            get => _alpha;
-            set
-            {
-                _alpha = Mathf.Clamp01(value);
-                this.SetRendererAlpha(_alpha);
-            }
-        }
-
-        protected virtual void Awake()
-        {
-            this.ResetRendererList();
-        }
-
-        protected virtual void Start()
-        {
-            this.SetRendererAlpha(_alpha);
-        }
-
-        protected virtual void ResetRendererList()
-        {
-            Renderers.Clear();
+            base.ResetRendererList();
             if (_renderer != null) Renderers.Add(_renderer);
         }
-
     }
 }

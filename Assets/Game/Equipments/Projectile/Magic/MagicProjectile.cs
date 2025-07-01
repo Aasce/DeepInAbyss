@@ -1,3 +1,4 @@
+using Asce.Game.Entities;
 using UnityEngine;
 
 namespace Asce.Game.Equipments
@@ -7,6 +8,10 @@ namespace Asce.Game.Equipments
         [Header("Magic")]
         [SerializeField] protected GameObject _launchFxPrefab;
         [SerializeField] protected GameObject _hitFxPrefab;
+
+        [Space]
+        [SerializeField] protected float _explosionRadius = 1f;
+        [SerializeField] protected LayerMask _explosionLayerMask;
 
         protected override void Start()
         {
@@ -26,6 +31,7 @@ namespace Asce.Game.Equipments
             if (HasHit) return;
             if (Owner != null && Owner.gameObject == collision.gameObject) return;
 
+            this.Explosion((collision.contacts.Length > 0) ? collision.contacts[0].point : transform.position);
             if (_hitFxPrefab != null)
             {
                 GameObject hitFx = Instantiate(_hitFxPrefab);
@@ -45,6 +51,21 @@ namespace Asce.Game.Equipments
                 launchFx.transform.SetPositionAndRotation(transform.position, transform.rotation);
             }
             base.OnLaunched();
+        }
+
+        protected virtual void Explosion(Vector2 position)
+        {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(position, _explosionRadius, _explosionLayerMask);
+
+            foreach (Collider2D collider in colliders)
+            {
+                if (collider ==  null) continue;
+                if (!collider.enabled) continue;
+                if (collider.gameObject == Owner.gameObject) continue;
+                if (!collider.TryGetComponent(out ICreature creature)) continue;
+
+                this.DealDamage(creature, creature.gameObject.transform.position);
+            }
         }
     }
 }

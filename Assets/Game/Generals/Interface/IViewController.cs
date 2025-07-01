@@ -9,6 +9,8 @@ namespace Asce.Game
         public MaterialPropertyBlock MPBAlpha { get; }
 
         public float Alpha { get; set; }
+        public string SortingLayer { get; }
+        public int SortingOrder { get; }
 
         public void ResetRendererList() { }
     }

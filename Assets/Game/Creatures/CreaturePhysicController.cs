@@ -120,7 +120,7 @@ namespace Asce.Game.Entities
         /// <summary>
         /// 
         /// </summary>
-        public virtual float GroundRaycastDistance => Constants.PIXEL_SIZE * 18f;
+        public virtual float GroundRaycastDistance => Constants.PIXEL_SIZE * 25f;
 
         /// <summary>
         ///     raycast parameters for ground check
@@ -137,12 +137,12 @@ namespace Asce.Game.Entities
         /// <summary>
         ///     raycast parameters for ground check
         /// </summary>
-        public virtual Vector2 GroundRaycastFrontPosition => GroundRaycastMidPosition + new Vector2(Constants.PIXEL_SIZE * 6f * Owner.Status.FacingDirectionValue, 0.0f);
+        public virtual Vector2 GroundRaycastFrontPosition => GroundRaycastMidPosition + new Vector2(Constants.PIXEL_SIZE * 8f * Owner.Status.FacingDirectionValue, 0.0f);
 
         /// <summary>
         ///     raycast parameters for ground check
         /// </summary>
-        public virtual Vector2 GroundRaycastBackPosition => GroundRaycastMidPosition + new Vector2(Constants.PIXEL_SIZE * 6f * -Owner.Status.FacingDirectionValue, 0.0f);
+        public virtual Vector2 GroundRaycastBackPosition => GroundRaycastMidPosition + new Vector2(Constants.PIXEL_SIZE * 8f * -Owner.Status.FacingDirectionValue, 0.0f);
 
         /// <summary>
         ///     
@@ -486,7 +486,15 @@ namespace Asce.Game.Entities
             _checkList.Add(gameObject.Raycast(GroundRaycastMidPosition, Vector2.down, GroundRaycastDistance, _groundCheckLayerMask, isIgnorePlatform: false).collider);
             _checkList.Add(gameObject.Raycast(GroundRaycastBackPosition, Vector2.down, GroundRaycastDistance, _groundCheckLayerMask, isIgnorePlatform: false).collider);
 
-            _ignoreColliders.RemoveWhere(collider => !_checkList.Contains(collider));
+            _ignoreColliders.RemoveWhere((collider) =>
+            {
+                bool isRemove = !_checkList.Contains(collider);
+                if (isRemove)
+                {
+                    Physics2D.IgnoreCollision(BodyCollider, collider, false);
+                }
+                return isRemove;
+            });
         }
 
         /// <summary>
@@ -498,8 +506,12 @@ namespace Asce.Game.Entities
             foreach (Collider2D collider in _standingColliders)
             {
                 if (collider == null) continue; // Skip if no collider
-                // if (_ignoreColliders.Contains(collider)) continue;
-                if (collider.gameObject.TryGetComponent<Platform>(out _)) _ignoreColliders.Add(collider);
+                if (_ignoreColliders.Contains(collider)) continue;
+                if (collider.gameObject.TryGetComponent<Platform>(out _))
+                {
+                    _ignoreColliders.Add(collider); 
+                    Physics2D.IgnoreCollision(BodyCollider, collider);
+                }
             }
         }
 

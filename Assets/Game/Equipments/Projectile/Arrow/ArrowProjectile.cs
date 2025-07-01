@@ -1,3 +1,4 @@
+using Asce.Game.Entities;
 using UnityEngine;
 
 namespace Asce.Game.Equipments
@@ -45,7 +46,15 @@ namespace Asce.Game.Equipments
             {
                 _isAttachedToTarget = true;
 
+                if (collision.gameObject.TryGetComponent(out ICreature creature))
+                {
+                    Vector2 position = collision.contactCount > 0 ? collision.GetContact(0).point : (Vector2)collision.transform.position;
+                    this.DealDamage(creature, position);
+                }
+
+                this.SetSortingLayer(collision);
                 transform.SetParent(collision.collider.transform, true);
+
                 _hitVel = -collision.relativeVelocity;
                 _rigidbody.simulated = false;
                 _collider.isTrigger = true;
@@ -56,5 +65,23 @@ namespace Asce.Game.Equipments
             base.OnCollisionEnter2D(collision);
         }
 
+        private void SetSortingLayer(Collision2D collision)
+        {
+            IViewController viewController = collision.transform.GetComponentInChildren<IViewController>();
+            if (viewController != null)
+            {
+                View.SortingLayer = viewController.SortingLayer;
+                View.SortingOrder = viewController.SortingOrder - 1;
+                return;
+            }
+
+            Renderer renderer = collision.transform.GetComponentInChildren<Renderer>();
+            if (renderer != null)
+            {
+                View.SortingLayer = renderer.sortingLayerName;
+                View.SortingOrder = renderer.sortingOrder - 1;
+                return;
+            }
+        }
     }
 }

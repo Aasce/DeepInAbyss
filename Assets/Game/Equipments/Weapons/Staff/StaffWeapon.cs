@@ -30,7 +30,7 @@ namespace Asce.Game.Equipments.Weapons
             if (MagicPrefab == null) return;
 
             MagicProjectile projectile = Instantiate(MagicPrefab, null);
-            projectile.Owner = Owner;
+            projectile.OnAttach(Owner);
             projectile.transform.position = position;
             projectile.transform.right = direction;
 

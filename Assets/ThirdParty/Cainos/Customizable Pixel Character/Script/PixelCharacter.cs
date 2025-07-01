@@ -590,7 +590,7 @@ namespace Cainos.CustomizablePixelCharacter
         //the weapon needs a Collider2D and Rigidbody2D component attached to it
         //return the detached weapon game object
 
-        [FoldoutGroup("Runtime"), HorizontalGroup("Runtime/Weapon"), Button("Detach Weapon"), DisableInEditMode]
+        [FoldoutGroup("Runtime"), HorizontalGroup("Runtime/Owner"), Button("Detach Owner"), DisableInEditMode]
         public GameObject DetachWeapon()
         {
             if (weaponSlot.childCount <= 0) return null;
@@ -611,7 +611,7 @@ namespace Cainos.CustomizablePixelCharacter
 
         //clear out everything in weapon slot
 
-        [FoldoutGroup("Runtime"), HorizontalGroup("Runtime/Weapon"), Button("Clear Weapon"), DisableInEditMode]
+        [FoldoutGroup("Runtime"), HorizontalGroup("Runtime/Owner"), Button("Clear Owner"), DisableInEditMode]
         public void ClearWeapon()
         {
             for (int i = 0; i < weaponSlot.childCount; i++)

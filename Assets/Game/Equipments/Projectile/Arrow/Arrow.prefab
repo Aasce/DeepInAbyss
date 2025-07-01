@@ -74,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1674812583
-  m_SortingLayer: -8
+  m_SortingLayer: -9
   m_SortingOrder: -10
   m_Sprite: {fileID: 827548351, guid: d34b2ad26d5e857478a632b3af0d4d05, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -96,6 +96,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6967039976817653482}
+  - component: {fileID: 1941295057680380661}
   m_Layer: 9
   m_Name: View
   m_TagString: Untagged
@@ -119,6 +120,21 @@ Transform:
   - {fileID: 2919347258625558392}
   m_Father: {fileID: 3350128470273758829}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1941295057680380661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626426226471452366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3cbaeee61388674e8938dafde7a9110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _alpha: 1
+  _owner: {fileID: 1939144753012118150}
+  _renderer: {fileID: 9218851677918449391}
 --- !u!1 &7209731508701755730
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,18 +184,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 4647165205519039242}
   _collider: {fileID: 1732498637185310597}
+  _view: {fileID: 1941295057680380661}
   _isLaunched: 0
   _despawnCooldown:
     _baseTime: 10
     _currentTime: 10
   _damage: 0
   _penetration: 0
-  _isSetZPositionOnLaunch: 0
-  _isZPostionLaunchLocal: 1
-  _zPositionLaunch: 0
-  setZPosOnHit: 0
-  isZPosHitLocal: 1
-  zPosHit: 0
+  _damageType: 1
+  _isSetLayerOnLaunch: 0
+  _isSetLayerOnHit: 0
   _insertMaxAngle: 90
   _insertDepth: 0.1
 --- !u!61 &1732498637185310597
@@ -202,7 +216,7 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
     m_Bits: 4294967295

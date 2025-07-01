@@ -51,22 +51,15 @@ namespace Asce.Game.Equipments
             this.DetachWeapon(); // Detach any existing weapon before attaching a new one
 
             CurrentWeapon = weapon;
-            CurrentWeapon.Owner = EquipmentOwner.Owner; // Set the owner reference
-
-            CurrentWeapon.Collider.isTrigger = true;
-            CurrentWeapon.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
-
             CurrentWeapon.transform.SetParent(transform);
-            CurrentWeapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            CurrentWeapon.transform.localScale = Vector3.one;
+            CurrentWeapon.OnAttach(EquipmentOwner.Owner);
         }
 
         public void DetachWeapon()
         {
             if (CurrentWeapon == null) return;
 
-            CurrentWeapon.Collider.isTrigger = false;
-            CurrentWeapon.Rigidbody.bodyType = RigidbodyType2D.Dynamic;
+            CurrentWeapon.OnDetach();
 
             CurrentWeapon.transform.SetParent(null);
             CurrentWeapon = null;

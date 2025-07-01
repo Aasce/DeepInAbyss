@@ -502,7 +502,7 @@ namespace Asce.Game.Entities
         }
 
 
-        public override void ResetRendererList()
+        protected override void ResetRendererList()
         {
             base.ResetRendererList();
             Renderers.AddRange(new[]

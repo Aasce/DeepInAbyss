@@ -43,6 +43,9 @@ TagManager:
   - name: Back
     uniqueID: 1674812583
     locked: 0
+  - name: Background Tilemap
+    uniqueID: 522605199
+    locked: 0
   - name: Back Props
     uniqueID: 2463483371
     locked: 0

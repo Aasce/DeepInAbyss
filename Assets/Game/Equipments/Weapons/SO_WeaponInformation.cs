@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Game.Equipments
 {
-    [CreateAssetMenu(menuName = "Asce/Items/Weapon Information", fileName = "Weapon Information")]
+    [CreateAssetMenu(menuName = "Asce/Items/Owner Information", fileName = "Owner Information")]
     public class SO_WeaponInformation : SO_EquipmentInformation
     {
         [Space]

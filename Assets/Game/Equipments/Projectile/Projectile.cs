@@ -1,5 +1,6 @@
 using Asce.Game.Combats;
 using Asce.Game.Entities;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using System;
 using UnityEngine;
@@ -10,8 +11,9 @@ namespace Asce.Game.Equipments
     public class Projectile : MonoBehaviour
     {
         // Ref
-        [SerializeField, HideInInspector] protected Rigidbody2D _rigidbody;
-        [SerializeField, HideInInspector] protected Collider2D _collider;
+        [SerializeField, Readonly] protected Rigidbody2D _rigidbody;
+        [SerializeField, Readonly] protected Collider2D _collider;
+        [SerializeField, Readonly] protected ProjectileView _view;
         protected ICreature _owner;
 
         [SerializeField] protected bool _isLaunched;
@@ -24,14 +26,10 @@ namespace Asce.Game.Equipments
         [SerializeField] protected DamageType _damageType = DamageType.Physical;
 
         [Space]
-        [SerializeField] protected bool _isSetZPositionOnLaunch = false;
-        [SerializeField] protected bool _isZPostionLaunchLocal = true;
-        [SerializeField] protected float _zPositionLaunch = 0.0f;
+        [SerializeField] protected bool _isSetLayerOnLaunch = false;
 
         [Space]
-        [SerializeField] protected bool setZPosOnHit = false;
-        [SerializeField] protected bool isZPosHitLocal = true;
-        [SerializeField] protected float zPosHit = 0.0f;
+        [SerializeField] protected bool _isSetLayerOnHit = false;
 
         public event Action<object> OnLaunch;
         public event Action<object, Collision2D> OnHit;
@@ -40,14 +38,12 @@ namespace Asce.Game.Equipments
         public ICreature Owner
         {
             get => _owner;
-            set
-            {
-                _owner = value;
-            }
+            protected set => _owner = value;
         }
 
         public Rigidbody2D Rigidbody => _rigidbody;
         public Collider2D Collider => _collider;
+        public ProjectileView View => _view;
 
         public virtual bool IsLaunched
         {
@@ -60,16 +56,6 @@ namespace Asce.Game.Equipments
                 if (_isLaunched)
                 {
                     _rigidbody.simulated = true;
-
-                    // Set launch z pos
-                    if (_isSetZPositionOnLaunch)
-                    {
-                        var pos = _isZPostionLaunchLocal ? transform.localPosition : transform.position;
-                        pos.z = _zPositionLaunch;
-
-                        if (_isZPostionLaunchLocal) transform.localPosition = pos;
-                        else transform.position = pos;
-                    }
 
                     OnLaunched();
                 }
@@ -86,14 +72,10 @@ namespace Asce.Game.Equipments
 
                 _rigidbody.gravityScale = 1.0f;
 
-                //set hit z pos
-                if (setZPosOnHit)
+                // Set layer
+                if (_isSetLayerOnHit)
                 {
-                    var pos = isZPosHitLocal ? transform.localPosition : transform.position;
-                    pos.z = zPosHit;
 
-                    if (isZPosHitLocal) transform.localPosition = pos;
-                    else transform.position = pos;
                 }
             }
         }
@@ -108,6 +90,7 @@ namespace Asce.Game.Equipments
         {
             this.LoadComponent(out _rigidbody);
             this.LoadComponent(out _collider);
+            if (this.LoadComponent(out _view)) View.Owner = this;
         }
 
         protected virtual void Start()
@@ -132,13 +115,31 @@ namespace Asce.Game.Equipments
             if (HasHit) return;
             if (Owner != null && Owner.gameObject == collision.gameObject) return;
 
-            if (collision.gameObject.TryGetComponent(out ICreature creature))
-            {
-                Vector2 position = collision.contactCount > 0 ? collision.GetContact(0).point : (Vector2)collision.transform.position;
-                this.DealDamage(creature, position);
-            }
-
             HasHit = true;
+            this.OnHitted(collision);
+        }
+
+
+        public virtual void OnAttach(ICreature creature)
+        {
+            Owner = creature;
+            View.SortingLayer = Owner.View.SortingLayer;
+            View.SortingOrder = Owner.View.SortingOrder - 1;
+        }
+
+        public virtual void OnDetach()
+        {
+
+        }
+
+        protected virtual void OnLaunched()
+        {
+            // Events
+            OnLaunch?.Invoke(this);
+        }
+
+        protected virtual void OnHitted(Collision2D collision)
+        {
             OnHit?.Invoke(this, collision);
         }
 
@@ -158,11 +159,6 @@ namespace Asce.Game.Equipments
             Rigidbody.linearVelocity = force * transform.right;
         }
 
-        protected virtual void OnLaunched()
-        {
-            // Events
-            OnLaunch?.Invoke(this);
-        }
 
         protected virtual void Despawn()
         {

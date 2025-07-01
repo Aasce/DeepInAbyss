@@ -1,22 +1,15 @@
-using Asce.Game.Utils;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace Asce.Game.Entities
 {
-    public abstract class CreatureView : MonoBehaviour, IHasOwner<Creature>, IViewController
+    public abstract class CreatureView : ViewController, IHasOwner<Creature>
     {
-        [SerializeField, HideInInspector] private Creature _owner;
-        [SerializeField, HideInInspector] protected Animator _animator;
-        [SerializeField, HideInInspector] protected EntityRootMotionReceiver _rootMotionReceiver;
-
-        protected List<Renderer> _renderers = new();
-        protected MaterialPropertyBlock _mpbAlpha;
-
-        [Space]
-        [SerializeField] protected float _alpha = 1.0f;
+        [SerializeField, Readonly] private Creature _owner;
+        [SerializeField, Readonly] protected Animator _animator;
+        [SerializeField, Readonly] protected EntityRootMotionReceiver _rootMotionReceiver;
 
         [SerializeField] protected bool _isLookingAtTarget;
 
@@ -33,29 +26,15 @@ namespace Asce.Game.Entities
 
         public virtual Vector2 RootMotionVelocity => _rootMotionReceiver.RootMotionVelocity;
         
-        public virtual List<Renderer> Renderers => _renderers;
-        public virtual MaterialPropertyBlock MPBAlpha => _mpbAlpha != null ? _mpbAlpha : _mpbAlpha = new MaterialPropertyBlock();
-
-
-        public virtual float Alpha
-        {
-            get => _alpha;
-            set
-            {
-                _alpha = Mathf.Clamp01(value);
-                this.SetRendererAlpha(_alpha);
-            }
-        }
-
-
         public virtual bool IsLookingAtTarget 
         { 
             get => _isLookingAtTarget;
             set => _isLookingAtTarget = value; 
         }
 
-        protected virtual void Reset()
+        protected override void Reset()
         {
+            base.Reset();
             transform.LoadComponent(out _animator);
             transform.LoadComponent(out _rootMotionReceiver);
             if (transform.LoadComponent(out _owner))
@@ -64,13 +43,9 @@ namespace Asce.Game.Entities
             }
         }
 
-        protected virtual void Awake()
+        protected override void Start()
         {
-            this.ResetRendererList();
-        }
-
-        protected virtual void Start()
-        {
+            base.Start();
             if (Owner != null)
             {
                 Owner.Status.OnDeath += Status_OnDeath;
@@ -114,10 +89,6 @@ namespace Asce.Game.Entities
 
         }
 
-        public virtual void ResetRendererList()
-        {
-            Renderers.Clear();
-        }
 
         protected virtual void Status_OnDeath(object sender)
         {
@@ -129,6 +100,7 @@ namespace Asce.Game.Entities
         {
             if (Animator == null) return;
             Animator.SetBool("IsDead", false);
+            Alpha = 1f;
         }
 
         protected virtual void Status_OnFacingChanged(object sender, FacingType facing)

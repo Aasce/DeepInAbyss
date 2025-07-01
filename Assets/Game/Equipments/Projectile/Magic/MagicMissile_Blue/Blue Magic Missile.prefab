@@ -4894,20 +4894,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 7298916543074548592}
   _collider: {fileID: 5245776441435894386}
+  _view: {fileID: 864542741451378729}
   _isLaunched: 0
   _despawnCooldown:
     _baseTime: 10
     _currentTime: 10
   _damage: 0
   _penetration: 0
-  _isSetZPositionOnLaunch: 0
-  _isZPostionLaunchLocal: 1
-  _zPositionLaunch: 0
-  setZPosOnHit: 0
-  isZPosHitLocal: 1
-  zPosHit: 0
+  _damageType: 10
+  _isSetLayerOnLaunch: 0
+  _isSetLayerOnHit: 0
   _launchFxPrefab: {fileID: 2275061639578011221, guid: ace0f4342c8a0f041b254c8a6ae66275, type: 3}
   _hitFxPrefab: {fileID: 3693737279770335284, guid: 8c57dbaf1cf5dd847ae0287346b9714a, type: 3}
+  _explosionRadius: 1
+  _explosionLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!58 &5245776441435894386
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4928,7 +4930,7 @@ CircleCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -4980,6 +4982,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 797909661489889427}
+  - component: {fileID: 864542741451378729}
   - component: {fileID: 4993965422196732499}
   - component: {fileID: 7771864858917066426}
   m_Layer: 9
@@ -5008,6 +5011,20 @@ Transform:
   - {fileID: 8331883040500763234}
   m_Father: {fileID: 2534791612512310350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &864542741451378729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898445797798885216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c4df76223aba54aabb749b60e552b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _alpha: 1
+  _owner: {fileID: 1229896946291252059}
 --- !u!199 &4993965422196732499
 ParticleSystemRenderer:
   serializedVersion: 6
