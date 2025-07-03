@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Asce.Game.Enviroments
 {
-    public class SuspensionBridge : MonoBehaviour
+    public class SuspensionBridge : MonoBehaviour, IEnviromentComponent, IOptimizedComponent
     {
         [SerializeField] private Transform _leftAnchor;
         [SerializeField] private Transform _rightAnchor;
@@ -16,5 +16,13 @@ namespace Asce.Game.Enviroments
 
         public Transform PartPrefab => _partPrefab;
         public float PartSpace => _partSpace;
+
+        bool IOptimizedComponent.IsActive => gameObject.activeSelf;
+        OptimizeBehavior IOptimizedComponent.OptimizeBehavior => OptimizeBehavior.DeactivateOutsideView;
+
+        void IOptimizedComponent.SetActivate(bool state)
+        {
+            this.gameObject.SetActive(state);
+        }
     }
 }

@@ -1,4 +1,5 @@
 using Asce.Game.Equipments;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Asce.Game.Entities
 {
     public class CreatureEquipment : MonoBehaviour, IHasOwner<Creature>, IEquipmentController
     {
-        [SerializeField, HideInInspector] private Creature _owner;
+        [SerializeField, Readonly] private Creature _owner;
 
         public virtual Creature Owner
         {

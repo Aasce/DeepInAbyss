@@ -1,11 +1,12 @@
-﻿using Asce.Managers.Utils;
+﻿using Asce.Managers.Attributes;
+using Asce.Managers.Utils;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
     public abstract class CreatureAction : MonoBehaviour, IHasOwner<Creature>, IActionController
     {
-        [SerializeField, HideInInspector] private Creature _owner;
+        [SerializeField, Readonly] private Creature _owner;
 
         /// <summary>
         ///     Reference to the creature that owns this movement controller.

@@ -11,7 +11,7 @@ namespace Asce.Game.Enviroments
     ///     This component generates a mesh and simulates ripples and waves using a simplified physics system.
     /// </summary>
     [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter), typeof(BoxCollider2D))]
-    public class Liquid : MonoBehaviour
+    public class Liquid : MonoBehaviour, IEnviromentComponent, IOptimizedComponent
     {
         public const int NUM_OF_Y_VERTICES = 2;
 
@@ -72,6 +72,8 @@ namespace Asce.Game.Enviroments
         public MeshRenderer MeshRenderer => _meshRenderer;
         public MeshFilter MeshFilter => _meshFilter;
 
+        bool IOptimizedComponent.IsActive => this.gameObject.activeSelf;
+        OptimizeBehavior IOptimizedComponent.OptimizeBehavior => OptimizeBehavior.DeactivateOutsideView;
 
         public int NumOfHorizontalVertices => _numOfHorizontalVertices;
         public float Width
@@ -259,5 +261,9 @@ namespace Asce.Game.Enviroments
             }
         }
 
+        void IOptimizedComponent.SetActivate(bool state)
+        {
+            gameObject.SetActive(state);
+        }
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7648089815010519498}
   - component: {fileID: 5936120687117200612}
   m_Layer: 0
-  m_Name: Chain R
+  m_Name: Right Chain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -332,8 +332,8 @@ MonoBehaviour:
   m_ShadowMesh:
     m_Mesh: {fileID: 0}
     m_LocalBounds:
-      m_Center: {x: 0, y: -0.23999023, z: 0}
-      m_Extent: {x: 1.9199982, y: 0.16999817, z: 0}
+      m_Center: {x: 0, y: -0.0625, z: 0}
+      m_Extent: {x: 0.9387512, y: 0.12625122, z: 0}
     m_EdgeProcessing: 1
     m_TrimEdge: 0.03
     m_FlipX: 0
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_PreviousTrimEdge: 0.03
   m_PreviousEdgeProcessing: 1
   m_PreviousShadowCastingSource: 2
-  m_PreviousShadowShape2DSource: {fileID: 3617129583657703738}
+  m_PreviousShadowShape2DSource: {fileID: 6750887397429345348}
   references:
     version: 2
     RefIds:
@@ -359,7 +359,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5000269669469667637}
-  - component: {fileID: 6086288434430751240}
+  - component: {fileID: 2856693746030466975}
   m_Layer: 0
   m_Name: Elevator
   m_TagString: Untagged
@@ -387,7 +387,7 @@ Transform:
   - {fileID: 8281550982381381832}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6086288434430751240
+--- !u!114 &2856693746030466975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -396,16 +396,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 4125048533852744632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: decb355dc5cd8c549ac690cc13f9386e, type: 3}
+  m_Script: {fileID: 11500000, guid: 75aadb499f6ca164ea35171fc7b1bd33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lengthRange: {x: 5, y: 26}
-  waitTime: 5
-  moveSpeed: 3
-  startState: 1
-  platform: {fileID: 447616219571163594}
-  chainL: {fileID: 6870355516659603733}
-  chainR: {fileID: 5936120687117200612}
+  _platform: {fileID: 447616219571163594}
+  _leftChain: {fileID: 6870355516659603733}
+  _rightChain: {fileID: 5936120687117200612}
+  _lengthRange: {x: 2, y: 5}
+  _waitCooldown:
+    _baseTime: 1
+    _currentTime: 1
+  _moveSpeed: 3
+  _startState: 0
+  _length: 0
+  isWaiting: 0
+  _isMoveUp: 0
 --- !u!1 &5144195691252012169
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +422,7 @@ GameObject:
   - component: {fileID: 182248341464177612}
   - component: {fileID: 8939623112295507791}
   m_Layer: 0
-  m_Name: Pully L
+  m_Name: Left Pully
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -504,7 +509,7 @@ GameObject:
   - component: {fileID: 6882799077758934379}
   - component: {fileID: 7929568303580129800}
   m_Layer: 0
-  m_Name: Pully R
+  m_Name: Right Pully
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,7 +596,7 @@ GameObject:
   - component: {fileID: 703255923010390995}
   - component: {fileID: 6870355516659603733}
   m_Layer: 0
-  m_Name: Chain L
+  m_Name: Left Chain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

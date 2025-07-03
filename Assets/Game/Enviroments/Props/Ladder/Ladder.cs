@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Asce.Game.Enviroments
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class Ladder : MonoBehaviour
+    public class Ladder : MonoBehaviour, IEnviromentComponent
     {
         [SerializeField] private BoxCollider2D _boxCollider2D;
         [SerializeField] private Vector3 _climbOffset;

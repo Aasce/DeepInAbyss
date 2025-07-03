@@ -1,3 +1,4 @@
+using Asce.Game.Players;
 using Asce.Managers.Attributes;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace Asce.Game.Enviroments
 
         private void Start()
         {
-            _camera = Camera.main.transform;
+            _camera = Player.Instance.CameraController.Camera.transform;
             if (_camera == null) _startPosition = transform.position;
             else _startPosition = transform.position - _camera.position;
         }

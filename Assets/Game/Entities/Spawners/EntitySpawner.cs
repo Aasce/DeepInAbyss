@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Asce.Game.Spawners
 {
     [RequireComponent(typeof(SpawnPositionController))]
-    public abstract class EntitySpawner<T> : MonoBehaviour, ISpawner<T> where T : MonoBehaviour
+    public abstract class EntitySpawner<T> : MonoBehaviour, ISpawner<T>, IOptimizedComponent where T : MonoBehaviour
     {
         [SerializeField, HideInInspector] protected SpawnPositionController _positionController;
         [SerializeField] protected Pool<T> _pools = new();
@@ -18,8 +18,10 @@ namespace Asce.Game.Spawners
 
 
         public SpawnPositionController PositionController => _positionController;
-
         public bool IsMaxSpawnCount => _maxSpawnCount != -1 && _pools.Activities.Count >= _maxSpawnCount;
+
+        bool IOptimizedComponent.IsActive => this.enabled;
+        OptimizeBehavior IOptimizedComponent.OptimizeBehavior => OptimizeBehavior.ActivateOutsideView;
 
         protected virtual void Awake()
         {
@@ -70,5 +72,9 @@ namespace Asce.Game.Spawners
 
         public virtual void DespawnImmediately(T obj) => _pools.Deactivate(obj);
 
+        void IOptimizedComponent.SetActivate(bool state)
+        {
+            this.enabled = state;
+        }
     }
 }

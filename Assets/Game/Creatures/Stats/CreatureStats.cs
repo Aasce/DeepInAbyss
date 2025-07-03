@@ -1,5 +1,6 @@
 using Asce.Game.Combats;
 using Asce.Game.Stats;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using System;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Asce.Game.Entities
     {
         public static readonly string baseStatsReason = "base stats";
 
-        [SerializeField, HideInInspector] private Creature _owner;
+        [SerializeField, Readonly] private Creature _owner;
         [SerializeField] private SO_CreatureBaseStats _baseStats;
 
         [Space]

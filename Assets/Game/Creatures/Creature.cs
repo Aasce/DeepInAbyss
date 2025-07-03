@@ -1,16 +1,18 @@
-﻿using Asce.Managers.Utils;
+﻿using Asce.Managers.Attributes;
+using Asce.Managers.Utils;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public abstract class Creature : Entity, ICreature, IHasView<CreatureView>, IHasAction<CreatureAction>, IHasStats<CreatureStats, SO_CreatureBaseStats>, IHasEquipment<CreatureEquipment>, IHasUI<CreatureUI>
+    public abstract class Creature : Entity, ICreature, IOptimizedComponent,
+        IHasView<CreatureView>, IHasAction<CreatureAction>, IHasStats<CreatureStats, SO_CreatureBaseStats>, IHasEquipment<CreatureEquipment>, IHasUI<CreatureUI>
     {
-        [SerializeField, HideInInspector] private CreaturePhysicController _physicController;
-        [SerializeField, HideInInspector] private CreatureView _view;
-        [SerializeField, HideInInspector] private CreatureAction _action;
-        [SerializeField, HideInInspector] private CreatureStats _stats;
-        [SerializeField, HideInInspector] private CreatureEquipment _equipment;
-        [SerializeField, HideInInspector] private CreatureUI _ui;
+        [SerializeField, Readonly] private CreaturePhysicController _physicController;
+        [SerializeField, Readonly] private CreatureAction _action;
+        [SerializeField, Readonly] private CreatureView _view;
+        [SerializeField, Readonly] private CreatureStats _stats;
+        [SerializeField, Readonly] private CreatureEquipment _equipment;
+        [SerializeField, Readonly] private CreatureUI _ui;
         private bool _isControled = false;
 
         public CreaturePhysicController PhysicController
@@ -19,16 +21,16 @@ namespace Asce.Game.Entities
             set => _physicController = value;
         }
 
-        public CreatureView View
-        {
-            get => _view;
-            set => _view = value;
-        }
-
         public CreatureAction Action
         {
             get => _action; 
             set => _action = value;
+        }
+
+        public CreatureView View
+        {
+            get => _view;
+            set => _view = value;
         }
 
         public CreatureStats Stats

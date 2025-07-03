@@ -1,4 +1,5 @@
 ﻿using Asce.Game.Enviroments;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace Asce.Game.Entities
         #region - FIELDS -
 
         [Header("Reference")]
-        [SerializeField, HideInInspector] private Creature _owner;                                   // the creature that owns this controller
-        [SerializeField, HideInInspector] protected Rigidbody2D _rigidbody;
+        [SerializeField, Readonly] private Creature _owner;                                   // the creature that owns this controller
+        [SerializeField, Readonly] protected Rigidbody2D _rigidbody;
         [SerializeField] protected Collider2D _bodyCollider;
 
         [Header("Physic")]

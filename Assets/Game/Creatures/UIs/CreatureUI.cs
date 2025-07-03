@@ -1,6 +1,7 @@
 using Asce.Game.UIs;
 using Asce.Game.UIs.Creatures;
 using Asce.Managers;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Asce.Game.Entities
 {
     public class CreatureUI : MonoBehaviour, IHasOwner<Creature>, ICreatureUI
     {
-        [SerializeField, HideInInspector] private Creature _owner;
+        [SerializeField, Readonly] private Creature _owner;
 
         [SerializeField] protected UICreatureCanvas _mainUI;
 

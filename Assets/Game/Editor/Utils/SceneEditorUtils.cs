@@ -55,6 +55,40 @@ namespace Asce.Editors
         }
 
         /// <summary>
+        ///     Draws a bounds box in the Scene view with an outline and optional fill color.
+        /// </summary>
+        /// <param name="bounds"> The bounds to draw. </param>
+        /// <param name="outline"> The color of the wireframe outline. </param>
+        /// <param name="fill"> Optional fill color (with alpha). </param>
+        public static void DrawBounds(Bounds bounds, Color outline, Color? fill = null)
+        {
+            Vector3 center = bounds.center;
+            Vector3 size = bounds.size;
+
+            // Draw fill if provided
+            if (fill.HasValue)
+            {
+                Color fillColor = fill.Value;
+                Vector3[] verts = new Vector3[4];
+
+                // 2D only - use front face (XY plane)
+                verts[0] = new Vector3(center.x - size.x / 2f, center.y - size.y / 2f, center.z);
+                verts[1] = new Vector3(center.x - size.x / 2f, center.y + size.y / 2f, center.z);
+                verts[2] = new Vector3(center.x + size.x / 2f, center.y + size.y / 2f, center.z);
+                verts[3] = new Vector3(center.x + size.x / 2f, center.y - size.y / 2f, center.z);
+
+                Handles.DrawSolidRectangleWithOutline(verts, fillColor, outline);
+            }
+            else
+            {
+                // Only draw outline
+                Handles.color = outline;
+                Handles.DrawWireCube(center, size);
+            }
+        }
+
+
+        /// <summary>
         ///     Draws the hitbox as a rotated rectangle using Unity's Handles utility. 
         ///     <br/>
         ///     This is typically used in the Scene view for debugging or visualization.

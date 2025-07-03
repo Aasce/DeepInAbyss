@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Asce.Game.Enviroments
 {
-    public class Platform : MonoBehaviour
+    public class Platform : MonoBehaviour, IEnviromentComponent
     {
 
     }
