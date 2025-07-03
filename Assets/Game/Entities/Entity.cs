@@ -13,7 +13,7 @@ namespace Asce.Game.Entities
         bool IOptimizedComponent.IsActive => this.gameObject.activeSelf;
         OptimizeBehavior IOptimizedComponent.OptimizeBehavior => OptimizeBehavior.DeactivateOutsideView;
 
-
+        protected virtual void Reset() { this.RefReset(); }
         protected virtual void Awake () 
         {
             Status.Entity = this;
@@ -21,7 +21,10 @@ namespace Asce.Game.Entities
         protected virtual void Start () { }
         protected virtual void OnEnable () { }
         protected virtual void OnDisable () { }
+        protected virtual void RefReset() { }
 
+        [ContextMenu("Ref Reset")]
+        private void CallRefReset() => this.RefReset();
 
         void IOptimizedComponent.SetActivate(bool state)
         {

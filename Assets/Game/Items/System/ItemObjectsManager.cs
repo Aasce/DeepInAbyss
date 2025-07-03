@@ -9,6 +9,9 @@ namespace Asce.Game.Items
         [SerializeField] protected SO_ItemsData _itemData;
         [SerializeField] protected Pool<ItemObject> _pools = new();
 
+        [Space]
+        [SerializeField] protected float _itemBlinkTime = 7f;
+
         public SO_ItemsData ItemData => _itemData;
         public Pool<ItemObject> Pool => _pools;
 
@@ -29,13 +32,26 @@ namespace Asce.Game.Items
                     continue;
                 }
                 if (!itemObject.AutoDespawn) continue;
+                if (itemObject.IsPicked)
+                {
+                    this.Despawn(itemObject, i);
+                    continue;
+                }
 
                 itemObject.DespawnCooldown.Update(Time.deltaTime);
+                if (itemObject.DespawnCooldown.CurrentTime <= _itemBlinkTime) itemObject.View.IsBlinking(true);
+                else itemObject.View.IsBlinking(false);
+
                 if (itemObject.DespawnCooldown.IsComplete) this.Despawn(itemObject, i);
             }
         }
 
         public virtual ItemObject Spawn(string itemName, Vector2 position, bool isAutoDespawn = true)
+        {
+            return this.Spawn(itemName, 1, position, isAutoDespawn);
+        }
+
+        public virtual ItemObject Spawn(string itemName, int quantity, Vector2 position, bool isAutoDespawn = true)
         {
             SO_ItemInformation itemInfo = ItemData.GetItemByName(itemName);
             if (itemInfo == null) return null;
@@ -44,12 +60,16 @@ namespace Asce.Game.Items
             if (itemObject == null) return null;
 
             itemObject.SetItem(itemInfo);
+            itemObject.Quantity = quantity;
             itemObject.AutoDespawn = isAutoDespawn;
             itemObject.transform.position = position;
+            itemObject.Refresh();
+
             itemObject.gameObject.SetActive(true);
 
             return itemObject;
         }
+
 
         public virtual void Despawn(ItemObject itemObject)
         {
