@@ -289,9 +289,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8244365929831598843}
+  - {fileID: 3555365651512956789}
   - {fileID: 8989909960208129554}
   - {fileID: 8195651722357871719}
-  - {fileID: 3555365651512956789}
+  - {fileID: 6844604077199195956}
   - {fileID: 6311058114951935246}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -343,9 +344,10 @@ MonoBehaviour:
   _physicController: {fileID: 6052147037250727953}
   _action: {fileID: 276153758155786963}
   _view: {fileID: 5411295879593891842}
+  _ui: {fileID: 779155259978385240}
   _stats: {fileID: 1296613053309954732}
   _equipment: {fileID: 0}
-  _ui: {fileID: 779155259978385240}
+  _inventory: {fileID: 6744951077005919344}
   _spoils: {fileID: 1334028394582747778}
   _targetLayerMask:
     serializedVersion: 2
@@ -563,6 +565,62 @@ MonoBehaviour:
   _hideCooldown:
     _baseTime: 10
     _currentTime: 10
+--- !u!1 &6315774140291750449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6844604077199195956}
+  - component: {fileID: 6744951077005919344}
+  m_Layer: 8
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6844604077199195956
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6315774140291750449}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9152192901658935203}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6744951077005919344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6315774140291750449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167fae005f2454441a98e589dfeb5f6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 7937573822774822781}
+  _pickCooldown:
+    _baseTime: 0.1
+    _currentTime: 0.1
+  _pickItemEnable: 0
+  _pickRadius: 2
+  _itemLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  _inventory:
+    _slotCount: 3
+    _items: []
 --- !u!1 &6648918809111995682
 GameObject:
   m_ObjectHideFlags: 0

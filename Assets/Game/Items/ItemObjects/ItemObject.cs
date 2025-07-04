@@ -17,8 +17,9 @@ namespace Asce.Game.Items
         [SerializeField] protected int _quantity = 1;
 
         [Space]
-        [SerializeField] protected bool _autoDespawn = true;
+        [SerializeField] protected bool _pickable = false;
         [SerializeField] protected bool _isPicked = false;
+        [SerializeField] protected bool _autoDespawn = true;
         [SerializeField] protected Cooldown _despawnCooldown = new(30f);
 
         public ItemObjectView View => _view;
@@ -37,15 +38,20 @@ namespace Asce.Game.Items
             set => _quantity = value;
         }
 
-        public bool AutoDespawn
+        public bool Pickable
         {
-            get => _autoDespawn;
-            set => _autoDespawn = value;
+            get => _pickable;
+            set => _pickable = value;
         }
         public bool IsPicked
         {
             get => _isPicked;
             protected set => _isPicked = value;
+        }
+        public bool AutoDespawn
+        {
+            get => _autoDespawn;
+            set => _autoDespawn = value;
         }
         public Cooldown DespawnCooldown => _despawnCooldown;
 

@@ -11,6 +11,7 @@ namespace Asce.Game.Items
 
         [Space]
         [SerializeField] protected float _itemBlinkTime = 7f;
+        [SerializeField] protected float _itemNonPickableTime = 1f;
 
         public SO_ItemsData ItemData => _itemData;
         public Pool<ItemObject> Pool => _pools;
@@ -41,6 +42,9 @@ namespace Asce.Game.Items
                 itemObject.DespawnCooldown.Update(Time.deltaTime);
                 if (itemObject.DespawnCooldown.CurrentTime <= _itemBlinkTime) itemObject.View.IsBlinking(true);
                 else itemObject.View.IsBlinking(false);
+
+                if (itemObject.DespawnCooldown.BaseTime - itemObject.DespawnCooldown.CurrentTime <= _itemNonPickableTime) itemObject.Pickable = false;
+                else itemObject.Pickable = true;
 
                 if (itemObject.DespawnCooldown.IsComplete) this.Despawn(itemObject, i);
             }

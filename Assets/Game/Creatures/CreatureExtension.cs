@@ -21,14 +21,16 @@ namespace Asce.Game.Entities
         {
             if (creature == null) return;
             creature.IsControled = true;
-            creature.UI.MainUI.SetUIForPlayer(creature);
+            if (creature.Inventory != null) creature.Inventory.PickItemEnable = true;
+            if (creature.UI != null) creature.UI.MainUI.SetUIForPlayer(creature);
         }
 
         public static void UncontrolledByPlayer(this ICreature creature)
         {
             if (creature == null) return;
             creature.IsControled = false;
-            creature.UI.MainUI.SetUIForPlayer(creature);
+            if (creature.Inventory != null) creature.Inventory.PickItemEnable = false;
+            if (creature.UI != null) creature.UI.MainUI.SetUIForPlayer(creature);
         }
     }
 }

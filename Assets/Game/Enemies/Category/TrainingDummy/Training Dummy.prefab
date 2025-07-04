@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5253d06770bf9f40bfbe4ca8af82eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _alpha: 1
   _owner: {fileID: 4869311589306203052}
   _animator: {fileID: 0}
   _rootMotionReceiver: {fileID: 0}
-  _alpha: 1
   _isLookingAtTarget: 0
   _fx: {fileID: 0}
   _dieFxPrefab: {fileID: 0}
@@ -120,6 +120,7 @@ MonoBehaviour:
   _isAttacking: 0
   _canAttackWhenMoving: 1
   _canAttackInAir: 1
+  _isStopWhenAttack: 1
   _attackCooldown:
     _baseTime: 2
     _currentTime: 2
@@ -391,9 +392,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3573377956196112616}
+  - {fileID: 1825651319479297778}
   - {fileID: 3689887591475488395}
   - {fileID: 5686777626880719337}
-  - {fileID: 1825651319479297778}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4869311589306203052
@@ -413,12 +414,15 @@ MonoBehaviour:
     _currentStatus: 1
     _facingDirection: 0
     _height: 2.25
+    _spawnPosition: {x: 0, y: 0}
   _physicController: {fileID: 8445863198664236363}
-  _view: {fileID: 7049315219833258526}
   _action: {fileID: 3624889274091405363}
+  _view: {fileID: 7049315219833258526}
+  _ui: {fileID: 5510216937476889389}
   _stats: {fileID: 7952380481961431312}
   _equipment: {fileID: 0}
-  _ui: {fileID: 5510216937476889389}
+  _inventory: {fileID: 0}
+  _spoils: {fileID: 0}
   _refreshCooldown:
     _baseTime: 5
     _currentTime: 5

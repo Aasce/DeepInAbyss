@@ -35,9 +35,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6289893967445255403}
+  - {fileID: 7230862662239407641}
   - {fileID: 2934242360423415605}
   - {fileID: 4159201102952735638}
-  - {fileID: 7230862662239407641}
+  - {fileID: 4857732078492734038}
   - {fileID: 3247928996145874185}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -89,9 +90,10 @@ MonoBehaviour:
   _physicController: {fileID: 7038262948621639655}
   _action: {fileID: 3677679567140803873}
   _view: {fileID: 2246703753960340100}
+  _ui: {fileID: 6576951558050734781}
   _stats: {fileID: 1000300207730069677}
   _equipment: {fileID: 0}
-  _ui: {fileID: 6576951558050734781}
+  _inventory: {fileID: 5395759436865822137}
   _spoils: {fileID: 6332237860088002789}
   _targetLayerMask:
     serializedVersion: 2
@@ -383,6 +385,62 @@ MonoBehaviour:
     _changeInterval:
       _baseTime: 1
       _currentTime: 1
+--- !u!1 &3434472477446549667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4857732078492734038}
+  - component: {fileID: 5395759436865822137}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4857732078492734038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3434472477446549667}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 820667585170077810}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5395759436865822137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3434472477446549667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167fae005f2454441a98e589dfeb5f6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 4847312806535791522}
+  _pickCooldown:
+    _baseTime: 0.1
+    _currentTime: 0.1
+  _pickItemEnable: 0
+  _pickRadius: 2
+  _itemLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  _inventory:
+    _slotCount: 3
+    _items: []
 --- !u!1 &4011462515351983043
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,6 +667,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _owner: {fileID: 4847312806535791522}
   _droppedSpoils: {fileID: 11400000, guid: 5dca078f821775646a8bbd9b41264946, type: 2}
+  _forceScale: 100
 --- !u!1001 &3788027525591351350
 PrefabInstance:
   m_ObjectHideFlags: 0

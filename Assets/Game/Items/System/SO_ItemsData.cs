@@ -30,6 +30,7 @@ namespace Asce.Game.Items
 
         public virtual SO_ItemInformation GetItemByName(string name)
         {
+            if (string.IsNullOrEmpty(name)) return null;
             if (!DataDictionary.TryGetValue(name, out ItemContainer container)) return null;
             return container.Information;
         }

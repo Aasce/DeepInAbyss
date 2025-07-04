@@ -192,10 +192,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8178147066064418690}
+  - {fileID: 4176914543070261216}
   - {fileID: 6427425624652676764}
   - {fileID: 7036894534453416333}
   - {fileID: 1826866111617077614}
-  - {fileID: 4176914543070261216}
+  - {fileID: 8260547030187427425}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4053743200521334916
@@ -215,12 +216,15 @@ MonoBehaviour:
     _currentStatus: 1
     _facingDirection: 0
     _height: 2
+    _spawnPosition: {x: 0, y: 0}
   _physicController: {fileID: 8947564771953539130}
-  _view: {fileID: 2637123865751815699}
   _action: {fileID: 5091308472702825161}
+  _view: {fileID: 2637123865751815699}
+  _ui: {fileID: 6564054199029186586}
   _stats: {fileID: 2386274247785948579}
   _equipment: {fileID: 8158162486582322279}
-  _ui: {fileID: 6564054199029186586}
+  _inventory: {fileID: 5362005630165609967}
+  _spoils: {fileID: 0}
 --- !u!114 &8947564771953539130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,10 +419,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ae8b1d1a40eb2146bf7dfed049b95e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _alpha: 1
   _owner: {fileID: 4053743200521334916}
   _animator: {fileID: 5672580966134689844}
   _rootMotionReceiver: {fileID: 2480740893888141298}
-  _alpha: 1
   _isLookingAtTarget: 0
   _view: {fileID: 11400000, guid: 424888039144773418d99199a74882d5, type: 2}
   _hatRenderer: {fileID: 5672580966138793702}
@@ -455,6 +459,62 @@ MonoBehaviour:
   _blinkInterval: {x: 0.5, y: 5}
   _blinkTimer: 0
   _isShoesFrontPants: 0
+--- !u!1 &5234755593804338322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8260547030187427425}
+  - component: {fileID: 5362005630165609967}
+  m_Layer: 8
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8260547030187427425
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5234755593804338322}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8143387239495235201}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5362005630165609967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5234755593804338322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc58a483b928aae418a95e84845f9f1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 4053743200521334916}
+  _pickCooldown:
+    _baseTime: 0.1
+    _currentTime: 0.1
+  _pickItemEnable: 1
+  _pickRadius: 3
+  _itemLayerMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  _inventory:
+    _slotCount: 40
+    _items: []
 --- !u!1 &6696754159749962083
 GameObject:
   m_ObjectHideFlags: 0

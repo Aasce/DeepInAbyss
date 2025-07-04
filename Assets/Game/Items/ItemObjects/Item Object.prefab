@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3081691202444471566}
   - component: {fileID: 2096401797380088244}
   - component: {fileID: 6878786918775805180}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Item Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,6 +53,7 @@ MonoBehaviour:
   _information: {fileID: 0}
   _quantity: 1
   _autoDespawn: 1
+  _isPicked: 0
   _despawnCooldown:
     _baseTime: 30
     _currentTime: 30
