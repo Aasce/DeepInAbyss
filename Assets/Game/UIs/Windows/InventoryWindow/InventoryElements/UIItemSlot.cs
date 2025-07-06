@@ -51,7 +51,6 @@ namespace Asce.Game.UIs.Inventories
         public virtual void SetItem(UIItem uiItem)
         {
             if (_uiItem == uiItem) return;
-            if (_uiItem != null) _uiItem.UISlot = null;
 
             _uiItem = uiItem;
             if (_uiItem == null) return;

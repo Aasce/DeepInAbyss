@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Asce.Managers.Utils
 {
@@ -68,5 +70,29 @@ namespace Asce.Managers.Utils
                 renderer.sortingOrder = order;
             }
         }
+
+        /// <summary>
+        ///     Finds all components of type T in the currently active scene, including children of root objects.
+        /// </summary>
+        /// <typeparam name="T"> The type of component to search for. </typeparam>
+        /// <param name="includeInactive">
+        ///     Whether to include components on inactive GameObjects.
+        ///     Default is true.
+        /// </param>
+        /// <returns>
+        ///     A list of all found components of type T in the active scene.
+        /// </returns>
+        public static List<T> FindAllComponentsInScene<T>(bool includeInactive = true) where T : Component
+        {
+            List<T> result = new();
+
+            foreach (GameObject root in SceneManager.GetActiveScene().GetRootGameObjects())
+            {
+                result.AddRange(root.GetComponentsInChildren<T>(includeInactive));
+            }
+
+            return result;
+        }
+
     }
 }

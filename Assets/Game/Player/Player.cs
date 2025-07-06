@@ -25,6 +25,7 @@ namespace Asce.Game.Players
         public PlayerInput Input => _input;
         public PlayerUI UI => _ui;
 
+        public Character MainCharacter => _mainCharacter;
         public ICreature ControlledCreature => _controlledCreature;
 
         private void Reset()
@@ -43,6 +44,7 @@ namespace Asce.Game.Players
             if (ControlledCreature == null) return;
 
             CameraController.Target = ControlledCreature.gameObject.transform;
+            CameraController.ToTarget(Vector2.up * 10f);
         }
 
         private void Update()

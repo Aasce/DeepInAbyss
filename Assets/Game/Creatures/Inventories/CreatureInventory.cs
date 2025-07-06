@@ -63,7 +63,7 @@ namespace Asce.Game.Entities
             this.Picking();
         }
 
-        private void Picking()
+        protected virtual void Picking()
         {
             if (!PickItemEnable) return;
             if (Owner == null) return;

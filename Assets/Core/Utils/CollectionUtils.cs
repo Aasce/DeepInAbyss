@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,35 @@ namespace Asce.Managers.Utils
     /// </summary>
     public static class CollectionUtils
     {
+        /// <summary>
+        ///     Creates a list of a specified size and fills it using a creation function or default values.
+        /// </summary>
+        /// <typeparam name="T"> The type of elements to create. </typeparam>
+        /// <param name="size"> The number of elements to generate in the list. </param>
+        /// <param name="createFunc">
+        ///     Optional. A function that generates elements based on their index.
+        ///     If null, default values for type T will be used.
+        /// </param>
+        /// <returns>
+        ///     A list of T elements with the specified size, filled with either default values or generated values.
+        /// </returns>
+        public static List<T> CreateWithSize<T>(int size, Func<int, T> createFunc = null)
+        {
+            if (size < 0) return new List<T>();
+
+            List<T> list = new(size);
+
+            for (int i = 0; i < size; i++)
+            {
+                T newElement;
+                if (createFunc == null) newElement = default;
+                else newElement = createFunc(i);
+                list.Add(newElement);
+            }
+
+            return list;
+        }
+
 
         /// <summary>
         ///     Returns a random element from an <see cref="ICollection{T}"/>.
@@ -25,7 +55,7 @@ namespace Asce.Managers.Utils
             if (collection is IList<T> list) return list.GetRandomElement();
 
             // Otherwise, pick a random index manually
-            int index = Random.Range(0, collection.Count);
+            int index = UnityEngine.Random.Range(0, collection.Count);
             int currentIndex = 0;
 
             // Iterate through the collection to find the element at the random index
@@ -53,7 +83,7 @@ namespace Asce.Managers.Utils
             if (list == null || list.Count == 0) return default;
 
             // Use UnityEngine.Random to pick a random index
-            int index = Random.Range(0, list.Count);
+            int index = UnityEngine.Random.Range(0, list.Count);
             return list[index];
         }
     }

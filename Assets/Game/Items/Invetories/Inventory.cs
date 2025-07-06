@@ -194,6 +194,56 @@ namespace Asce.Game.Inventories
         }
 
         /// <summary>
+        ///     Loads item data into the inventory from a provided list of items.
+        ///     Existing slots are updated to match the input list, and any remaining slots are cleared.
+        /// </summary>
+        /// <param name="items">
+        ///     A list of items to load. Items will be deep-copied into the inventory.
+        ///     Remaining slots over Items.Count will be set to null.
+        /// </param>
+        public virtual void Load(List<Item> items)
+        {
+            if (_items == null) return;
+            for (int i = 0; i < _items.Count; i++)
+            {
+                if (i >= items.Count)
+                {
+                    // Clear remaining slots if the input list is shorter than slot count
+                    _items[i] = null;
+                    OnItemChanged?.Invoke(this, new ItemChangedEventArgs(i));
+                    continue;
+                }
+
+                Item item = items[i];
+                if (item == null) _items[i] = null;
+                else
+                {
+                    // Create a new instance using the same SO_ItemInformation
+                    _items[i] = new Item(item.Information);
+                    _items[i].SetQuantity(item.GetQuantity());
+                    _items[i].SetDurability(item.GetDurability());
+                }
+
+                OnItemChanged?.Invoke(this, new ItemChangedEventArgs(i));
+            }
+        }
+
+
+        /// <summary>
+        ///     Clears the inventory by removing all items from every slot.
+        /// </summary>
+        public virtual void Clear()
+        {
+            for (int i = 0; i < _items.Count; i++)
+            {
+                _items[i] = null;
+                OnItemChanged?.Invoke(this, new ItemChangedEventArgs(i));
+            }
+        }
+
+
+
+        /// <summary>
         ///     Finds the first empty or null slot in the inventory.
         /// </summary>
         /// <returns> Index of the first empty slot, or -1 if none are available. </returns>

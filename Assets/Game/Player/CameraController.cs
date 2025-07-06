@@ -95,5 +95,19 @@ namespace Asce.Game.Players
                 Camera.transform.position = new Vector3(newPosition.x, newPosition.y, Camera.transform.position.z);
             }
         }
+
+        /// <summary>
+        ///     Set Camera position to Target position
+        /// </summary>
+        /// <param name="offset"></param>
+        public void ToTarget(Vector2 offset = default)
+        {
+            if (Camera == null) return;
+            if (Target == null) return;
+
+            float x = Target.position.x + offset.x;
+            float y = Target.position.y + offset.y;
+            Camera.transform.position = new Vector3(x, y, Camera.transform.position.z);
+        }
     }
 }
