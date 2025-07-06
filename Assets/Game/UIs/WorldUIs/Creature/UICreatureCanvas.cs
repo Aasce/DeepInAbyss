@@ -29,8 +29,9 @@ namespace Asce.Game.UIs.Creatures
             set => _baseName = value;
         }
 
-        protected virtual void Reset()
+        protected override void RefReset()
         {
+            base.RefReset();
             this.LoadComponent(out _canvas);
         }
 

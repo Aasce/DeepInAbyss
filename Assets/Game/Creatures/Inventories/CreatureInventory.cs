@@ -30,6 +30,7 @@ namespace Asce.Game.Entities
             set => _owner = value;
         }
 
+        public Inventory Inventory => _inventory;
         public bool PickItemEnable
         {
             get => _pickItemEnable;

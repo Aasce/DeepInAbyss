@@ -28,6 +28,9 @@ namespace Asce.Managers.UIs
         /// </summary>
         public bool IsShow => gameObject.activeSelf;
 
+        protected virtual void Reset() { this.RefReset(); }
+        protected virtual void RefReset() { }
+
         /// <summary>
         ///     Sets the visibility of the UI object.
         /// </summary>

@@ -1,5 +1,6 @@
 ﻿using Asce.Game.Entities;
 using Asce.Managers;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using System;
 using UnityEngine;
@@ -8,10 +9,10 @@ namespace Asce.Game.Players
 {
     public class Player : MonoBehaviourSingleton<Player>
     {
-        [SerializeField, HideInInspector] private CameraController _cameraController;
-        [SerializeField, HideInInspector] private PlayerSettings _settings;
-        [SerializeField, HideInInspector] private PlayerInput _input;
-        [SerializeField, HideInInspector] private PlayerUI _ui;
+        [SerializeField, Readonly] private CameraController _cameraController;
+        [SerializeField, Readonly] private PlayerSettings _settings;
+        [SerializeField, Readonly] private PlayerInput _input;
+        [SerializeField, Readonly] private PlayerUI _ui;
 
         [Space]
         [SerializeField] private Character _mainCharacter;
@@ -46,10 +47,10 @@ namespace Asce.Game.Players
 
         private void Update()
         {
+            this.ControlUI();
             if (Input.IsControlUI)
             {
                 this.ResetControlCharacter();
-                this.ControlUI();
             }
             else
             {
@@ -84,6 +85,10 @@ namespace Asce.Game.Players
 
         private void ControlUI()
         {
+            if (Input.ToggleInventoryInput)
+            {
+                UI.ToggleInventory();
+            }
 
         }
 
@@ -91,6 +96,8 @@ namespace Asce.Game.Players
         {
             if (creature == null) return;
             ICreature oldControlledCreature = ControlledCreature;
+            this.ResetControlCharacter();
+
             _controlledCreature = creature;
 
             oldControlledCreature.UncontrolledByPlayer();

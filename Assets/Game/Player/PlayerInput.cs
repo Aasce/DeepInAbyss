@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Asce.Game.Players
 {
@@ -29,6 +28,9 @@ namespace Asce.Game.Players
         [SerializeField] private bool _detachWeaponInput;
 
         [Space]
+        [SerializeField] private bool _toggleInventoryInput;
+
+        [Space]
         [SerializeField] private bool _isControlUI = false;
 
 
@@ -55,6 +57,8 @@ namespace Asce.Game.Players
         public bool AttackInput => _attackInput;
         public bool MeleeAttackInput => _meleeAttackInput;
         public bool DetachWeaponInput => _detachWeaponInput;
+
+        public bool ToggleInventoryInput => _toggleInventoryInput;
 
         public bool IsControlUI
         {
@@ -84,6 +88,8 @@ namespace Asce.Game.Players
             _attackInput = Input.GetKey(Player.Settings.AttackKey);
             _meleeAttackInput = Input.GetKey(Player.Settings.MeleeAttackKey);
             _detachWeaponInput = Input.GetKeyDown(Player.Settings.DetachWeaponKey);
+
+            _toggleInventoryInput = Input.GetKeyDown(Player.Settings.InventoryWindowKey);
         }
 
         private Vector2 MoveAxis()

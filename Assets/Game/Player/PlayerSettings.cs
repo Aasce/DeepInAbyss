@@ -41,6 +41,9 @@ namespace Asce.Game.Players
             KeyCode.Alpha4,
         };
 
+        [Header("Control UI")]
+        [SerializeField] private KeyCode _inventoryWindowKey = KeyCode.B;
+
 
         public Player Player
         {
@@ -111,5 +114,7 @@ namespace Asce.Game.Players
 
         public List<KeyCode> UseToolKeys => _useToolKeys;
         public List<KeyCode> UseItemKeys => _useItemKeys;
+
+        public KeyCode InventoryWindowKey => _inventoryWindowKey;
     }
 }

@@ -1,6 +1,8 @@
 using Asce.Game.Stats;
+using Asce.Game.UIs;
 using Asce.Game.UIs.Characters;
 using Asce.Managers;
+using Asce.Managers.Attributes;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,10 +12,10 @@ namespace Asce.Game.Players
     public class PlayerUI : MonoBehaviour, IPlayerComponent
     {
         // Ref
-        [SerializeField, HideInInspector] private Player _player;
+        [SerializeField, Readonly] private Player _player;
 
         [SerializeField] private Canvas _canvas;
-        [SerializeField] private UICharacterInformation _characterInformation;
+        [SerializeField] private UICreatureInformation _characterInformation;
 
         private readonly List<RaycastResult> _raycastResults = new();
 
@@ -24,7 +26,7 @@ namespace Asce.Game.Players
         }
 
         public Canvas Canvas => _canvas;
-        public UICharacterInformation CharacterInformation => _characterInformation;
+        public UICreatureInformation CharacterInformation => _characterInformation;
 
 
         private void Start()
@@ -57,6 +59,17 @@ namespace Asce.Game.Players
             return false; // Pointer is not over Screen Space UI
         }
 
+        public bool ToggleInventory()
+        {
+            UIs.Inventories.UIInventoryWindow inventoryWindow = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIs.Inventories.UIInventoryWindow>();
+            if (inventoryWindow != null)
+            {
+                inventoryWindow.Toggle();
+                return inventoryWindow.IsShow;
+            }
+            return false;
+        }
+
         private void SetCharacterInformation()
         {
             if (CharacterInformation == null) return;
@@ -66,11 +79,11 @@ namespace Asce.Game.Players
             if (Player.ControlledCreature.Stats == null) return;
 
             CharacterInformation.ResourceStats.SetStats(
-                    Player.ControlledCreature.Stats.HealthGroup.Health,
-                    Player.ControlledCreature.Stats.DefenseGroup.Shield,
-                    Player.ControlledCreature.Stats.Stamina,
-                    Player.ControlledCreature.Stats.SustenanceGroup
-                );
+                Player.ControlledCreature.Stats.HealthGroup.Health,
+                Player.ControlledCreature.Stats.DefenseGroup.Shield,
+                Player.ControlledCreature.Stats.Stamina,
+                Player.ControlledCreature.Stats.SustenanceGroup
+            );
 
             CharacterInformation.Stats.ClearStats();
             CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.HealthGroup.HealScale);
@@ -80,6 +93,10 @@ namespace Asce.Game.Players
             CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.Speed);
             if (Player.ControlledCreature.Stats is IHasJumpForce hasJumpForce) CharacterInformation.Stats.AddStat(hasJumpForce.JumpForce);
             CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.ViewRadius);
+
+            UIs.Inventories.UIInventoryWindow inventoryWindow = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIs.Inventories.UIInventoryWindow>();
+            if (inventoryWindow != null) inventoryWindow.SetCreature(Player.ControlledCreature);
+
         }
 
         private void Player_OnCharacterChanged(object sender, ValueChangedEventArgs<Entities.ICreature> args) => this.SetCharacterInformation();
