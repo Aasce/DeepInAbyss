@@ -1,10 +1,14 @@
 using Asce.Game.Entities;
 using Asce.Game.Inventories;
 using Asce.Game.Items;
+using Asce.Game.UIs.ContextMenus;
 using Asce.Managers.Attributes;
 using Asce.Managers.Pools;
 using Asce.Managers.UIs;
+using Asce.Managers.Utils;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Asce.Game.UIs.Inventories
 {
@@ -15,6 +19,7 @@ namespace Asce.Game.UIs.Inventories
     {
         // Reference to the item information display panel (tooltip/details panel)
         [SerializeField, Readonly] protected UIItemInformation _itemInformation;
+        [SerializeField] protected Button _sortButton;
 
         [Space]
 
@@ -24,11 +29,32 @@ namespace Asce.Game.UIs.Inventories
 
         // The associated creature's inventory controller
         protected CreatureInventory _inventoryController;
+        protected UIItemContextMenu _itemContextMenu;
 
-        /// <summary>
-        ///     Unity Start method, optionally overridden for initialization.
-        /// </summary>
-        protected virtual void Start() { }
+        protected bool _isSplit = false;
+        protected int _quantityToSplit = -1;
+
+        public UIItemInformation ItemInformation => _itemInformation;
+
+        protected override void RefReset()
+        {
+            base.RefReset();
+            this.LoadComponent(out _itemInformation);
+        }
+
+
+        protected virtual void Start() 
+        {
+            if (ItemInformation != null) ItemInformation.Set(null);
+            if (_sortButton != null) _sortButton.onClick.AddListener(SortButton_OnClick);
+            _itemContextMenu = UIScreenCanvasManager.Instance.ContextMenusController.GetMenu<UIItemContextMenu>();
+
+            if (_itemContextMenu != null)
+            {
+                this.OnHide += (sender) => _itemContextMenu.Hide();
+            }
+        }
+
 
         /// <summary>
         ///     Sets the inventory to display in this UI panel.
@@ -51,6 +77,48 @@ namespace Asce.Game.UIs.Inventories
         public virtual UIItemSlot GetSlotByIndex(int index) =>
             _slotsPool.Activities.Find(slot => slot.Index == index);
 
+        public virtual void FocusAt(int index)
+        {
+            if (ItemInformation == null) return;
+            if (_inventoryController == null) return;
+
+            Inventory inventory = _inventoryController.Inventory;
+
+            Item item = inventory.GetItem(index);
+            ItemInformation.Set(item);
+
+            if (_itemContextMenu != null)
+            {
+                if (index != _itemContextMenu.Index) _itemContextMenu.Hide();
+            }
+        }
+
+        public virtual void ShowMenuContextAt(int index)
+        {
+            if (_itemContextMenu == null) return;
+
+            UIItemSlot slot = GetSlotByIndex(index);
+            if (slot == null) return;
+
+            Inventory inventory = _inventoryController.Inventory;
+            Item item = inventory.GetItem(index);
+            if (item.IsNull())
+            {
+                _itemContextMenu.Index = -1;
+                _itemContextMenu.Hide();
+                return;
+            }
+
+            Vector2 position = slot.RectTransform.position;
+            position.x -= slot.RectTransform.sizeDelta.x * 0.5f;
+            position.y += slot.RectTransform.sizeDelta.y * 0.5f;
+            _itemContextMenu.RectTransform.position = position;
+
+            _itemContextMenu.Index = index;
+            _itemContextMenu.Set(item);
+            _itemContextMenu.Show();
+        }
+
         /// <summary>
         ///     Attempts to move or merge items between two slots in the inventory.
         /// </summary>
@@ -66,10 +134,80 @@ namespace Asce.Game.UIs.Inventories
             inventory.SwapOrMerge(fromIndex, toIndex);
         }
 
+        public virtual void DropItemAt(int index, int quantity = -1)
+        {
+            if (_inventoryController == null) return;
+            _inventoryController.Drop(index, quantity);
+        }
+
+        /// <summary>
+        ///     Handles drag-and-drop logic and UI updates for inventory interactions.
+        /// </summary>
+        public virtual void BeginDragItem(UIItem sender, PointerEventData eventData)
+        {
+            if (sender.UISlot == null || eventData.button == PointerEventData.InputButton.Right)
+                return;
+
+            // Elevate UIItem in the hierarchy
+            sender.transform.SetParent(UIScreenCanvasManager.Instance.Canvas.transform);
+            sender.CanvasGroup.blocksRaycasts = false;
+            sender.IsDragging = true;
+
+            // Determine if the item is being split
+            _quantityToSplit = _itemContextMenu != null ? _itemContextMenu.QuantityToSplit : -1;
+            _isSplit = _itemContextMenu != null && _itemContextMenu.IsShow && _quantityToSplit != -1;
+
+            if (!_isSplit) return;
+
+            Item item = sender.Item;
+            if (item.IsNull()) return;
+
+            (Item first, Item second) = item.Split(_quantityToSplit);
+            sender.SetItem(second);
+
+            if (sender.UISlot != null)
+            {
+                sender.UISlot.SetItem(first.IsNull() ? null : CreateSplitItem(first));
+            }
+
+            if (_itemContextMenu != null) _itemContextMenu.Hide();
+        }
+
+        /// <summary>
+        ///     Handles the logic when an item drag operation ends.
+        ///     Determines whether to move, drop, or revert the item.
+        /// </summary>
+        public virtual void EndDragItem(UIItem sender, PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Right)
+                return;
+
+            sender.IsDragging = false;
+            sender.CanvasGroup.blocksRaycasts = true;
+
+            GameObject target = eventData.pointerEnter;
+            UIItemSlot targetSlot = target != null ? target.GetComponentInParent<UIItemSlot>() : null;
+            UIItemSlot originSlot = sender.UISlot;
+
+            int fromIndex = originSlot != null ? originSlot.Index : -1;
+            int toIndex = targetSlot != null ? targetSlot.Index : -1;
+
+            if (_isSplit)
+            {
+                HandleSplitEndDrag(sender, fromIndex, toIndex, target, originSlot, targetSlot);
+            }
+            else
+            {
+                HandleNormalEndDrag(sender, fromIndex, target, originSlot, targetSlot);
+            }
+
+            if (_itemContextMenu != null) _itemContextMenu.Hide();
+        }
+
         /// <summary>
         ///     Registers to inventory events and loads current data into the UI.
         /// </summary>
-        public virtual void Register()
+        protected virtual void Register()
         {
             if (_inventoryController == null) return;
 
@@ -80,7 +218,7 @@ namespace Asce.Game.UIs.Inventories
         /// <summary>
         ///     Unregisters from inventory events and clears the UI.
         /// </summary>
-        public virtual void Unregister()
+        protected virtual void Unregister()
         {
             if (_inventoryController == null) return;
 
@@ -101,16 +239,6 @@ namespace Asce.Game.UIs.Inventories
             {
                 this.CreateSlot(i);
             }
-        }
-
-        /// <summary>
-        ///     Called when the inventory updates a specific slot.
-        /// </summary>
-        /// <param name="sender"> The inventory object (unused). </param>
-        /// <param name="args">   Event arguments containing the slot index. </param>
-        protected virtual void Inventory_OnItemChanged(object sender, ItemChangedEventArgs args)
-        {
-            this.UpdateSlot(args.Index);
         }
 
         /// <summary>
@@ -161,6 +289,7 @@ namespace Asce.Game.UIs.Inventories
                     return;
                 }
 
+                uiItem.Inventory = this;
                 uiItem.SetItem(item);
                 uiSlot.SetItem(uiItem);
             }
@@ -168,7 +297,107 @@ namespace Asce.Game.UIs.Inventories
             {
                 // Update existing UI item
                 uiSlot.Item.SetItem(item);
+                uiSlot.ResetItemPosition();
             }
+        }
+
+        /// <summary>
+        ///     Creates a UI item for a split operation and binds it to the inventory.
+        /// </summary>
+        /// <param name="item">The item to be displayed in the new UI element.</param>
+        /// <returns>The created UIItem or null if activation failed.</returns>
+        private UIItem CreateSplitItem(Item item)
+        {
+            UIItem newUIItem = _itemsPool.Activate();
+            if (newUIItem != null)
+            {
+                newUIItem.Inventory = this;
+                newUIItem.SetItem(item);
+            }
+            return newUIItem;
+        }
+
+        /// <summary>
+        ///     Handles item drag end logic when a split operation was active.
+        /// </summary>
+        /// <param name="sender">The UIItem that was being dragged.</param>
+        /// <param name="fromIndex">The original slot index.</param>
+        /// <param name="toIndex">The target slot index.</param>
+        /// <param name="target">The GameObject under the pointer.</param>
+        /// <param name="originSlot">The slot the item came from.</param>
+        /// <param name="targetSlot">The slot the item was dropped on.</param>
+        private void HandleSplitEndDrag(
+            UIItem sender,
+            int fromIndex,
+            int toIndex,
+            GameObject target,
+            UIItemSlot originSlot,
+            UIItemSlot targetSlot)
+        {
+            if (targetSlot != null && originSlot != null && targetSlot != originSlot)
+            {
+                _itemsPool.Deactivate(sender);
+                if (_inventoryController != null)
+                {
+                    _inventoryController.Inventory.Split(fromIndex, _quantityToSplit, toIndex);
+                }
+            }
+            else if (target == null)
+            {
+                DropItemAt(fromIndex, _quantityToSplit);
+                _itemsPool.Deactivate(sender);
+            }
+            else
+            {
+                _itemsPool.Deactivate(sender);
+                UpdateSlot(fromIndex);
+            }
+        }
+
+        /// <summary>
+        ///     Handles item drag end logic when the item was not split (normal move).
+        /// </summary>
+        /// <param name="sender">The UIItem that was being dragged.</param>
+        /// <param name="fromIndex">The original slot index.</param>
+        /// <param name="target">The GameObject under the pointer.</param>
+        /// <param name="originSlot">The slot the item came from.</param>
+        /// <param name="targetSlot">The slot the item was dropped on.</param>
+        private void HandleNormalEndDrag(
+            UIItem sender,
+            int fromIndex,
+            GameObject target,
+            UIItemSlot originSlot,
+            UIItemSlot targetSlot)
+        {
+            if (targetSlot != null && originSlot != null && targetSlot != originSlot)
+            {
+                MoveItem(originSlot.Index, targetSlot.Index);
+                originSlot.ResetItemPosition();
+            }
+            else if (target == null)
+            {
+                DropItemAt(fromIndex);
+            }
+            else
+            {
+                if (originSlot != null) originSlot.ResetItemPosition();
+            }
+        }
+
+        /// <summary>
+        ///     Called when the inventory updates a specific slot.
+        /// </summary>
+        /// <param name="sender"> The inventory object (unused). </param>
+        /// <param name="index">   Event arguments containing the slot index. </param>
+        protected virtual void Inventory_OnItemChanged(object sender, int index)
+        {
+            this.UpdateSlot(index);
+        }
+
+        protected virtual void SortButton_OnClick()
+        {
+            if (_inventoryController == null) return;
+            _inventoryController.Inventory.SortAndMerge();
         }
     }
 }

@@ -1,13 +1,14 @@
 using Asce.Managers.Attributes;
 using Asce.Managers.UIs;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Asce.Game.UIs.Inventories
 {
     /// <summary>
     ///     Represents a single slot in the inventory UI that can hold a UIItem.
     /// </summary>
-    public class UIItemSlot : UIObject
+    public class UIItemSlot : UIObject, IPointerClickHandler
     {
         // References
         [SerializeField, Readonly] protected UIInventory _inventory;
@@ -58,6 +59,32 @@ namespace Asce.Game.UIs.Inventories
             // Re-parent the item's RectTransform to this slot
             _uiItem.RectTransform.SetParent(this.RectTransform);
             _uiItem.UISlot = this;
+        }
+
+        public virtual void ResetItemPosition()
+        {
+            if (_uiItem == null) return;
+            _uiItem.RectTransform.SetParent(this.RectTransform);
+            _uiItem.transform.localPosition = Vector3.zero;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            this.Focus(eventData);
+        }
+
+        public void Focus(PointerEventData eventData)
+        {
+            if (Inventory == null) return;
+            
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                Inventory.FocusAt(Index);
+            }
+            if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                Inventory.ShowMenuContextAt(Index);
+            }
         }
     }
 }

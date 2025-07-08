@@ -21,7 +21,7 @@ namespace Asce.Game.Inventories
         public event Action<object, int> OnSlotCountChanged;
 
         /// <summary> Called when an item is added, removed, or changed. </summary>
-        public event Action<object, ItemChangedEventArgs> OnItemChanged;
+        public event Action<object, int> OnItemChanged;
 
         /// <summary> Gets the current number of item slots in the inventory. </summary>
         public int SlotCount => _items.Count;
@@ -100,9 +100,118 @@ namespace Asce.Game.Inventories
             if (removedQuantity >= currentQuantity) _items[index] = null;
             else item.SetQuantity(currentQuantity - removedQuantity);
 
-            OnItemChanged?.Invoke(this, new ItemChangedEventArgs(index));
+            OnItemChanged?.Invoke(this, index);
 
             return removedStack;
+        }
+
+        /// <summary>
+        ///     Splits a specified quantity of an item from one slot to another within the inventory.
+        /// </summary>
+        /// <param name="atIndex"> The source slot index where the item will be split from. </param>
+        /// <param name="quantity"> The quantity to split from the source item. </param>
+        /// <param name="toIndex"> The destination slot index to receive the split item. </param>
+        /// <remarks>
+        ///     Remarks: <br/>
+        ///     - If the <paramref name="atIndex"/> and <paramref name="toIndex"/> is invalid, returns. <br/>
+        ///     - If the item at <paramref name="atIndex"/> is null, returns. <br/>
+        ///     - If the item at <paramref name="toIndex"/> is empty, the split item is placed directly. <br/>
+        ///     - If the item at <paramref name="toIndex"/> is stackable and contains the same item type with item at <paramref name="atIndex"/>, 
+        ///       the split quantity will be merged into it as much as possible. 
+        ///       Any remaining quantity will be attempted to be merged back into the <paramref name="atIndex"/> slot. <br/>
+        ///     - If the item at <paramref name="toIndex"/> is occupied with a different item type, 
+        ///       the two items are only swapped if the source item was completely moved (i.e., remaining is null). <br/>
+        ///     - After any successful change, the method triggers <see cref="OnItemChanged"/> event for the modified slots.
+        /// </remarks>
+        public virtual void Split(int atIndex, int quantity, int toIndex)
+        {
+            // Validate source index
+            if (atIndex < 0 || atIndex >= _items.Count) return;
+
+            // If destination index is out of range, do nothing
+            if (toIndex < 0 || toIndex >= _items.Count) return;
+
+            Item item = _items[atIndex];
+            if (item.IsNull()) return;
+
+            // Perform the split
+            (Item remainingItem, Item splitItem) = item.Split(quantity);
+
+            // If no item was split, return
+            if (splitItem == null) return;
+
+            // If destination is empty, place split item
+            if (_items[toIndex].IsNull())
+            {
+                _items[atIndex] = remainingItem;
+                _items[toIndex] = splitItem;
+
+                OnItemChanged?.Invoke(this, atIndex);
+                OnItemChanged?.Invoke(this, toIndex);
+                return;
+            }
+
+            Item toItem = _items[toIndex];
+            // If destination is same type and stackable, merge
+            if (toItem.Information == splitItem.Information &&
+                splitItem.Information.HasProperty(ItemPropertyType.Stackable))
+            {
+                int toQuantity = toItem.GetQuantity();
+                int maxStack = splitItem.Information.GetMaxStack();
+                int spaceLeft = maxStack - toQuantity;
+
+                int splitQuantity = splitItem.GetQuantity();
+
+                int transfer = Math.Min(spaceLeft, splitQuantity);
+                toItem.SetQuantity(toQuantity + transfer);
+                splitItem.SetQuantity(splitQuantity - transfer);
+
+                int remainQuanitty = splitItem.GetQuantity();
+                // If there is remaining in splitItem, put it back to atIndex
+                if (remainQuanitty <= 0)
+                {
+                    _items[atIndex] = remainingItem;
+
+                    OnItemChanged?.Invoke(this, atIndex);
+                    OnItemChanged?.Invoke(this, toIndex);
+                    return;
+                }
+
+                // If remaining Item is empty (was fully split)
+                if (remainingItem.IsNull())
+                {
+                    _items[atIndex] = splitItem;
+                }
+                else
+                {
+                    // Merge back
+                    int backQuantity = remainingItem.GetQuantity();
+                    int backMaxStack = remainingItem.Information.GetMaxStack();
+                    int backSpace = backMaxStack - backQuantity;
+
+                    int backTransfer = Math.Min(backSpace, remainQuanitty);
+                    remainingItem.SetQuantity(backQuantity + backTransfer);
+                    splitItem.SetQuantity(remainQuanitty - backTransfer);
+
+                    _items[atIndex] = remainingItem;
+                }
+
+                OnItemChanged?.Invoke(this, atIndex);
+                OnItemChanged?.Invoke(this, toIndex);
+                return;
+            }
+
+            // Different item type -> only swap if original item is fully moved (remainingItem is null)
+            if (remainingItem == null)
+            {
+                this.Swap(atIndex, toIndex);
+            }
+            else
+            {
+                _items[atIndex] = item;
+                OnItemChanged?.Invoke(this, atIndex);
+                // Cannot swap because remainingItem still exists
+            }
         }
 
         /// <summary>
@@ -114,33 +223,30 @@ namespace Asce.Game.Inventories
         /// <returns> True if a merge, move, or swap occurred; false otherwise. </returns>
         public virtual bool SwapOrMerge(int fromIndex, int toIndex)
         {
-            if (fromIndex == toIndex ||
-                fromIndex < 0 || fromIndex >= _items.Count ||
-                toIndex < 0 || toIndex >= _items.Count)
-                return false;
+            if (fromIndex < 0 || fromIndex >= _items.Count) return false;
+            if (toIndex < 0 || toIndex >= _items.Count) return false; 
+            if (fromIndex == toIndex) return false;
 
             Item fromItem = _items[fromIndex];
             Item toItem = _items[toIndex];
 
-            if (fromItem == null || fromItem.Information == null)
-                return false;
+            if (fromItem.IsNull()) return false;
 
             // If toIndex is empty, move
-            if (toItem == null || toItem.Information == null)
+            if (toItem.IsNull())
             {
                 _items[toIndex] = fromItem;
                 _items[fromIndex] = null;
 
-                OnItemChanged?.Invoke(this, new ItemChangedEventArgs(fromIndex));
-                OnItemChanged?.Invoke(this, new ItemChangedEventArgs(toIndex));
+                OnItemChanged?.Invoke(this, fromIndex);
+                OnItemChanged?.Invoke(this, toIndex);
                 return true;
             }
 
             // If same item type, try merge
-            if (toItem.Information == fromItem.Information && fromItem.Information.GetMaxStack() > 1)
+            if (toItem.Information == fromItem.Information && fromItem.Information.HasProperty(ItemPropertyType.Stackable))
             {
-                Merge(fromIndex, toIndex);
-                return true;
+                return Merge(fromIndex, toIndex);
             }
 
             // Otherwise swap
@@ -185,11 +291,16 @@ namespace Asce.Game.Inventories
                     _items[slotIndex] = new Item(info);
                     _items[slotIndex].SetQuantity(stackQuantity);
 
-                    OnItemChanged?.Invoke(this, new ItemChangedEventArgs(slotIndex));
+                    OnItemChanged?.Invoke(this, slotIndex);
 
                     totalQuantity -= stackQuantity;
                     slotIndex++;
                 }
+            }
+
+            for(int i = slotIndex; i < _items.Count; i++)
+            {
+                OnItemChanged?.Invoke(this, i);
             }
         }
 
@@ -210,7 +321,7 @@ namespace Asce.Game.Inventories
                 {
                     // Clear remaining slots if the input list is shorter than slot count
                     _items[i] = null;
-                    OnItemChanged?.Invoke(this, new ItemChangedEventArgs(i));
+                    OnItemChanged?.Invoke(this, i);
                     continue;
                 }
 
@@ -224,7 +335,7 @@ namespace Asce.Game.Inventories
                     _items[i].SetDurability(item.GetDurability());
                 }
 
-                OnItemChanged?.Invoke(this, new ItemChangedEventArgs(i));
+                OnItemChanged?.Invoke(this, i);
             }
         }
 
@@ -237,11 +348,9 @@ namespace Asce.Game.Inventories
             for (int i = 0; i < _items.Count; i++)
             {
                 _items[i] = null;
-                OnItemChanged?.Invoke(this, new ItemChangedEventArgs(i));
+                OnItemChanged?.Invoke(this, i);
             }
         }
-
-
 
         /// <summary>
         ///     Finds the first empty or null slot in the inventory.
@@ -302,7 +411,7 @@ namespace Asce.Game.Inventories
                 item.SetQuantity(currentQuantity + addedQuantity);
                 quantityLeft -= addedQuantity;
 
-                OnItemChanged?.Invoke(this, new ItemChangedEventArgs(i));
+                OnItemChanged?.Invoke(this, i);
 
                 if (quantityLeft == 0)
                     break;
@@ -330,7 +439,7 @@ namespace Asce.Game.Inventories
                     _items[i].SetQuantity(stackQuantity);
                     quantityLeft -= stackQuantity;
 
-                    OnItemChanged?.Invoke(this, new ItemChangedEventArgs(i));
+                    OnItemChanged?.Invoke(this, i);
                 }
             }
 
@@ -345,29 +454,29 @@ namespace Asce.Game.Inventories
             // Swap
             (_items[fromIndex], _items[toIndex]) = (_items[toIndex], _items[fromIndex]);
 
-            OnItemChanged?.Invoke(this, new ItemChangedEventArgs(fromIndex));
-            OnItemChanged?.Invoke(this, new ItemChangedEventArgs(toIndex));
+            OnItemChanged?.Invoke(this, fromIndex);
+            OnItemChanged?.Invoke(this, toIndex);
         }
 
         /// <summary>
         ///     Merges items from fromIndex to toIndex if possible. Transfers as much quantity as possible.
         ///     Leaves remaining in fromIndex if not fully transferred.
         /// </summary>
-        protected virtual void Merge(int fromIndex, int toIndex)
+        protected virtual bool Merge(int fromIndex, int toIndex)
         {
-            if (this.IsEmptyAt(fromIndex) || this.IsEmptyAt(toIndex)) return;
+            if (this.IsEmptyAt(fromIndex) || this.IsEmptyAt(toIndex)) return false;
 
             Item fromItem = _items[fromIndex];
             Item toItem = _items[toIndex];
 
-            if (fromItem.Information != toItem.Information) return;
+            if (fromItem.Information != toItem.Information) return false;
 
             int maxStack = toItem.Information.GetMaxStack();
             int toQuantity = toItem.GetQuantity();
             int fromQuantity = fromItem.GetQuantity();
 
             int space = maxStack - toQuantity;
-            if (space <= 0) return; // toIndex is full
+            if (space <= 0) return false; // toIndex is full
 
             int transfer = Math.Min(space, fromQuantity); // Amount to merge
             toItem.SetQuantity(toQuantity + transfer);
@@ -376,8 +485,10 @@ namespace Asce.Game.Inventories
             // Remove Item if quantity is zero
             if (fromItem.GetQuantity() <= 0) _items[fromIndex] = null;
 
-            OnItemChanged?.Invoke(this, new ItemChangedEventArgs(fromIndex));
-            OnItemChanged?.Invoke(this, new ItemChangedEventArgs(toIndex));
+            OnItemChanged?.Invoke(this, fromIndex);
+            OnItemChanged?.Invoke(this, toIndex);
+
+            return true;
         }
 
     }

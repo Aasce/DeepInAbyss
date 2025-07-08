@@ -41,6 +41,7 @@ namespace Asce.Game.SaveLoads
         {
             CharacterData characterData = SaveLoadSystem.Load<CharacterData>("player/character.json");
             characterData?.Load(Player.Instance.MainCharacter);
+            Player.Instance.CameraController.ToTarget(Vector2.up * 10f);
         }
     }
 }

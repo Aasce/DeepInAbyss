@@ -95,9 +95,9 @@ namespace Asce.Game.Entities
             _pickCooldown.Reset();
         }
 
-        public virtual void Drop(int index)
+        public virtual void Drop(int index, int quantity = -1)
         {
-            ItemStack dropStack = _inventory.RemoveAt(index);
+            ItemStack dropStack = _inventory.RemoveAt(index, quantity);
             SO_ItemInformation info = dropStack.GetItemInfo();
             if (info == null) return;
             

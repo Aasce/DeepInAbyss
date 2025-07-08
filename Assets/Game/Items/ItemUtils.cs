@@ -19,6 +19,37 @@ namespace Asce.Game.Items
             return false;
         }
 
+        public static Item Clone(this Item item)
+        {
+            if (item.IsNull()) return null;
+
+            Item newItem = new(item.Information);
+            newItem.SetQuantity(item.GetQuantity());
+            newItem.SetDurability(item.GetDurability());
+            return newItem;
+        }
+
+        public static (Item firstItem, Item secondItem) Split(this Item item, int quantity)
+        {
+            if (item.IsNull()) return (null, null);
+
+            Item copyItem = item.Clone();
+
+            if (!item.HasQuantity()) return (copyItem, null);
+            if (quantity <= 0) return (copyItem, null);
+
+            int currentQuantity = item.GetQuantity();
+            if (quantity >= currentQuantity) return (null, copyItem);
+
+            Item splitItem = new (item.Information);
+
+            int remainQuantity = currentQuantity - quantity;
+            copyItem.SetQuantity(remainQuantity);
+            splitItem.SetQuantity(quantity);
+
+            return (copyItem, splitItem);
+        }
+
         /// <summary>
         ///     Determines whether the given item has stack data.
         /// </summary>

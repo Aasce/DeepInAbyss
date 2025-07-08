@@ -11,7 +11,7 @@ namespace Asce.Game.UIs.Inventories
     /// <summary>
     ///     Represents a UI element for a single item, including drag-and-drop behavior and property display.
     /// </summary>
-    public class UIItem : UIObject, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class UIItem : UIObject, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         // UI references
         [SerializeField] protected CanvasGroup _canvasGroup;
@@ -19,32 +19,32 @@ namespace Asce.Game.UIs.Inventories
         [SerializeField] protected TextMeshProUGUI _quantity;
         [SerializeField] protected Slider _durability;
 
-        // Slot this item is currently attached to
+        // Ref
+        [SerializeField, Readonly] protected UIInventory _inventory;
         [SerializeField, Readonly] protected UIItemSlot _uiSlot;
-
-        // Runtime data
         protected Item _item;
-        protected Vector3 _originalPosition;
-        protected Transform _originalParent;
-        protected bool _dragging = false;
 
-        /// <summary>
-        ///     Gets or sets the UI slot this item belongs to.
-        /// </summary>
+        protected bool _isDragging = false;
+
+        public CanvasGroup CanvasGroup => _canvasGroup;
+        public UIInventory Inventory
+        {
+            get => _inventory;
+            set => _inventory = value;
+        }
+
+        /// <summary> Gets or sets the UI slot this item belongs to.  </summary>
         public UIItemSlot UISlot
         {
             get => _uiSlot;
             set => _uiSlot = value;
         }
+        public Item Item => _item;
 
-        /// <summary>
-        ///     Assigns this UIItem to a slot.
-        /// </summary>
-        /// <param name="uiSlot"> The slot to assign. </param>
-        public virtual void SetSlot(UIItemSlot uiSlot)
+        public bool IsDragging
         {
-            if (uiSlot == null) return;
-            uiSlot.SetItem(this);
+            get => _isDragging;
+            set => _isDragging = value;
         }
 
         /// <summary>
@@ -117,26 +117,19 @@ namespace Asce.Game.UIs.Inventories
             }
         }
 
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (_uiSlot == null) return;
+            _uiSlot.Focus(eventData);
+        }
+
         /// <summary>
         ///     Called when the user begins dragging this item.
         /// </summary>
         /// <param name="eventData"> Pointer data associated with the drag event. </param>
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (_uiSlot == null) return;
-
-            _originalPosition = transform.position;
-            _originalParent = transform.parent;
-
-            // Move to top canvas so it doesn't get masked/clipped
-            transform.SetParent(UIScreenCanvasManager.Instance.Canvas.transform);
-
-            if (_canvasGroup != null)
-            {
-                _canvasGroup.blocksRaycasts = false; // Let raycasts pass through while dragging
-            }
-
-            _dragging = true;
+            if (Inventory != null) Inventory.BeginDragItem(this, eventData);
         }
 
         /// <summary>
@@ -145,7 +138,7 @@ namespace Asce.Game.UIs.Inventories
         /// <param name="eventData"> Pointer drag data. </param>
         public void OnDrag(PointerEventData eventData)
         {
-            if (!_dragging) return;
+            if (!IsDragging) return;
             transform.position = eventData.position;
         }
 
@@ -155,27 +148,7 @@ namespace Asce.Game.UIs.Inventories
         /// <param name="eventData"> Pointer data when drag ends. </param>
         public void OnEndDrag(PointerEventData eventData)
         {
-            _dragging = false;
-
-            if (_canvasGroup != null)
-            {
-                _canvasGroup.blocksRaycasts = true;
-            }
-
-            GameObject target = eventData.pointerEnter;
-            UIItemSlot targetSlot = target != null ? target.GetComponentInParent<UIItemSlot>() : null;
-
-            if (targetSlot != null && targetSlot != _uiSlot)
-            {
-                if (_uiSlot != null && _uiSlot.Inventory != null)
-                {
-                    _uiSlot.Inventory.MoveItem(_uiSlot.Index, targetSlot.Index);
-                }
-            }
-
-            // Reset UI to original parent/position
-            transform.SetParent(_uiSlot.transform);
-            transform.localPosition = Vector3.zero;
+            if (Inventory != null) Inventory.EndDragItem(this, eventData);
         }
     }
 }
