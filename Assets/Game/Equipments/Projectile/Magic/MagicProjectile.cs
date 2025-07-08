@@ -1,4 +1,5 @@
 using Asce.Game.Entities;
+using Asce.Game.VFXs;
 using UnityEngine;
 
 namespace Asce.Game.Equipments
@@ -6,8 +7,8 @@ namespace Asce.Game.Equipments
     public class MagicProjectile : Projectile
     {
         [Header("Magic")]
-        [SerializeField] protected GameObject _launchFxPrefab;
-        [SerializeField] protected GameObject _hitFxPrefab;
+        [SerializeField] protected VFXObject _launchFxPrefab;
+        [SerializeField] protected VFXObject _hitFxPrefab;
 
         [Space]
         [SerializeField] protected float _explosionRadius = 1f;
@@ -16,6 +17,8 @@ namespace Asce.Game.Equipments
         protected override void Start()
         {
             base.Start();
+            VFXsManager.Instance.Register(_launchFxPrefab);
+            VFXsManager.Instance.Register(_hitFxPrefab);
             _rigidbody.gravityScale = 0f;
         }
 
@@ -32,11 +35,7 @@ namespace Asce.Game.Equipments
             if (Owner != null && Owner.gameObject == collision.gameObject) return;
 
             this.Explosion((collision.contacts.Length > 0) ? collision.contacts[0].point : transform.position);
-            if (_hitFxPrefab != null)
-            {
-                GameObject hitFx = Instantiate(_hitFxPrefab);
-                hitFx.transform.SetPositionAndRotation(transform.position, transform.rotation);
-            } 
+            if (_hitFxPrefab != null) VFXsManager.Instance.Spawn(_hitFxPrefab, transform.position, transform.rotation);
             _despawnCooldown.ToComplete();
 
             base.OnCollisionEnter2D(collision);
@@ -45,11 +44,7 @@ namespace Asce.Game.Equipments
 
         protected override void OnLaunched()
         {
-            if (_launchFxPrefab != null)
-            {
-                GameObject launchFx = Instantiate(_launchFxPrefab);
-                launchFx.transform.SetPositionAndRotation(transform.position, transform.rotation);
-            }
+            if (_launchFxPrefab != null) VFXsManager.Instance.Spawn(_launchFxPrefab, transform.position, transform.rotation);
             base.OnLaunched();
         }
 

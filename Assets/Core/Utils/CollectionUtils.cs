@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +39,67 @@ namespace Asce.Managers.Utils
             return list;
         }
 
+        /// <summary>
+        ///     Iterates over a sequence in chunks, yielding after processing a specified number of elements.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <param name="collection">The enumerable collection to iterate over.</param>
+        /// <param name="chunkSize">Number of items to process per frame.</param>
+        /// <param name="action">Action to perform on each item.</param>
+        public static IEnumerator IterateInChunks<T>(IEnumerable<T> collection, int chunkSize, Action<T> action, float? delay = null)
+        {
+            if (collection == null || action == null || chunkSize <= 0)
+                yield break;
 
+            IList<T> list = collection is IList<T> collectionList ? collectionList : new List<T>(collection);
+            int count = list.Count;
+
+            for (int i = 0; i < count; i++)
+            {
+                action.Invoke(list[i]);
+
+                if ((i + 1) % chunkSize == 0)
+                    yield return delay.HasValue && delay.Value > 0 ? new WaitForSeconds(delay.Value) : null;
+            }
+
+            if (count % chunkSize != 0)
+                yield return delay.HasValue && delay.Value > 0 ? new WaitForSeconds(delay.Value) : null;
+        }
+
+        /// <summary>
+        ///     Iterates over a sequence across a fixed number of frames, distributing the work evenly.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the collection.</typeparam>
+        /// <param name="collection">The collection to process.</param>
+        /// <param name="totalFrames">The total number of frames to spread processing over.</param>
+        /// <param name="action">The action to apply to each element.</param>
+        public static IEnumerator IterateOverFrames<T>(IEnumerable<T> collection, int totalFrames, Action<T> action, float? delay = null)
+        {
+            if (collection == null || action == null || totalFrames <= 0)
+                yield break;
+
+            IList<T> list = collection is IList<T> collectionList ? collectionList : new List<T>(collection);
+            int totalItems = list.Count;
+
+            if (totalItems == 0)
+                yield break;
+
+            int baseChunkSize = totalItems / totalFrames;
+            int remainder = totalItems % totalFrames;
+
+            int index = 0;
+
+            for (int frame = 0; frame < totalFrames && index < totalItems; frame++)
+            {
+                int chunkSize = baseChunkSize + (frame < remainder ? 1 : 0);
+                int end = index + chunkSize;
+
+                for (; index < end && index < totalItems; index++)
+                    action.Invoke(list[index]);
+
+                yield return delay.HasValue && delay.Value > 0 ? new WaitForSeconds(delay.Value) : null;
+            }
+        }
         /// <summary>
         ///     Returns a random element from an <see cref="ICollection{T}"/>.
         /// </summary>

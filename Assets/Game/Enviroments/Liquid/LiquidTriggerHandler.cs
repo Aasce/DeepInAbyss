@@ -1,3 +1,4 @@
+using Asce.Game.VFXs;
 using Asce.Managers.Utils;
 using UnityEngine;
 
@@ -11,13 +12,11 @@ namespace Asce.Game.Enviroments
     [RequireComponent(typeof(BoxCollider2D))]
     public class LiquidTriggerHandler : MonoBehaviour
     {
-        protected Liquid _liquid;
-
-        /// <summary>
-        ///     The layer mask defining which layers can interact with the liquid.
-        /// </summary>
+        /// <summary> The layer mask defining which layers can interact with the liquid. </summary>
         [SerializeField] protected LayerMask _interactiveLayer;
-        [SerializeField] protected GameObject _splashParticles;
+        [SerializeField] protected VFXObject _splashParticles;
+
+        protected Liquid _liquid;
 
 
         public virtual Liquid Liquid => _liquid;
@@ -25,6 +24,11 @@ namespace Asce.Game.Enviroments
         protected virtual void Awake()
         {
             _liquid = GetComponent<Liquid>();
+        }
+
+        protected virtual void Start()
+        {
+            VFXsManager.Instance.Register(_splashParticles);
         }
 
         protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -75,10 +79,7 @@ namespace Asce.Game.Enviroments
                 spawnPosition = hitObjectPosition + new Vector2(0f, hitObjectBounds.extents.y);
             }
 
-            if (_splashParticles != null)
-            {
-                Instantiate(_splashParticles, spawnPosition, Quaternion.identity);
-            }
+            if (_splashParticles != null) VFXsManager.Instance.Spawn(_splashParticles, spawnPosition, Quaternion.identity);
         }
 
         /// <summary>

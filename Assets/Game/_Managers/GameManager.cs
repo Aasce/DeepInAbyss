@@ -2,6 +2,7 @@ using Asce.Game.FloatingTexts;
 using Asce.Game.Players;
 using Asce.Game.SaveLoads;
 using Asce.Game.UIs;
+using Asce.Game.VFXs;
 using Asce.Managers;
 
 namespace Asce.Game
@@ -15,6 +16,7 @@ namespace Asce.Game
             _ = SaveLoadManager.Instance;
             _ = UIScreenCanvasManager.Instance;
             _ = StatValuePopupManager.Instance;
+            _ = VFXsManager.Instance;
         }
     }
 }

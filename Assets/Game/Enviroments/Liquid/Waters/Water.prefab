@@ -221,7 +221,7 @@ MonoBehaviour:
   _interactiveLayer:
     serializedVersion: 2
     m_Bits: 257
-  _splashParticles: {fileID: 7080312953657428921, guid: 8a8c93c8217d2dd4795ee27d2d3f578f, type: 3}
+  _splashParticles: {fileID: 4003934295000101952, guid: 8a8c93c8217d2dd4795ee27d2d3f578f, type: 3}
 --- !u!33 &5633108254512347662
 MeshFilter:
   m_ObjectHideFlags: 0

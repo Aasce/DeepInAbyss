@@ -9719,6 +9719,7 @@ GameObject:
   m_Component:
   - component: {fileID: 248452246137239371}
   - component: {fileID: 7029102676486950009}
+  - component: {fileID: 434661625290763340}
   - component: {fileID: 9173639425285248251}
   - component: {fileID: 7140764048152630505}
   m_Layer: 9
@@ -9768,12 +9769,27 @@ MonoBehaviour:
   _damageType: 10
   _isSetLayerOnLaunch: 0
   _isSetLayerOnHit: 0
-  _launchFxPrefab: {fileID: 6876448928386331457, guid: 6ac9313a7f204ab49a77a32a13291e8d, type: 3}
-  _hitFxPrefab: {fileID: 7098516306017923431, guid: 146d57533b78ae14490fe427bff1d3dd, type: 3}
+  _launchFxPrefab: {fileID: -2620011444068255771, guid: 6ac9313a7f204ab49a77a32a13291e8d, type: 3}
+  _hitFxPrefab: {fileID: -4303742035980005661, guid: 146d57533b78ae14490fe427bff1d3dd, type: 3}
   _explosionRadius: 1
   _explosionLayerMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &434661625290763340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6600895540637888347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4115a72b4eeb38b4dab50e13615f683e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _despawnTime:
+    _baseTime: 10
+    _currentTime: 10
 --- !u!58 &9173639425285248251
 CircleCollider2D:
   m_ObjectHideFlags: 0
