@@ -8,9 +8,9 @@ namespace Asce.Game.Stats
         public Stat() : base() { }
         public Stat(StatType type) : base(type) { }
 
-        protected override StatAgent CreateAgent(GameObject author, string reason, float value, StatValueType type, float duration, Vector2 position)
+        protected override StatAgent CreateAgent(GameObject author, string reason, float value, StatValueType type, Vector2 position)
         {
-            return new StatAgent(author, reason, value, type, duration, position);
+            return new StatAgent(author, reason, value, type, position);
         }
     }
 }

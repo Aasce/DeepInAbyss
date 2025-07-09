@@ -58,20 +58,6 @@ namespace Asce.Game.Stats
             StatType = type;
         }
 
-
-        /// <summary>
-        ///     Updates the duration of all active agents, and recalculates <see cref="Value"/> 
-        ///     if any agents have expired.
-        ///     <br/>
-        ///     See <see cref="StatUtils.UpdateAgents"/>
-        /// </summary>
-        /// <param name="deltaTime"> The elapsed time since the last update. </param>
-        public virtual void Update(float deltaTime)
-        {
-            if (StatUtils.UpdateAgents(_agents, deltaTime))
-                this.UpdateValue();
-        }
-
         /// <summary>
         ///     Adds a new agent to the stat using specified parameters.
         /// </summary>
@@ -82,9 +68,9 @@ namespace Asce.Game.Stats
         /// <param name="duration"> (Optional) The duration the agent remains active. </param>
         /// <param name="position"> (Optional) The position affect </param>
         /// <returns> The added <see cref="StatAgent"/>. </returns>
-        public virtual T AddAgent(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat, float duration = float.PositiveInfinity, Vector2 position = default)
+        public virtual T AddAgent(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat, Vector2 position = default)
         {
-            T agent = CreateAgent(author, reason, value, type, duration, position);
+            T agent = CreateAgent(author, reason, value, type, position);
             return this.AddAgent(agent);
         }
 
@@ -230,6 +216,6 @@ namespace Asce.Game.Stats
         protected virtual void UpdateValue()
             => Value = StatUtils.CalculateValue(_agents, out _platValue, out _ratioValue, out _scaleValue);
 
-        protected abstract T CreateAgent(GameObject author, string reason, float value, StatValueType type, float duration, Vector2 position);
+        protected abstract T CreateAgent(GameObject author, string reason, float value, StatValueType type, Vector2 position);
     }
 }

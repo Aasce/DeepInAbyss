@@ -88,21 +88,6 @@ namespace Asce.Game.Stats
         public ResourceStat() : base() { }
         public ResourceStat(StatType type) : base(type) { }
 
-
-        /// <summary>
-        ///     Updates all stat agents and removes expired ones.
-        ///     <br/>
-        ///     override from <see cref="Stat.Update(float)"/>
-        ///     <br/>
-        ///     See <see cref="StatUtils.UpdateAgents"/>
-        /// </summary>
-        public override void Update(float deltaTime)
-        {
-            base.Update(deltaTime);
-            StatUtils.UpdateAgents(_currentAgents, deltaTime);
-        }
-
-
         /// <summary>
         ///     Adds a new <see cref="StatAgent"/> and applies its effect to <see cref="CurrentValue"/>.
         ///     <br/>
@@ -152,7 +137,7 @@ namespace Asce.Game.Stats
         public virtual void AddToCurrentValue(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat, bool isAddToAgent = true)
         {
             if (isAddToAgent) 
-                _currentAgents.Add(new StatAgent(author, reason, value, type, baseAffectDuration));
+                _currentAgents.Add(new StatAgent(author, reason, value, type));
 
             CurrentValue = type switch
             {
@@ -173,7 +158,7 @@ namespace Asce.Game.Stats
         {
             // The value is the difference between the value to be changed and the current value
             if (isAddToAgent) 
-                _currentAgents.Add(new StatAgent(author, reason, value - CurrentValue, baseAffectDuration));
+                _currentAgents.Add(new StatAgent(author, reason, value - CurrentValue));
 
             CurrentValue = value;
         }

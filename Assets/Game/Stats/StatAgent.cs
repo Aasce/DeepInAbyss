@@ -14,7 +14,7 @@ namespace Asce.Game.Stats
         [SerializeField] protected string _reason;
         [SerializeField] protected float _value;
         [SerializeField] protected StatValueType _type;
-        [SerializeField] protected Cooldown _duration = new();
+
         [SerializeField] protected Vector2 _position;
         [SerializeField] protected bool _isClearable = true;
 
@@ -55,11 +55,6 @@ namespace Asce.Game.Stats
         }
 
         /// <summary>
-        ///     The duration for which this stat modification is active.
-        /// </summary>
-        public Cooldown Duration => _duration;
-
-        /// <summary>
         ///     The position of agent affect.
         /// </summary>
         public Vector2 Position
@@ -83,7 +78,7 @@ namespace Asce.Game.Stats
         ///     with default values.
         /// </summary>
         public StatAgent() 
-            : this (null, string.Empty, 0f, StatValueType.Plat, 0f, default) 
+            : this (null, string.Empty, 0f, StatValueType.Plat, default) 
         { }
 
         /// <summary>
@@ -93,7 +88,7 @@ namespace Asce.Game.Stats
         /// <param name="author"> The <see cref="GameObject"/> applying the stat modification. </param>
         /// <param name="reason"> The reason or description of the stat modification. </param>
         public StatAgent(GameObject author, string reason)
-            : this (author, reason, 0f, StatValueType.Plat, float.PositiveInfinity, default)
+            : this (author, reason, 0f, StatValueType.Plat, default)
         { }
 
         /// <summary>
@@ -103,10 +98,9 @@ namespace Asce.Game.Stats
         /// <param name="author"> The <see cref="GameObject"/> applying the stat modification. </param>
         /// <param name="reason"> The reason or description of the stat modification. </param>
         /// <param name="value"> The value of the modification. </param>
-        /// <param name="duration"> How long the modification lasts in seconds. </param>
         /// <param name="position"> The position affect. </param>
-        public StatAgent(GameObject author, string reason, float value, float duration = float.PositiveInfinity, Vector2 position = default)
-            : this (author, reason, value, StatValueType.Plat, duration, position)
+        public StatAgent(GameObject author, string reason, float value, Vector2 position = default)
+            : this (author, reason, value, StatValueType.Plat, position)
         { }
 
         /// <summary>
@@ -117,16 +111,13 @@ namespace Asce.Game.Stats
         /// <param name="reason"> The reason or description of the stat modification. </param>
         /// <param name="value"> The value of the modification. </param>
         /// <param name="type"> The type of the stat value (e.g., Flat or Ratio). </param>
-        /// <param name="duration"> How long the modification lasts in seconds. </param>
         /// <param name="position"> The position affect. </param>
-        public StatAgent(GameObject author, string reason, float value, StatValueType type, float duration = float.PositiveInfinity, Vector2 position = default)
+        public StatAgent(GameObject author, string reason, float value, StatValueType type, Vector2 position = default)
         {
             Author = author;
             Reason = reason;
             Value = value;
             ValueType = type;
-            Duration.BaseTime = duration;
-            Duration.Reset();
             Position = position;
         }
 

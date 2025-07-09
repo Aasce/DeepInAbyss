@@ -45,30 +45,6 @@ namespace Asce.Game.Stats
         }
 
         /// <summary>
-        ///     Updates the duration of all active agents
-        ///     and removes expired ones.
-        /// </summary>
-        /// <param name="agents"> Agents list need to update. </param>
-        /// <param name="deltaTime"> The elapsed time since the last update. </param>
-        /// <returns> Returns true if <paramref name="agents"/> have any agent is removed. </returns>
-        public static bool UpdateAgents<T>(IList<T> agents, float deltaTime) where T : StatAgent
-        {
-            bool updated = false;
-            for (int i = agents.Count - 1; i >= 0; i--)
-            {
-                agents[i].Duration.Update(deltaTime);
-                if (agents[i].Duration.IsComplete)
-                {
-                    agents.RemoveAt(i);
-                    updated = true;
-                }
-            }
-
-            return updated;
-        }
-
-
-        /// <summary>
         ///     Removes all agents from the stat that match 
         ///     the given <paramref name="author"/> and <paramref name="reason"/>.
         /// </summary>

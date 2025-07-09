@@ -21,9 +21,7 @@ namespace Asce.Game.Stats
 
         public virtual void Update(float deltaTime)
         {
-            Armor.Update(deltaTime);
-            Resistance.Update(deltaTime);
-            Shield.Update(deltaTime);
+
         }
 
         public virtual void Clear(bool isForceClear = false)

@@ -52,7 +52,7 @@ namespace Asce.Game.UIs.Stats
         protected override void Register()
         {
             base.Register();
-            if (Stat != null) Stat.OnChangeValueChanged += Stat_OnChangeValueChanged;
+            if (Stat != null) Stat.ChangeStat.OnValueChanged += Stat_OnChangeValueChanged;
         }
 
         protected override void Unregister()
@@ -60,7 +60,7 @@ namespace Asce.Game.UIs.Stats
             if (Stat == null) return;
             base.Unregister();
 
-            Stat.OnChangeValueChanged -= Stat_OnChangeValueChanged;
+            Stat.ChangeStat.OnValueChanged -= Stat_OnChangeValueChanged;
         }
 
         protected virtual void Stat_OnChangeValueChanged(object sender, ValueChangedEventArgs args)
@@ -68,7 +68,7 @@ namespace Asce.Game.UIs.Stats
             if (Stat == null) return;
             if (ChangedValueTextMesh == null) return;
 
-            ChangedValueTextMesh.text = Stat.ChangeValue.ToString("+0.#;-0.#;0");
+            ChangedValueTextMesh.text = Stat.ChangeStat.Value.ToString("+0.#;-0.#;0");
         }
 
         protected override void ResetStatBar()
@@ -80,7 +80,7 @@ namespace Asce.Game.UIs.Stats
         protected override void SyncStatbar()
         {
             base.SyncStatbar();
-            ChangedValueTextMesh.text = Stat.ChangeValue.ToString("+0.#;-0.#;0");
+            ChangedValueTextMesh.text = Stat.ChangeStat.Value.ToString("+0.#;-0.#;0");
         }
 
         public override void OnPointerEnter(PointerEventData eventData)

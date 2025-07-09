@@ -30,14 +30,13 @@ namespace Asce.Game.Stats
         {
             HealScale.AddAgent(null, "base heal scale", 1f, StatValueType.Base).ToNotClearable();
 
-            Health.AddToChangeValue(null, _healScaleAffectReason, HealScale.Value, StatValueType.Scale);
+            Health.ChangeStat.AddAgent(null, _healScaleAffectReason, HealScale.Value, StatValueType.Scale);
             HealScale.OnValueChanged += HealScale_OnValueChanged;
         }
 
         public virtual void Update(float deltaTime)
         {
             Health.Update(deltaTime);
-            HealScale.Update(deltaTime);
         }
 
         public virtual void Clear(bool isForceClear = false)
@@ -79,8 +78,8 @@ namespace Asce.Game.Stats
         /// <param name="args"> Details of the value change event. </param>
         protected virtual void HealScale_OnValueChanged(object sender, Managers.ValueChangedEventArgs args)
         {
-            bool isChanged = Health.SetChangeAgentValue((agent) => agent.Reason.Equals(_healScaleAffectReason), HealScale.Value);
-            if (!isChanged) Health.AddToChangeValue(null, _healScaleAffectReason, HealScale.Value, StatValueType.Scale).ToNotClearable();
+            bool isChanged = Health.ChangeStat.SetAgentValue((agent) => agent.Reason.Equals(_healScaleAffectReason), HealScale.Value);
+            if (!isChanged) Health.ChangeStat.AddAgent(null, _healScaleAffectReason, HealScale.Value, StatValueType.Scale).ToNotClearable();
         }
 
     }

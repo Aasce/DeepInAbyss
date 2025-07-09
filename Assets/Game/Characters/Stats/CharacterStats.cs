@@ -30,8 +30,6 @@ namespace Asce.Game.Entities
         public override void UpdateStats(float deltaTime)
         {
             base.UpdateStats(deltaTime);
-
-            JumpForce.Update(deltaTime);
         }
 
         public override void ClearStats(bool isForceClear = false)
