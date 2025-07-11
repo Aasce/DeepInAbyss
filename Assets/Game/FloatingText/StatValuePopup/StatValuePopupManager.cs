@@ -112,7 +112,7 @@ namespace Asce.Game.FloatingTexts
         /// <returns>
         ///     Returns the created popup instance, or null if delayed.
         /// </returns>
-        protected virtual StatValuePopup CreateValuePopupDelay(string text, Color color, float size, Vector2 position, float delay)
+        public virtual StatValuePopup CreateValuePopupDelay(string text, Color color, float size, Vector2 position, float delay)
         {
             if (delay <= 0f)
             {

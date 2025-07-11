@@ -5,7 +5,8 @@ using UnityEngine;
 namespace Asce.Game.Entities
 {
     public abstract class Creature : Entity, ICreature, IOptimizedComponent,
-        IHasView<CreatureView>, IHasUI<CreatureUI>, IHasAction<CreatureAction>, IHasStats<CreatureStats, SO_CreatureBaseStats>, 
+        IHasView<CreatureView>, IHasUI<CreatureUI>, IHasAction<CreatureAction>, 
+        IHasStats<CreatureStats, SO_CreatureBaseStats>, IHasStatusEffect<CreatureStatusEffect>,
         IHasEquipment<CreatureEquipment>, IHasInventory<CreatureInventory>, IHasSpoils<CreatureSpoils>
     {
         [SerializeField, Readonly] private CreaturePhysicController _physicController;
@@ -13,6 +14,7 @@ namespace Asce.Game.Entities
         [SerializeField, Readonly] private CreatureView _view;
         [SerializeField, Readonly] private CreatureUI _ui;
         [SerializeField, Readonly] private CreatureStats _stats;
+        [SerializeField, Readonly] private CreatureStatusEffect _statusEffect;
         [SerializeField, Readonly] private CreatureEquipment _equipment;
         [SerializeField, Readonly] private CreatureInventory _inventory;
         [SerializeField, Readonly] private CreatureSpoils _spoils;
@@ -47,6 +49,12 @@ namespace Asce.Game.Entities
         {
             get => _stats;
             set => _stats = value;
+        }
+
+        public CreatureStatusEffect StatusEffect
+        {
+            get => _statusEffect;
+            set => _statusEffect = value;
         }
 
         public CreatureEquipment Equipment
@@ -116,6 +124,10 @@ namespace Asce.Game.Entities
             if (this.LoadComponent(out _stats))
             {
                 Stats.Owner = this;
+            }
+            if (this.LoadComponent(out _statusEffect))
+            {
+                StatusEffect.Owner = this;
             }
             if (this.LoadComponent(out _equipment))
             {

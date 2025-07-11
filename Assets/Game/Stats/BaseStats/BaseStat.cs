@@ -175,6 +175,7 @@ namespace Asce.Game.Stats
             this.ClearAgents();
         }
 
+
         /// <summary>
         ///     Set the value of the agent that find by <paramref name="match"/> in <see cref="_agents"/>.
         ///     <br/>
@@ -213,7 +214,7 @@ namespace Asce.Game.Stats
         ///     Recalculates the stat's value based on all currently active agents.
         ///     See <see cref="StatUtils.CalculateValue"/>
         /// </summary>
-        protected virtual void UpdateValue()
+        public virtual void UpdateValue()
             => Value = StatUtils.CalculateValue(_agents, out _platValue, out _ratioValue, out _scaleValue);
 
         protected abstract T CreateAgent(GameObject author, string reason, float value, StatValueType type, Vector2 position);

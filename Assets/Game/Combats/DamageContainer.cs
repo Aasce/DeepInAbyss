@@ -21,7 +21,7 @@ namespace Asce.Game.Combats
 
         [Space]
         [SerializeField] private Vector2 _position;
-
+        [SerializeField] private bool _isInvokeEvent = true;
 
         public ISendDamageable Sender
         {
@@ -68,6 +68,12 @@ namespace Asce.Game.Combats
         {
             get => _position;
             set => _position = value;
+        }
+
+        public bool IsInvokeEvent
+        {
+            get => _isInvokeEvent;
+            set => _isInvokeEvent = value;
         }
 
         public DamageContainer() 

@@ -93,21 +93,21 @@ namespace Asce.Game.Entities
 
             // Health
             HealthGroup.Health.AddAgent(gameObject, baseStatsReason, BaseStats.MaxHealth, StatValueType.Base).ToNotClearable();
-            HealthGroup.Health.AddToChangeValue(gameObject, baseStatsReason, BaseStats.HealthRegen, StatValueType.Base).ToNotClearable();
+            HealthGroup.Health.ChangeStat.AddAgent(gameObject, baseStatsReason, BaseStats.HealthRegen, StatValueType.Base).ToNotClearable();
 
             // Stamina
             Stamina.AddAgent(gameObject, baseStatsReason, BaseStats.MaxStamina, StatValueType.Base).ToNotClearable();
-            Stamina.AddToChangeValue(gameObject, baseStatsReason, BaseStats.StaminaRegen, StatValueType.Base).ToNotClearable();
+            Stamina.ChangeStat.AddAgent(gameObject, baseStatsReason, BaseStats.StaminaRegen, StatValueType.Base).ToNotClearable();
 
             // Sustenance
             SustenanceGroup.Hunger.AddAgent(gameObject, baseStatsReason, BaseStats.MaxHunger, StatValueType.Base).ToNotClearable();
-            SustenanceGroup.Hunger.AddToChangeValue(gameObject, baseStatsReason, -BaseStats.Hungry, StatValueType.Base).ToNotClearable();
+            SustenanceGroup.Hunger.ChangeStat.AddAgent(gameObject, baseStatsReason, -BaseStats.Hungry, StatValueType.Base).ToNotClearable();
 
             SustenanceGroup.Thirst.AddAgent(gameObject, baseStatsReason, BaseStats.MaxThirst, StatValueType.Base).ToNotClearable();
-            SustenanceGroup.Thirst.AddToChangeValue(gameObject, baseStatsReason, -BaseStats.Thirsty, StatValueType.Base).ToNotClearable();
+            SustenanceGroup.Thirst.ChangeStat.AddAgent(gameObject, baseStatsReason, -BaseStats.Thirsty, StatValueType.Base).ToNotClearable();
 
             SustenanceGroup.Breath.AddAgent(gameObject, baseStatsReason, BaseStats.MaxBreath, StatValueType.Base).ToNotClearable();
-            SustenanceGroup.Breath.AddToChangeValue(gameObject, baseStatsReason, BaseStats.Breathe, StatValueType.Base).ToNotClearable();
+            SustenanceGroup.Breath.ChangeStat.AddAgent(gameObject, baseStatsReason, BaseStats.Breathe, StatValueType.Base).ToNotClearable();
 
             // Strength
             Strength.AddAgent(gameObject, baseStatsReason, BaseStats.Strength, StatValueType.Base).ToNotClearable();
@@ -129,11 +129,7 @@ namespace Asce.Game.Entities
             Stamina.Update(deltaTime);
             SustenanceGroup.Update(deltaTime);
 
-            Strength.Update(deltaTime);
             DefenseGroup.Update(deltaTime);
-
-            Speed.Update(deltaTime);
-            ViewRadius.Update(deltaTime);
         }
 
         public virtual void ClearStats(bool isForceClear = false)
@@ -166,21 +162,25 @@ namespace Asce.Game.Entities
 
         public virtual void BeforeSendDamage(DamageContainer container)
         {
-            OnBeforeSendDamage?.Invoke(this, container);
+            if (container == null || container.IsInvokeEvent)
+                OnBeforeSendDamage?.Invoke(Owner, container);
         }
         public virtual void AfterSendDamage(DamageContainer container)
         {
-            OnAfterSendDamage?.Invoke(this, container);
+            if (container == null || container.IsInvokeEvent)
+                OnAfterSendDamage?.Invoke(Owner, container);
         }
 
         public virtual void BeforeTakeDamage(DamageContainer container)
         {
-            OnBeforeTakeDamage?.Invoke(this, container);
+            if (container == null || container.IsInvokeEvent)
+                OnBeforeTakeDamage?.Invoke(Owner, container);
         }
 
         public virtual void AfterTakeDamage(DamageContainer container)
         {
-            OnAfterTakeDamage?.Invoke(this, container);
+            if (container == null || container.IsInvokeEvent)
+                OnAfterTakeDamage?.Invoke(Owner, container);
             if (HealthGroup.Health.IsEmpty) Owner.Status.SetStatus(EntityStatusType.Dead);
         }
 

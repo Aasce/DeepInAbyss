@@ -1,4 +1,4 @@
-using Asce.Game.FloatingTexts;
+using Asce.Game.StatusEffects;
 using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies.Category
@@ -9,17 +9,30 @@ namespace Asce.Game.Entities.Enemies.Category
         {
             base.Start();
 
+            Stats.OnBeforeSendDamage += Stats_OnBeforeSendDamage;
             Stats.OnAfterSendDamage += Stats_OnAfterSendDamage;
+        }
+
+        protected virtual void Stats_OnBeforeSendDamage(object sender, Combats.DamageContainer args)
+        {
+            Creature creature = args.Receiver.Owner;
+            if (creature == null) return;
+            if (creature.StatusEffect == null) return;
+
+            StatusEffectsManager.Instance.SendEffect<Decay_StatusEffect>(this, creature, new()
+            {
+                Strength = 1 - (90 / (90 + Stats.Strength.Value * 0.1f)),
+                Duration = 20f
+            });
         }
 
         protected virtual void Stats_OnAfterSendDamage(object sender, Combats.DamageContainer args)
         {
-            if (args.Receiver is Stats.IHasSpeed hasSpeed)
-            {
-                if (hasSpeed.Speed.FindAgents(gameObject, "Toxic slowing") != null) return; // Already applied
-                hasSpeed.Speed.AddAgent(gameObject, "Toxic slowing", -0.5f, Game.Stats.StatValueType.Ratio, 5f);
-                StatValuePopupManager.Instance.CreateValuePopup($"Slow", Color.magenta, size: 40f, args.Position);
-            }
+            Creature creature = args.Receiver.Owner;
+            if (creature == null) return;
+            if (creature.StatusEffect == null) return;
+
+            // StatusEffectsManager.Instance.SendEffect("Freeze", this, creature, new EffectDataContainer(1.5f, 0.5f));
         }
     }
 }

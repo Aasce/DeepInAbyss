@@ -11,11 +11,17 @@ namespace Asce.Game.VFXs
     /// </summary>
     public class VFXsManager : MonoBehaviourSingleton<VFXsManager>
     {
+        [SerializeField] protected SO_StatusEffectVFXs _statusEffectVFXs;
+        [Space]
+
         [Tooltip("Cooldown to control how often deactivation checks are performed.")]
         [SerializeField] protected Cooldown _delayCheckCooldown = new(0.2f);
 
         /// <summary>  Dictionary storing pools of VFX objects by their prefab name. </summary>
         protected Dictionary<string, Pool<VFXObject>> _vfxPools = new();
+
+        public SO_StatusEffectVFXs StatusEffectVFXs => _statusEffectVFXs;
+
 
         protected virtual void Update()
         {
@@ -99,6 +105,7 @@ namespace Asce.Game.VFXs
             // Reset despawn timer and set position/rotation
             vfx.DespawnTime.Reset();
             vfx.transform.SetPositionAndRotation(position, rotation);
+            vfx.gameObject.SetActive(true);
             return vfx as T;
         }
 
@@ -137,7 +144,7 @@ namespace Asce.Game.VFXs
             _vfxPools[name] = new()
             {
                 Prefab = prefab,
-                IsSetActive = true,
+                IsSetActive = false,
                 Parent = newVFXParent
             };
 
@@ -158,7 +165,13 @@ namespace Asce.Game.VFXs
 
             // Use fixed time step for consistent checking
             vfx.DespawnTime.Update(_delayCheckCooldown.BaseTime);
-            return vfx.DespawnTime.IsComplete;
+            bool isDeactive = vfx.DespawnTime.IsComplete;
+            if (isDeactive) 
+            {
+                vfx.gameObject.SetActive(false);
+                return true;
+            }
+            return false;
         }
     }
 }

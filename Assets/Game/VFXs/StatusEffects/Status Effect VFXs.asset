@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e5e3b138b3ee54b96289e83d237a9b, type: 3}
+  m_Name: Status Effect VFXs
+  m_EditorClassIdentifier: 
+  _vfxs:
+  - _name: Decay
+    _vfxPrefab: {fileID: 7267034227269862871, guid: 85567feff077c604c91bb47de17093b4, type: 3}
+  - _name: Freeze
+    _vfxPrefab: {fileID: 5295477076459251858, guid: c4769221497c71a4499d051a17c828b0, type: 3}
+  - _name: Ignite
+    _vfxPrefab: {fileID: 4680253437951845565, guid: 2fb1e0ef02f28e54a9bf1d506fafe3d4, type: 3}
+  - _name: Weakened
+    _vfxPrefab: {fileID: 2104405065967204891, guid: cd73536ea165c794288520ec63216dfb, type: 3}

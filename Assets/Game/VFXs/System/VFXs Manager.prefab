@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46abb572dd5af2447adf819a6f8f180e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _statusEffectVFXs: {fileID: 11400000, guid: 64972e3cd808ef14b9c63e1e87634f80, type: 2}
   _delayCheckCooldown:
     _baseTime: 0.2
     _currentTime: 0.2

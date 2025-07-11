@@ -23,9 +23,6 @@ namespace Asce.Game.Entities
         protected virtual void OnDisable () { }
         protected virtual void RefReset() { }
 
-        [ContextMenu("Ref Reset")]
-        private void CallRefReset() => this.RefReset();
-
         void IOptimizedComponent.SetActivate(bool state)
         {
             this.gameObject.SetActive(state);

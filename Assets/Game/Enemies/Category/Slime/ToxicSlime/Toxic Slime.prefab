@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1585807671343822476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6951087124228257967}
+  - component: {fileID: 3758184280476705321}
+  m_Layer: 8
+  m_Name: Status Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6951087124228257967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585807671343822476}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9152192901658935203}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3758184280476705321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585807671343822476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a9c54f351c45342a76453708f44c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 7937573822774822781}
 --- !u!1 &3069407859406630349
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,17 +175,16 @@ MonoBehaviour:
       _agents: []
       _currentValue: 0
       _currentAgents: []
-      _changeValue: 0
-      _changeAgents:
-      - _author: {fileID: 0}
-        _reason: heal scale affect
-        _value: 1
-        _type: 3
-        _duration:
-          _baseTime: Infinity
-          _currentTime: Infinity
-        _position: {x: 0, y: 0}
-        _isClearable: 1
+      _changeStat:
+        _statType: 0
+        _value: 0
+        _agents:
+        - _author: {fileID: 0}
+          _reason: heal scale affect
+          _value: 1
+          _type: 3
+          _position: {x: 0, y: 0}
+          _isClearable: 1
       _isSelfChangeable: 1
       _changeInterval:
         _baseTime: 1
@@ -153,9 +197,6 @@ MonoBehaviour:
         _reason: base heal scale
         _value: 1
         _type: 0
-        _duration:
-          _baseTime: Infinity
-          _currentTime: Infinity
         _position: {x: 0, y: 0}
         _isClearable: 0
   _stamina:
@@ -164,8 +205,10 @@ MonoBehaviour:
     _agents: []
     _currentValue: 0
     _currentAgents: []
-    _changeValue: 0
-    _changeAgents: []
+    _changeStat:
+      _statType: 0
+      _value: 0
+      _agents: []
     _isSelfChangeable: 1
     _changeInterval:
       _baseTime: 1
@@ -177,8 +220,10 @@ MonoBehaviour:
       _agents: []
       _currentValue: 0
       _currentAgents: []
-      _changeValue: 0
-      _changeAgents: []
+      _changeStat:
+        _statType: 0
+        _value: 0
+        _agents: []
       _isSelfChangeable: 1
       _changeInterval:
         _baseTime: 10
@@ -189,8 +234,10 @@ MonoBehaviour:
       _agents: []
       _currentValue: 0
       _currentAgents: []
-      _changeValue: 0
-      _changeAgents: []
+      _changeStat:
+        _statType: 0
+        _value: 0
+        _agents: []
       _isSelfChangeable: 1
       _changeInterval:
         _baseTime: 10
@@ -201,8 +248,10 @@ MonoBehaviour:
       _agents: []
       _currentValue: 0
       _currentAgents: []
-      _changeValue: 0
-      _changeAgents: []
+      _changeStat:
+        _statType: 0
+        _value: 0
+        _agents: []
       _isSelfChangeable: 1
       _changeInterval:
         _baseTime: 1
@@ -232,8 +281,10 @@ MonoBehaviour:
     _agents: []
     _currentValue: 0
     _currentAgents: []
-    _changeValue: 0
-    _changeAgents: []
+    _changeStat:
+      _statType: 0
+      _value: 0
+      _agents: []
     _isSelfChangeable: 1
     _changeInterval:
       _baseTime: 1
@@ -248,8 +299,10 @@ MonoBehaviour:
     _agents: []
     _currentValue: 0
     _currentAgents: []
-    _changeValue: 0
-    _changeAgents: []
+    _changeStat:
+      _statType: 0
+      _value: 0
+      _agents: []
     _isSelfChangeable: 1
     _changeInterval:
       _baseTime: 1
@@ -292,6 +345,7 @@ Transform:
   - {fileID: 3555365651512956789}
   - {fileID: 8989909960208129554}
   - {fileID: 8195651722357871719}
+  - {fileID: 6951087124228257967}
   - {fileID: 6844604077199195956}
   - {fileID: 6311058114951935246}
   m_Father: {fileID: 0}
@@ -346,6 +400,7 @@ MonoBehaviour:
   _view: {fileID: 5411295879593891842}
   _ui: {fileID: 779155259978385240}
   _stats: {fileID: 1296613053309954732}
+  _statusEffect: {fileID: 3758184280476705321}
   _equipment: {fileID: 0}
   _inventory: {fileID: 6744951077005919344}
   _spoils: {fileID: 1334028394582747778}

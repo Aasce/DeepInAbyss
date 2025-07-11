@@ -17,5 +17,10 @@ namespace Asce.Game.VFXs
         ///     Gets the cooldown timer used to determine when the VFX should be deactivated.
         /// </summary>
         public Cooldown DespawnTime => _despawnTime;
+
+        public virtual void Stop()
+        {
+            DespawnTime.ToComplete();
+        }
     }
 }
