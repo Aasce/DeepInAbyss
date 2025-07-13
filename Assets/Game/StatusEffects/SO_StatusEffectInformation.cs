@@ -14,6 +14,8 @@ namespace Asce.Game.StatusEffects
         [SerializeField] protected EffectType _type;
         [SerializeField] protected EffectApplyType _applyType;
 
+        [Header("Stack Effect")]
+        [SerializeField] protected int _maxStack = -1;
 
         public string Name => _name;
         public string Description => _description;
@@ -21,5 +23,7 @@ namespace Asce.Game.StatusEffects
 
         public EffectType Type => _type;
         public EffectApplyType ApplyType => _applyType;
+
+        public int MaxStack => _maxStack;
     }
 }

@@ -1,4 +1,5 @@
 using Asce.Game.Entities;
+using System;
 using UnityEngine;
 
 namespace Asce.Game.StatusEffects
@@ -6,23 +7,26 @@ namespace Asce.Game.StatusEffects
     [System.Serializable]
     public abstract class StackStatusEffect : StatusEffect, IStackStatusEffect
     {
-        [SerializeField] protected int _maxStack;
+        [SerializeField] protected int _maxStack = -1;
         [SerializeField] protected int _currentStack = 1;
 
-
-        public int MaxStack => _maxStack;
+        public event Action<object, int> OnCurrentStackChanged;
+        public int MaxStack => _maxStack >= 1 ? _maxStack : int.MaxValue;
         public int CurrentStack
         {
             get => _currentStack;
-            set => _currentStack = value;
+            set 
+            {
+                _currentStack = Mathf.Min(value, MaxStack);
+                OnCurrentStackChanged?.Invoke(value, _currentStack);
+            }
         }
 
-
-        public override void Set(Creature sender, Creature target, EffectDataContainer data)
+        public override void SetInformation(SO_StatusEffectInformation information)
         {
-            base.Set(sender, target, data);
-            if (data == null) return;
-            _maxStack = data.MaxStack;
+            base.SetInformation(information);
+            if (information == null) return;
+            _maxStack = information.MaxStack;
         }
 
         public virtual void Stacking(StackStatusEffect stackEffect)

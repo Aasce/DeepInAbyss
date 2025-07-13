@@ -29,7 +29,11 @@ namespace Asce.Game.StatusEffects
             get => _level;
             set => _level = value;
         }
-        
+        public float Strength
+        {
+            get => _strength;
+            set => _strength = value;
+        }        
         public Cooldown Duration => _duration;
 
         public StatusEffect() { }
@@ -41,7 +45,7 @@ namespace Asce.Game.StatusEffects
         }
         public abstract void Unapply();
 
-        public void SetInformation(SO_StatusEffectInformation information)
+        public virtual void SetInformation(SO_StatusEffectInformation information)
         {
             if (information == null) return;
             _information = information;

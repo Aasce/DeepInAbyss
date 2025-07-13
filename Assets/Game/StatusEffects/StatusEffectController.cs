@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace Asce.Game.StatusEffects
@@ -8,11 +9,18 @@ namespace Asce.Game.StatusEffects
     public class StatusEffectController
     {
         [SerializeField, SerializeReference] protected List<StatusEffect> _statusEffects = new();
-        private float _deltaTime;
+
+        protected ReadOnlyCollection<StatusEffect> _readonlyEffects;
+        protected float _deltaTime;
+
 
         public event Action<object, StatusEffect> OnEffectAdded;
         public event Action<object, StatusEffect> OnEffectRemoved;
         public event Action<object> OnEffectsCleared;
+
+
+        public ReadOnlyCollection<StatusEffect> Effects => _readonlyEffects ??= _statusEffects.AsReadOnly();
+
 
         public void Update(float deltaTime)
         {

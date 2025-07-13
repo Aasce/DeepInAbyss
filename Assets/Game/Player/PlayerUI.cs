@@ -31,7 +31,8 @@ namespace Asce.Game.Players
 
         private void Start()
         {
-            this.SetCharacterInformation();
+            CharacterInformation.SetCreature(Player.ControlledCreature);
+            this.SetInventoryWindow();
             Player.OnControlledCreatureChanged += Player_OnCharacterChanged;
         }
 
@@ -70,35 +71,16 @@ namespace Asce.Game.Players
             return false;
         }
 
-        private void SetCharacterInformation()
+        private void Player_OnCharacterChanged(object sender, ValueChangedEventArgs<Entities.ICreature> args)
         {
-            if (CharacterInformation == null) return;
-            if (CharacterInformation.ResourceStats == null) return;
-
-            if (Player.ControlledCreature == null) return;
-            if (Player.ControlledCreature.Stats == null) return;
-
-            CharacterInformation.ResourceStats.SetStats(
-                Player.ControlledCreature.Stats.HealthGroup.Health,
-                Player.ControlledCreature.Stats.DefenseGroup.Shield,
-                Player.ControlledCreature.Stats.Stamina,
-                Player.ControlledCreature.Stats.SustenanceGroup
-            );
-
-            CharacterInformation.Stats.ClearStats();
-            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.HealthGroup.HealScale);
-            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.Strength);
-            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.DefenseGroup.Armor);
-            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.DefenseGroup.Resistance);
-            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.Speed);
-            if (Player.ControlledCreature.Stats is IHasJumpForce hasJumpForce) CharacterInformation.Stats.AddStat(hasJumpForce.JumpForce);
-            CharacterInformation.Stats.AddStat(Player.ControlledCreature.Stats.ViewRadius);
-
-            UIs.Inventories.UIInventoryWindow inventoryWindow = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIs.Inventories.UIInventoryWindow>();
-            if (inventoryWindow != null) inventoryWindow.SetCreature(Player.ControlledCreature);
-
+            CharacterInformation.SetCreature(Player.ControlledCreature);
+            this.SetInventoryWindow();
         }
 
-        private void Player_OnCharacterChanged(object sender, ValueChangedEventArgs<Entities.ICreature> args) => this.SetCharacterInformation();
+        private void SetInventoryWindow()
+        {
+            UIs.Inventories.UIInventoryWindow inventoryWindow = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIs.Inventories.UIInventoryWindow>();
+            if (inventoryWindow != null) inventoryWindow.SetCreature(Player.ControlledCreature);
+        }
     }
 }

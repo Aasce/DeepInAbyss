@@ -12,10 +12,12 @@ namespace Asce.Game.UIs
         [SerializeField, Readonly] protected Canvas _canvas;
         [SerializeField, Readonly] protected UIWindowsController _windowsController;
         [SerializeField, Readonly] protected UIContextMenusController _contextMenusController;
+        [SerializeField, Readonly] protected UITooltip _tooltip;
 
         public Canvas Canvas => _canvas;
         public UIWindowsController WindowsController => _windowsController;
         public UIContextMenusController ContextMenusController => _contextMenusController;
+        public UITooltip Tooltip => _tooltip;
 
 
         protected virtual void Reset()
@@ -23,6 +25,7 @@ namespace Asce.Game.UIs
             this.LoadComponent(out _canvas);
             this.LoadComponent(out _windowsController);
             this.LoadComponent(out _contextMenusController);
+            this.LoadComponent(out _tooltip);
         }
     }
 }

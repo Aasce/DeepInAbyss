@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Freeze Information
   m_EditorClassIdentifier: 
   _name: Freeze
-  _description: 
-  _icon: {fileID: 0}
+  _description: Chills the target, reducing their movement speed and jump force by
+    <i>Strength</i>.
+  _icon: {fileID: 1401011104, guid: 080cb6d98b00c2645b2c41df5f69bc78, type: 3}
   _type: 2
   _applyType: 0
+  _maxStack: -1

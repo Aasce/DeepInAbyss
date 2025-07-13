@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Decay Information
   m_EditorClassIdentifier: 
   _name: Decay
-  _description: 
-  _icon: {fileID: 0}
+  _description: "Corrupts the target\u2019s vitality, reducing their maximum health
+    by <i>Strength</i> percent. Can stack up to a total of 99% max health reduction."
+  _icon: {fileID: -8151156982438515666, guid: 21f9aa0648adee740a45585592829be9, type: 3}
   _type: 2
   _applyType: 2
+  _maxStack: -1

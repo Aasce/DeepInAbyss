@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Weakened Information
   m_EditorClassIdentifier: 
   _name: Weakened
-  _description: 
-  _icon: {fileID: 0}
+  _description: "Saps the target\u2019s strength, reducing their damage dealt, Armor,
+    and Resistance ratio by <i>Strength</i>."
+  _icon: {fileID: 21300000, guid: c4cdb2929b91748469858139504554a3, type: 3}
   _type: 2
   _applyType: 0
+  _maxStack: -1
