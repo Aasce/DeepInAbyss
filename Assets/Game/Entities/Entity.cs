@@ -1,8 +1,9 @@
+using Asce.Managers;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public abstract class Entity : MonoBehaviour, IEntity, IOptimizedComponent
+    public abstract class Entity : GameComponent, IEntity, IOptimizedComponent
     {
         [SerializeField] protected SO_EntityInformation _information;
         [SerializeField] protected EntityStatus _status = new();
@@ -13,7 +14,6 @@ namespace Asce.Game.Entities
         bool IOptimizedComponent.IsActive => this.gameObject.activeSelf;
         OptimizeBehavior IOptimizedComponent.OptimizeBehavior => OptimizeBehavior.DeactivateOutsideView;
 
-        protected virtual void Reset() { this.RefReset(); }
         protected virtual void Awake () 
         {
             Status.Entity = this;
@@ -21,7 +21,6 @@ namespace Asce.Game.Entities
         protected virtual void Start () { }
         protected virtual void OnEnable () { }
         protected virtual void OnDisable () { }
-        protected virtual void RefReset() { }
 
         void IOptimizedComponent.SetActivate(bool state)
         {

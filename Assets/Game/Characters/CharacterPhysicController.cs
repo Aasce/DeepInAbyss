@@ -1,8 +1,8 @@
-﻿using Asce.Game.Enviroments;
+﻿using Asce.Game.Entities.Characters;
+using Asce.Game.Enviroments;
 using Asce.Managers.Utils;
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Asce.Game.Entities
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Asce.Game.Entities
+namespace Asce.Game.Entities.Characters
 {
-    public interface IControllableCharacter : IEntity
+    public interface IControllableCharacter : IEntity, IHasInteraction<CharacterInteraction>
     {
 
     }

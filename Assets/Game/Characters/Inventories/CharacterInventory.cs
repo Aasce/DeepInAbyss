@@ -1,4 +1,4 @@
-namespace Asce.Game.Entities
+namespace Asce.Game.Entities.Characters
 {
     public class CharacterInventory : CreatureInventory, IHasOwner<Character>
     {

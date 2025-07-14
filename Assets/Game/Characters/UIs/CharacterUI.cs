@@ -1,7 +1,7 @@
 using Asce.Game.UIs.Creatures;
 using UnityEngine;
 
-namespace Asce.Game.Entities
+namespace Asce.Game.Entities.Characters
 {
     public class CharacterUI : CreatureUI, IHasOwner<Character>, ICreatureUI
     {

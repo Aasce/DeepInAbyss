@@ -1,20 +1,13 @@
-using Asce.Game.Items;
+using Asce.Game.Enviroments;
 using Asce.Game.Players;
 using Asce.Managers;
-using System.Collections.Generic;
+using Asce.Managers.Utils;
 using UnityEngine;
 
 namespace Asce.Game.SaveLoads
 {
     public class SaveLoadManager : MonoBehaviourSingleton<SaveLoadManager>
     {
-
-        protected override void Awake()
-        {
-            base.Awake();
-            _ = Player.Instance;
-        }
-
         private void Start()
         {
             this.LoadAll();
@@ -28,13 +21,14 @@ namespace Asce.Game.SaveLoads
         public void LoadAll()
         {
             this.LoadMainCharacter();
+            this.LoadAllBillboards();
         }
 
 
         public void SaveAll()
         {
-            CharacterData characterData = new(Player.Instance.MainCharacter);
-            SaveLoadSystem.Save(characterData, "player/character.json");
+            SaveLoadSystem.Save(new CharacterData(Player.Instance.MainCharacter), "player/character.json");
+            this.SaveAllBillboards();
         }
 
         private void LoadMainCharacter()
@@ -43,5 +37,34 @@ namespace Asce.Game.SaveLoads
             characterData?.Load(Player.Instance.MainCharacter);
             Player.Instance.CameraController.ToTarget(Vector2.up * 10f);
         }
+        private void SaveAllBillboards()
+        {
+            var data = new AllBillboardData();
+            var billboards = ComponentUtils.FindAllComponentsInScene<Billboard>();
+
+            foreach (var b in billboards)
+            {
+                var bData = new BillboardData();
+                bData.Save(b);
+                data.billboards.Add(bData);
+            }
+
+            SaveLoadSystem.Save(data, "scene/enviroments/billboards.json");
+        }
+
+        private void LoadAllBillboards()
+        {
+            var data = SaveLoadSystem.Load<AllBillboardData>("scene/enviroments/billboards.json");
+            if (data == null) return;
+
+            var billboards = ComponentUtils.FindAllComponentsInScene<Billboard>();
+
+            foreach (var b in billboards)
+            {
+                var match = data.billboards.Find(x => x.id == b.ID);
+                match?.Load(b);
+            }
+        }
+
     }
 }

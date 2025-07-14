@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Asce.Managers.Attributes;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.Players
@@ -6,9 +7,10 @@ namespace Asce.Game.Players
     public class PlayerSettings : MonoBehaviour, IPlayerComponent
     {
         // Ref
-        [SerializeField, HideInInspector] private Player _player;
+        [SerializeField, Readonly] private Player _player;
 
         [SerializeField] private LayerMask _mouseLayerMask = default;
+        [SerializeField] private LayerMask _interactiveLayerMask;
 
         [Header("Control Creature")]
         [SerializeField] private KeyCode _runKey = KeyCode.LeftShift;
@@ -44,6 +46,8 @@ namespace Asce.Game.Players
         [Header("Control UI")]
         [SerializeField] private KeyCode _inventoryWindowKey = KeyCode.B;
 
+        [Header("Interactions")]
+        [SerializeField] private KeyCode _interactionKey = KeyCode.F;
 
         public Player Player
         {
@@ -56,6 +60,12 @@ namespace Asce.Game.Players
         {
             get => _mouseLayerMask;
             set => _mouseLayerMask = value;
+        }
+
+        public LayerMask InteractiveLayerMask
+        {
+            get => _interactiveLayerMask;
+            set => _interactiveLayerMask = value;
         }
 
         public KeyCode RunKey
@@ -115,6 +125,16 @@ namespace Asce.Game.Players
         public List<KeyCode> UseToolKeys => _useToolKeys;
         public List<KeyCode> UseItemKeys => _useItemKeys;
 
-        public KeyCode InventoryWindowKey => _inventoryWindowKey;
+        public KeyCode InventoryWindowKey
+        {
+            get => _inventoryWindowKey;
+            set => _inventoryWindowKey = value;
+        }
+
+        public KeyCode InteractionKey
+        {
+            get => _interactionKey;
+            set => _interactionKey = value;
+        }
     }
 }

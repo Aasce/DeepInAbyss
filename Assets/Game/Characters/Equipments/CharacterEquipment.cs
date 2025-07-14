@@ -4,7 +4,7 @@ using Asce.Game.Equipments.Weapons;
 using Asce.Managers.Utils;
 using UnityEngine;
 
-namespace Asce.Game.Entities
+namespace Asce.Game.Entities.Characters
 {
     public class CharacterEquipment : CreatureEquipment, IHasOwner<Character>, IEquipmentController, IHasWeaponSlot
     {

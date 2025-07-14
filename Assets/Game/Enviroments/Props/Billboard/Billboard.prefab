@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7329239994851645806}
+  - component: {fileID: 2938334642480389399}
   - component: {fileID: 2385303929987339622}
+  - component: {fileID: 5518339760738238406}
   m_Layer: 9
   m_Name: Billboard
   m_TagString: Untagged
@@ -34,6 +36,30 @@ Transform:
   - {fileID: 1984539564207462275}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2938334642480389399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2504812197812951182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e35ad1f3486f2469476f4d37822aaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactionRange: 4
+  _offset: {x: 0, y: 1.5}
+  _id: c163844b-dd6f-4121-8b86-aa92ca60f5e4
+  _collider: {fileID: 2385303929987339622}
+  _pool:
+    _prefab: {fileID: 1220343993365259396, guid: 7e3fc3184d80c304b8222c791201d1c4, type: 3}
+    _activities: []
+    _isSetActive: 1
+    _parent: {fileID: 1984539564207462275}
+  _notices: []
+  _maxAttempts: 20
+  _minNotifiesDistance: 0.5
 --- !u!61 &2385303929987339622
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -68,7 +94,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.011909485, y: 1.7275788}
+  m_Offset: {x: 0, y: 1.75}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -78,8 +104,35 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.180313, y: 2.216925}
+  m_Size: {x: 3, y: 1.7}
   m_EdgeRadius: 0
+--- !u!50 &5518339760738238406
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2504812197812951182}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &5425604267541155610
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +148,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &163075749677336840
 Transform:
@@ -154,7 +207,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1739016841
-  m_SortingLayer: -2
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300052, guid: 7810966f0f690954c87305933cabf2b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -177,7 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1984539564207462275}
   m_Layer: 9
-  m_Name: Notifies
+  m_Name: Notices
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -195,447 +248,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 2.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7962619000818249881}
-  - {fileID: 3504965571366708266}
-  - {fileID: 6706936342436376690}
-  - {fileID: 8481331248355325243}
-  - {fileID: 5698588059784547705}
-  - {fileID: 4362728274413269807}
-  - {fileID: 8882836658621703454}
+  m_Children: []
   m_Father: {fileID: 7329239994851645806}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2612879878716342954
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1984539564207462275}
-    m_Modifications:
-    - target: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.167
-      objectReference: {fileID: 0}
-    - target: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7789215273196939530, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-      propertyPath: m_Name
-      value: Billboard Noti D
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
---- !u!4 &8481331248355325243 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5904621199526524817, guid: cd0253055ccb9f5448f0aaca6a0cffb3, type: 3}
-  m_PrefabInstance: {fileID: 2612879878716342954}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &4865489204927069861
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1984539564207462275}
-    m_Modifications:
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.41
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.155
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5652352842415014283, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_Name
-      value: Billboard Noti A
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
---- !u!4 &7962619000818249881 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-  m_PrefabInstance: {fileID: 4865489204927069861}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &5911572774127760560
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1984539564207462275}
-    m_Modifications:
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.97
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.98
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.107
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8655476074193553001, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_Name
-      value: Billboard Noti C (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
---- !u!4 &8882836658621703454 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-  m_PrefabInstance: {fileID: 5911572774127760560}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &6001871512778500941
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1984539564207462275}
-    m_Modifications:
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.19
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.151
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7624349390411839989, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_Name
-      value: Billboard Noti B
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
---- !u!4 &3504965571366708266 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-  m_PrefabInstance: {fileID: 6001871512778500941}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &6873983465315843144
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1984539564207462275}
-    m_Modifications:
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.19
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.28
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.151
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7624349390411839989, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-      propertyPath: m_Name
-      value: Billboard Noti B (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
---- !u!4 &4362728274413269807 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7200919123926945639, guid: d3451fda35bc1924f91e3f30228acd84, type: 3}
-  m_PrefabInstance: {fileID: 6873983465315843144}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &7066188263318176581
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1984539564207462275}
-    m_Modifications:
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.155
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5652352842415014283, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-      propertyPath: m_Name
-      value: Billboard Noti A (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
---- !u!4 &5698588059784547705 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3244095229696986684, guid: 89f2283b816ff0c4ba733312205ef368, type: 3}
-  m_PrefabInstance: {fileID: 7066188263318176581}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &8385667249803125212
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1984539564207462275}
-    m_Modifications:
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.21
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.04
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.107
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8655476074193553001, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-      propertyPath: m_Name
-      value: Billboard Noti C
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
---- !u!4 &6706936342436376690 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2975767741853045166, guid: 197f46a2a1a373f42b418407e68d58b7, type: 3}
-  m_PrefabInstance: {fileID: 8385667249803125212}
-  m_PrefabAsset: {fileID: 0}

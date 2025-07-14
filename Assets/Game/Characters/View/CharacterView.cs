@@ -2,7 +2,7 @@ using Asce.Game.Combats;
 using System.Linq;
 using UnityEngine;
 
-namespace Asce.Game.Entities
+namespace Asce.Game.Entities.Characters
 {
     public class CharacterView : CreatureView, IHasOwner<Character>, IViewController
     {

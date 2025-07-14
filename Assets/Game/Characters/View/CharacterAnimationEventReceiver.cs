@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Asce.Game.Entities
+namespace Asce.Game.Entities.Characters
 {
     public class CharacterAnimationEventReceiver : MonoBehaviour, IHasOwner<Character>
     {

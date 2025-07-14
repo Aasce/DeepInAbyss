@@ -1,7 +1,7 @@
 using Asce.Game.Stats;
 using UnityEngine;
 
-namespace Asce.Game.Entities
+namespace Asce.Game.Entities.Characters
 {
     public class CharacterStats : CreatureStats, IHasOwner<Character>, IStatsController<SO_CharacterBaseStats>, IHasJumpForce
     {

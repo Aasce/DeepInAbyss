@@ -1,4 +1,4 @@
-using Asce.Game.Entities;
+using Asce.Game.Entities.Characters;
 using Asce.Game.Items;
 using Asce.Managers.SaveLoads;
 using System.Collections.Generic;

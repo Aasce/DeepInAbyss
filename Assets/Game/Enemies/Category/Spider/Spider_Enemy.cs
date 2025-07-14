@@ -1,4 +1,5 @@
 using Asce.Game.Combats;
+using Asce.Game.Entities.Characters;
 using System.Collections.Generic;
 using UnityEngine;
 

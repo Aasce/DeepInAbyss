@@ -6,9 +6,11 @@ using Asce.Managers.Utils;
 using System;
 using UnityEngine;
 
-namespace Asce.Game.Entities
+namespace Asce.Game.Entities.Characters
 {
-    public class CharacterAction : CreatureAction, IHasOwner<Character>, IActionController, ILookable, IMovable, IRunnable, IJumpable, ICrouchable, ICrawlable, ILadderClimbable, IDashable, IDodgeable, IAttackable, IThrowableWeapon
+    public class CharacterAction : CreatureAction, IHasOwner<Character>, IActionController, 
+        ILookable, IMovable, IRunnable, IJumpable, ICrouchable, ICrawlable, ILadderClimbable, 
+        IDashable, IDodgeable, IAttackable, IThrowableWeapon
     {
         #region - FIELDS -
         [Header("Look")]

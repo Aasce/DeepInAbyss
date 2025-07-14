@@ -31,6 +31,9 @@ namespace Asce.Game.Players
         [SerializeField] private bool _toggleInventoryInput;
 
         [Space]
+        [SerializeField] private bool _interactionInput;
+
+        [Space]
         [SerializeField] private bool _isControlUI = false;
 
 
@@ -59,6 +62,8 @@ namespace Asce.Game.Players
         public bool DetachWeaponInput => _detachWeaponInput;
 
         public bool ToggleInventoryInput => _toggleInventoryInput;
+
+        public bool InteractionInput => _interactionInput;
 
         public bool IsControlUI
         {
@@ -90,6 +95,8 @@ namespace Asce.Game.Players
             _detachWeaponInput = Input.GetKeyDown(Player.Settings.DetachWeaponKey);
 
             _toggleInventoryInput = Input.GetKeyDown(Player.Settings.InventoryWindowKey);
+
+            _interactionInput = Input.GetKeyDown(Player.Settings.InteractionKey);
         }
 
         private Vector2 MoveAxis()

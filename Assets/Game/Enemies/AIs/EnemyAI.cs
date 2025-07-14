@@ -1,4 +1,5 @@
 using Asce.BehaviourTrees;
+using Asce.Game.Entities.Characters;
 using Asce.Game.Entities.Enemies;
 using Asce.Managers.Utils;
 using UnityEngine;
