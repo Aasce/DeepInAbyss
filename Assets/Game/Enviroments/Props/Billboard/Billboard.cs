@@ -41,15 +41,15 @@ namespace Asce.Game.Enviroments
 
         }
 
-        public override void OnFocusEnter()
+        public override void Focus()
         {
-            base.OnFocusEnter();
+            base.Focus();
 
         }
 
-        public override void OnFocusExit()
+        public override void Unfocus()
         {
-            base.OnFocusExit();
+            base.Unfocus();
 
         }
 

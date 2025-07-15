@@ -59,7 +59,7 @@ MonoBehaviour:
     _parent: {fileID: 1984539564207462275}
   _notices: []
   _maxAttempts: 20
-  _minNotifiesDistance: 0.5
+  _minNotifiesDistance: 0.2
 --- !u!61 &2385303929987339622
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -59,7 +59,12 @@ namespace Asce.Game.Entities.Characters
 
         public virtual void FocusAt(Vector2 point)
         {
-            _focusObject = this.GetObjectNearest(point);
+            IInteractableObject focus = this.GetObjectNearest(point);
+            if (_focusObject == focus) return;
+
+            if (_focusObject != null) _focusObject.Unfocus();
+            _focusObject = focus;
+            if (_focusObject != null) _focusObject.Focus();
         }
 
         public IInteractableObject GetObjectNearest(Vector2 point)

@@ -1,5 +1,4 @@
 using Asce.Game.Entities;
-using Asce.Game.Players;
 using Asce.Game.Stats;
 using Asce.Game.UIs.Stats;
 using Asce.Game.UIs.StatusEffects;

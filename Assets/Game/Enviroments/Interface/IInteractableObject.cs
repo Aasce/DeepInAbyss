@@ -1,9 +1,13 @@
+using System;
 using UnityEngine;
 
 namespace Asce.Game.Enviroments
 {
     public interface IInteractableObject : IGameObject
     {
+        public event Action<object> OnFocus;
+        public event Action<object> OnUnfocus;
+
         /// <summary> The maximum interaction distance from the player. </summary>
         public float InteractionRange { get; }
         public Vector2 Offset { get; }
@@ -11,7 +15,8 @@ namespace Asce.Game.Enviroments
         /// <summary> Called when the player interacts. </summary>
         public void Interact(GameObject interactor);
 
-        public void OnFocusEnter();
-        public void OnFocusExit();
+
+        public void Focus();
+        public void Unfocus();
     }
 }

@@ -1,4 +1,3 @@
-using Asce.Game.Stats;
 using Asce.Game.UIs;
 using Asce.Game.UIs.Characters;
 using Asce.Managers;
@@ -75,12 +74,19 @@ namespace Asce.Game.Players
         {
             CharacterInformation.SetCreature(Player.ControlledCreature);
             this.SetInventoryWindow();
+            this.SetInteractableObject();
         }
 
         private void SetInventoryWindow()
         {
             UIs.Inventories.UIInventoryWindow inventoryWindow = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIs.Inventories.UIInventoryWindow>();
             if (inventoryWindow != null) inventoryWindow.SetCreature(Player.ControlledCreature);
+        }
+
+        private void SetInteractableObject()
+        {
+            UIInteractableObjectController controller = UIScreenCanvasManager.Instance.InteractableObjectController;
+            if (controller != null) controller.SetCreature(Player.ControlledCreature);
         }
     }
 }

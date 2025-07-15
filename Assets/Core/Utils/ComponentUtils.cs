@@ -13,15 +13,15 @@ namespace Asce.Managers.Utils
         /// <param name="component"></param>
         /// <param name="result"></param>
         /// <returns> Returns true if load successful. </returns>
-        public static bool LoadComponent<T>(this Component component, out T result) where T : Component
+        public static bool LoadComponent<T>(this Component component, out T result, bool includeInactive = false) where T : Component
         {
             result = component.GetComponent<T>();
             if (result != null) return true;
             
-            result = component.GetComponentInChildren<T>();
+            result = component.GetComponentInChildren<T>(includeInactive);
             if (result != null) return true;
 
-            result = component.GetComponentInParent<T>();
+            result = component.GetComponentInParent<T>(includeInactive);
             if (result != null) return true;
 
             return false;
