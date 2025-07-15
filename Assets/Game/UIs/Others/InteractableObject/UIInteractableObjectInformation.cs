@@ -2,6 +2,7 @@ using Asce.Game.Enviroments;
 using Asce.Game.Players;
 using Asce.Managers.UIs;
 using Asce.Managers.Utils;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,8 @@ namespace Asce.Game.UIs
         [SerializeField] protected Image _iconBackground;
 
         [SerializeField] protected TextMeshProUGUI _name;
+        [SerializeField] protected Image _nameBackground;
+
         [SerializeField] protected TextMeshProUGUI _tip;
 
         protected IInteractableObject _interactableObject;
@@ -68,6 +71,7 @@ namespace Asce.Game.UIs
             this.SetName();
             this.SetTip();
 
+            this.SetToUnfocus();
             _interactableObject.OnFocus += InteractableObject_OnFocus;
             _interactableObject.OnUnfocus += InteractableObject_OnUnfocus;
         }
@@ -100,18 +104,27 @@ namespace Asce.Game.UIs
             _tip.gameObject.SetActive(false);
         }
 
-        private void InteractableObject_OnFocus(object sender)
+        protected virtual void InteractableObject_OnFocus(object sender)
         {
             if (_tip != null) _tip.gameObject.SetActive(true);
-            if (_name != null) _name.color = Color.green;
-            if (_iconBackground != null) _iconBackground.color = Color.white;
+            if (_name != null) _name.DOColor(Color.green, 0.1f);
+
+            if (_nameBackground != null) _nameBackground.DOColor(Color.white, 0.1f);
+            if (_iconBackground != null) _iconBackground.DOColor(Color.white, 0.1f);
         }
 
-        private void InteractableObject_OnUnfocus(object sender)
+        protected virtual void InteractableObject_OnUnfocus(object sender)
+        {
+            this.SetToUnfocus();
+        }
+
+        protected virtual void SetToUnfocus()
         {
             if (_tip != null) _tip.gameObject.SetActive(false);
-            if (_name != null) _name.color = Color.white;
-            if (_iconBackground != null) _iconBackground.color = Color.white * 0.8f;
+            if (_name != null) _name.DOColor(Color.white, 0.1f);
+
+            if (_nameBackground != null) _nameBackground.DOColor(Color.white * 0.8f, 0.1f);
+            if (_iconBackground != null) _iconBackground.DOColor(Color.white * 0.8f, 0.1f);
         }
     }
 }

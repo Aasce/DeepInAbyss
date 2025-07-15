@@ -152,6 +152,9 @@ MonoBehaviour:
   _mouseLayerMask:
     serializedVersion: 2
     m_Bits: 256
+  _interactiveLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   _runKey: 304
   _dashKey: 306
   _dodgeKey: 99
@@ -164,6 +167,7 @@ MonoBehaviour:
   _useToolKeys: 6500000071000000
   _useItemKeys: 31000000320000003300000034000000
   _inventoryWindowKey: 98
+  _interactionKey: 102
 --- !u!1 &2923616737633973819
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,6 +305,7 @@ MonoBehaviour:
   _meleeAttackInput: 0
   _detachWeaponInput: 0
   _toggleInventoryInput: 0
+  _interactionInput: 0
   _isControlUI: 0
 --- !u!1 &7588783075274313682
 GameObject:

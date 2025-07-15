@@ -1,3 +1,5 @@
+using Asce.Game.UIs;
+using Asce.Game.UIs.Billboards;
 using Asce.Managers.Attributes;
 using Asce.Managers.Pools;
 using Asce.Managers.SaveLoads;
@@ -38,7 +40,11 @@ namespace Asce.Game.Enviroments
 
         public override void Interact(GameObject interactor)
         {
+            UIBillboardWindow window = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIBillboardWindow>();
+            if (window == null) return;
 
+            window.SetBillboard(this);
+            window.Show();
         }
 
         public override void Focus()

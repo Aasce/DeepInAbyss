@@ -54,6 +54,7 @@ MonoBehaviour:
   _icon: {fileID: 5923825344106796850}
   _iconBackground: {fileID: 8680350951174565184}
   _name: {fileID: 2325302645359126572}
+  _nameBackground: {fileID: 7817868498212624887}
   _tip: {fileID: 877094676401315760}
 --- !u!1 &968337899053812950
 GameObject:
