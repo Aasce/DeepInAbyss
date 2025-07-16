@@ -1,8 +1,9 @@
+using Asce.Managers;
 using UnityEngine;
 
 namespace Asce.Game.Spawners
 {
-    public abstract class SpawnPositionController : MonoBehaviour
+    public abstract class SpawnPositionController : GameComponent
     {
         [SerializeField] protected LayerMask _raycastLayerMask;
 
@@ -11,7 +12,7 @@ namespace Asce.Game.Spawners
             get => _raycastLayerMask;
             set => _raycastLayerMask = value;
         }
-
+        public abstract Bounds Bounds { get; }
 
         public abstract Vector2 GetPosition();
 

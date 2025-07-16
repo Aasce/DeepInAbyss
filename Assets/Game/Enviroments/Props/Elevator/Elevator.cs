@@ -1,12 +1,13 @@
+using Asce.Managers;
 using Asce.Managers.Utils;
 using UnityEngine;
 
 namespace Asce.Game.Enviroments 
 {
-    public class Elevator : MonoBehaviour, IEnviromentComponent, IOptimizedComponent
+    public class Elevator : GameComponent, IEnviromentComponent, IOptimizedComponent
     {
         [Header("Reference")]
-        [SerializeField] protected Rigidbody2D _platform;
+        [SerializeField] protected ElavatorPlatform _platform;
         [SerializeField] protected SpriteRenderer _leftChain;
         [SerializeField] protected SpriteRenderer _rightChain;
 
@@ -25,6 +26,28 @@ namespace Asce.Game.Enviroments
         protected SecondOrderDynamics _secondOrderDynamics = new (frequency: 4.0f, damping: 0.3f, response: - 0.3f);
 
         bool IOptimizedComponent.IsActive => gameObject.activeSelf;
+        Bounds IOptimizedComponent.Bounds
+        {
+            get
+            {
+                Vector3 center = transform.position;
+                Vector2 size = Vector2.zero;
+
+                if (_platform != null)
+                {
+                    // Attempt to get width from Renderer or Collider2D
+                    float width = _platform.Collider.bounds.size.x; 
+                    float height = _lengthRange.y;
+                    size = new Vector2(width, height);
+
+                    // center is between top and bottom movement
+                    center += Vector3.down * (height * 0.5f);
+                }
+
+                return new Bounds(center, size);
+            }
+        }
+
         OptimizeBehavior IOptimizedComponent.OptimizeBehavior => OptimizeBehavior.DeactivateOutsideView;
 
         public Vector2 LengthRange => _lengthRange;
@@ -115,7 +138,7 @@ namespace Asce.Game.Enviroments
         {
             Vector2 chainSize = new (Constants.PIXEL_SIZE * 3f, Length - Constants.PIXEL_SIZE * 8f);
 
-            if (_platform != null) _platform.transform.localPosition = Vector3.down * Length;
+            if (_platform != null) _platform.Rigidbody.MovePosition(transform.position + Vector3.down * Length);
             if (_leftChain != null) _leftChain.size = chainSize;
             if (_rightChain != null) _rightChain.size = chainSize;
         }

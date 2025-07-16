@@ -5,10 +5,8 @@ using UnityEngine;
 
 namespace Asce.Game.Spawners
 {
-    public class EnemySpawner : EntitySpawner<Enemy>, IOptimizedComponent
+    public class EnemySpawner : CreatureSpawner<Enemy>
     {
-        OptimizeBehavior IOptimizedComponent.OptimizeBehavior => OptimizeBehavior.ActivateOutsideView;
-
         public override Enemy Spawn(Vector2 position)
         {
             Enemy spawnedEnemy = base.Spawn(position);
@@ -16,7 +14,7 @@ namespace Asce.Game.Spawners
 
             spawnedEnemy.Status.SetStatus(EntityStatusType.Alive);
             spawnedEnemy.Status.SpawnPosition = spawnedEnemy.transform.position;
-            spawnedEnemy.Status.OnDeath += SpawnEnemy_OnDeath;
+            spawnedEnemy.Status.OnDeath += Enemy_OnDeath;
             spawnedEnemy.gameObject.SetActive(true);
             if (spawnedEnemy is IOptimizedComponent optimizedEnemy) optimizedEnemy.SetActivate(false); 
 
@@ -34,31 +32,17 @@ namespace Asce.Game.Spawners
 
         public override void DespawnImmediately(Enemy obj)
         {
-            obj.Status.OnDeath -= SpawnEnemy_OnDeath;
+            obj.Status.OnDeath -= Enemy_OnDeath;
             base.DespawnImmediately(obj);
             obj.gameObject.SetActive(false);
         }
 
-        private void SpawnEnemy_OnDeath(object sender)
+        private void Enemy_OnDeath(object sender)
         {
             Enemy enemy = sender as Enemy;
             if (enemy == null) return;
 
             this.Despawn(enemy);
-        }
-
-
-        void IOptimizedComponent.SetActivate(bool state)
-        {
-            this.enabled = state;
-            foreach (Enemy enemy in _pools.Activities)
-            {
-                if (enemy == null) continue;
-                if (enemy is IOptimizedComponent optimizedComponent)
-                {
-                    optimizedComponent.SetActivate(!state); // because spawner is EnableOutsideView
-                }
-            }
         }
     }
 }

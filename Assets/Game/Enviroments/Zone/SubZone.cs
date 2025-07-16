@@ -1,23 +1,31 @@
+using Asce.Managers;
 using Asce.Managers.Utils;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
 namespace Asce.Game.Enviroments.Zones
 {
     [RequireComponent(typeof(Collider2D))]
-    public class SubZone : MonoBehaviour
+    public class SubZone : GameComponent
     {
         [SerializeField] protected Collider2D _zoneCollider;
-        [SerializeField] protected List<Component> _optimizedComponents = new();
+        [SerializeField] protected List<Component> _components = new();
+        protected ReadOnlyCollection<IOptimizedComponent> _optimizeComponents;
 
         public Collider2D ZoneCollider => _zoneCollider;
-        public List<Component> OptimizedComponents => _optimizedComponents;
+        public ReadOnlyCollection<IOptimizedComponent> OptimizedComponents => _optimizeComponents ??= _components.OfType<IOptimizedComponent>().ToList().AsReadOnly();
 
-        protected virtual void Reset()
+        protected override void Reset()
         {
-            this.LoadComponent(out _zoneCollider);
+            base.Reset();
             this.LoadOptimizedComponents();
+        }
+        protected override void RefReset()
+        {
+            base.RefReset();
+            this.LoadComponent(out _zoneCollider);
         }
 
         protected virtual void Awake()
@@ -27,11 +35,11 @@ namespace Asce.Game.Enviroments.Zones
 
         protected List<Component> LoadOptimizedComponents()
         {
-            if (_optimizedComponents == null) _optimizedComponents = new();
-            else _optimizedComponents.Clear();
+            if (_components == null) _components = new();
+            else _components.Clear();
 
-            _optimizedComponents.AddRange(transform.GetComponentsInChildren<Component>().Where((comp) => comp is IOptimizedComponent));
-            return _optimizedComponents;
+            _components.AddRange(transform.GetComponentsInChildren<Component>().Where((comp) => comp is IOptimizedComponent));
+            return _components;
         }
     }
 }

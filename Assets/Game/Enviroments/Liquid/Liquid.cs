@@ -1,4 +1,5 @@
 using Asce.Game.Utils;
+using Asce.Managers;
 using Asce.Managers.Utils;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Asce.Game.Enviroments
     ///     This component generates a mesh and simulates ripples and waves using a simplified physics system.
     /// </summary>
     [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter), typeof(BoxCollider2D))]
-    public class Liquid : MonoBehaviour, IEnviromentComponent, IOptimizedComponent
+    public class Liquid : GameComponent, IEnviromentComponent, IOptimizedComponent
     {
         public const int NUM_OF_Y_VERTICES = 2;
 
@@ -73,6 +74,7 @@ namespace Asce.Game.Enviroments
         public MeshFilter MeshFilter => _meshFilter;
 
         bool IOptimizedComponent.IsActive => this.gameObject.activeSelf;
+        Bounds IOptimizedComponent.Bounds => Collider != null ? Collider.bounds : new Bounds(transform.position, new Vector2(Width, Height));
         OptimizeBehavior IOptimizedComponent.OptimizeBehavior => OptimizeBehavior.DeactivateOutsideView;
 
         public int NumOfHorizontalVertices => _numOfHorizontalVertices;
@@ -97,14 +99,19 @@ namespace Asce.Game.Enviroments
         public float CollisionRadiusMultiply => _collisionRadiusMultiply;
 
 
-        protected virtual void Reset()
+        protected override void Reset()
         {
+            base.Reset();
+            this.GenerateMesh();
+            this.ResetCollider();
+        }
+
+        protected override void RefReset()
+        {
+            base.RefReset();
             if (_meshRenderer == null) _meshRenderer = GetComponent<MeshRenderer>();
             if (_meshFilter == null) _meshFilter = GetComponent<MeshFilter>();
             if (_collider == null) _collider = GetComponent<BoxCollider2D>();
-
-            this.GenerateMesh();
-            this.ResetCollider();
         }
 
         protected virtual void Start()

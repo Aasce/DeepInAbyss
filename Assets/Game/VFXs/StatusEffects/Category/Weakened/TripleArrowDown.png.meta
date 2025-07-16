@@ -184,7 +184,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      TripleArrowDown_0: -4758892378944847303
+      TripleArrowDown_1: 8425000481413951278
+      TripleArrowDown_2: -7113978087554153089
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

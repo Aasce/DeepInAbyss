@@ -1,6 +1,6 @@
 using Asce.Game;
-using Asce.Managers.Utils;
 using Asce.Game.Enviroments.Zones;
+using Asce.Managers.Utils;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace Asce.Editors
 {
-
     [CustomEditor(typeof(ZoneOptimizer))]
     public class ZoneOptimizerEditor : Editor
     {
@@ -37,8 +36,9 @@ namespace Asce.Editors
             if (cam == null) return;
 
             Bounds cameraBounds = cam.GetBounds();
-            cameraBounds.Expand(_optimizer.BoundsAdding);
+            cameraBounds.Expand(_optimizer.CameraBoundsAdding);
 
+            // Draw camera bounds
             SceneEditorUtils.DrawBounds(cameraBounds, Color.white, Color.white.WithAlpha(0.05f));
 
             if (_allZonesField.GetValue(_optimizer) is not List<Zone> allZones) return;
@@ -48,16 +48,23 @@ namespace Asce.Editors
 
                 foreach (SubZone subZone in zone.SubZones)
                 {
-                    if (subZone == null || subZone.ZoneCollider == null) continue;
+                    if (subZone == null) continue;
 
-                    Bounds subZoneBounds = subZone.ZoneCollider.bounds;
-                    bool isVisible = cameraBounds.Intersects(subZoneBounds);
+                    var optimizedComponents = subZone.OptimizedComponents;
+                    if (optimizedComponents == null) continue;
 
-                    Color color = isVisible ? Color.green : Color.blue;
-                    SceneEditorUtils.DrawBounds(subZoneBounds, color, color.WithAlpha(0.05f));
+                    foreach (var component in optimizedComponents)
+                    {
+                        if (component == null) continue;
+
+                        Bounds bounds = component.Bounds;
+                        bool isVisible = cameraBounds.Intersects(bounds);
+
+                        Color color = isVisible ? Color.green : Color.blue;
+                        SceneEditorUtils.DrawBounds(bounds, color, color.WithAlpha(0.1f));
+                    }
                 }
             }
         }
-
     }
 }

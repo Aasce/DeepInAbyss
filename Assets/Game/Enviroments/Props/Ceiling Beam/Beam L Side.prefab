@@ -108,7 +108,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1739016841
-  m_SortingLayer: -2
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300222, guid: 7810966f0f690954c87305933cabf2b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -195,7 +195,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1739016841
-  m_SortingLayer: -2
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300222, guid: 7810966f0f690954c87305933cabf2b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -282,7 +282,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1739016841
-  m_SortingLayer: -2
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300222, guid: 7810966f0f690954c87305933cabf2b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -350,7 +350,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 0c156a3039485ed4e905d1ef61db8e3a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -369,7 +369,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1739016841
-  m_SortingLayer: -2
+  m_SortingLayer: -4
   m_SortingOrder: -1
   m_Sprite: {fileID: -2001510239, guid: 7810966f0f690954c87305933cabf2b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -507,6 +507,22 @@ PrefabInstance:
     - target: {fileID: 5456129953574147113, guid: 54fd8072b54c1ca419b008b90ea83d78, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5822365139690393786, guid: 54fd8072b54c1ca419b008b90ea83d78, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Center.x
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5822365139690393786, guid: 54fd8072b54c1ca419b008b90ea83d78, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Center.y
+      value: -0.1499939
+      objectReference: {fileID: 0}
+    - target: {fileID: 5822365139690393786, guid: 54fd8072b54c1ca419b008b90ea83d78, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Extent.x
+      value: 3.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5822365139690393786, guid: 54fd8072b54c1ca419b008b90ea83d78, type: 3}
+      propertyPath: m_ShadowMesh.m_LocalBounds.m_Extent.y
+      value: 0.1499939
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

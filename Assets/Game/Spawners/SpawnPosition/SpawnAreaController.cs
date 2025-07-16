@@ -8,6 +8,8 @@ namespace Asce.Game.Spawners
         [SerializeField] protected Box _areaBox = new (Vector2.zero, Vector2.one * 10f);
         private Vector2 _origin;
 
+        public override Bounds Bounds => new ((Vector2)transform.position + Box.Offset, Box.Size);
+
         public virtual Box Box => _areaBox;
 
         public virtual Vector2 Origin

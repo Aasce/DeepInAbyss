@@ -1,6 +1,5 @@
 using Asce.Game.Enviroments;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,16 +9,17 @@ namespace Asce.Editors.Enviroments
     public class SuspensionBridgeEditor : Editor
     {
         private SuspensionBridge _bridge;
-
         private int _numParts = 3;
-        private readonly List<Transform> _toDelete = new();
-
+        private float _space = 3;
+        private float _connectArchon = 0.4f;
         private bool _showCustomBridgeControls = true;
 
         private void OnEnable()
         {
             _bridge = (SuspensionBridge)target;
-            _numParts = _bridge.transform.childCount - 2; // Exclude anchors
+            _numParts = _bridge.Parts.Count;
+            _space = 0.1f;
+            _connectArchon = 0.4f;
         }
 
         public override void OnInspectorGUI()
@@ -30,90 +30,105 @@ namespace Asce.Editors.Enviroments
             EditorLayoutUtils.Foldout(ref _showCustomBridgeControls, "Custom Bridge Controls", () =>
             {
                 _numParts = EditorGUILayout.IntField("Number of Platforms", _numParts);
-
-                EditorGUILayout.Space();
+                _space = EditorGUILayout.FloatField("Space", _space);
+                _connectArchon = EditorGUILayout.FloatField("Connect Archon", _connectArchon);
 
                 if (GUILayout.Button("Set Bridge"))
                 {
                     if (_numParts > 0)
                     {
-                        Undo.RecordObject(_bridge.gameObject, "Set Bridge Count");
+                        Undo.RegisterCompleteObjectUndo(_bridge.gameObject, "Set Suspension Bridge");
                         SetNumOfParts(_numParts);
-
-                        EditorUtility.SetDirty(_bridge.gameObject);
+                        EditorUtility.SetDirty(_bridge);
                     }
                     else
                     {
-                        Debug.LogWarning("Num of parts must be greater than zero");
+                        Debug.LogWarning("Number of parts must be greater than zero");
                     }
                 }
             });
         }
 
-
-        public void SetNumOfParts(int num)
+        private void SetNumOfParts(int num)
         {
-            if (num <= 0) return; // Num of parts must be greater than zero
-
-            this.DeleteParts();
+            ClearBridgeParts();
+            _bridge.Parts.Clear();
 
             _bridge.LeftAnchor.localPosition = Vector3.zero;
-            if (_bridge.RightAnchor != null) _bridge.RightAnchor.localPosition = Vector3.right * (num * _bridge.PartSpace + 0.1f);
+            if (_bridge.RightAnchor != null)
+                _bridge.RightAnchor.localPosition = Vector3.right * (num * _bridge.PartSpace + _space);
 
-            Rigidbody2D previousRigidbody = _bridge.LeftAnchor.GetComponent<Rigidbody2D>();
+            // Start with left anchor's Rigidbody
+            Rigidbody2D previousRb = _bridge.LeftAnchor.GetComponent<Rigidbody2D>();
+
             for (int i = 0; i < num; i++)
             {
-                Transform partObject = (Transform)PrefabUtility.InstantiatePrefab(_bridge.PartPrefab, _bridge.transform);
-
-                partObject.name = $"{_bridge.PartPrefab.name} {i}";
-                partObject.SetParent(_bridge.transform, false);
-
-                partObject.localPosition = Vector3.right * (i * _bridge.PartSpace + 0.1f);
-
-                if (partObject.TryGetComponent(out HingeJoint2D hingeJoint))
+                // Instantiate SuspensionBridgePart directly
+                SuspensionBridgePart part = (SuspensionBridgePart)PrefabUtility.InstantiatePrefab(_bridge.PartPrefab, _bridge.transform);
+                if (part == null)
                 {
-                    hingeJoint.connectedBody = previousRigidbody;
+                    Debug.LogError("Failed to instantiate SuspensionBridgePart prefab.");
+                    continue;
+                }
 
-                    previousRigidbody = partObject.GetComponent<Rigidbody2D>();
+                Undo.RegisterCreatedObjectUndo(part.gameObject, "Create Bridge Part");
 
-                    if (i == 0)
+                part.name = $"{_bridge.PartPrefab.name} {i}";
+                part.transform.localPosition = Vector3.right * (i * _bridge.PartSpace + _space);
+                _bridge.Parts.Add(part);
+
+                
+                // Setup hinge without GetComponent
+                if (part.HingeJoint != null)
+                {
+                    part.HingeJoint.connectedBody = previousRb;
+                    part.HingeJoint.autoConfigureConnectedAnchor = false;
+                    part.HingeJoint.anchor = Vector2.zero;
+
+                    if (_bridge.Parts[0] == part)
                     {
-                        hingeJoint.connectedAnchor = Vector2.zero;
+                        part.HingeJoint.connectedAnchor = Vector2.one * 0.1f;
                     }
+                    else part.HingeJoint.connectedAnchor = Vector2.right * _connectArchon;
+                    
+                    previousRb = part.Rigidbody;
                 }
+            }
 
-                if (i == num - 1)
-                {
-                    if (_bridge.RightAnchor == null) continue;
-                    if (!_bridge.RightAnchor.TryGetComponent(out Rigidbody2D rightAnchorRb)) continue;
+            // Connect last part to right anchor
+            if (_bridge.Parts.Count > 0 && _bridge.RightAnchor != null && _bridge.RightAnchor.TryGetComponent(out Rigidbody2D rightRb))
+            {
+                SuspensionBridgePart lastPart = _bridge.Parts[^1];
 
-                    HingeJoint2D hingeToRightAnchor = partObject.gameObject.AddComponent<HingeJoint2D>();
-                    hingeToRightAnchor.connectedBody = rightAnchorRb;
-                    hingeToRightAnchor.autoConfigureConnectedAnchor = false;
-                    hingeToRightAnchor.anchor = Vector2.right * 0.42f;
-                    hingeToRightAnchor.connectedAnchor = Vector2.zero;
-
-                    hingeToRightAnchor.useLimits = true;
-                    hingeToRightAnchor.limits = new JointAngleLimits2D
-                    {
-                        min = -15f,
-                        max = 15f
-                    };                 
-                }
+                /// Add a new HingeJoint2D to lastPart to connect to right anchor
+                HingeJoint2D jointToRight = lastPart.gameObject.AddComponent<HingeJoint2D>();
+                jointToRight.connectedBody = rightRb;
+                jointToRight.autoConfigureConnectedAnchor = false;
+                jointToRight.anchor = Vector2.right * _connectArchon;
+                jointToRight.connectedAnchor = Vector2.zero;
             }
         }
 
-        protected void DeleteParts()
+        private void ClearBridgeParts()
         {
+            foreach (var part in _bridge.Parts)
+            {
+                if (part != null)
+                    Undo.DestroyObjectImmediate(part.gameObject);
+            }
+
+            _bridge.Parts.Clear();
+
+            // Clean up extras
+            List<Transform> extras = new();
             foreach (Transform child in _bridge.transform)
             {
-                if (child != _bridge.LeftAnchor && child != _bridge.RightAnchor)
-                {
-                    _toDelete.Add(child);
-                }
+                if (child != _bridge.LeftAnchor && child != _bridge.RightAnchor && child.GetComponent<SuspensionBridgePart>() == null)
+                    extras.Add(child);
             }
-            Managers.Utils.TransformUtils.DestroyTransforms(_toDelete);
-            _toDelete.Clear();
+
+            foreach (var t in extras)
+                Undo.DestroyObjectImmediate(t.gameObject);
         }
     }
 }

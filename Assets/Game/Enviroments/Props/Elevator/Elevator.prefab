@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 0c156a3039485ed4e905d1ef61db8e3a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,13 +96,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8281550982381381832}
-  - component: {fileID: 6747138733969693423}
-  - component: {fileID: 1823690746774345791}
+  - component: {fileID: 5091403986626344731}
   - component: {fileID: 6750887397429345348}
   - component: {fileID: 3617129583657703738}
   - component: {fileID: 447616219571163594}
   - component: {fileID: 8451918332348215709}
-  - component: {fileID: 7435880438003510337}
+  - component: {fileID: 3056691472694821070}
   m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
@@ -125,7 +124,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5000269669469667637}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6747138733969693423
+--- !u!114 &5091403986626344731
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,22 +133,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1363503861371169383}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62f13fc5f387cd24f9b520c8160d7afd, type: 3}
+  m_Script: {fileID: 11500000, guid: 78452758614b5fb449d5b6ce54672e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocityInheritPercent: 0.8
---- !u!114 &1823690746774345791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1363503861371169383}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86b82f5923d44854b9ba4a4dcbb53af3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _rigidbody: {fileID: 447616219571163594}
+  _collider: {fileID: 3617129583657703738}
+  _velocityInheritRatio: 0.8
 --- !u!212 &6750887397429345348
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -173,7 +162,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 0c156a3039485ed4e905d1ef61db8e3a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -297,59 +286,52 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
---- !u!114 &7435880438003510337
-MonoBehaviour:
+--- !u!61 &3056691472694821070
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1363503861371169383}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_Priority: -3
-  m_ComponentVersion: 5
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: ebc5d5922b94beb075631b15894aa767e75397c325a3c12f8dbedfb2000000009b0bbec7
-  m_ShapePath:
-  - {x: -0.96875, y: -0.21875, z: 0}
-  - {x: -0.96875, y: 0.09375, z: 0}
-  - {x: 0.96875, y: 0.09375, z: 0}
-  - {x: 0.96875, y: -0.21875, z: 0}
-  m_ShapePathHash: 0
-  m_InstanceId: 0
-  m_ShadowShape2DComponent: {fileID: 6750887397429345348}
-  m_ShadowShape2DProvider:
-    rid: 517921239518675094
-  m_ShadowCastingSource: 2
-  m_ShadowMesh:
-    m_Mesh: {fileID: 0}
-    m_LocalBounds:
-      m_Center: {x: 0, y: -0.0625, z: 0}
-      m_Extent: {x: 0.9387512, y: 0.12625122, z: 0}
-    m_EdgeProcessing: 1
-    m_TrimEdge: 0.03
-    m_FlipX: 0
-    m_FlipY: 0
-    m_InitialTrim: 0
-  m_CastingOption: 1
-  m_PreviousTrimEdge: 0.03
-  m_PreviousEdgeProcessing: 1
-  m_PreviousShadowCastingSource: 2
-  m_PreviousShadowShape2DSource: {fileID: 6750887397429345348}
-  references:
-    version: 2
-    RefIds:
-    - rid: 517921239518675094
-      type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
-      data: 
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.25}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.7}
+    oldSize: {x: 1.9375, y: 0.3125}
+    newSize: {x: 1.9375, y: 0.3125}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!1 &4125048533852744632
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75aadb499f6ca164ea35171fc7b1bd33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _platform: {fileID: 447616219571163594}
+  _platform: {fileID: 5091403986626344731}
   _leftChain: {fileID: 6870355516659603733}
   _rightChain: {fileID: 5936120687117200612}
   _lengthRange: {x: 2, y: 5}
@@ -407,9 +389,8 @@ MonoBehaviour:
     _baseTime: 1
     _currentTime: 1
   _moveSpeed: 3
-  _startState: 0
   _length: 0
-  isWaiting: 0
+  _isWaiting: 0
   _isMoveUp: 0
 --- !u!1 &5144195691252012169
 GameObject:
@@ -466,7 +447,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 0c156a3039485ed4e905d1ef61db8e3a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -553,7 +534,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 0c156a3039485ed4e905d1ef61db8e3a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -640,7 +621,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 0c156a3039485ed4e905d1ef61db8e3a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

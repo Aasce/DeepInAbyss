@@ -13,6 +13,26 @@ namespace Asce.Game.Spawners
         [SerializeField] protected List<Transform> _points = new();
 
 
+        public override Bounds Bounds
+        {
+            get
+            {
+                if (_points == null || _points.Count == 0)
+                {
+                    return new Bounds(transform.position, Vector3.zero);
+                }
+
+                Bounds bounds = new Bounds(_points[0].position, Vector3.zero);
+
+                for (int i = 1; i < _points.Count; i++)
+                {
+                    bounds.Encapsulate(_points[i].position);
+                }
+
+                return bounds;
+            }
+        }
+
         public bool IsRandom
         {
             get => _isRandom;
