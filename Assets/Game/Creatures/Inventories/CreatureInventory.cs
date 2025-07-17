@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CreatureInventory : MonoBehaviour, IHasOwner<Creature>
+    public class CreatureInventory : MonoBehaviour, IHasOwner<Creature>, IInventoryController
     {
         // Ref
         [SerializeField, Readonly] protected Creature _owner;

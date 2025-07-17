@@ -776,8 +776,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82618915c096a62499114ac79a8c0334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemInformation: {fileID: 4280744210921931381}
-  _sortButton: {fileID: 1195429036882665315}
   _slotsPool:
     _prefab: {fileID: 4237105570792492812, guid: d124f120c0a073d478fc32d40e2f4521, type: 3}
     _activities: []
@@ -1036,6 +1034,8 @@ MonoBehaviour:
   _exitButton: {fileID: 6741178852675613794}
   _helpButton: {fileID: 942859525866371739}
   _inventory: {fileID: 4041063352067413468}
+  _itemDetails: {fileID: 4280744210921931381}
+  _sortButton: {fileID: 1195429036882665315}
 --- !u!114 &6741178852675613794 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5621015114776581267, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}

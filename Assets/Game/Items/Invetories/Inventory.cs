@@ -77,6 +77,57 @@ namespace Asce.Game.Inventories
         }
 
         /// <summary>
+        ///     Adds an item into a specific slot in the inventory. Will attempt merge if stackable and same type.
+        /// </summary>
+        /// <param name="item"> The item to add. </param>
+        /// <param name="index"> The slot index to place the item into. </param>
+        /// <returns>
+        ///     The remaining item that couldn't be added (e.g. overflow), or null if fully added.
+        /// </returns>
+        public virtual Item AddAt(Item item, int index)
+        {
+            if (index < 0 || index >= _items.Count || item.IsNull()) return item;
+
+            Item existing = _items[index];
+
+            // If target is empty, just assign
+            if (existing.IsNull())
+            {
+                _items[index] = item;
+                OnItemChanged?.Invoke(this, index);
+                return null;
+            }
+
+            // Same type and stackable -> merge
+            if (existing.Information == item.Information &&
+                existing.Information.HasProperty(ItemPropertyType.Stackable))
+            {
+                int maxStack = existing.Information.GetMaxStack();
+                int current = existing.GetQuantity();
+                int adding = item.GetQuantity();
+
+                int space = maxStack - current;
+                int toAdd = Math.Min(space, adding);
+                existing.SetQuantity(current + toAdd);
+                int remain = adding - toAdd;
+
+                OnItemChanged?.Invoke(this, index);
+
+                // Fully added, return null
+                if (remain <= 0) return null;
+
+                Item remainingItem = new Item(item.Information);
+                remainingItem.SetQuantity(remain);
+                remainingItem.SetDurability(item.GetDurability());
+                return remainingItem;
+            }
+
+            // Not stackable or different type -> return the item back
+            return item;
+        }
+
+
+        /// <summary>
         ///     Removes items at a specific index.
         /// </summary>
         /// <param name="index"> Slot index to remove from. </param>
@@ -88,7 +139,7 @@ namespace Asce.Game.Inventories
                 return new ItemStack(string.Empty, 0);
 
             Item item = _items[index];
-            if (item == null || item.Information == null)
+            if (item.IsNull())
                 return new ItemStack(string.Empty, 0);
 
             int currentQuantity = item.GetQuantity();

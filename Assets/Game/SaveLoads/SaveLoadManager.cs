@@ -2,6 +2,7 @@ using Asce.Game.Enviroments;
 using Asce.Game.Players;
 using Asce.Managers;
 using Asce.Managers.Utils;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.SaveLoads
@@ -22,6 +23,7 @@ namespace Asce.Game.SaveLoads
         {
             this.LoadMainCharacter();
             this.LoadAllBillboards();
+            this.LoadAllChests();
         }
 
 
@@ -29,6 +31,7 @@ namespace Asce.Game.SaveLoads
         {
             SaveLoadSystem.Save(new CharacterData(Player.Instance.MainCharacter), "player/character.json");
             this.SaveAllBillboards();
+            this.SaveAllChests();
         }
 
         private void LoadMainCharacter()
@@ -37,32 +40,62 @@ namespace Asce.Game.SaveLoads
             characterData?.Load(Player.Instance.MainCharacter);
             Player.Instance.CameraController.ToTarget(Vector2.up * 10f);
         }
+
         private void SaveAllBillboards()
         {
-            var data = new AllBillboardData();
-            var billboards = ComponentUtils.FindAllComponentsInScene<Billboard>();
+            AllBillboardData data = new();
+            List<Billboard> billboards = ComponentUtils.FindAllComponentsInScene<Billboard>();
 
-            foreach (var b in billboards)
+            foreach (Billboard billboard in billboards)
             {
-                var bData = new BillboardData();
-                bData.Save(b);
-                data.billboards.Add(bData);
+                BillboardData billboardData = new();
+                billboardData.Save(billboard);
+                data.billboards.Add(billboardData);
             }
 
             SaveLoadSystem.Save(data, "scene/enviroments/billboards.json");
         }
-
+        
         private void LoadAllBillboards()
         {
-            var data = SaveLoadSystem.Load<AllBillboardData>("scene/enviroments/billboards.json");
+            AllBillboardData data = SaveLoadSystem.Load<AllBillboardData>("scene/enviroments/billboards.json");
             if (data == null) return;
 
-            var billboards = ComponentUtils.FindAllComponentsInScene<Billboard>();
+            List<Billboard> billboards = ComponentUtils.FindAllComponentsInScene<Billboard>();
 
-            foreach (var b in billboards)
+            foreach (Billboard billboard in billboards)
             {
-                var match = data.billboards.Find(x => x.id == b.ID);
-                match?.Load(b);
+                BillboardData match = data.billboards.Find(x => x.id ==  billboard.ID);
+                match?.Load( billboard);
+            }
+        }
+
+        private void SaveAllChests()
+        {
+            AllChestData data = new ();
+            List<Chest> chests = ComponentUtils.FindAllComponentsInScene<Chest>();
+
+            foreach (Chest chest in chests)
+            {
+                ChestData chestData = new();
+                chestData.Save(chest);
+                data.chests.Add(chestData);
+            }
+
+            SaveLoadSystem.Save(data, "scene/enviroments/chests.json");
+        }
+
+        private void LoadAllChests()
+        {
+            var data = SaveLoadSystem.Load<AllChestData>("scene/enviroments/chests.json");
+            if (data == null) return;
+
+            List<Chest> chests = ComponentUtils.FindAllComponentsInScene<Chest>();
+
+            foreach (Chest chest in chests)
+            {
+                ChestData match = data.chests.Find(x => x.id == chest.ID);
+                match?.Load(chest);
             }
         }
 

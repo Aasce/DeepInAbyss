@@ -101,16 +101,16 @@ namespace Asce.Game.UIs
         {
             if (_tip == null) return;
             _tip.text = $"Press [{Player.Instance.Settings.InteractionKey}] to Interaction";
-            _tip.gameObject.SetActive(false);
         }
 
         protected virtual void InteractableObject_OnFocus(object sender)
         {
             if (_tip != null) _tip.gameObject.SetActive(true);
-            if (_name != null) _name.DOColor(Color.green, 0.1f);
+            if (_name != null) _name.DOColor(Color.green, 0.15f);
 
-            if (_nameBackground != null) _nameBackground.DOColor(Color.white, 0.1f);
-            if (_iconBackground != null) _iconBackground.DOColor(Color.white, 0.1f);
+            if (_nameBackground != null) _nameBackground.DOColor(Color.white, 0.15f);
+            if (_iconBackground != null) _iconBackground.DOColor(Color.white, 0.15f);
+            RectTransform.SetAsLastSibling();
         }
 
         protected virtual void InteractableObject_OnUnfocus(object sender)
@@ -121,10 +121,10 @@ namespace Asce.Game.UIs
         protected virtual void SetToUnfocus()
         {
             if (_tip != null) _tip.gameObject.SetActive(false);
-            if (_name != null) _name.DOColor(Color.white, 0.1f);
+            if (_name != null) _name.DOColor(ColorUtils.Grayscale(0.9f), 0.1f);
 
-            if (_nameBackground != null) _nameBackground.DOColor(Color.white * 0.8f, 0.1f);
-            if (_iconBackground != null) _iconBackground.DOColor(Color.white * 0.8f, 0.1f);
+            if (_nameBackground != null) _nameBackground.DOColor(ColorUtils.Grayscale(0.75f), 0.15f);
+            if (_iconBackground != null) _iconBackground.DOColor(ColorUtils.Grayscale(0.75f), 0.15f);
         }
     }
 }
