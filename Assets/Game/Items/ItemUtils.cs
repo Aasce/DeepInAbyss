@@ -80,7 +80,7 @@ namespace Asce.Game.Items
 
             // Retrieve the stack property data
             StackPropertyData stackData = item.GetProperty<StackPropertyData>(ItemPropertyType.Stackable);
-            if (stackData == null) return 0;
+            if (stackData == null) return 1;
 
             return stackData.Quantity;
         }
@@ -127,11 +127,11 @@ namespace Asce.Game.Items
         /// <returns> The durability value. Returns 0 if the item is null or has no durability property. </returns>
         public static float GetDurability(this Item item)
         {
-            if (item.IsNull()) return 0;
+            if (item.IsNull()) return 0f;
 
             // Retrieve the durability property data
             DurabilityPropertyData durabilityData = item.GetProperty<DurabilityPropertyData>(ItemPropertyType.Durabilityable);
-            if (durabilityData == null) return 0;
+            if (durabilityData == null) return 0f;
 
             return durabilityData.Durability;
         }
@@ -139,7 +139,7 @@ namespace Asce.Game.Items
         /// <summary>
         ///     Sets the durability value of an item.
         /// </summary>
-        /// <param name="item">       The item to update. </param>
+        /// <param name="item"> The item to update. </param>
         /// <param name="durability"> The new durability value. </param>
         public static void SetDurability(this Item item, float durability)
         {

@@ -52,19 +52,22 @@ namespace Asce.Game.Items
 
         public virtual ItemObject Spawn(string itemName, Vector2 position, bool isAutoDespawn = true)
         {
-            return this.Spawn(itemName, 1, position, isAutoDespawn);
-        }
-
-        public virtual ItemObject Spawn(string itemName, int quantity, Vector2 position, bool isAutoDespawn = true)
-        {
             SO_ItemInformation itemInfo = ItemData.GetItemByName(itemName);
             if (itemInfo == null) return null;
+
+            Item item = new (itemInfo);
+            return Spawn(item, position, isAutoDespawn);
+        }
+
+        public virtual ItemObject Spawn(Item item, Vector2 position, bool isAutoDespawn = true)
+        {
+            if (item.IsNull()) return null;
 
             ItemObject itemObject = Pool.Activate();
             if (itemObject == null) return null;
 
-            itemObject.SetItem(itemInfo);
-            itemObject.Quantity = quantity;
+            itemObject.SetItem(item);
+
             itemObject.AutoDespawn = isAutoDespawn;
             itemObject.transform.position = position;
             itemObject.Refresh();

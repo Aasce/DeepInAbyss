@@ -52,10 +52,15 @@ namespace Asce.Game.Inventories
             OnSlotCountChanged?.Invoke(this, _slotCount);
         }
 
+        /// <summary>
+        ///     Gets the item at the specified index in the inventory.
+        /// </summary>
+        /// <param name="index"> The index of the item to retrieve. </param>
+        /// <returns> The item at the specified index, or null if the index is invalid. </returns>
         public virtual Item GetItem(int index)
         {
-            if (index < 0 || index >= _items.Count) return null;
-            return _items[index];
+            if (this.IsValidIndex(index)) return _items[index];
+            return null;
         }
 
         /// <summary>
@@ -64,16 +69,16 @@ namespace Asce.Game.Inventories
         /// </summary>
         /// <param name="addingItem"> The item stack to add. </param>
         /// <returns> The remaining stack that couldn't be added. </returns>
-        public virtual ItemStack AddItem(ItemStack addingItem)
+        public virtual Item AddItem(Item addingItem)
         {
-            SO_ItemInformation itemInfo = addingItem.GetItemInfo();
-            if (itemInfo == null) return addingItem;
-
-            int quantityLeft = addingItem.Quantity;
-            quantityLeft = AddToExistingStacks(itemInfo, quantityLeft); // Try to stack into existing items
-            quantityLeft = AddToEmptySlots(itemInfo, quantityLeft); // Try to place into empty slots
-
-            return new ItemStack(addingItem.Name, quantityLeft);
+            if (addingItem.IsNull()) return null;
+            if (addingItem.HasQuantity()) 
+                return AddStackableItem(addingItem.Information, addingItem.GetQuantity());
+            
+            int index = GetFirstEmptySlotIndex();
+            _items[index] = addingItem.Clone(); // Place the item directly if it has durability
+            OnItemChanged?.Invoke(this, index);
+            return null;
         }
 
         /// <summary>
@@ -86,7 +91,8 @@ namespace Asce.Game.Inventories
         /// </returns>
         public virtual Item AddAt(Item item, int index)
         {
-            if (index < 0 || index >= _items.Count || item.IsNull()) return item;
+            if (!this.IsValidIndex(index)) return item;
+            if (item.IsNull()) return item;
 
             Item existing = _items[index];
 
@@ -98,9 +104,11 @@ namespace Asce.Game.Inventories
                 return null;
             }
 
+            // Not stackable or different type -> return the item back
+            if (existing.Information != item.Information) return item;
+
             // Same type and stackable -> merge
-            if (existing.Information == item.Information &&
-                existing.Information.HasProperty(ItemPropertyType.Stackable))
+            if (existing.Information.HasProperty(ItemPropertyType.Stackable))
             {
                 int maxStack = existing.Information.GetMaxStack();
                 int current = existing.GetQuantity();
@@ -121,9 +129,8 @@ namespace Asce.Game.Inventories
                 remainingItem.SetDurability(item.GetDurability());
                 return remainingItem;
             }
-
-            // Not stackable or different type -> return the item back
-            return item;
+            
+            return null;
         }
 
 
@@ -133,27 +140,18 @@ namespace Asce.Game.Inventories
         /// <param name="index"> Slot index to remove from. </param>
         /// <param name="count"> Number of items to remove. If negative, removes all. </param>
         /// <returns> The removed item stack. </returns>
-        public virtual ItemStack RemoveAt(int index, int count = -1)
+        public virtual Item RemoveAt(int index, int count = -1)
         {
-            if (index < 0 || index >= _items.Count)
-                return new ItemStack(string.Empty, 0);
+            if (!this.IsValidIndex(index)) return null;
 
             Item item = _items[index];
-            if (item.IsNull())
-                return new ItemStack(string.Empty, 0);
+            if (item.IsNull()) return null;
 
-            int currentQuantity = item.GetQuantity();
-            int removedQuantity = (count < 0 || count >= currentQuantity) ? currentQuantity : count; // If count is negative, removes all.
-
-            ItemStack removedStack = new(item.Information.Name, removedQuantity);
-
-            // If removing all, clear the slot
-            if (removedQuantity >= currentQuantity) _items[index] = null;
-            else item.SetQuantity(currentQuantity - removedQuantity);
-
+            if (item.HasQuantity()) return RemoveStackableItem(index, count);
+            
+            _items[index] = null;
             OnItemChanged?.Invoke(this, index);
-
-            return removedStack;
+            return item;
         }
 
         /// <summary>
@@ -177,13 +175,12 @@ namespace Asce.Game.Inventories
         public virtual void Split(int atIndex, int quantity, int toIndex)
         {
             // Validate source index
-            if (atIndex < 0 || atIndex >= _items.Count) return;
-
-            // If destination index is out of range, do nothing
-            if (toIndex < 0 || toIndex >= _items.Count) return;
+            if (!this.IsValidIndex(atIndex)) return;
+            if (!this.IsValidIndex(toIndex)) return; // If destination index is out of range, do nothing
 
             Item item = _items[atIndex];
             if (item.IsNull()) return;
+            if (!item.HasQuantity()) return; // Cannot split non-stackable items
 
             // Perform the split
             (Item remainingItem, Item splitItem) = item.Split(quantity);
@@ -274,8 +271,8 @@ namespace Asce.Game.Inventories
         /// <returns> True if a merge, move, or swap occurred; false otherwise. </returns>
         public virtual bool SwapOrMerge(int fromIndex, int toIndex)
         {
-            if (fromIndex < 0 || fromIndex >= _items.Count) return false;
-            if (toIndex < 0 || toIndex >= _items.Count) return false; 
+            if (!this.IsValidIndex(fromIndex)) return false;
+            if (!this.IsValidIndex(toIndex)) return false; 
             if (fromIndex == toIndex) return false;
 
             Item fromItem = _items[fromIndex];
@@ -286,15 +283,10 @@ namespace Asce.Game.Inventories
             // If toIndex is empty, move
             if (toItem.IsNull())
             {
-                _items[toIndex] = fromItem;
-                _items[fromIndex] = null;
-
-                OnItemChanged?.Invoke(this, fromIndex);
-                OnItemChanged?.Invoke(this, toIndex);
-                return true;
+                return MoveItem(fromIndex, toIndex);
             }
-
-            // If same item type, try merge
+            
+            // If same item type and stackable, try merge
             if (toItem.Information == fromItem.Information && fromItem.Information.HasProperty(ItemPropertyType.Stackable))
             {
                 return Merge(fromIndex, toIndex);
@@ -311,16 +303,24 @@ namespace Asce.Game.Inventories
         public virtual void SortAndMerge()
         {
             Dictionary<SO_ItemInformation, int> merged = new();
+            List<Item> others = new();
 
             // Count total quantities for each item type
             foreach (Item item in _items)
             {
-                if (item == null || item.Information == null) continue;
+                if (item.IsNull()) continue;
 
-                if (!merged.ContainsKey(item.Information))
-                    merged[item.Information] = item.GetQuantity();
+                if (item.HasQuantity())
+                {
+                    if (!merged.ContainsKey(item.Information))
+                        merged[item.Information] = item.GetQuantity();
+                    else
+                        merged[item.Information] += item.GetQuantity();
+                }
                 else
-                    merged[item.Information] += item.GetQuantity();
+                {
+                    others.Add(item);
+                }
             }
 
             // Clear inventory
@@ -336,7 +336,7 @@ namespace Asce.Game.Inventories
                 int totalQuantity = pair.Value;
                 int maxStack = info.GetMaxStack();
 
-                while (totalQuantity > 0 && slotIndex < _items.Count)
+                while (totalQuantity > 0 && this.IsValidIndex(slotIndex))
                 {
                     int stackQuantity = Math.Min(totalQuantity, maxStack);
                     _items[slotIndex] = new Item(info);
@@ -349,7 +349,15 @@ namespace Asce.Game.Inventories
                 }
             }
 
-            for(int i = slotIndex; i < _items.Count; i++)
+            foreach (Item item in others)
+            {
+                if (!this.IsValidIndex(slotIndex)) break; // No more slots available
+                _items[slotIndex] = item; // Place items
+                OnItemChanged?.Invoke(this, slotIndex);
+                slotIndex++;
+            }
+
+            for (int i = slotIndex; i < _items.Count; i++)
             {
                 OnItemChanged?.Invoke(this, i);
             }
@@ -377,19 +385,12 @@ namespace Asce.Game.Inventories
                 }
 
                 Item item = items[i];
-                if (item == null) _items[i] = null;
-                else
-                {
-                    // Create a new instance using the same SO_ItemInformation
-                    _items[i] = new Item(item.Information);
-                    _items[i].SetQuantity(item.GetQuantity());
-                    _items[i].SetDurability(item.GetDurability());
-                }
-
+                if (item.IsNull()) _items[i] = null;
+                else _items[i] = item.Clone();
+                
                 OnItemChanged?.Invoke(this, i);
             }
         }
-
 
         /// <summary>
         ///     Clears the inventory by removing all items from every slot.
@@ -403,19 +404,24 @@ namespace Asce.Game.Inventories
             }
         }
 
+        public virtual bool IsValidIndex(int index) => index >= 0 && index < _items.Count;
+
         /// <summary>
         ///     Finds the first empty or null slot in the inventory.
         /// </summary>
         /// <returns> Index of the first empty slot, or -1 if none are available. </returns>
-        public virtual int GetFirstEmptySlotIndex() => _items.FindIndex(item => item == null || item.Information == null);
+        public virtual int GetFirstEmptySlotIndex()
+        {
+            for(int i = 0; i < _items.Count; i++) if (this.IsEmptyAt(i)) return i;
+            return -1; // No empty slots found
+        }
 
         /// <summary>
         ///     Check slot at <paramref name="index"/> is empty or not.
         /// </summary>
         /// <param name="index"> Slot index to be check. </param>
         /// <returns> Returns true if item at Slot <paramref name="index"/> is null or item.Information is null. </returns>
-        public virtual bool IsEmptyAt(int index) => _items[index] == null || _items[index].Information == null;
-        
+        public virtual bool IsEmptyAt(int index) => this.IsValidIndex(index) && _items[index].IsNull();
 
         /// <summary>
         ///     Synchronizes the internal item list with the current slot count.
@@ -439,6 +445,50 @@ namespace Asce.Game.Inventories
         }
 
         /// <summary>
+        ///     Moves an item from one slot to another if both slots are valid and the target is empty.
+        /// </summary>
+        /// <param name="fromIndex"> The index of the item to move. </param>
+        /// <param name="toIndex"> The index to move the item to. </param>
+        /// <returns> True if the move was successful, false otherwise. </returns>
+        protected virtual bool MoveItem(int fromIndex, int toIndex)
+        {
+            if (this.IsEmptyAt(fromIndex)) return false;
+            if (!this.IsEmptyAt(toIndex)) return false;
+            if (fromIndex == toIndex) return false; // No need to move to the same index
+
+            Item fromItem = _items[fromIndex];
+            _items[toIndex] = fromItem;
+            _items[fromIndex] = null;
+
+            OnItemChanged?.Invoke(this, fromIndex);
+            OnItemChanged?.Invoke(this, toIndex);
+            return true;
+        }
+
+        /// <summary>
+        ///     Adds a stackable item to the inventory by filling existing stacks first, then empty slots.
+        /// </summary>
+        /// <param name="information"> The item type to add. </param>
+        /// <param name="quantity"> The total quantity to add. </param>
+        /// <returns> The remaining item if not all could be added; otherwise, null. </returns>
+        protected virtual Item AddStackableItem(SO_ItemInformation information, int quantity)
+        {
+            if (information == null) return null;
+            if (quantity <= 0) return null;
+
+            int quantityLeft = quantity;
+            quantityLeft = AddToExistingStacks(information, quantityLeft); // Try to stack into existing items
+            quantityLeft = AddToEmptySlots(information, quantityLeft); // Try to place into empty slots
+
+            if (quantityLeft <= 0) return null;
+
+            Item remaining = new(information);
+            remaining.SetQuantity(quantityLeft);
+            return remaining;
+        }
+
+
+        /// <summary>
         ///     Attempts to stack items into existing stacks of the same type.
         /// </summary>
         /// <param name="itemInfo"> Item information object. </param>
@@ -451,7 +501,7 @@ namespace Asce.Game.Inventories
             for (int i = 0; i < _items.Count; i++)
             {
                 Item item = _items[i];
-                if (item == null || item.Information == null) continue;
+                if (item.IsNull()) continue;
                 if (item.Information != itemInfo) continue;
 
                 int currentQuantity = item.GetQuantity();
@@ -464,8 +514,7 @@ namespace Asce.Game.Inventories
 
                 OnItemChanged?.Invoke(this, i);
 
-                if (quantityLeft == 0)
-                    break;
+                if (quantityLeft == 0) break;
             }
 
             return quantityLeft;
@@ -498,6 +547,32 @@ namespace Asce.Game.Inventories
         }
 
         /// <summary>
+        ///     Removes a specified quantity from a stackable item at the given index.
+        /// </summary>
+        /// <param name="index"> The slot index. </param>
+        /// <param name="count"> The quantity to remove. If negative, removes the entire stack. </param>
+        /// <returns> A new item representing the removed quantity. </returns>
+        protected virtual Item RemoveStackableItem(int index, int count)
+        {
+            Item item = _items[index];
+            if (item.IsNull()) return null;
+
+            int currentQuantity = item.GetQuantity();
+            int removedQuantity = (count < 0 || count >= currentQuantity) ? currentQuantity : count; // If count is negative, removes all.
+
+            Item removed = item.Clone();
+            removed.SetQuantity(removedQuantity);
+
+            // If removing all, clear the slot
+            if (removedQuantity >= currentQuantity) _items[index] = null;
+            else item.SetQuantity(currentQuantity - removedQuantity);
+
+            OnItemChanged?.Invoke(this, index);
+
+            return removed;
+        }
+
+        /// <summary>
         ///     Swaps two items at the given indices.
         /// </summary>
         protected virtual void Swap(int fromIndex, int toIndex)
@@ -521,6 +596,7 @@ namespace Asce.Game.Inventories
             Item toItem = _items[toIndex];
 
             if (fromItem.Information != toItem.Information) return false;
+            if (!fromItem.Information.HasProperty(ItemPropertyType.Stackable)) return false; // Cannot merge if not stackable
 
             int maxStack = toItem.Information.GetMaxStack();
             int toQuantity = toItem.GetQuantity();

@@ -140,6 +140,9 @@ namespace Asce.Game.UIs.Inventories
             if (sender.UISlot == null || eventData.button == PointerEventData.InputButton.Right)
                 return;
 
+            Item item = sender.Item;
+            if (item.IsNull()) return;
+
             // Elevate UIItem in the hierarchy
             sender.transform.SetParent(UIScreenCanvasManager.Instance.Canvas.transform);
             sender.CanvasGroup.blocksRaycasts = false;
@@ -147,12 +150,9 @@ namespace Asce.Game.UIs.Inventories
 
             // Determine if the item is being split
             _quantityToSplit = _itemContextMenu != null ? _itemContextMenu.QuantityToSplit : -1;
-            _isSplit = _itemContextMenu != null && _itemContextMenu.IsShow && _quantityToSplit != -1;
+            _isSplit = item.HasQuantity() && _itemContextMenu != null && _itemContextMenu.IsShow && _quantityToSplit != -1;
 
             if (!_isSplit) return;
-
-            Item item = sender.Item;
-            if (item.IsNull()) return;
 
             (Item first, Item second) = item.Split(_quantityToSplit);
             sender.SetItem(second);
@@ -184,14 +184,8 @@ namespace Asce.Game.UIs.Inventories
             int fromIndex = originSlot != null ? originSlot.Index : -1;
             int toIndex = targetSlot != null ? targetSlot.Index : -1;
 
-            if (_isSplit)
-            {
-                HandleSplitEndDrag(sender, fromIndex, toIndex, target, originSlot, targetSlot);
-            }
-            else
-            {
-                HandleNormalEndDrag(sender, fromIndex, target, originSlot, targetSlot);
-            }
+            if (_isSplit) HandleSplitEndDrag(sender, fromIndex, toIndex, target, originSlot, targetSlot);
+            else HandleNormalEndDrag(sender, fromIndex, target, originSlot, targetSlot);            
 
             if (_itemContextMenu != null) _itemContextMenu.Hide();
         }

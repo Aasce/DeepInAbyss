@@ -13,8 +13,7 @@ namespace Asce.Game.Items
         [SerializeField, Readonly] protected Rigidbody2D _rigidbody;
         [SerializeField, Readonly] protected Collider2D _collider;
 
-        [SerializeField] protected SO_ItemInformation _information;
-        [SerializeField] protected int _quantity = 1;
+        [SerializeField] protected Item _item;
 
         [Space]
         [SerializeField] protected bool _pickable = false;
@@ -26,17 +25,7 @@ namespace Asce.Game.Items
         public Rigidbody2D Rigidbody => _rigidbody;
         public Collider2D Collider => _collider;
 
-        public SO_ItemInformation Information
-        {
-            get => _information;
-            protected set => _information = value;
-        }
-
-        public int Quantity
-        {
-            get => _quantity;
-            set => _quantity = value;
-        }
+        public Item Item => _item;
 
         public bool Pickable
         {
@@ -70,15 +59,15 @@ namespace Asce.Game.Items
             this.IsPicked = false;
         }
 
-        public virtual void SetItem(SO_ItemInformation information)
+        public virtual void SetItem(Item item)
         {
-            if (information == null) return;
-            Information = information;
-            this.name = information.Name;
+            if (item.IsNull()) return;
+            _item = item;
+            this.name = item.Information.Name;
 
             if (View != null)
             {
-                View.SetIcon(Information.Icon);
+                View.SetIcon(item.Information.Icon);
             }
         }
 

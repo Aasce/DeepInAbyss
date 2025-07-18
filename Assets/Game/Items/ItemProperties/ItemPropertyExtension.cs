@@ -1,5 +1,6 @@
 using Asce.Game.Crafts;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Asce.Game.Items
 {
@@ -68,7 +69,7 @@ namespace Asce.Game.Items
             if (information == null) return 1;
             if (!information.PropertyType.HasFlag(ItemPropertyType.Stackable)) return 1;
 
-            StackableItemProperty property = information.GetProperty<StackableItemProperty>();
+            StackableItemProperty property = information.GetPropertyByType(ItemPropertyType.Stackable) as StackableItemProperty;
             if (property == null) return 1;
 
             return property.MaxStack;
@@ -84,7 +85,7 @@ namespace Asce.Game.Items
             if (information == null) return 0;
             if (!information.PropertyType.HasFlag(ItemPropertyType.Durabilityable)) return 0;
 
-            DurabilityableItemProperty property = information.GetProperty<DurabilityableItemProperty>();
+            DurabilityableItemProperty property = information.GetPropertyByType(ItemPropertyType.Durabilityable) as DurabilityableItemProperty;
             if (property == null) return 0;
 
             return property.MaxDurability;
@@ -98,15 +99,15 @@ namespace Asce.Game.Items
         ///     A new list of <see cref="Ingredient"/>s required to craft the item,
         ///     or null if not craftable or invalid.
         /// </returns>
-        public static List<Ingredient> GetRecipes(this SO_ItemInformation information)
+        public static ReadOnlyCollection<Ingredient> GetRecipes(this SO_ItemInformation information)
         {
             if (information == null) return null;
-            if (!information.PropertyType.HasFlag(ItemPropertyType.Durabilityable)) return null;
+            if (!information.PropertyType.HasFlag(ItemPropertyType.Craftable)) return null;
 
-            CraftableItemProperty property = information.GetProperty<CraftableItemProperty>();
+            CraftableItemProperty property = information.GetPropertyByType(ItemPropertyType.Craftable) as CraftableItemProperty;
             if (property == null) return null;
 
-            return new List<Ingredient>(property.Ingredients);
+            return property.Ingredients;
         }
     }
 }

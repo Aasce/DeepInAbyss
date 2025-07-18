@@ -45,17 +45,15 @@ namespace Asce.Game.Inventories
                 Item item = source.GetItem(i);
                 if (item.IsNull()) continue;
 
-                // Create a stack for this item
-                ItemStack stackToLoot = new(item.Information.Name, item.GetQuantity());
-
                 // Attempt to add to target
-                ItemStack remainingStack = target.AddItem(stackToLoot);
+                Item remaining = target.AddItem(item);
+                if (remaining.IsNull()) continue; // If nothing remains, item was fully looted
 
-                int lootedQuantity = stackToLoot.Quantity - remainingStack.Quantity;
+                int lootedQuantity = item.GetQuantity() - remaining.GetQuantity();
                 if (lootedQuantity > 0)
                 {
                     // Remove the quantity that was looted
-                    source.RemoveAt(i, lootedQuantity);
+                    source.RemoveAt(i, lootedQuantity); // Auto remove if loot all
                 }
             }
         }

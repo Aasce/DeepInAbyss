@@ -79,15 +79,14 @@ namespace Asce.Game.Entities
                 if (_notPickableItems.Contains(collider.gameObject)) continue;
                 if (!collider.TryGetComponent(out ItemObject itemObject)) continue;
                 if (!itemObject.Pickable) continue;
-                if (itemObject.Information == null) continue;
+                if (itemObject.Item.IsNull()) continue;
 
-                ItemStack itemStack = new(itemObject.Information.Name, itemObject.Quantity);
-                ItemStack remainItem = _inventory.AddItem(itemStack);
+                Item remainItem = _inventory.AddItem(itemObject.Item);
 
-                if (remainItem.Quantity <= 0) itemObject.PickedBy(Owner);
+                if (remainItem.IsNull()) itemObject.PickedBy(Owner);
                 else 
                 {
-                    itemObject.Quantity = remainItem.Quantity;
+                    itemObject.Item.SetQuantity(remainItem.GetQuantity());
                     _notPickableItems.Add(itemObject.gameObject);
                 }
             }
@@ -97,15 +96,13 @@ namespace Asce.Game.Entities
 
         public virtual void Drop(int index, int quantity = -1)
         {
-            ItemStack dropStack = _inventory.RemoveAt(index, quantity);
-            SO_ItemInformation info = dropStack.GetItemInfo();
-            if (info == null) return;
+            Item dropped = _inventory.RemoveAt(index, quantity);
+            if (dropped.IsNull()) return;
             
             Vector2 position = (Vector2)Owner.transform.position + Vector2.up;
-            ItemObject itemObject = ItemObjectsManager.Instance.Spawn(info.Name, position);
+            ItemObject itemObject = ItemObjectsManager.Instance.Spawn(dropped, position);
             if (itemObject == null) return;
 
-            itemObject.Quantity = dropStack.Quantity;
             itemObject.Rigidbody.AddForce(Vector2.right * Owner.Status.FacingDirectionValue * 200f);
         }
 
@@ -119,16 +116,11 @@ namespace Asce.Game.Entities
         {
             for (int i = 0; i < _inventory.Items.Count; i++) 
             {
-                Item item = _inventory.Items[i];
-                if (item == null || item.Information == null) continue;
+                Item dropped = _inventory.RemoveAt(i);
+                if (dropped.IsNull()) continue;
 
-                ItemStack dropStack = _inventory.RemoveAt(i);
-                if (string.IsNullOrEmpty(dropStack.Name)) continue;
-
-                ItemObject itemObject = ItemObjectsManager.Instance.Spawn(item.Information.Name, position);
+                ItemObject itemObject = ItemObjectsManager.Instance.Spawn(dropped, position);
                 if (itemObject == null) continue;
-
-                itemObject.Quantity = dropStack.Quantity;
 
                 Vector2 force = Vector2.right * Random.Range(-0.5f, 0.5f) * 200f + Vector2.up * Random.Range(0f, 1f) * 200f;
                 itemObject.Rigidbody.AddForce(force);

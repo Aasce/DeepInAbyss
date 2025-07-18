@@ -35,22 +35,24 @@ namespace Asce.Game.Entities
         {
             if (DroppedSpoils == null) return;
 
-            List<ItemStack> dropped = DroppedSpoilsSystem.GetDroppedItems(DroppedSpoils);
+            List<Item> dropped = DroppedSpoilsSystem.GetDroppedItems(DroppedSpoils);
             if (dropped.Count <= 0) return;
 
             Vector2 spawnPosition = (Vector2)Owner.transform.position + Vector2.up;
             StartCoroutine(this.DroppedSpoilDelay(dropped, spawnPosition, 0.02f));
         }
 
-        protected virtual IEnumerator DroppedSpoilDelay(List<ItemStack> dropped, Vector2 spawnPosition, float delay)
+        protected virtual IEnumerator DroppedSpoilDelay(List<Item> dropped, Vector2 spawnPosition, float delay)
         {
-            foreach (ItemStack itemStack in dropped)
+            foreach (Item item in dropped)
             {
-                ItemObject item = ItemObjectsManager.Instance.Spawn(itemStack.Name, itemStack.Quantity, spawnPosition);
-                if (item == null) continue;
+                if (item.IsNull()) continue;
+
+                ItemObject itemObject = ItemObjectsManager.Instance.Spawn(item, spawnPosition);
+                if (itemObject == null) continue;
 
                 Vector2 randomForce = new (Random.Range(-0.5f, 0.5f), Random.Range(-0.1f, 0.5f));
-                item.Rigidbody.AddForce(randomForce * _forceScale);
+                itemObject.Rigidbody.AddForce(randomForce * _forceScale);
 
                 if (delay >= 0f) yield return new WaitForSeconds(delay);
             }

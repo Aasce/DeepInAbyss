@@ -93,8 +93,15 @@ namespace Asce.Game.UIs.Inventories
         {
             if (_quantity == null) return;
 
+            int quantity = _item.GetQuantity();
+            if (quantity <= 1)
+            {
+                _quantity.gameObject.SetActive(false);
+                return;
+            }
+
             _quantity.gameObject.SetActive(true);
-            _quantity.text = _item.GetQuantity().ToString();
+            _quantity.text = quantity.ToString();
         }
 
         /// <summary>

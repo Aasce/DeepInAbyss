@@ -1,7 +1,6 @@
 using Asce.Managers.Attributes;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using UnityEngine;
 
 namespace Asce.Game.Items
@@ -22,6 +21,7 @@ namespace Asce.Game.Items
         [Header("Properties")]
         [SerializeField, SerializeReference] protected List<ItemProperty> _properties = new();
 
+        protected Dictionary<ItemPropertyType, ItemProperty> _propertyDictionary;
         protected ReadOnlyCollection<ItemProperty> _readonlyProperties;
 
         public string Name => _name;
@@ -34,16 +34,27 @@ namespace Asce.Game.Items
 
         public ReadOnlyCollection<ItemProperty> Properties => _readonlyProperties ??= _properties.AsReadOnly();
 
-        public T GetProperty<T>() where T : ItemProperty => _properties.OfType<T>().FirstOrDefault();
         public bool HasProperty(ItemPropertyType type) => _propertyType.HasFlag(type);
-        public ItemProperty GetPropertyByName(string name)
-        {
-            if (string.IsNullOrEmpty(name)) return null;
-            return _properties.Find((property) => property != null && string.Equals(property.Name, name));
-        }
         public ItemProperty GetPropertyByType(ItemPropertyType type)
         {
-            return _properties.First((property) => property.PropertyType == type);
+            if (_propertyDictionary == null) this.InitDictionary();
+            if (_propertyDictionary.TryGetValue(type, out ItemProperty property))
+            {
+                return property;
+            }
+            return null;
+        }
+
+        protected void InitDictionary()
+        {
+            _propertyDictionary = new();
+            foreach (var property in _properties)
+            {
+                if (property == null) continue;
+                if (_propertyDictionary.ContainsKey(property.PropertyType)) continue;
+                
+                _propertyDictionary.Add(property.PropertyType, property);
+            }
         }
     }
 }

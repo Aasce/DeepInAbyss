@@ -2,6 +2,7 @@ using Asce.Game.Crafts;
 using Asce.Managers.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace Asce.Game.Items
@@ -10,9 +11,9 @@ namespace Asce.Game.Items
     public class CraftableItemProperty : ItemProperty
     {
         [SerializeField] private List<Ingredient> _ingredients = new();
+        protected ReadOnlyCollection<Ingredient> _readonlyIngredients;
 
-
-        public List<Ingredient> Ingredients => _ingredients;
+        public ReadOnlyCollection<Ingredient> Ingredients => _readonlyIngredients ??= _ingredients.AsReadOnly();
         public override ItemPropertyType PropertyType => ItemPropertyType.Craftable;
 
 

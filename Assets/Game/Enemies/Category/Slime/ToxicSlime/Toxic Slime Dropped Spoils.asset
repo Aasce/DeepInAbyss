@@ -16,21 +16,12 @@ MonoBehaviour:
   - _item: {fileID: 11400000, guid: 537c377556b63364dabdb534e76523b6, type: 2}
     _dropChance: 1
     _quantityRange: {x: 1, y: 3}
-  - _item: {fileID: 11400000, guid: 0ab5c08a07580494dad50e3eb36bcee0, type: 2}
-    _dropChance: 1
-    _quantityRange: {x: 20, y: 60}
-  - _item: {fileID: 11400000, guid: a7140a3cce138a543bae8f3fd5d761e5, type: 2}
-    _dropChance: 1
-    _quantityRange: {x: 20, y: 60}
-  - _item: {fileID: 11400000, guid: 07469941d3a7f594c8e67a87f19a32e8, type: 2}
-    _dropChance: 1
-    _quantityRange: {x: 20, y: 60}
-  - _item: {fileID: 11400000, guid: b9cc899da85782244bcb8b02e254e5d2, type: 2}
-    _dropChance: 1
-    _quantityRange: {x: 20, y: 60}
-  - _item: {fileID: 11400000, guid: 9e6333d900ce3174891a3d34e6fb91fb, type: 2}
-    _dropChance: 1
-    _quantityRange: {x: 20, y: 60}
-  - _item: {fileID: 11400000, guid: 67936f25ac06b9a46a2520552ab89fb4, type: 2}
-    _dropChance: 1
-    _quantityRange: {x: 20, y: 60}
+    _durationRatioRange: {x: 0, y: 1}
+  - _item: {fileID: 11400000, guid: 537c377556b63364dabdb534e76523b6, type: 2}
+    _dropChance: 0.25
+    _quantityRange: {x: 1, y: 2}
+    _durationRatioRange: {x: 0, y: 1}
+  - _item: {fileID: 11400000, guid: b428f0f18a84af14e8149cd0b178def5, type: 2}
+    _dropChance: 0.25
+    _quantityRange: {x: 1, y: 2}
+    _durationRatioRange: {x: 0, y: 1}

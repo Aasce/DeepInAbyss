@@ -1,3 +1,4 @@
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,10 @@ namespace Asce.Game.Items
         /// </returns>
         public virtual T GetProperty<T>(ItemPropertyType type) where T : ItemPropertyData
         {
-            return this.GetProperty(type) as T;
+            if (Information == null) return null;
+            if (!_propertiesData.ContainsKey(type)) return null;
+
+            return _propertiesData[type] as T;
         }
 
         /// <summary>
@@ -50,10 +54,7 @@ namespace Asce.Game.Items
         /// <returns> The property data, or null if not found. </returns>
         public virtual ItemPropertyData GetProperty(ItemPropertyType type)
         {
-            if (Information == null) return null;
-            if (!_propertiesData.ContainsKey(type)) return null;
-
-            return _propertiesData[type];
+            return this.GetProperty<ItemPropertyData>(type);
         }
 
         /// <summary>

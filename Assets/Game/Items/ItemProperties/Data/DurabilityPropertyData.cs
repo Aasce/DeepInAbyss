@@ -12,7 +12,11 @@ namespace Asce.Game.Items
         public float Durability
         {
             get => _durability;
-            set => _durability = value;
+            set
+            {
+                float maxDurability = Property != null ? Property.MaxDurability : 0f;
+                _durability = Mathf.Clamp(value, 0, maxDurability);
+            }
         }
 
         public DurabilityPropertyData(ItemProperty property) : base(property) { }

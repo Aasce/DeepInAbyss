@@ -14,7 +14,11 @@ namespace Asce.Game.Items
         public int Quantity
         { 
             get => _quantity;
-            set => _quantity = value;
+            set
+            {
+                int maxStack = Property != null ? Property.MaxStack : 1;
+                _quantity = Mathf.Clamp(value, 0, maxStack);
+            }
         }
 
         public StackPropertyData(ItemProperty property) : base(property) { }

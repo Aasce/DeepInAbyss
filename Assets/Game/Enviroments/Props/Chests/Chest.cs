@@ -49,15 +49,12 @@ namespace Asce.Game.Enviroments
 
         public virtual void Drop(int index, int quantity = -1)
         {
-            ItemStack dropStack = _inventory.RemoveAt(index, quantity);
-            SO_ItemInformation info = dropStack.GetItemInfo();
-            if (info == null) return;
+            Item dropped = _inventory.RemoveAt(index, quantity);
+            if (dropped.IsNull()) return;
 
             Vector2 position = (Vector2)transform.position + Vector2.up;
-            ItemObject itemObject = ItemObjectsManager.Instance.Spawn(info.Name, position);
+            ItemObject itemObject = ItemObjectsManager.Instance.Spawn(dropped, position);
             if (itemObject == null) return;
-
-            itemObject.Quantity = dropStack.Quantity;
         }
 
         public override void Interact(GameObject interactor)
