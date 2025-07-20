@@ -22,7 +22,7 @@ MonoBehaviour:
   _thirsty: 2
   _maxBreath: 60
   _breathe: 10
-  _strength: 20
+  _strength: 30
   _armor: 25
   _resistance: 5
   _speed: 3

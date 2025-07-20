@@ -57,11 +57,11 @@ namespace Asce.Editors
         private void ShowTypeSelectionMenu(SerializedProperty property)
         {
             var menu = new GenericMenu();
-            _types ??= TypeCacheUtils.GetConcreteSubclassesOf<ItemProperty>();
+            _types ??= TypeUtils.GetConcreteSubclassesOf<ItemProperty>();
 
             foreach (var type in _types)
             {
-                string menuName = TypeCacheUtils.GetMenuName(type);
+                string menuName = TypeUtils.GetMenuName(type);
                 menu.AddItem(new GUIContent(menuName), false, () =>
                 {
                     property.serializedObject.Update();

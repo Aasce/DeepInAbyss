@@ -56,5 +56,39 @@ namespace Asce.Managers.Utils
         {
             return $"<i>{text}</i>";
         }
+
+        /// <summary>
+        ///     Sanitizes the input string by removing special characters and converting it to CamelCase.
+        /// </summary>
+        /// <param name="input">The input string to sanitize and convert.</param>
+        /// <returns>
+        ///     A CamelCase version of the sanitized input string.
+        ///     <br/>
+        ///     If the input is null, empty, or contains no valid characters, 
+        ///     returns <see cref="string.Empty"/>.
+        /// </returns>
+        public static string SanitizeAndCamelCase(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return string.Empty;
+
+            // Remove all characters that are not letters, digits, or spaces
+            var clean = System.Text.RegularExpressions.Regex.Replace(input, "[^a-zA-Z0-9 ]", "");
+
+            // Split the string into words by space
+            string[] words = clean.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+            
+            if (words.Length == 0) return string.Empty; // return if no words remain after cleaning 
+
+            // Capitalize the first letter of each word
+            for (int i = 0; i < words.Length; i++)
+            {
+                words[i] = char.ToUpper(words[i][0]) + words[i].Substring(1);
+            }
+
+            // Combine the words into a single CamelCase string
+            return string.Join("", words);
+        }
+
     }
 }

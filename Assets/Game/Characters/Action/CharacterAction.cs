@@ -554,7 +554,7 @@ namespace Asce.Game.Entities.Characters
             set => _meleeAttackType = value;
         }
 
-        public bool IsAttacking
+        public bool IsStartAttack
         {
             get => _isAttacking;
             set => _isAttacking = value;
@@ -1534,17 +1534,17 @@ namespace Asce.Game.Entities.Characters
             _attackCooldown.Update(deltaTime);
             if (_attackCooldown.IsComplete)
             {
-                IsAttacking = AttackTrigger || MeleeAttackTrigger;
+                IsStartAttack = AttackTrigger || MeleeAttackTrigger;
                 IsMeleeAttacking = MeleeAttackTrigger;
             }
             else
             {
-                IsAttacking = false;
+                IsStartAttack = false;
                 IsMeleeAttacking = false;
             }
             
             Owner.View.SetAttackActionIndexAnimation(currentAttackType.ToIntValue());
-            Owner.View.SetIsAttackingAnimation(IsAttacking);
+            Owner.View.SetIsAttackingAnimation(IsStartAttack);
             Owner.View.SetAttackSpeedMultiplyAnimation(AttackSpeedMultiply);
         }
 
@@ -1576,23 +1576,23 @@ namespace Asce.Game.Entities.Characters
             Owner.Equipment.LeftHandSlot.DestroyProjectile();
         }
 
-        public void AttackStart() => OnAttackStart?.Invoke(this, new AttackEventArgs(Owner, IsMeleeAttacking ? MeleeAttackType : AttackType));
-        public void AttackHit() => OnAttackHit?.Invoke(this, new AttackEventArgs(Owner, IsMeleeAttacking ? MeleeAttackType : AttackType));
+        public void AttackStart() => OnAttackStart?.Invoke(Owner, new AttackEventArgs(IsMeleeAttacking ? MeleeAttackType : AttackType));
+        public void AttackHit() => OnAttackHit?.Invoke(Owner, new AttackEventArgs(IsMeleeAttacking ? MeleeAttackType : AttackType));
         public void AttackEnd()
         {
-            OnAttackEnd?.Invoke(this, new AttackEventArgs(Owner, IsMeleeAttacking ? MeleeAttackType : AttackType));
+            OnAttackEnd?.Invoke(Owner, new AttackEventArgs(IsMeleeAttacking ? MeleeAttackType : AttackType));
             _attackCooldown.Reset();
         }
 
         public void AttackCast()
         {
             Vector2 dir = Owner.View.IsPointingAtTarget ? Owner.View.LookDirection(TargetPosition) : Owner.Equipment.WeaponSlot.CurrentWeapon.transform.right;
-            OnAttackCast?.Invoke(this, dir);
+            OnAttackCast?.Invoke(Owner, dir);
         }
 
         public void Throwing()
         {
-            if (IsAttacking || IsMeleeAttacking) return;
+            if (IsStartAttack || IsMeleeAttacking) return;
             if (IsArrowDrawn) return;
 
             Weapon weapon = Owner.Equipment.WeaponSlot.CurrentWeapon;

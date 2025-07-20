@@ -1,32 +1,18 @@
 using Asce.Game.Entities.Enemies.Category;
 using UnityEditor;
-using UnityEngine;
 
 namespace Asce.Editors
 {
     [CustomEditor(typeof(Slime_Enemy))]
-    public class Slime_EnemyEditor : Editor
+    public class Slime_EnemyEditor : EnemyEditor
     {
-        protected Slime_Enemy _enemy;
+        protected Slime_Enemy _slimeEnemy;
 
-        protected virtual void OnEnable()
+        protected override void OnEnable()
         {
-            _enemy = (Slime_Enemy)target;
+            base.OnEnable();
+            _slimeEnemy = (Slime_Enemy)target;
         }
 
-        protected virtual void OnSceneGUI()
-        {
-            this.DrawHitBox();
-        }
-
-
-        protected virtual void DrawHitBox()
-        {
-            // Get the hitbox world position, size, and rotation angle
-            Vector2 position = _enemy.DamageHitBox.GetPosition(_enemy.gameObject.transform.position, _enemy.Status.FacingDirectionValue == 0 ? 1 : _enemy.Status.FacingDirectionValue);
-            Vector2 size = _enemy.DamageHitBox.GetSize();
-            float angle = _enemy.DamageHitBox.GetAngle();
-            SceneEditorUtils.DrawBox(position, size, angle);
-        }
     }
 }

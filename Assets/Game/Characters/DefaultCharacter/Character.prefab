@@ -269,6 +269,7 @@ MonoBehaviour:
     _facingDirection: 0
     _height: 2
     _spawnPosition: {x: 0, y: 0}
+  _boundsSize: {x: 2, y: 3}
   _physicController: {fileID: 8947564771953539130}
   _action: {fileID: 5091308472702825161}
   _view: {fileID: 2637123865751815699}
@@ -279,6 +280,13 @@ MonoBehaviour:
   _inventory: {fileID: 5362005630165609967}
   _spoils: {fileID: 0}
   _interaction: {fileID: 7471821932438714034}
+  _damageHitBox:
+    _layer:
+      serializedVersion: 2
+      m_Bits: 256
+    _offset: {x: 0.4, y: 0.75}
+    _size: {x: 1, y: 1}
+    _angle: 0
 --- !u!114 &8947564771953539130
 MonoBehaviour:
   m_ObjectHideFlags: 0

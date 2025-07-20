@@ -53,7 +53,7 @@ namespace Asce.Game.Entities.Enemies
             Animator.SetFloat("SpeedVertical", Owner.PhysicController.Rigidbody.linearVelocityY);
             Animator.SetBool("IsGrounded", Owner.PhysicController.IsGrounded);
             // Animator.SetBool("IsJumpPrepare", Owner.Action.IsInJumpPrepare);
-            if (Owner.Action.IsAttacking) Animator.SetTrigger("Attack");
+            if (Owner.Action.IsStartAttack) Animator.SetTrigger("Attack");
         }
 
         protected virtual void UpdateMoveBlend()
@@ -73,25 +73,23 @@ namespace Asce.Game.Entities.Enemies
             base.ResetRendererList();
             if (_renderer != null) Renderers.Add(_renderer);
         }
+
+
         protected override void Status_OnDeath(object sender)
         {
             base.Status_OnDeath(sender);
             if (_fx != null) _fx.SetActive(false);
             OnDieFx();
         }
-
         protected override void Status_OnRevive(object sender)
         {
             base.Status_OnRevive(sender);
             if (_fx != null) _fx.SetActive(true);
         }
-
         protected override void Status_OnFacingChanged(object sender, FacingType facing)
         {
             base.Status_OnFacingChanged(sender, facing);
         }
-
-
         public void OnDieFx()
         {
             if (_dieFxPrefab != null) Instantiate(_dieFxPrefab, transform.position, Quaternion.identity, transform.parent);

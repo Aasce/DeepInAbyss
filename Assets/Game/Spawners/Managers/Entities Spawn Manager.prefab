@@ -60,5 +60,5 @@ MonoBehaviour:
   _mainCamera: {fileID: 0}
   _cameraBoundsAdding: {x: 10, y: 15}
   _checkCooldown:
-    _baseTime: 2
-    _currentTime: 2
+    _baseTime: 1
+    _currentTime: 1

@@ -40,6 +40,7 @@ namespace Asce.Game.Entities.Enemies
         protected bool _isInJumpPrepare = false;
 
         [Header("Attack")]
+        [SerializeField] protected bool _isStartAttack = false;
         [SerializeField] protected bool _isAttacking = false;
         [SerializeField] protected bool _canAttackWhenMoving = true;
         [SerializeField] protected bool _canAttackInAir = true;
@@ -155,6 +156,11 @@ namespace Asce.Game.Entities.Enemies
             protected set => _isInJumpPrepare = value;
         }
 
+        public bool IsStartAttack
+        {
+            get => _isStartAttack;
+            set => _isStartAttack = value;
+        }
         public bool IsAttacking
         {
             get => _isAttacking;
@@ -321,10 +327,8 @@ namespace Asce.Game.Entities.Enemies
             }
 
             bool canMove = true;
-            if (!CanMovingWhenAttack && (IsAttacking || AttackTrigger || MeleeAttackTrigger))
-                canMove = false;
-            if (IsInJumpPrepare || JumpTrigger || IsJumping)
-                canMove = false;
+            if (!CanMovingWhenAttack && (IsAttacking)) canMove = false;
+            if (IsInJumpPrepare || JumpTrigger || IsJumping) canMove = false;
 
             if (!canMove) direction = 0f;
 
@@ -375,9 +379,9 @@ namespace Asce.Game.Entities.Enemies
         {
             _attackCooldown.Update(deltaTime);
 
-            if (IsAttacking && !_attackCooldown.IsComplete)
+            if (IsStartAttack && !_attackCooldown.IsComplete)
             {
-                IsAttacking = false;
+                IsStartAttack = false;
             }
 
             if (AttackTrigger || MeleeAttackTrigger)
@@ -392,6 +396,7 @@ namespace Asce.Game.Entities.Enemies
             if (!CanAttackInAir && Owner.PhysicController.IsInAir) return;
             if (!CanAttackWhenMoving && IsMoving) return;
 
+            IsStartAttack = true;
             IsAttacking = true;
             _attackCooldown.Reset();
         }
@@ -399,6 +404,11 @@ namespace Asce.Game.Entities.Enemies
         protected override void UpdateFacing()
         {
             base.UpdateFacing();
+            if (IsAttacking)
+            {
+                return;
+            }
+
             if (Mathf.Abs(MoveDirection.x) > Constants.MOVE_THRESHOLD)
             {
                 Owner.Status.FacingDirectionValue = Mathf.RoundToInt(Mathf.Sign(MoveDirection.x));
@@ -407,7 +417,11 @@ namespace Asce.Game.Entities.Enemies
         }
 
 
-        public virtual void AttackEventCalling() => OnAttack?.Invoke(this);
+        public virtual void AttackEventCalling()
+        {
+            OnAttack?.Invoke(this);
+            IsAttacking = false; // Reset attacking state after attack event is called
+        }
         public virtual void FootStepEventCalling() => OnFootstep?.Invoke(this);
 
         #region - EVENT REGISTER METHODS -
