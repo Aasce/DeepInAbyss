@@ -21,7 +21,7 @@ namespace Asce.Game.Combats
 
         [Space]
         [SerializeField] private Vector2 _position;
-        [SerializeField] private bool _isInvokeEvent = true;
+        [SerializeField] private DamageSourceType _sourceType = DamageSourceType.Default;
 
         public ISendDamageable Sender
         {
@@ -70,10 +70,10 @@ namespace Asce.Game.Combats
             set => _position = value;
         }
 
-        public bool IsInvokeEvent
+        public DamageSourceType SourceType
         {
-            get => _isInvokeEvent;
-            set => _isInvokeEvent = value;
+            get => _sourceType;
+            set => _sourceType = value;
         }
 
         public DamageContainer() 

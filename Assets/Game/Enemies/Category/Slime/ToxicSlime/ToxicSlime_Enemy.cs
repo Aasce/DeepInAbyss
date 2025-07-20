@@ -9,13 +9,13 @@ namespace Asce.Game.Entities.Enemies.Category
         {
             base.Start();
 
-            Stats.OnBeforeSendDamage += Stats_OnBeforeSendDamage;
-            Stats.OnAfterSendDamage += Stats_OnAfterSendDamage;
+            OnBeforeSendDamage += Stats_OnBeforeSendDamage;
+            OnAfterSendDamage += Stats_OnAfterSendDamage;
         }
 
         protected virtual void Stats_OnBeforeSendDamage(object sender, Combats.DamageContainer args)
         {
-            Creature creature = args.Receiver.Owner;
+            ICreature creature = args.Receiver as ICreature;
             if (creature == null) return;
             if (creature.StatusEffect == null) return;
 
@@ -28,11 +28,9 @@ namespace Asce.Game.Entities.Enemies.Category
 
         protected virtual void Stats_OnAfterSendDamage(object sender, Combats.DamageContainer args)
         {
-            Creature creature = args.Receiver.Owner;
+            ICreature creature = args.Receiver as ICreature;
             if (creature == null) return;
             if (creature.StatusEffect == null) return;
-
-            // StatusEffectsManager.Instance.SendEffect("Freeze", this, creature, new EffectDataContainer(1.5f, 0.5f));
         }
     }
 }

@@ -21,14 +21,14 @@ namespace Asce.Game.VFXs
             if (isResetCooldown) vfx.DespawnTime.Reset();
         }
 
-        public static void VFXFollowCreature(this VFXObject vfx, Creature target, bool isResetCooldown = true)
+        public static void VFXFollowCreature(this VFXObject vfx, ICreature target, bool isResetCooldown = true)
         {
             if (vfx == null) return;
             if (target == null) return;
 
             float halfHeight = target.Status.Height * 0.5f;
             Vector3 offset = Vector3.up * halfHeight + Vector3.back;
-            vfx.VFXFollowTarget(target.transform, offset, isResetCooldown);
+            vfx.VFXFollowTarget(target.gameObject.transform, offset, isResetCooldown);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Asce.Game.Stats
 {
-    public interface IHasDefense
+    public interface IHasDefense : IGameObject
     {
         public DefenseGroupStats DefenseGroup { get; }
     }

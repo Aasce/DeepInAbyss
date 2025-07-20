@@ -12,7 +12,7 @@ namespace Asce.Game.StatusEffects
 
         public SO_StatusEffectData StatusEffects => _statusEffects;
 
-        public T SendEffect<T>(Creature sender, Creature target, EffectDataContainer data) where T : StatusEffect, new()
+        public T SendEffect<T>(ICreature sender, ICreature target, EffectDataContainer data) where T : StatusEffect, new()
         {
             if (data == null) return null;
             T effect = new();

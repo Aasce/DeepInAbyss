@@ -4896,7 +4896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _alpha: 1
-  _owner: {fileID: 7029102676486950009}
+  _owner: {fileID: 1268236754009959406}
 --- !u!199 &3082102059521577920
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -9718,7 +9718,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 248452246137239371}
-  - component: {fileID: 7029102676486950009}
+  - component: {fileID: 1268236754009959406}
   - component: {fileID: 434661625290763340}
   - component: {fileID: 9173639425285248251}
   - component: {fileID: 7140764048152630505}
@@ -9745,7 +9745,7 @@ Transform:
   - {fileID: 175227533582358588}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7029102676486950009
+--- !u!114 &1268236754009959406
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9754,7 +9754,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6600895540637888347}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30d6eaaafb962db48b12c459df3820dc, type: 3}
+  m_Script: {fileID: 11500000, guid: f3fe8dc189beaa848850266315fa18ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 7140764048152630505}
@@ -9771,10 +9771,12 @@ MonoBehaviour:
   _isSetLayerOnHit: 0
   _launchFxPrefab: {fileID: -2620011444068255771, guid: 6ac9313a7f204ab49a77a32a13291e8d, type: 3}
   _hitFxPrefab: {fileID: -4303742035980005661, guid: 146d57533b78ae14490fe427bff1d3dd, type: 3}
-  _explosionRadius: 1
+  _explosionRadius: 1.2
   _explosionLayerMask:
     serializedVersion: 2
     m_Bits: 256
+  _igniteStrength: 3
+  _igniteDuration: 3
 --- !u!114 &434661625290763340
 MonoBehaviour:
   m_ObjectHideFlags: 0

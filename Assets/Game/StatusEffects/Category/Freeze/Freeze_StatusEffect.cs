@@ -15,7 +15,7 @@ namespace Asce.Game.StatusEffects
 
         public override void Apply()
         {
-            _vfxObject = VFXsManager.Instance.RegisterAndSpawnEffect(Name, Target.transform.position);
+            _vfxObject = VFXsManager.Instance.RegisterAndSpawnEffect(Name, Target.gameObject.transform.position);
             this.ApplyReductedSpeedAndJumpSpeed();
         }
 
@@ -39,13 +39,13 @@ namespace Asce.Game.StatusEffects
             // Speed
             if (Target.Stats is IHasSpeed hasSpeed)
             {
-                _freezeSpeedAgent = hasSpeed.Speed.AddAgent(Sender.gameObject, $"{Sender.name} freeze", -_strength, StatValueType.Ratio);
+                _freezeSpeedAgent = hasSpeed.Speed.AddAgent(Sender.gameObject, $"{Sender.Information.Name} freeze", -_strength, StatValueType.Ratio);
             }
 
             // Jump Force
             if (Target.Stats is IHasJumpForce hasJumpForce)
             {
-                _freezeJumpForceAgent = hasJumpForce.JumpForce.AddAgent(Sender.gameObject, $"{Sender.name} freeze", -_strength, StatValueType.Ratio);
+                _freezeJumpForceAgent = hasJumpForce.JumpForce.AddAgent(Sender.gameObject, $"{Sender.Information.Name} freeze", -_strength, StatValueType.Ratio);
             }
         }
 

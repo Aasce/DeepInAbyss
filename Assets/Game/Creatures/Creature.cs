@@ -1,12 +1,14 @@
-﻿using Asce.Managers.Attributes;
+﻿using Asce.Game.Combats;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
+using System;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
     public abstract class Creature : Entity, ICreature, IOptimizedComponent,
         IHasView<CreatureView>, IHasUI<CreatureUI>, IHasAction<CreatureAction>, 
-        IHasStats<CreatureStats, SO_CreatureBaseStats>, IHasStatusEffect<CreatureStatusEffect>,
+        IHasStats<CreatureStats, SO_CreatureBaseStats>, IHasStatusEffect<CreatureStatusEffect>, ISendDamageable, ITakeDamageable,
         IHasEquipment<CreatureEquipment>, IHasInventory<CreatureInventory>, IHasSpoils<CreatureSpoils>
     {
         [SerializeField, Readonly] private CreaturePhysicController _physicController;
@@ -20,6 +22,14 @@ namespace Asce.Game.Entities
         [SerializeField, Readonly] private CreatureSpoils _spoils;
 
         private bool _isControled = false;
+
+
+        public event Action<object, DamageContainer> OnBeforeSendDamage;
+        public event Action<object, DamageContainer> OnAfterSendDamage;
+        public event Action<object, DamageContainer> OnBeforeTakeDamage;
+        public event Action<object, DamageContainer> OnAfterTakeDamage;
+
+        public virtual bool IsDead => Status.IsDead;
 
         public CreaturePhysicController PhysicController
         {
@@ -141,6 +151,27 @@ namespace Asce.Game.Entities
             {
                 Spoils.Owner = this;
             }
+        }
+
+
+        public virtual void BeforeSendDamage(DamageContainer container)
+        {
+            OnBeforeSendDamage?.Invoke(this, container);
+        }
+        public virtual void AfterSendDamage(DamageContainer container)
+        {
+            OnAfterSendDamage?.Invoke(this, container);
+        }
+
+        public virtual void BeforeTakeDamage(DamageContainer container)
+        {
+            OnBeforeTakeDamage?.Invoke(this, container);
+        }
+
+        public virtual void AfterTakeDamage(DamageContainer container)
+        {
+            OnAfterTakeDamage?.Invoke(this, container);
+            if (this.Stats.HealthGroup.Health.IsEmpty) this.Status.SetStatus(EntityStatusType.Dead);
         }
     }
 }

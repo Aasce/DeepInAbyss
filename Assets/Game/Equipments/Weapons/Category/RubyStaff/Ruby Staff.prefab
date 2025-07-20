@@ -59,7 +59,7 @@ MonoBehaviour:
     _offset: {x: 0.5, y: 1}
     _size: {x: 1, y: 1.5}
     _angle: 0
-  _magicPrefab: {fileID: 7029102676486950009, guid: fddf1a66ef54f2d41a786b49bf0d5402, type: 3}
+  _magicPrefab: {fileID: 1268236754009959406, guid: fddf1a66ef54f2d41a786b49bf0d5402, type: 3}
   _speed: 15
   _damage: 15
   _penetration: 0
@@ -182,8 +182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ca3d6e6baf90343895b732f0f5f57a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 1778397978162522452}
   _alpha: 1
+  _weapon: {fileID: 1778397978162522452}
   _renderer: {fileID: 5853737965490634620}
 --- !u!1 &8138069207357574990
 GameObject:

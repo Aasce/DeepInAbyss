@@ -70,7 +70,7 @@ namespace Asce.Game.Entities.Characters
                 if (_damagedObject.Contains(collider.gameObject)) continue; // Avoid dealing damage to the same creature multiple times
                 if (!collider.TryGetComponent(out ICreature creature)) continue;
 
-                CombatSystem.DamageDealing(new DamageContainer(Stats, creature.Stats)
+                CombatSystem.DamageDealing(new DamageContainer(this, creature)
                 {
                     Damage = Stats.Strength.Value * 0.4f,
                     DamageType = DamageType.Physical,

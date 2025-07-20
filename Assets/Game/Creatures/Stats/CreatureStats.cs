@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CreatureStats : MonoBehaviour, IHasOwner<Creature>, IStatsController<SO_CreatureBaseStats>, ISendDamageable, ITakeDamageable, IHasSurvivalStats, IHasCombatStats, IHasUtilitiesStats
+    public class CreatureStats : MonoBehaviour, IHasOwner<Creature>, IStatsController<SO_CreatureBaseStats>, IHasSurvivalStats, IHasCombatStats, IHasUtilitiesStats
     {
         public static readonly string baseStatsReason = "base stats";
 
@@ -30,11 +30,6 @@ namespace Asce.Game.Entities
         [SerializeField] protected SpeedStat _speed = new();
         [SerializeField] protected ViewRadiusStat _viewRadius = new();
 
-        public event Action<object, DamageContainer> OnBeforeSendDamage;
-        public event Action<object, DamageContainer> OnAfterSendDamage;
-        public event Action<object, DamageContainer> OnBeforeTakeDamage;
-        public event Action<object, DamageContainer> OnAfterTakeDamage;
-
         /// <summary>
         ///     Reference to the creature that owns this stats controller.
         /// </summary>
@@ -43,6 +38,7 @@ namespace Asce.Game.Entities
             get => _owner;
             set => _owner = value;
         }
+        public virtual bool IsDead => Owner.Status.IsDead;
 
         public virtual SO_CreatureBaseStats BaseStats => _baseStats;
 
@@ -51,9 +47,6 @@ namespace Asce.Game.Entities
             get => _isStatsUpdating;
             set => _isStatsUpdating = value;
         }
-
-        public virtual bool IsDead => Owner.Status.IsDead;
-        
 
         public HealthGroupStats HealthGroup => _healthGroup;
         public StaminaStat Stamina => _stamina;
@@ -158,32 +151,6 @@ namespace Asce.Game.Entities
             Speed.Reset();
             ViewRadius.Reset();
         }
-
-
-        public virtual void BeforeSendDamage(DamageContainer container)
-        {
-            if (container == null || container.IsInvokeEvent)
-                OnBeforeSendDamage?.Invoke(Owner, container);
-        }
-        public virtual void AfterSendDamage(DamageContainer container)
-        {
-            if (container == null || container.IsInvokeEvent)
-                OnAfterSendDamage?.Invoke(Owner, container);
-        }
-
-        public virtual void BeforeTakeDamage(DamageContainer container)
-        {
-            if (container == null || container.IsInvokeEvent)
-                OnBeforeTakeDamage?.Invoke(Owner, container);
-        }
-
-        public virtual void AfterTakeDamage(DamageContainer container)
-        {
-            if (container == null || container.IsInvokeEvent)
-                OnAfterTakeDamage?.Invoke(Owner, container);
-            if (HealthGroup.Health.IsEmpty) Owner.Status.SetStatus(EntityStatusType.Dead);
-        }
-
 
         protected virtual void Owner_OnDeath(object sender)
         {

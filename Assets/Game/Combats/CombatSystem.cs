@@ -28,16 +28,16 @@ namespace Asce.Game.Combats
             container.Sender.BeforeSendDamage(container);
             container.Receiver.BeforeTakeDamage(container);
 
-            float defense = GetDefense(container.Receiver, container.DamageType);
+            float defense = GetDefense((container.Receiver as ICreature).Stats, container.DamageType);
             float finalDefense = DefenseAfterPenetration(defense, container.Penetration, container.PenetrationType);
 
             float damageDeal = container.Damage * DeductDamageRatio(finalDefense);
 
-            float finalDamage = DamageAffterShield(container.Receiver, damageDeal);
+            float finalDamage = DamageAffterShield((container.Receiver as ICreature).Stats, damageDeal);
             float absorbedByShield = damageDeal - finalDamage;
 
             container.FinalDamage = finalDamage;
-            SendDamage(container.Sender, container.Receiver, finalDamage);
+            SendDamage(container.Sender, (container.Receiver as ICreature).Stats, finalDamage);
 
             container.Receiver.AfterTakeDamage(container);
             container.Sender.AfterSendDamage(container);
@@ -58,8 +58,9 @@ namespace Asce.Game.Combats
         /// <returns>
         ///     The appropriate defense value.
         /// </returns>
-        public static float GetDefense(ITakeDamageable receiver, DamageType type)
+        public static float GetDefense(IHasDefense receiver, DamageType type)
         {
+            if (receiver == null) return 0f;
             return type switch
             {
                 DamageType.TrueDamage => 0f,
@@ -112,7 +113,7 @@ namespace Asce.Game.Combats
         /// <param name="receiver"> The target entity taking damage. </param>
         /// <param name="damage"> The initial damage to apply. </param>
         /// <returns> The damage that passes through after the shield absorbs as much as possible. </returns>
-        public static float DamageAffterShield(ITakeDamageable receiver, float damage)
+        public static float DamageAffterShield(IHasDefense receiver, float damage)
         {
             if (receiver == null) return damage;
 
@@ -159,8 +160,9 @@ namespace Asce.Game.Combats
         /// <param name="sender"> The entity that dealt the damage. </param>
         /// <param name="receiver"> The entity receiving the damage. </param>
         /// <param name="damage"> The final damage amount to apply. </param>
-        protected static void SendDamage(ISendDamageable sender, ITakeDamageable receiver, float damage)
+        protected static void SendDamage(ISendDamageable sender, IHasHealth receiver, float damage)
         {
+            if (sender == null || receiver == null) return;
             receiver.HealthGroup.Health.AddToCurrentValue(sender.gameObject, "Damage Dealt", -damage);
         }
     }

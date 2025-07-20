@@ -170,7 +170,7 @@ namespace Asce.Game.Equipments
             if (target == null) return;
             if (target.Status.IsDead) return;
 
-            CombatSystem.DamageDealing(new DamageContainer(Owner.Stats, target.Stats)
+            CombatSystem.DamageDealing(new DamageContainer(Owner, target)
             {
                 Damage = _damage,
                 DamageType = _damageType,

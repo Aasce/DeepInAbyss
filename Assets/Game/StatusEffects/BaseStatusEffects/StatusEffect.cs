@@ -10,8 +10,8 @@ namespace Asce.Game.StatusEffects
         [SerializeField] SO_StatusEffectInformation _information;
 
         [Space]
-        [SerializeField] protected Creature _sender;
-        [SerializeField] protected Creature _target;
+        [SerializeField] protected ICreature _sender;
+        [SerializeField] protected ICreature _target;
 
         [Space]
         [SerializeField] protected int _level = 1;
@@ -21,8 +21,8 @@ namespace Asce.Game.StatusEffects
         public abstract string Name { get; }
         public SO_StatusEffectInformation Information => _information;
 
-        public Creature Sender => _sender;
-        public Creature Target => _target;
+        public ICreature Sender => _sender;
+        public ICreature Target => _target;
         
         public int Level
         {
@@ -50,7 +50,7 @@ namespace Asce.Game.StatusEffects
             if (information == null) return;
             _information = information;
         }
-        public virtual void Set(Creature sender, Creature target, EffectDataContainer data)
+        public virtual void Set(ICreature sender, ICreature target, EffectDataContainer data)
         {
             this.SetSender(sender);
             this.SetTarget(target);
@@ -61,11 +61,11 @@ namespace Asce.Game.StatusEffects
             _duration.SetBaseTime(data.Duration);
         }
 
-        protected virtual void SetSender(Creature sender)
+        protected virtual void SetSender(ICreature sender)
         {
             _sender = sender;
         }
-        protected virtual void SetTarget(Creature target)
+        protected virtual void SetTarget(ICreature target)
         {
             _target = target;
         }

@@ -7,8 +7,8 @@ namespace Asce.Game.StatusEffects
     {
         public string Name { get; }
 
-        public Creature Sender { get; }
-        public Creature Target { get; }
+        public ICreature Sender { get; }
+        public ICreature Target { get; }
 
         public Cooldown Duration { get; }
         public int Level { get; }

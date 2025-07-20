@@ -52,7 +52,7 @@ namespace Asce.Game.Entities
                 Owner.Status.OnRevive += Status_OnRevive;
                 Owner.Status.OnFacingChanged += Status_OnFacingChanged;
 
-                Owner.Stats.OnAfterTakeDamage += Stats_OnAfterTakeDamage;
+                Owner.OnAfterTakeDamage += Owner_OnAfterTakeDamage;
             }
         }
 
@@ -113,8 +113,10 @@ namespace Asce.Game.Entities
             Animator.transform.localPosition = pos;
         }
 
-        protected virtual void Stats_OnAfterTakeDamage(object sender, Combats.DamageContainer container)
+        protected virtual void Owner_OnAfterTakeDamage(object sender, Combats.DamageContainer container)
         {
+            if (container == null) return;
+            if (container.SourceType == Combats.DamageSourceType.Effect) return; // Ignore effects damage
             if (Animator == null) return; 
             GameObject other = container.Sender.gameObject;
 

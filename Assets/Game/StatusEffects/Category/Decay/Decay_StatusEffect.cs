@@ -16,7 +16,7 @@ namespace Asce.Game.StatusEffects
 
         public override void Apply()
         {
-            _vfxObject = VFXsManager.Instance.RegisterAndSpawnEffect(Name, Target.transform.position);
+            _vfxObject = VFXsManager.Instance.RegisterAndSpawnEffect(Name, Target.gameObject.transform.position);
             this.ApplyReducedMaxHealth();
         }
 
@@ -43,14 +43,14 @@ namespace Asce.Game.StatusEffects
         {
             if (Sender == null) return;
             if (Target == null || Target.Stats == null) return;
-            _decayHealthAgent = Target.Stats.HealthGroup.Health.AddAgent(Sender.gameObject, $"{Sender.name} decay", -DecayAmount, StatValueType.Ratio);
+            _decayHealthAgent = Target.Stats.HealthGroup.Health.AddAgent(Sender.gameObject, $"{Sender.Information.Name} decay", -DecayAmount, StatValueType.Ratio);
         }
 
         protected virtual void UnapplyReductedMaxHealth()
         {
             if (Target == null || Target.Stats == null) return;
             Target.Stats.HealthGroup.Health.RemoveAgent(_decayHealthAgent);
-            Target.Stats.HealthGroup.Health.AddToCurrentValue(Sender.gameObject, $"{Sender.name} decay", DecayAmount, StatValueType.Ratio);
+            Target.Stats.HealthGroup.Health.AddToCurrentValue(Sender.gameObject, $"{Sender.Information.Name} decay", DecayAmount, StatValueType.Ratio);
         }
 
         protected virtual void StackDecayStrength(StackStatusEffect stackEffect)

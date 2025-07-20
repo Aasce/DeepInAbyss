@@ -1,11 +1,15 @@
-using Asce.Game.Entities;
-using Asce.Game.Stats;
+using System;
 using UnityEngine;
 
 namespace Asce.Game.Combats
 {
-    public interface ISendDamageable : IGameObject, IHasOwner<Creature>, IHasCombatStats
+    public interface ISendDamageable : IGameObject
     {
+        bool IsDead { get; }
+
+        public event Action<object, DamageContainer> OnBeforeSendDamage;
+        public event Action<object, DamageContainer> OnAfterSendDamage;
+
         public void BeforeSendDamage(DamageContainer container);
         public void AfterSendDamage(DamageContainer container);
     }

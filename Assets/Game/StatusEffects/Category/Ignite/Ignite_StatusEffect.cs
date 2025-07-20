@@ -17,7 +17,7 @@ namespace Asce.Game.StatusEffects
 
         public override void Apply()
         {
-            _vfxObject = VFXsManager.Instance.RegisterAndSpawnEffect(Name, Target.transform.position);
+            _vfxObject = VFXsManager.Instance.RegisterAndSpawnEffect(Name, Target.gameObject.transform.position);
             _damageDealCooldown.Reset();
 
             this.ApplyReducedHealing();
@@ -42,7 +42,7 @@ namespace Asce.Game.StatusEffects
             if (Sender == null) return;
             if (Target == null || Target.Stats == null) return;
             if (Target.Stats is not IHasSurvivalStats hasSurvivalStats) return;
-            _healScaleAgent = hasSurvivalStats.HealthGroup.HealScale.AddAgent(Sender.gameObject, $"{Sender.name} Ignite", 0.5f, StatValueType.Scale);
+            _healScaleAgent = hasSurvivalStats.HealthGroup.HealScale.AddAgent(Sender.gameObject, $"{Sender.Information.Name} Ignite", 0.5f, StatValueType.Scale);
         }
 
         protected virtual bool UnapplyReducedHealing()
@@ -62,11 +62,11 @@ namespace Asce.Game.StatusEffects
             _damageDealCooldown.Update(deltaTime);
             if (_damageDealCooldown.IsComplete)
             {
-                CombatSystem.DamageDealing(new DamageContainer(Sender.Stats, Target.Stats)
+                CombatSystem.DamageDealing(new DamageContainer(Sender, Target)
                 {
                     Damage = _strength,
                     DamageType = DamageType.TrueDamage,
-                    IsInvokeEvent = false,
+                    SourceType = DamageSourceType.Effect,
                 });
 
                 _damageDealCooldown.Reset();

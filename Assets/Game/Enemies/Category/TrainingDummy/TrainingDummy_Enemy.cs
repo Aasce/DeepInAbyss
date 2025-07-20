@@ -12,10 +12,10 @@ namespace Asce.Game.Entities.Enemies.Category
         protected override void Start()
         {
             base.Start();
-            Stats.OnAfterTakeDamage += Stats_OnAfterTakeDamage;
+            this.OnAfterTakeDamage += Enemy_OnAfterTakeDamage;
         }
 
-        private void Stats_OnAfterTakeDamage(object sender, DamageContainer container)
+        private void Enemy_OnAfterTakeDamage(object sender, DamageContainer container)
         {
             _refreshCooldown.Reset();
         }

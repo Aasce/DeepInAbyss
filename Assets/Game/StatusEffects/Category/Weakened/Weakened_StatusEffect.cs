@@ -17,7 +17,7 @@ namespace Asce.Game.StatusEffects
 
         public override void Apply()
         {
-            _vfxObject = VFXsManager.Instance.RegisterAndSpawnEffect(Name, Target.transform.position);
+            _vfxObject = VFXsManager.Instance.RegisterAndSpawnEffect(Name, Target.gameObject.transform.position);
             this.ApplyReducted();
         }
 
@@ -41,14 +41,14 @@ namespace Asce.Game.StatusEffects
             // Strength
             if (Target.Stats is IHasStrength hasStrength)
             {
-                _strengthAgent = hasStrength.Strength.AddAgent(Sender.gameObject, $"{Sender.name} weakened", -_strength, StatValueType.Ratio);
+                _strengthAgent = hasStrength.Strength.AddAgent(Sender.gameObject, $"{Sender.Information.Name} weakened", -_strength, StatValueType.Ratio);
             }
 
             // Defense
             if (Target.Stats is IHasDefense hasDefense)
             {
-                _armorAgent = hasDefense.DefenseGroup.Armor.AddAgent(Sender.gameObject, $"{Sender.name} weakened", -_strength, StatValueType.Ratio);
-                _resistanceAgent = hasDefense.DefenseGroup.Resistance.AddAgent(Sender.gameObject, $"{Sender.name} weakened", -_strength, StatValueType.Ratio);
+                _armorAgent = hasDefense.DefenseGroup.Armor.AddAgent(Sender.gameObject, $"{Sender.Information.Name} weakened", -_strength, StatValueType.Ratio);
+                _resistanceAgent = hasDefense.DefenseGroup.Resistance.AddAgent(Sender.gameObject, $"{Sender.Information.Name} weakened", -_strength, StatValueType.Ratio);
             }
         }
 

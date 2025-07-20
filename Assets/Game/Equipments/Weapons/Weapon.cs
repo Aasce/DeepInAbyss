@@ -113,7 +113,7 @@ namespace Asce.Game.Equipments.Weapons
         public virtual void DealingDamage(ICreature creature, Vector2 position = default)
         {
             float damageScale = (Information != null) ? Information.MeleeDamageScale : 1f;
-            CombatSystem.DamageDealing(new DamageContainer(Owner.Stats, creature.Stats)
+            CombatSystem.DamageDealing(new DamageContainer(Owner, creature)
             {
                 Damage = Owner.Stats.Strength.Value * damageScale,
                 DamageType = DamageType.Physical,
