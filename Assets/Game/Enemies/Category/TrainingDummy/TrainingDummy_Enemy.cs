@@ -24,15 +24,14 @@ namespace Asce.Game.Entities.Enemies.Category
         {
             base.Update();
 
+            if (Stats.HealthGroup.Health.IsFull) return;
             _refreshCooldown.Update(Time.deltaTime);
             if (_refreshCooldown.IsComplete)
             {
-                if (!Stats.HealthGroup.Health.IsFull)
-                {
-                    Combats.CombatSystem.Healing(this, Stats, transform.position, Stats.HealthGroup.Health.Value);
-                    Status.SetStatus(EntityStatusType.Alive);
+                CombatSystem.Healing(this, Stats, transform.position, Stats.HealthGroup.Health.Value);
+                Status.SetStatus(EntityStatusType.Alive);
 
-                }
+                _refreshCooldown.Reset();
             }
         }
     }

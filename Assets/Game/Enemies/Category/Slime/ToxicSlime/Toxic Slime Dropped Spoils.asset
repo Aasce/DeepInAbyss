@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4dc4c3b736ff3142a798f7f2c2a6d64, type: 3}
+  m_Script: {fileID: 11500000, guid: 88789a64dee6c6844a8e6b8f46dc70d1, type: 3}
   m_Name: Toxic Slime Dropped Spoils
   m_EditorClassIdentifier: 
   _droppedSpoils:
   - _item: {fileID: 11400000, guid: 537c377556b63364dabdb534e76523b6, type: 2}
     _dropChance: 1
-    _quantityRange: {x: 1, y: 3}
-    _durationRatioRange: {x: 0, y: 1}
+    _quantityRange: {x: 1, y: 2}
+    _durationRatioRange: {x: 0, y: 0}
   - _item: {fileID: 11400000, guid: 537c377556b63364dabdb534e76523b6, type: 2}
     _dropChance: 0.25
     _quantityRange: {x: 1, y: 2}
-    _durationRatioRange: {x: 0, y: 1}
-  - _item: {fileID: 11400000, guid: b428f0f18a84af14e8149cd0b178def5, type: 2}
-    _dropChance: 0.25
-    _quantityRange: {x: 1, y: 2}
-    _durationRatioRange: {x: 0, y: 1}
+    _durationRatioRange: {x: 0, y: 0}
+  - _item: {fileID: 11400000, guid: 364cdb4d852b5ab4385408565c749284, type: 2}
+    _dropChance: 0.2
+    _quantityRange: {x: 1, y: 1}
+    _durationRatioRange: {x: 0, y: 0}

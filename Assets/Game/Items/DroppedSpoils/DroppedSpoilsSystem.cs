@@ -6,7 +6,7 @@ namespace Asce.Game.Items
 {
     public static class DroppedSpoilsSystem
     {
-        public static List<Item> GetDroppedItems(SO_CreatureDroppedSpoils droppedSpoils)
+        public static List<Item> GetDroppedItems(SO_DroppedSpoils droppedSpoils)
         {
             List<Item> dropped = new();
             foreach (DroppedSpoilsContainer drop in droppedSpoils.DroppedSpoils)

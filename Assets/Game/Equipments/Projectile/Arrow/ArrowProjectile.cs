@@ -49,7 +49,7 @@ namespace Asce.Game.Equipments
                 if (collision.gameObject.TryGetComponent(out ICreature creature))
                 {
                     Vector2 position = collision.contactCount > 0 ? collision.GetContact(0).point : (Vector2)collision.transform.position;
-                    this.DealDamage(creature, position);
+                    this.DealDamageTo(creature, position);
                 }
 
                 this.SetSortingLayer(collision);

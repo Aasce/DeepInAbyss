@@ -1,22 +1,19 @@
-using Asce.Game.Entities;
 using Asce.Game.Entities.Enemies;
 using System.Collections;
 using UnityEngine;
 
 namespace Asce.Game.Spawners
 {
-    public class EnemySpawner : CreatureSpawner<Enemy>
+    public class EnemySpawner : EntitySpawner<Enemy>
     {
         public override Enemy Spawn(Vector2 position)
         {
             Enemy spawnedEnemy = base.Spawn(position);
             if (spawnedEnemy == null) return null;
 
-            spawnedEnemy.Status.SetStatus(EntityStatusType.Alive);
-            spawnedEnemy.Status.SpawnPosition = spawnedEnemy.transform.position;
             spawnedEnemy.Status.OnDeath += Enemy_OnDeath;
             spawnedEnemy.gameObject.SetActive(true);
-            if (spawnedEnemy is IOptimizedComponent optimizedEnemy) optimizedEnemy.SetActivate(false); 
+            if (spawnedEnemy is IOptimizedComponent optimizedEntity) optimizedEntity.SetActivate(false);
 
             return spawnedEnemy;
         }

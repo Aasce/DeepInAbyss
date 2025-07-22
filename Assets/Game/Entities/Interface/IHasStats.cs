@@ -9,4 +9,6 @@ namespace Asce.Game.Entities
     {
         TController Stats { get; }
     }
+
+    public interface IHasStats : IHasStats<IStatsController<IBaseStatsData>, IBaseStatsData> { }
 }

@@ -9,12 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4dc4c3b736ff3142a798f7f2c2a6d64, type: 3}
+  m_Script: {fileID: 11500000, guid: 88789a64dee6c6844a8e6b8f46dc70d1, type: 3}
   m_Name: Orc Warrior Dropped Spoils
   m_EditorClassIdentifier: 
   _droppedSpoils:
-  - _item: {fileID: 11400000, guid: 998f6daf80b25f74195322bf9ed986b3, type: 2}
-    _dropChance: 0.45
+  - _item: {fileID: 11400000, guid: b428f0f18a84af14e8149cd0b178def5, type: 2}
+    _dropChance: 0.8
+    _quantityRange: {x: 1, y: 2}
+    _durationRatioRange: {x: 0, y: 0}
+  - _item: {fileID: 11400000, guid: b9cc899da85782244bcb8b02e254e5d2, type: 2}
+    _dropChance: 0.5
     _quantityRange: {x: 1, y: 2}
     _durationRatioRange: {x: 0, y: 0}
   - _item: {fileID: 11400000, guid: 0ab5c08a07580494dad50e3eb36bcee0, type: 2}
@@ -22,14 +26,14 @@ MonoBehaviour:
     _quantityRange: {x: 1, y: 1}
     _durationRatioRange: {x: 0, y: 0}
   - _item: {fileID: 11400000, guid: 28fb7655023896344ac27be79088b416, type: 2}
-    _dropChance: 0.75
-    _quantityRange: {x: 1, y: 3}
+    _dropChance: 0.5
+    _quantityRange: {x: 2, y: 3}
     _durationRatioRange: {x: 0, y: 0}
-  - _item: {fileID: 11400000, guid: 75e055be68515064388907a68d5ef7ff, type: 2}
-    _dropChance: 0.04
+  - _item: {fileID: 11400000, guid: 5bf503a7d5f988040b8cca0997d383c3, type: 2}
+    _dropChance: 0.1
     _quantityRange: {x: 1, y: 1}
-    _durationRatioRange: {x: 0, y: 0}
-  - _item: {fileID: 11400000, guid: 55a667ae6da71534084e7381528594a2, type: 2}
+    _durationRatioRange: {x: 0.25, y: 0.75}
+  - _item: {fileID: 11400000, guid: 9ecb65f6557527546947018802340e45, type: 2}
     _dropChance: 0.1
     _quantityRange: {x: 1, y: 1}
     _durationRatioRange: {x: 0.25, y: 0.75}
@@ -37,11 +41,7 @@ MonoBehaviour:
     _dropChance: 0.1
     _quantityRange: {x: 1, y: 1}
     _durationRatioRange: {x: 0.25, y: 0.75}
-  - _item: {fileID: 11400000, guid: 5bf503a7d5f988040b8cca0997d383c3, type: 2}
-    _dropChance: 0.1
-    _quantityRange: {x: 1, y: 1}
-    _durationRatioRange: {x: 0.25, y: 0.75}
-  - _item: {fileID: 11400000, guid: 9ecb65f6557527546947018802340e45, type: 2}
+  - _item: {fileID: 11400000, guid: 55a667ae6da71534084e7381528594a2, type: 2}
     _dropChance: 0.1
     _quantityRange: {x: 1, y: 1}
     _durationRatioRange: {x: 0.25, y: 0.75}

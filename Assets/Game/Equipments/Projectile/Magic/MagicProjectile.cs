@@ -57,9 +57,9 @@ namespace Asce.Game.Equipments
                 if (collider ==  null) continue;
                 if (!collider.enabled) continue;
                 if (collider.gameObject == Owner.gameObject) continue;
-                if (!collider.TryGetComponent(out ICreature creature)) continue;
+                if (!collider.TryGetComponent(out IEntity entity)) continue;
 
-                this.DealDamage(creature, creature.gameObject.transform.position);
+                this.DealDamageTo(target: entity, entity.gameObject.transform.position);
             }
         }
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies
 {
-    public class EnemyUI : CreatureUI, IHasOwner<Enemy>, ICreatureUI
+    public class EnemyUI : CreatureUI, IHasOwner<Enemy>, IEntityUI
     {
         public new Enemy Owner
         {
@@ -17,7 +17,7 @@ namespace Asce.Game.Entities.Enemies
 
         }
 
-        protected override void Register()
+        public override void Register()
         {
             base.Register();
             

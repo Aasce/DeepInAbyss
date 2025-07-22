@@ -1,22 +1,10 @@
-using Asce.Game.Combats;
 using Asce.Game.Stats;
-using Asce.Managers.Attributes;
-using Asce.Managers.Utils;
-using System;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CreatureStats : MonoBehaviour, IHasOwner<Creature>, IStatsController<SO_CreatureBaseStats>, IHasSurvivalStats, IHasCombatStats, IHasUtilitiesStats
+    public class CreatureStats : EntityStats, IHasOwner<Creature>, IStatsController<SO_CreatureBaseStats>, IHasSurvivalStats, IHasCombatStats, IHasUtilitiesStats
     {
-        public static readonly string baseStatsReason = "base stats";
-
-        [SerializeField, Readonly] private Creature _owner;
-        [SerializeField] private SO_CreatureBaseStats _baseStats;
-
-        [Space]
-        [SerializeField] protected bool _isStatsUpdating = true;
-
         [Header("Survival")]
         [SerializeField] protected HealthGroupStats _healthGroup = new();
         [SerializeField] protected StaminaStat _stamina = new();
@@ -33,20 +21,14 @@ namespace Asce.Game.Entities
         /// <summary>
         ///     Reference to the creature that owns this stats controller.
         /// </summary>
-        public virtual Creature Owner
+        public new Creature Owner
         {
-            get => _owner;
-            set => _owner = value;
+            get => base.Owner as Creature;
+            set => base.Owner = value;
         }
-        public virtual bool IsDead => Owner.Status.IsDead;
 
-        public virtual SO_CreatureBaseStats BaseStats => _baseStats;
+        public new SO_CreatureBaseStats BaseStats => base.BaseStats as SO_CreatureBaseStats;
 
-        public virtual bool IsStatsUpdating
-        {
-            get => _isStatsUpdating;
-            set => _isStatsUpdating = value;
-        }
 
         public HealthGroupStats HealthGroup => _healthGroup;
         public StaminaStat Stamina => _stamina;
@@ -59,28 +41,7 @@ namespace Asce.Game.Entities
         public ViewRadiusStat ViewRadius => _viewRadius;
 
 
-        protected virtual void Reset()
-        {
-            if (transform.LoadComponent(out _owner))
-            {
-                Owner.Stats = this;
-            }
-        }
-
-        protected virtual void Start()
-        {
-            this.LoadBaseStats();
-            Owner.Status.OnDeath += Owner_OnDeath;
-            Owner.Status.OnRevive += Owner_OnRevive;
-        }
-
-        protected virtual void Update()
-        {
-            this.UpdateStats(Time.deltaTime);
-        }
-
-
-        public virtual void LoadBaseStats()
+        public override void LoadBaseStats()
         {
             if (BaseStats == null) return;
 
@@ -114,7 +75,7 @@ namespace Asce.Game.Entities
             ViewRadius.AddAgent(gameObject, baseStatsReason, BaseStats.ViewRadius, StatValueType.Base).ToNotClearable();
         }
 
-        public virtual void UpdateStats(float deltaTime)
+        public override void UpdateStats(float deltaTime)
         {
             if (!IsStatsUpdating) return;
             
@@ -125,7 +86,7 @@ namespace Asce.Game.Entities
             DefenseGroup.Update(deltaTime);
         }
 
-        public virtual void ClearStats(bool isForceClear = false)
+        public override void ClearStats(bool isForceClear = false)
         {
             HealthGroup.Clear(isForceClear);
             Stamina.Clear(isForceClear);
@@ -138,7 +99,7 @@ namespace Asce.Game.Entities
             ViewRadius.Clear(isForceClear);
         }
 
-        public virtual void ResetStats()
+        public override void ResetStats()
         {
             this.ClearStats();
             HealthGroup.Reset();
@@ -151,17 +112,5 @@ namespace Asce.Game.Entities
             Speed.Reset();
             ViewRadius.Reset();
         }
-
-        protected virtual void Owner_OnDeath(object sender)
-        {
-            IsStatsUpdating = false;
-        }
-
-        protected virtual void Owner_OnRevive(object sender)
-        {
-            IsStatsUpdating = true;
-            this.ResetStats();
-        }
-
     }
 }

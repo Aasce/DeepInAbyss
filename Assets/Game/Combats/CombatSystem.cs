@@ -1,4 +1,6 @@
 using Asce.Game.Entities;
+using Asce.Game.Entities.AIs;
+using Asce.Game.Entities.Ores;
 using Asce.Game.FloatingTexts;
 using Asce.Game.Stats;
 using UnityEngine;
@@ -28,19 +30,43 @@ namespace Asce.Game.Combats
             container.Sender.BeforeSendDamage(container);
             container.Receiver.BeforeTakeDamage(container);
 
-            float defense = GetDefense((container.Receiver as ICreature).Stats, container.DamageType);
+            if (container.Receiver is ICreature) DamageDealingCreature(container);
+            else if (container.Receiver is IOre) DamageDealingOre(container);
+
+            container.Receiver.AfterTakeDamage(container);
+            container.Sender.AfterSendDamage(container);
+        }
+
+        private static void DamageDealingCreature(DamageContainer container)
+        {
+            if (container.Receiver is not ICreature entity) return;
+            IHasDefense hasDefense = entity.Stats;
+            IHasHealth hasHealth = entity.Stats;
+
+            DamageDealingEntity(container, hasDefense, hasHealth);
+        }
+
+        private static void DamageDealingOre(DamageContainer container)
+        {
+            if (container.Receiver is not IOre ore) return;
+            IHasDefense hasDefense = ore.Stats;
+            IHasHealth hasHealth = ore.Stats;
+
+            DamageDealingEntity(container, hasDefense, hasHealth);
+        }
+
+        private static void DamageDealingEntity(DamageContainer container, IHasDefense hasDefense, IHasHealth hasHealth)
+        {
+            float defense = GetDefense(hasDefense, container.DamageType);
             float finalDefense = DefenseAfterPenetration(defense, container.Penetration, container.PenetrationType);
 
             float damageDeal = container.Damage * DeductDamageRatio(finalDefense);
 
-            float finalDamage = DamageAffterShield((container.Receiver as ICreature).Stats, damageDeal);
+            float finalDamage = DamageAffterShield(hasDefense, damageDeal);
             float absorbedByShield = damageDeal - finalDamage;
 
             container.FinalDamage = finalDamage;
-            SendDamage(container.Sender, (container.Receiver as ICreature).Stats, finalDamage);
-
-            container.Receiver.AfterTakeDamage(container);
-            container.Sender.AfterSendDamage(container);
+            SendDamage(container.Sender, hasHealth, finalDamage);
 
             if (absorbedByShield > 0)
             {

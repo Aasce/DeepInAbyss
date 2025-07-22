@@ -68,9 +68,9 @@ namespace Asce.Game.Entities.Characters
                 if (!collider.enabled) continue;
                 if (collider.transform == transform) continue; // Ignore self
                 if (_damagedObject.Contains(collider.gameObject)) continue; // Avoid dealing damage to the same creature multiple times
-                if (!collider.TryGetComponent(out ICreature creature)) continue;
+                if (!collider.TryGetComponent(out IEntity entity)) continue;
 
-                CombatSystem.DamageDealing(new DamageContainer(this, creature)
+                CombatSystem.DamageDealing(new DamageContainer(this, entity as ITakeDamageable)
                 {
                     Damage = Stats.Strength.Value * 0.4f,
                     DamageType = DamageType.Physical,

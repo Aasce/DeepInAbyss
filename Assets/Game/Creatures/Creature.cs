@@ -91,66 +91,27 @@ namespace Asce.Game.Entities
             set => _isControled = value;
         }
 
-        protected override void Reset()
-        {
-            base.Reset();
-        }
 
-        protected override void Awake()
+        protected override void RefReset()
         {
-            base.Awake();
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
+            base.RefReset();
+            if (this.LoadComponent(out _physicController)) PhysicController.Owner = this;
+            if (this.LoadComponent(out _view)) View.Owner = this;
+            if (this.LoadComponent(out _ui)) UI.Owner = this;
+            if (this.LoadComponent(out _action)) Action.Owner = this;
+            if (this.LoadComponent(out _stats)) Stats.Owner = this;
+            if (this.LoadComponent(out _statusEffect)) StatusEffect.Owner = this;
+            if (this.LoadComponent(out _equipment)) Equipment.Owner = this;
+            if (this.LoadComponent(out _inventory)) Inventory.Owner = this;
+            if (this.LoadComponent(out _spoils)) Spoils.Owner = this;
         }
 
         protected override void Start()
         {
             base.Start();
 
-        }
-
-        protected override void RefReset()
-        {
-            base.RefReset();
-            if (this.LoadComponent(out _physicController))
-            {
-                PhysicController.Owner = this;
-            }
-            if (this.LoadComponent(out _view))
-            {
-                View.Owner = this;
-            }
-            if (this.LoadComponent(out _ui))
-            {
-                UI.Owner = this;
-            }
-            if (this.LoadComponent(out _action))
-            {
-                Action.Owner = this;
-            }
-            if (this.LoadComponent(out _stats))
-            {
-                Stats.Owner = this;
-            }
-            if (this.LoadComponent(out _statusEffect))
-            {
-                StatusEffect.Owner = this;
-            }
-            if (this.LoadComponent(out _equipment))
-            {
-                Equipment.Owner = this;
-            }
-            if (this.LoadComponent(out _inventory))
-            {
-                Inventory.Owner = this;
-            }
-            if (this.LoadComponent(out _spoils))
-            {
-                Spoils.Owner = this;
-            }
+            if (Stats != null) Stats.LoadBaseStats();
+            if (UI != null) UI.Register();
         }
 
 

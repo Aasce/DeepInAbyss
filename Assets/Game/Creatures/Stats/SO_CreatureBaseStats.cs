@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    [CreateAssetMenu(menuName = "Asce/Entities/Creature Base Data", fileName = "Creature Base Data")]
-    public class SO_CreatureBaseStats : ScriptableObject, IBaseStatsData
+    [CreateAssetMenu(menuName = "Asce/Entities/Creature Base Stats", fileName = "Creature Base Stats")]
+    public class SO_CreatureBaseStats : SO_EntityBaseStats, IBaseStatsData
     {
         [Header("Survival")]
         [SerializeField, Min(0f)] protected float _maxHealth;

@@ -1,6 +1,7 @@
 using Asce.Editors.Templates;
 using Asce.Game.Entities;
 using Asce.Game.Entities.Enemies;
+using Asce.Game.Items;
 using Asce.Game.UIs.Creatures;
 using Asce.Managers.Utils;
 using System;
@@ -31,7 +32,7 @@ namespace Asce.Editors.Windows
         private string _folderPath;
         private SO_EntityInformation _enemyInformation;
         private SO_EnemyBaseStats _enemyBaseStats;
-        private SO_CreatureDroppedSpoils _creatureDroppedSpoils;
+        private SO_DroppedSpoils _creatureDroppedSpoils;
         private GameObject _enemyPrefab;
         private Animator _enemyAnimator;
         private Material _enemyMaterial;
@@ -83,7 +84,7 @@ namespace Asce.Editors.Windows
                 GUI.enabled = false;
                 _enemyInformation = EditorGUILayout.ObjectField("Enemy Information", _enemyInformation, typeof(SO_EntityInformation), false) as SO_EntityInformation;
                 _enemyBaseStats = EditorGUILayout.ObjectField("Enemy Base Stats", _enemyBaseStats, typeof(SO_EnemyBaseStats), false) as SO_EnemyBaseStats;
-                _creatureDroppedSpoils = EditorGUILayout.ObjectField("Enemy Dropped Spoils", _creatureDroppedSpoils, typeof(SO_CreatureDroppedSpoils), false) as SO_CreatureDroppedSpoils;
+                _creatureDroppedSpoils = EditorGUILayout.ObjectField("Enemy Dropped Spoils", _creatureDroppedSpoils, typeof(SO_DroppedSpoils), false) as SO_DroppedSpoils;
                 _enemyPrefab = EditorGUILayout.ObjectField("Enemy Prefab", _enemyPrefab, typeof(GameObject), false) as GameObject;
                 GUI.enabled = true;
 
@@ -140,7 +141,7 @@ namespace Asce.Editors.Windows
 
             _enemyInformation = AssetDatabase.LoadAssetAtPath<SO_EntityInformation>($"{_folderPath}/{informationAssetName}.asset");
             _enemyBaseStats = AssetDatabase.LoadAssetAtPath<SO_EnemyBaseStats>($"{_folderPath}/{baseStatsAssetName}.asset");
-            _creatureDroppedSpoils = AssetDatabase.LoadAssetAtPath<SO_CreatureDroppedSpoils>($"{_folderPath}/{dropSpoilsAssetName}.asset");
+            _creatureDroppedSpoils = AssetDatabase.LoadAssetAtPath<SO_DroppedSpoils>($"{_folderPath}/{dropSpoilsAssetName}.asset");
             _enemyPrefab = AssetDatabase.LoadAssetAtPath<GameObject>($"{_folderPath}/{prefabAssetName}");
         }
 
@@ -286,7 +287,7 @@ namespace Asce.Editors.Windows
             }
 
             // Create SO instance
-            _creatureDroppedSpoils = ScriptableObject.CreateInstance<SO_CreatureDroppedSpoils>();
+            _creatureDroppedSpoils = ScriptableObject.CreateInstance<SO_DroppedSpoils>();
             AssetDatabase.CreateAsset(_creatureDroppedSpoils, assetPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

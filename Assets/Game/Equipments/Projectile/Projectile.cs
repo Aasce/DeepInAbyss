@@ -165,12 +165,12 @@ namespace Asce.Game.Equipments
             Destroy(gameObject);
         }
 
-        protected virtual void DealDamage(ICreature target, Vector2 position)
+        protected virtual void DealDamageTo(IEntity target, Vector2 position)
         {
             if (target == null) return;
             if (target.Status.IsDead) return;
 
-            CombatSystem.DamageDealing(new DamageContainer(Owner, target)
+            CombatSystem.DamageDealing(new DamageContainer(Owner, target as ITakeDamageable)
             {
                 Damage = _damage,
                 DamageType = _damageType,

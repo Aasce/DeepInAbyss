@@ -11,7 +11,7 @@ namespace Asce.Game.Equipments.Weapons
         [SerializeField] protected float _bladeDamageScale = 2f; // Scale for critical damage
         [SerializeField] protected float _bladePenetration = 10f; // Scale for critical damage
 
-        protected HashSet<ICreature> _hitCreatures = new();
+        protected HashSet<IEntity> _hitCreatures = new();
 
         public HitBox BladeHitBox => _bladeHitBox;
 
@@ -22,25 +22,25 @@ namespace Asce.Game.Equipments.Weapons
             foreach (Collider2D collider in colliders)
             {
                 if (!collider.enabled) continue;
-                if (!collider.TryGetComponent(out ICreature creature)) continue;
-                if (Owner == creature) continue; // Ignore self
+                if (!collider.TryGetComponent(out IEntity entity)) continue;
+                if (Owner == entity) continue; // Ignore self
 
-                this.DealingCritialDamage(creature, collider.ClosestPoint(transform.position));
+                this.DealingCritialDamage(entity, collider.ClosestPoint(transform.position));
             }
 
             base.Attacking(); // Calculate colliders for the main hitbox
         }
 
-        public override void DealingDamage(ICreature creature, Vector2 position = default)
+        public override void DealingDamage(IEntity entity, Vector2 position = default)
         {
-            if (_hitCreatures.Contains(creature)) return; // Prevent hitting the same creature multiple times
-            base.DealingDamage(creature, position);
+            if (_hitCreatures.Contains(entity)) return; // Prevent hitting the same creature multiple times
+            base.DealingDamage(entity, position);
         }
 
-        public virtual void DealingCritialDamage(ICreature creature, Vector2 position = default)
+        public virtual void DealingCritialDamage(IEntity entity, Vector2 position = default)
         {
             float damageScale = (Information != null) ? Information.MeleeDamageScale : 1f;
-            CombatSystem.DamageDealing(new DamageContainer(Owner, creature)
+            CombatSystem.DamageDealing(new DamageContainer(Owner, entity as ITakeDamageable)
             {
                 Damage = Owner.Stats.Strength.Value * damageScale * _bladeDamageScale,
                 DamageType = DamageType.Physical,
@@ -48,7 +48,7 @@ namespace Asce.Game.Equipments.Weapons
 
                 Position = position,
             });
-            _hitCreatures.Add(creature);
+            _hitCreatures.Add(entity);
         }
 
         public override void EndAttacking(AttackType attackType = AttackType.None)

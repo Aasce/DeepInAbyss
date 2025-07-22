@@ -98,10 +98,10 @@ namespace Asce.Game.Equipments.Weapons
             foreach (Collider2D collider in colliders)
             {
                 if (!collider.enabled) continue;
-                if (!collider.TryGetComponent(out ICreature creature)) continue;
-                if (Owner == creature) continue; // Ignore self
+                if (!collider.TryGetComponent(out IEntity entity)) continue;
+                if (Owner == entity) continue; // Ignore self
 
-                this.DealingDamage(creature, collider.ClosestPoint(transform.position));
+                this.DealingDamage(entity, collider.ClosestPoint(transform.position));
             }
         }
 
@@ -110,10 +110,10 @@ namespace Asce.Game.Equipments.Weapons
             _currentAttackType = AttackType.None;
         }
 
-        public virtual void DealingDamage(ICreature creature, Vector2 position = default)
+        public virtual void DealingDamage(IEntity entity, Vector2 position = default)
         {
             float damageScale = (Information != null) ? Information.MeleeDamageScale : 1f;
-            CombatSystem.DamageDealing(new DamageContainer(Owner, creature)
+            CombatSystem.DamageDealing(new DamageContainer(Owner, entity as ITakeDamageable)
             {
                 Damage = Owner.Stats.Strength.Value * damageScale,
                 DamageType = DamageType.Physical,
