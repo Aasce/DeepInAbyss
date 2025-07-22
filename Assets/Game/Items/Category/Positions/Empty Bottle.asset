@@ -27,4 +27,4 @@ MonoBehaviour:
       type: {class: StackableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Stackable
-        _maxStack: 10
+        _maxStack: 5

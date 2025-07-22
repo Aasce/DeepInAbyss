@@ -1,5 +1,6 @@
 using Asce.Game.Combats;
 using Asce.Game.Entities;
+using Asce.Managers;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
 namespace Asce.Game.Equipments.Weapons
 {
     [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
-    public class Weapon : MonoBehaviour
+    public class WeaponObject : GameComponent
     {
         // Ref
         [SerializeField, Readonly] protected WeaponView _view;
@@ -46,12 +47,10 @@ namespace Asce.Game.Equipments.Weapons
         public Vector2 TipPosition => (_tip == null) ? transform.position + transform.right : _tip.position;
         
 
-        protected virtual void Reset()
+        protected override void RefReset()
         {
-            if (this.LoadComponent(out _view))
-            {
-                View.Owner = this;
-            }
+            base.RefReset();
+            if (this.LoadComponent(out _view)) View.Owner = this;
             this.LoadComponent(out _collider);
             this.LoadComponent(out _rigidBody);
         }

@@ -10,36 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bdd0535213de02499fce8a14e652a76, type: 3}
-  m_Name: Golden Sword
+  m_Name: Sickle
   m_EditorClassIdentifier: 
-  _name: Golden Sword
+  _name: Sickle
   _description: 
-  _icon: {fileID: 21300000, guid: 90e99a7fde056a4418b9fe16084adb5c, type: 3}
+  _icon: {fileID: 0}
   _type: 11
-  _rarity: 12
+  _rarity: 10
   _propertyType: 15616
   _properties:
-  - rid: 5783465910747267355
-  - rid: 5783465910747267356
-  - rid: 5783465910747267357
+  - rid: 5783465910747267376
+  - rid: 5783465910747267377
+  - rid: 5783465910747267378
   _equipmentType: 1
-  _weaponType: 2
+  _weaponType: 7
   _attackType: 2
-  _meleeAttackType: 4
-  _meleeDamageScale: 2.2
+  _meleeAttackType: 2
+  _meleeDamageScale: 1.7
+  _weaponObject: {fileID: 5125074530604338735, guid: 9d0ce3363f7a55f4babcc513deaf7a2a, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 5783465910747267355
+    - rid: 5783465910747267376
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Craftable
         _ingredients: []
-    - rid: 5783465910747267356
+    - rid: 5783465910747267377
       type: {class: EnchantableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Enchantable
-    - rid: 5783465910747267357
+    - rid: 5783465910747267378
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable

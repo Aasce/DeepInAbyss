@@ -10,36 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bdd0535213de02499fce8a14e652a76, type: 3}
-  m_Name: Harpoon
+  m_Name: Iron Sword
   m_EditorClassIdentifier: 
-  _name: Harpoon
+  _name: Iron Sword
   _description: 
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
   _type: 11
   _rarity: 10
   _propertyType: 15616
   _properties:
-  - rid: 5783465910747267364
-  - rid: 5783465910747267365
-  - rid: 5783465910747267366
+  - rid: 5783465910747267367
+  - rid: 5783465910747267368
+  - rid: 5783465910747267369
   _equipmentType: 1
-  _weaponType: 8
-  _attackType: 4
+  _weaponType: 2
+  _attackType: 2
   _meleeAttackType: 4
-  _meleeDamageScale: 1.5
+  _meleeDamageScale: 1.25
+  _weaponObject: {fileID: 510132762145398444, guid: 996b77ac879cfd94aa07b8a28bcf0261, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 5783465910747267364
+    - rid: 5783465910747267367
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Craftable
         _ingredients: []
-    - rid: 5783465910747267365
+    - rid: 5783465910747267368
       type: {class: EnchantableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Enchantable
-    - rid: 5783465910747267366
+    - rid: 5783465910747267369
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable

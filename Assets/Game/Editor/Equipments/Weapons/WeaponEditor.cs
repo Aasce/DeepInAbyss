@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace Asce.Editors
 {
-    [CustomEditor(typeof(Weapon))]
+    [CustomEditor(typeof(WeaponObject))]
     public class WeaponEditor : Editor
     {
-        protected Weapon _weapon;
+        protected WeaponObject _weapon;
         protected ICreature _owner;
 
         protected virtual void OnEnable()
         {
-            _weapon = (Weapon)target;
+            _weapon = (WeaponObject)target;
             if (_weapon.Owner != null) _owner = _weapon.Owner;
             else _owner = _weapon.gameObject.GetComponentInParent<ICreature>();
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Asce.Game.Equipments.Weapons
 {
-    public class AxeWeapon : Weapon
+    public class AxeWeapon : WeaponObject
     {
         [SerializeField] protected HitBox _bladeHitBox = new();
         [SerializeField] protected float _bladeDamageScale = 2f; // Scale for critical damage

@@ -10,36 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bdd0535213de02499fce8a14e652a76, type: 3}
-  m_Name: Wooden Bow
+  m_Name: Emerald Staff
   m_EditorClassIdentifier: 
-  _name: Wooden Bow
+  _name: Emerald Staff
   _description: 
-  _icon: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
+  _icon: {fileID: 21300000, guid: c66629df5b6254a4e8dc8c1b69369863, type: 3}
   _type: 11
-  _rarity: 10
+  _rarity: 11
   _propertyType: 15616
   _properties:
-  - rid: 5783465910747267379
-  - rid: 5783465910747267380
-  - rid: 5783465910747267381
+  - rid: 5783465910747267361
+  - rid: 5783465910747267362
+  - rid: 5783465910747267363
   _equipmentType: 1
-  _weaponType: 10
-  _attackType: 2097152
+  _weaponType: 20
+  _attackType: 16384
   _meleeAttackType: 2
   _meleeDamageScale: 0.6
+  _weaponObject: {fileID: 265788639356558122, guid: 450e9b630c32c604198012fa054c1e4a, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 5783465910747267379
+    - rid: 5783465910747267361
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Craftable
         _ingredients: []
-    - rid: 5783465910747267380
+    - rid: 5783465910747267362
       type: {class: EnchantableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Enchantable
-    - rid: 5783465910747267381
+    - rid: 5783465910747267363
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable

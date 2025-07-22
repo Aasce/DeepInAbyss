@@ -41,11 +41,11 @@ namespace Asce.Game.Players
         private void Start()
         {
             if (_mainCharacter != null) this.SetControlledCreature(_mainCharacter);
-            
+
             if (CameraController == null) return;
             if (ControlledCreature == null) return;
 
-            CameraController.Target = ControlledCreature.gameObject.transform; 
+            CameraController.Target = ControlledCreature.gameObject.transform;
             CameraController.ToTarget(Vector2.up * 10f);
         }
 
@@ -81,12 +81,10 @@ namespace Asce.Game.Players
             if (Input.CrawlInput) if (ControlledCreature.Action is ICrawlable crawlable) crawlable.Crawling();
 
             if (ControlledCreature.Action is IAttackable attackable)
-            { 
+            {
                 attackable.Attacking(Input.AttackInput);
                 attackable.MeleeAttacking(Input.MeleeAttackInput);
             }
-
-            if (Input.DetachWeaponInput) if (ControlledCreature.Equipment is IHasWeaponSlot hasWeaponSlot) hasWeaponSlot.WeaponSlot.DetachWeapon();
         }
 
         private void ControlUI()
@@ -116,7 +114,7 @@ namespace Asce.Game.Players
         private void ResetControlCharacter()
         {
             if (ControlledCreature == null) return;
-            
+
             if (ControlledCreature.Action is ILookable lookable) lookable.Looking(false, ControlledCreature.gameObject.transform.position);
             if (ControlledCreature.Action is IMovable movable) movable.Moving(Vector2.zero);
             if (ControlledCreature.Action is IRunnable runnable) runnable.Running(false);

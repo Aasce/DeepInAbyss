@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Asce.Game.Equipments.Weapons
 {
-    public class BowWeapon : Weapon
+    public class BowWeapon : WeaponObject
     {
         // Ref
         [SerializeField] protected ArrowProjectile _arrowPrefab;

@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ca3d6e6baf90343895b732f0f5f57a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 2801868788685183788}
   _alpha: 1
+  _weapon: {fileID: 2801868788685183788}
   _renderer: {fileID: 1230898899272297321}
 --- !u!1 &2108782593930537491
 GameObject:
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2108782593930537491}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66ee48f349b19a3459d7080770db879c, type: 3}
+  m_Script: {fileID: 11500000, guid: afd3dc1963c20134ab9b3ebe2d8d9bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 2298607626003764643}

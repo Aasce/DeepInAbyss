@@ -215,8 +215,6 @@ namespace Asce.Editors.Windows
             {
                 case ItemType.Weapon:
                     return ScriptableObject.CreateInstance<SO_WeaponInformation>();
-                case ItemType.Equipment:
-                    return ScriptableObject.CreateInstance<SO_EquipmentInformation>();
                 default:
                     return ScriptableObject.CreateInstance<SO_ItemInformation>();
             }

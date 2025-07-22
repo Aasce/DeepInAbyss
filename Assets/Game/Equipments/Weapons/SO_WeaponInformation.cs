@@ -1,4 +1,5 @@
 using Asce.Game.Combats;
+using Asce.Game.Equipments.Weapons;
 using UnityEngine;
 
 namespace Asce.Game.Equipments
@@ -7,18 +8,22 @@ namespace Asce.Game.Equipments
     public class SO_WeaponInformation : SO_EquipmentInformation
     {
         [Space]
-        [SerializeField] private WeaponType _weaponType = WeaponType.None;
-        [SerializeField] private AttackType _attackType = AttackType.None;
-        [SerializeField] private AttackType _meleeAttackType = AttackType.Swipe;
+        [SerializeField] protected WeaponType _weaponType = WeaponType.None;
+        [SerializeField] protected AttackType _attackType = AttackType.None;
+        [SerializeField] protected AttackType _meleeAttackType = AttackType.Swipe;
 
         [Space]
-        [SerializeField] private float _meleeDamageScale = 1f;
+        [SerializeField] protected float _meleeDamageScale = 1f;
 
+        [Space]
+        [SerializeField] protected WeaponObject _weaponObject;
 
         public WeaponType WeaponType => _weaponType;
         public AttackType AttackType => _attackType;
         public AttackType MeleeAttackType => _meleeAttackType;
 
         public float MeleeDamageScale => _meleeDamageScale;
+
+        public WeaponObject WeaponObject => _weaponObject;
     }
 }

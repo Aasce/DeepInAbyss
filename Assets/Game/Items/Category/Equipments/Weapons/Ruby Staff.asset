@@ -27,6 +27,7 @@ MonoBehaviour:
   _attackType: 16384
   _meleeAttackType: 2
   _meleeDamageScale: 0.6
+  _weaponObject: {fileID: 1778397978162522452, guid: 9d3ec4786b32cfe46b13cbcb72f6b5f3, type: 3}
   references:
     version: 2
     RefIds:

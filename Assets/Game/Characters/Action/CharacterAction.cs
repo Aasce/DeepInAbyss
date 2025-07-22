@@ -10,7 +10,7 @@ namespace Asce.Game.Entities.Characters
 {
     public class CharacterAction : CreatureAction, IHasOwner<Character>, IActionController, 
         ILookable, IMovable, IRunnable, IJumpable, ICrouchable, ICrawlable, ILadderClimbable, 
-        IDashable, IDodgeable, IAttackable, IThrowableWeapon
+        IDashable, IDodgeable, IAttackable
     {
         #region - FIELDS -
         [Header("Look")]
@@ -220,7 +220,6 @@ namespace Asce.Game.Entities.Characters
         public event Action<object, AttackEventArgs> OnAttackHit;
         public event Action<object, AttackEventArgs> OnAttackEnd;
         public event Action<object, Vector2> OnAttackCast;
-        public event Action<object> OnThrow;
 
 
         #endregion
@@ -1515,7 +1514,7 @@ namespace Asce.Game.Entities.Characters
         #region - ATTACK -
         protected virtual void UpdateAttack(float deltaTime)
         {
-            Weapon weapon = Owner.Equipment.WeaponSlot.CurrentWeapon;
+            WeaponObject weapon = Owner.Equipment.WeaponSlot.CurrentWeapon;
             AttackType currentAttackType = AttackType.Swipe;
 
             if (weapon != null)
@@ -1590,24 +1589,6 @@ namespace Asce.Game.Entities.Characters
             OnAttackCast?.Invoke(Owner, dir);
         }
 
-        public void Throwing()
-        {
-            if (IsStartAttack || IsMeleeAttacking) return;
-            if (IsArrowDrawn) return;
-
-            Weapon weapon = Owner.Equipment.WeaponSlot.CurrentWeapon;
-            if (weapon == null) return;
-
-            Owner.Equipment.WeaponSlot.DetachWeapon();
-
-            weapon.Rigidbody.linearVelocity = Owner.PhysicController.currentVelocity;
-            weapon.Rigidbody.angularVelocity = -Owner.Status.FacingDirectionValue * ThrowAngularSpeed;
-
-            Vector2 targetDirection = TargetPosition - (Vector2)Owner.transform.position;
-            weapon.Rigidbody.AddForce(targetDirection.normalized * ThrowForce);
-
-            OnThrow?.Invoke(this);
-        }
         #endregion
 
         #region - GET DOWN PLATFORM METHODS -

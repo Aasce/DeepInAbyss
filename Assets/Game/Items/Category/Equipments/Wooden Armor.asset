@@ -9,33 +9,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd4e047f8b26e494eabc3f55d1201708, type: 3}
+  m_Script: {fileID: 11500000, guid: db5031307ce29eb47a25bdc48c5549f9, type: 3}
   m_Name: Wooden Armor
   m_EditorClassIdentifier: 
   _name: Wooden Armor
   _description: 
   _icon: {fileID: 21300000, guid: 541ae020fad5efc48a89a38c6218a601, type: 3}
-  _type: 10
+  _type: 0
   _rarity: 0
   _propertyType: 15616
   _properties:
-  - rid: 5783465910747267277
-  - rid: 5783465910747267278
-  - rid: 5783465910747267279
-  _equipmentType: 11
+  - rid: 252983843496657114
+  - rid: 252983843496657115
+  - rid: 252983843496657116
+  - rid: 252983843496657117
   references:
     version: 2
     RefIds:
-    - rid: 5783465910747267277
+    - rid: 252983843496657114
+      type: {class: EquippableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
+      data:
+        _name: Equippable
+        _equipmentType: 11
+    - rid: 252983843496657115
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Craftable
         _ingredients: []
-    - rid: 5783465910747267278
+    - rid: 252983843496657116
       type: {class: EnchantableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Enchantable
-    - rid: 5783465910747267279
+    - rid: 252983843496657117
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable

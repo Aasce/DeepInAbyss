@@ -10,36 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bdd0535213de02499fce8a14e652a76, type: 3}
-  m_Name: Sickle
+  m_Name: Wooden Bow
   m_EditorClassIdentifier: 
-  _name: Sickle
+  _name: Wooden Bow
   _description: 
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
   _type: 11
   _rarity: 10
   _propertyType: 15616
   _properties:
-  - rid: 5783465910747267376
-  - rid: 5783465910747267377
-  - rid: 5783465910747267378
+  - rid: 5783465910747267379
+  - rid: 5783465910747267380
+  - rid: 5783465910747267381
   _equipmentType: 1
-  _weaponType: 7
-  _attackType: 2
+  _weaponType: 10
+  _attackType: 2097152
   _meleeAttackType: 2
-  _meleeDamageScale: 1.7
+  _meleeDamageScale: 0.6
+  _weaponObject: {fileID: 3957683002977499372, guid: 054d8eba8caac2a448c56964717a31a7, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 5783465910747267376
+    - rid: 5783465910747267379
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Craftable
         _ingredients: []
-    - rid: 5783465910747267377
+    - rid: 5783465910747267380
       type: {class: EnchantableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Enchantable
-    - rid: 5783465910747267378
+    - rid: 5783465910747267381
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable

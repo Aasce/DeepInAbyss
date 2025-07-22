@@ -1,11 +1,12 @@
 using Asce.Game.Equipments;
+using Asce.Managers;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CreatureEquipment : MonoBehaviour, IHasOwner<Creature>, IEquipmentController
+    public class CreatureEquipment : GameComponent, IHasOwner<Creature>, IEquipmentController
     {
         [SerializeField, Readonly] private Creature _owner;
 
@@ -16,8 +17,9 @@ namespace Asce.Game.Entities
         }
         ICreature IEquipmentController.Owner => Owner;
 
-        protected virtual void Reset()
+        protected override void RefReset()
         {
+            base.RefReset();
             if (transform.LoadComponent(out _owner))
             {
                 Owner.Equipment = this;

@@ -1,67 +1,64 @@
 using Asce.Game.Equipments.Weapons;
+using Asce.Game.Items;
 using Asce.Managers;
 using System;
 using UnityEngine;
 
 namespace Asce.Game.Equipments
 {
-    public class WeaponSlot : MonoBehaviour, IEquipmentSlot
+    public class WeaponSlot : EquipmentSlot
     {
-        // Ref
-        [SerializeField] protected IEquipmentController _equipmentOwner;
+        [SerializeField] protected WeaponObject _currentWeapon;
 
-        [SerializeField] protected Weapon _currentWeapon;
+        public event Action<object, ValueChangedEventArgs<WeaponObject>> OnWeaponChanged;
 
-        public event Action<object, ValueChangedEventArgs<Weapon>> OnWeaponChanged;
-
-        public IEquipmentController EquipmentOwner
-        {
-            get => _equipmentOwner;
-            set => _equipmentOwner = value;
-        }
-
-        public Weapon CurrentWeapon
+        public WeaponObject CurrentWeapon
         {
             get => _currentWeapon;
             protected set
             {
                 if (_currentWeapon == value) return;
-                Weapon oldWeapon = _currentWeapon;
+                WeaponObject oldWeapon = _currentWeapon;
                 _currentWeapon = value;
 
-                OnWeaponChanged?.Invoke(this, new ValueChangedEventArgs<Weapon>(oldWeapon, _currentWeapon));
+                OnWeaponChanged?.Invoke(this, new ValueChangedEventArgs<WeaponObject>(oldWeapon, _currentWeapon));
             }
         }
 
-        protected virtual void Start()
+        protected override void Register()
         {
-            if (transform.childCount > 0)
-            {
-                // If there is a weapon already attached, set it as the current weapon
-                if (transform.GetChild(0).TryGetComponent(out Weapon weapon))
-                {
-                    this.AddWeapon(weapon);
-                }
-            }
+            base.Register();
+            if (_equipmentItem.IsNull()) return;
+            if (_equipmentItem.Information.Type != ItemType.Weapon) return;
+            if (_equipmentItem.Information is not SO_WeaponInformation weaponInformation) return;
+
+            if (weaponInformation.WeaponObject == null) return;
+            this.SetWeapon(weaponInformation.WeaponObject);
         }
 
-        public void AddWeapon(Weapon weapon)
+        protected override void Unregister()
+        {
+            base.Unregister();
+            this.DetachWeapon(); // Detach the weapon when unregistering
+        }
+
+        protected void SetWeapon(WeaponObject weapon)
         {
             if (weapon == null) return;
             this.DetachWeapon(); // Detach any existing weapon before attaching a new one
 
-            CurrentWeapon = weapon;
+            CurrentWeapon = Instantiate(weapon);
             CurrentWeapon.transform.SetParent(transform);
             CurrentWeapon.OnAttach(EquipmentOwner.Owner);
         }
 
-        public void DetachWeapon()
+        protected void DetachWeapon()
         {
             if (CurrentWeapon == null) return;
 
             CurrentWeapon.OnDetach();
-
-            CurrentWeapon.transform.SetParent(null);
+            WeaponObject weapon = CurrentWeapon;
+            Destroy(weapon.gameObject); // Destroy the weapon instance after detaching it
             CurrentWeapon = null;
         }
     }

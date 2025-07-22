@@ -10,36 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bdd0535213de02499fce8a14e652a76, type: 3}
-  m_Name: Emerald Staff
+  m_Name: Battle Axe
   m_EditorClassIdentifier: 
-  _name: Emerald Staff
+  _name: Battle Axe
   _description: 
-  _icon: {fileID: 21300000, guid: c66629df5b6254a4e8dc8c1b69369863, type: 3}
+  _icon: {fileID: 21300000, guid: 6a08ec4b334ea1c46b8171679417a74f, type: 3}
   _type: 11
-  _rarity: 11
+  _rarity: 10
   _propertyType: 15616
   _properties:
-  - rid: 5783465910747267361
-  - rid: 5783465910747267362
-  - rid: 5783465910747267363
+  - rid: 5783465910747267358
+  - rid: 5783465910747267359
+  - rid: 5783465910747267360
   _equipmentType: 1
-  _weaponType: 20
-  _attackType: 16384
+  _weaponType: 5
+  _attackType: 2
   _meleeAttackType: 2
-  _meleeDamageScale: 0.6
+  _meleeDamageScale: 1
+  _weaponObject: {fileID: 3327814936072430659, guid: 9ebdd847f567615419bed32cda152924, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 5783465910747267361
+    - rid: 5783465910747267358
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Craftable
         _ingredients: []
-    - rid: 5783465910747267362
+    - rid: 5783465910747267359
       type: {class: EnchantableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Enchantable
-    - rid: 5783465910747267363
+    - rid: 5783465910747267360
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable

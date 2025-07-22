@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Asce.Game.Equipments.Weapons
 {
-    public class StaffWeapon : Weapon
+    public class StaffWeapon : WeaponObject
     {
         [Header("Staff")]
         [SerializeField] protected MagicProjectile _magicPrefab;

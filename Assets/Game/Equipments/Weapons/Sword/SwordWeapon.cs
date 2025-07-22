@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Asce.Game.Equipments.Weapons
 {
-    public class SwordWeapon : Weapon
+    public class SwordWeapon : WeaponObject
     {
         [SerializeField] protected HitBox _stabHitBox = new ();
 

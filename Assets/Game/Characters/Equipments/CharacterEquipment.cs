@@ -8,6 +8,13 @@ namespace Asce.Game.Entities.Characters
 {
     public class CharacterEquipment : CreatureEquipment, IHasOwner<Character>, IEquipmentController, IHasWeaponSlot
     {
+        [SerializeField] protected HeadSlot _headSlot;
+        [SerializeField] protected ChestSlot _chestSlot;
+        [SerializeField] protected LegsSlot _legsSlot;
+        [SerializeField] protected FeetsSlot _feetSlot;
+        [SerializeField] protected BackpackSlot _backpackSlot;
+
+        [Space]
         [SerializeField] protected WeaponSlot _weaponSlot;
         [SerializeField] protected OtherSlot _leftHandSlot;
 
@@ -17,18 +24,37 @@ namespace Asce.Game.Entities.Characters
             set => base.Owner = value;
         }
 
+        public HeadSlot HeadSlot => _headSlot;
+        public ChestSlot ChestSlot => _chestSlot;
+        public LegsSlot LegsSlot => _legsSlot;
+        public FeetsSlot FeetSlot => _feetSlot;
+        public BackpackSlot BackpackSlot => _backpackSlot;
+
         public WeaponSlot WeaponSlot => _weaponSlot;
         public OtherSlot LeftHandSlot => _leftHandSlot;
 
-        protected override void Reset()
+
+        protected override void RefReset()
         {
-            base.Reset();
+            base.RefReset();
+            this.LoadComponent(out _headSlot);
+            this.LoadComponent(out _chestSlot);
+            this.LoadComponent(out _legsSlot);
+            this.LoadComponent(out _feetSlot);
+            this.LoadComponent(out _backpackSlot);
+
             this.LoadComponent(out _weaponSlot);
             this.LoadComponent(out _leftHandSlot);
         }
         protected override void Awake()
         {
             base.Awake();
+            HeadSlot.EquipmentOwner = this;
+            ChestSlot.EquipmentOwner = this;
+            LegsSlot.EquipmentOwner = this;
+            FeetSlot.EquipmentOwner = this;
+            BackpackSlot.EquipmentOwner = this;
+
             WeaponSlot.EquipmentOwner = this;
             LeftHandSlot.EquipmentOwner = this;
         }
@@ -78,10 +104,10 @@ namespace Asce.Game.Entities.Characters
         protected override void Status_OnDeath(object sender)
         {
             base.Status_OnDeath(sender);
-            WeaponSlot.DetachWeapon();
+            WeaponSlot.RemoveEquipment();
         }
 
-        protected virtual void WeaponSlot_OnWeaponChanged(object sender, Managers.ValueChangedEventArgs<Weapon> args)
+        protected virtual void WeaponSlot_OnWeaponChanged(object sender, Managers.ValueChangedEventArgs<WeaponObject> args)
         {
             this.SetAttackType();
         }

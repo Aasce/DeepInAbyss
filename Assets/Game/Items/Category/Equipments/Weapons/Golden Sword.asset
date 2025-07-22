@@ -10,36 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bdd0535213de02499fce8a14e652a76, type: 3}
-  m_Name: Battle Axe
+  m_Name: Golden Sword
   m_EditorClassIdentifier: 
-  _name: Battle Axe
+  _name: Golden Sword
   _description: 
-  _icon: {fileID: 21300000, guid: 6a08ec4b334ea1c46b8171679417a74f, type: 3}
+  _icon: {fileID: 21300000, guid: 90e99a7fde056a4418b9fe16084adb5c, type: 3}
   _type: 11
-  _rarity: 10
+  _rarity: 12
   _propertyType: 15616
   _properties:
-  - rid: 5783465910747267358
-  - rid: 5783465910747267359
-  - rid: 5783465910747267360
+  - rid: 5783465910747267355
+  - rid: 5783465910747267356
+  - rid: 5783465910747267357
   _equipmentType: 1
-  _weaponType: 5
+  _weaponType: 2
   _attackType: 2
-  _meleeAttackType: 2
-  _meleeDamageScale: 1
+  _meleeAttackType: 4
+  _meleeDamageScale: 2.2
+  _weaponObject: {fileID: 2703363152124429903, guid: 4965b23779c27434da97fde90c7011e0, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 5783465910747267358
+    - rid: 5783465910747267355
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Craftable
         _ingredients: []
-    - rid: 5783465910747267359
+    - rid: 5783465910747267356
       type: {class: EnchantableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Enchantable
-    - rid: 5783465910747267360
+    - rid: 5783465910747267357
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable

@@ -5,10 +5,10 @@ namespace Asce.Game.Equipments.Weapons
 {
     public class WeaponView : ViewController
     {
-        [SerializeField, Readonly] protected Weapon _weapon;
+        [SerializeField, Readonly] protected WeaponObject _weapon;
         [SerializeField] protected Renderer _renderer;
 
-        public Weapon Owner
+        public WeaponObject Owner
         {
             get => _weapon;
             set => _weapon = value;

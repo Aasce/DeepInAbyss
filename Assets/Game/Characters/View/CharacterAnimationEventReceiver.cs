@@ -66,13 +66,6 @@ namespace Asce.Game.Entities.Characters
             Owner.Action.AttackEnd();
         }
 
-        // When the attack action is supposed to throw out the holding weapon
-        // Used only in [Throw] attack action
-        public void OnThrow()
-        {
-            Owner.Action.Throwing();
-        }
-
         #endregion
 
         #region - ARCHERY EVENTS -

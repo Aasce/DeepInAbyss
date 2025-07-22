@@ -25,7 +25,6 @@ namespace Asce.Game.Players
         [Space]
         [SerializeField] private bool _attackInput;
         [SerializeField] private bool _meleeAttackInput;
-        [SerializeField] private bool _detachWeaponInput;
 
         [Space]
         [SerializeField] private bool _toggleInventoryInput;
@@ -59,7 +58,6 @@ namespace Asce.Game.Players
         public bool CrawlInput => _crawlInput; 
         public bool AttackInput => _attackInput;
         public bool MeleeAttackInput => _meleeAttackInput;
-        public bool DetachWeaponInput => _detachWeaponInput;
 
         public bool ToggleInventoryInput => _toggleInventoryInput;
 
@@ -92,7 +90,6 @@ namespace Asce.Game.Players
 
             _attackInput = Input.GetKey(Player.Settings.AttackKey);
             _meleeAttackInput = Input.GetKey(Player.Settings.MeleeAttackKey);
-            _detachWeaponInput = Input.GetKeyDown(Player.Settings.DetachWeaponKey);
 
             _toggleInventoryInput = Input.GetKeyDown(Player.Settings.InventoryWindowKey);
 

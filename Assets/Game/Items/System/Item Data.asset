@@ -69,28 +69,6 @@ MonoBehaviour:
     _information: {fileID: 11400000, guid: 67936f25ac06b9a46a2520552ab89fb4, type: 2}
   - _name: Wool
     _information: {fileID: 11400000, guid: d81d8642b72ca27438c2aaf2e4eadcc3, type: 2}
-  - _name: Bag
-    _information: {fileID: 11400000, guid: 0c4ac339e2938c944be2db9a4207950b, type: 2}
-  - _name: Belt
-    _information: {fileID: 11400000, guid: a076f470b8d5fa94989aec737968c0dd, type: 2}
-  - _name: Helm
-    _information: {fileID: 11400000, guid: 9ec13e980ec687549911c0d356f65a9f, type: 2}
-  - _name: Iron Armor
-    _information: {fileID: 11400000, guid: 5bf503a7d5f988040b8cca0997d383c3, type: 2}
-  - _name: Iron Boot
-    _information: {fileID: 11400000, guid: 9ecb65f6557527546947018802340e45, type: 2}
-  - _name: Iron Helmet
-    _information: {fileID: 11400000, guid: 4e25bdf3ecd3ef545a74aa693d16e137, type: 2}
-  - _name: Leather Armor
-    _information: {fileID: 11400000, guid: 2799ac324a711d245bb99c1f35644e1a, type: 2}
-  - _name: Leather Boot
-    _information: {fileID: 11400000, guid: 0d2a67bbab649e14ea60ce1bc41370ab, type: 2}
-  - _name: Leather Helmet
-    _information: {fileID: 11400000, guid: d5dbf2d95ce742846b9e54cba2804ab4, type: 2}
-  - _name: Wizard Hat
-    _information: {fileID: 11400000, guid: 75780f29032e38846b85554caddd54c2, type: 2}
-  - _name: Wooden Armor
-    _information: {fileID: 11400000, guid: c829320cf9f47164fb8290b81f3ceb83, type: 2}
   - _name: Silver Ingot
     _information: {fileID: 11400000, guid: 07469941d3a7f594c8e67a87f19a32e8, type: 2}
   - _name: Sapphire
@@ -189,3 +167,25 @@ MonoBehaviour:
     _information: {fileID: 11400000, guid: 9b751e3cb05491648b148a7761eb777c, type: 2}
   - _name: Rune Stone
     _information: {fileID: 11400000, guid: 4271f3bef300738418a389f8c5cd8a65, type: 2}
+  - _name: Bag
+    _information: {fileID: 11400000, guid: 0c4ac339e2938c944be2db9a4207950b, type: 2}
+  - _name: Belt
+    _information: {fileID: 11400000, guid: a076f470b8d5fa94989aec737968c0dd, type: 2}
+  - _name: Helm
+    _information: {fileID: 11400000, guid: 9ec13e980ec687549911c0d356f65a9f, type: 2}
+  - _name: Iron Armor
+    _information: {fileID: 11400000, guid: 5bf503a7d5f988040b8cca0997d383c3, type: 2}
+  - _name: Iron Boot
+    _information: {fileID: 11400000, guid: 9ecb65f6557527546947018802340e45, type: 2}
+  - _name: Iron Helmet
+    _information: {fileID: 11400000, guid: 4e25bdf3ecd3ef545a74aa693d16e137, type: 2}
+  - _name: Leather Armor
+    _information: {fileID: 11400000, guid: 2799ac324a711d245bb99c1f35644e1a, type: 2}
+  - _name: Leather Boot
+    _information: {fileID: 11400000, guid: 0d2a67bbab649e14ea60ce1bc41370ab, type: 2}
+  - _name: Leather Helmet
+    _information: {fileID: 11400000, guid: d5dbf2d95ce742846b9e54cba2804ab4, type: 2}
+  - _name: Wizard Hat
+    _information: {fileID: 11400000, guid: 75780f29032e38846b85554caddd54c2, type: 2}
+  - _name: Wooden Armor
+    _information: {fileID: 11400000, guid: c829320cf9f47164fb8290b81f3ceb83, type: 2}

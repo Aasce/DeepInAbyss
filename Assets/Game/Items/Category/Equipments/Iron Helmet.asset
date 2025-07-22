@@ -9,33 +9,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd4e047f8b26e494eabc3f55d1201708, type: 3}
+  m_Script: {fileID: 11500000, guid: db5031307ce29eb47a25bdc48c5549f9, type: 3}
   m_Name: Iron Helmet
   m_EditorClassIdentifier: 
   _name: Iron Helmet
   _description: 
   _icon: {fileID: 21300000, guid: b227c6c1c35b36940b602110d9556b13, type: 3}
-  _type: 10
+  _type: 0
   _rarity: 0
   _propertyType: 15616
   _properties:
-  - rid: 5783465910747267262
-  - rid: 5783465910747267263
-  - rid: 5783465910747267264
-  _equipmentType: 10
+  - rid: 252983843496657094
+  - rid: 252983843496657095
+  - rid: 252983843496657096
+  - rid: 252983843496657097
   references:
     version: 2
     RefIds:
-    - rid: 5783465910747267262
+    - rid: 252983843496657094
+      type: {class: EquippableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
+      data:
+        _name: Equippable
+        _equipmentType: 10
+    - rid: 252983843496657095
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Craftable
         _ingredients: []
-    - rid: 5783465910747267263
+    - rid: 252983843496657096
       type: {class: EnchantableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Enchantable
-    - rid: 5783465910747267264
+    - rid: 252983843496657097
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable
