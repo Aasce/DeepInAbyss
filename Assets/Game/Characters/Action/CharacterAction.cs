@@ -1585,6 +1585,7 @@ namespace Asce.Game.Entities.Characters
 
         public void AttackCast()
         {
+            if (Owner.Equipment.WeaponSlot.CurrentWeapon == null) return;
             Vector2 dir = Owner.View.IsPointingAtTarget ? Owner.View.LookDirection(TargetPosition) : Owner.Equipment.WeaponSlot.CurrentWeapon.transform.right;
             OnAttackCast?.Invoke(Owner, dir);
         }

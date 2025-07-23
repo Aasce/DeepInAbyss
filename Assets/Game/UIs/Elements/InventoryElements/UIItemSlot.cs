@@ -11,7 +11,7 @@ namespace Asce.Game.UIs.Inventories
     public class UIItemSlot : UIObject, IPointerClickHandler
     {
         // References
-        [SerializeField, Readonly] protected UIInventory _inventory;
+        [SerializeField, Readonly] protected IUISlotController _inventory;
         [SerializeField] protected UIItem _uiItem;
 
         // Index of this slot in the inventory
@@ -20,7 +20,7 @@ namespace Asce.Game.UIs.Inventories
         /// <summary>
         ///     Gets or sets the parent inventory UI that this slot belongs to.
         /// </summary>
-        public UIInventory Inventory
+        public IUISlotController Inventory
         {
             get => _inventory;
             set => _inventory = value;

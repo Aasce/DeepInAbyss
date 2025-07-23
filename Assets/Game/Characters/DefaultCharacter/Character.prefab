@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225efbe9458c3f64da4f5f083ff5fbe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _equipmentItem:
+    _information: {fileID: 0}
   _currentWeapon: {fileID: 0}
 --- !u!1 &501403861327660971
 GameObject:
@@ -89,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5013ce264a207f54db6cac750cc00286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _equipmentItem:
+    _information: {fileID: 0}
 --- !u!1 &1401342796927395088
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d64eeed3f275a1c4f9e076a05d08ba4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _equipmentItem:
+    _information: {fileID: 0}
 --- !u!1 &2327455691202144450
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,6 +574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d20cc18bffca1548a2126cc0f93bd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _equipmentItem:
+    _information: {fileID: 0}
 --- !u!1 &5059087804392068394
 GameObject:
   m_ObjectHideFlags: 0
@@ -805,6 +813,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aeb8a74105789c4d85635c193f549c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _equipmentItem:
+    _information: {fileID: 0}
   _projectile: {fileID: 0}
   _isProjectileReady: 0
 --- !u!1 &6750802327544525344
@@ -862,7 +872,7 @@ MonoBehaviour:
   _headSlot: {fileID: 5303888339493299892}
   _chestSlot: {fileID: 5836469827367589157}
   _legsSlot: {fileID: 5389538897016192669}
-  _feetSlot: {fileID: 1448447161692387466}
+  _feetsSlot: {fileID: 1448447161692387466}
   _backpackSlot: {fileID: 8282917664296205117}
   _weaponSlot: {fileID: 7469290734347163586}
   _leftHandSlot: {fileID: 1760606121283492157}
@@ -1076,6 +1086,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb09c795407442e4093cdd5386d4eb05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _equipmentItem:
+    _information: {fileID: 0}
 --- !u!1 &8920669099080851377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1171,6 +1183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e4e26ea9d1bd8b46bfaa55c746e982b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _equipmentItem:
+    _information: {fileID: 0}
 --- !u!1001 &1055770368870339174
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -303,7 +303,6 @@ MonoBehaviour:
   _crawlInput: 0
   _attackInput: 0
   _meleeAttackInput: 0
-  _detachWeaponInput: 0
   _toggleInventoryInput: 0
   _interactionInput: 0
   _isControlUI: 0

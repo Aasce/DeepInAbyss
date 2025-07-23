@@ -1,5 +1,8 @@
+using Asce.Game.Entities;
+using Asce.Game.Equipments;
 using Asce.Game.Items;
 using System;
+using UnityEngine;
 
 namespace Asce.Game.Inventories
 {
@@ -55,6 +58,50 @@ namespace Asce.Game.Inventories
                     // Remove the quantity that was looted
                     source.RemoveAt(i, lootedQuantity); // Auto remove if loot all
                 }
+            }
+        }
+
+        public static void MoveItemToEquipment(Inventory inventory, IEquipmentController equipment, int index)
+        {
+            if (inventory == null || equipment == null) return;
+            if (!inventory.IsValidIndex(index)) return;
+
+            Item item = inventory.GetItem(index);
+            if (item.IsNull()) return;
+            if (!item.Information.HasProperty(ItemPropertyType.Equippable)) return;
+
+            if (item.Information.GetPropertyByType(ItemPropertyType.Equippable) is not EquippableItemProperty equippableProperty) return;
+
+            EquipmentType type = equippableProperty.EquipmentType;
+            if (type == EquipmentType.None) return;
+
+            EquipmentSlot slot = equipment.GetSlot(type);
+            if (slot == null) return;
+
+            Item equipmentItem = slot.RemoveEquipment();
+            slot.AddEquipment(item);
+            inventory.RemoveAt(index);
+            if (!equipmentItem.IsNull())
+            {
+                inventory.AddAt(equipmentItem, index);
+            }
+        }
+
+        public static void MoveEquipmentToInventory(IEquipmentController equipment, Inventory inventory, EquipmentType type, int toIndex)
+        {
+            if (equipment == null || inventory == null) return;
+            if (!inventory.IsValidIndex(toIndex)) return;
+
+            EquipmentSlot slot = equipment.GetSlot(type);
+            if (slot == null) return;
+
+            Item item = slot.EquipmentItem;
+            if (item.IsNull()) return;
+
+            Item remaining = inventory.AddAt(item, toIndex);
+            if (remaining.IsNull())
+            {
+                slot.RemoveEquipment();
             }
         }
     }

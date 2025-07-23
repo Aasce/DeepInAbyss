@@ -3,7 +3,7 @@ namespace Asce.Game.Entities
     /// <summary>
     /// Interface for creature equipment.
     /// </summary>
-    public interface ICreatureEquipment
+    public interface IHasEquipmentSlot
     {
 
     }

@@ -20,18 +20,12 @@ namespace Asce.Game.UIs.Inventories
         [SerializeField] protected Slider _durability;
 
         // Ref
-        [SerializeField, Readonly] protected UIInventory _inventory;
         [SerializeField, Readonly] protected UIItemSlot _uiSlot;
         protected Item _item;
 
         protected bool _isDragging = false;
 
         public CanvasGroup CanvasGroup => _canvasGroup;
-        public UIInventory Inventory
-        {
-            get => _inventory;
-            set => _inventory = value;
-        }
 
         /// <summary> Gets or sets the UI slot this item belongs to.  </summary>
         public UIItemSlot UISlot
@@ -136,7 +130,8 @@ namespace Asce.Game.UIs.Inventories
         /// <param name="eventData"> Pointer data associated with the drag event. </param>
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (Inventory != null) Inventory.BeginDragItem(this, eventData);
+            if (_uiSlot == null || _uiSlot.Inventory == null) return;
+            if (_uiSlot.Inventory != null) _uiSlot.Inventory.BeginDragItem(this, eventData);
         }
 
         /// <summary>
@@ -155,7 +150,8 @@ namespace Asce.Game.UIs.Inventories
         /// <param name="eventData"> Pointer data when drag ends. </param>
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (Inventory != null) Inventory.EndDragItem(this, eventData);
+            if (_uiSlot == null || _uiSlot.Inventory == null) return;
+            if (_uiSlot.Inventory != null) _uiSlot.Inventory.EndDragItem(this, eventData);
         }
     }
 }

@@ -2,20 +2,11 @@ using UnityEngine;
 
 namespace Asce.Game.Equipments
 {
-    public class OtherSlot : MonoBehaviour, IEquipmentSlot
+    public class OtherSlot : EquipmentSlot, IEquipmentSlot
     {
-        // Ref
-        [SerializeField] protected IEquipmentController _equipmentOwner;
-
         [SerializeField] protected Projectile _projectile;
         [SerializeField] protected bool _isProjectileReady = false;
 
-
-        public IEquipmentController EquipmentOwner
-        {
-            get => _equipmentOwner;
-            set => _equipmentOwner = value;
-        }
 
         public Projectile Projectile
         {

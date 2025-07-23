@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Asce.Managers.Utils
@@ -146,6 +147,12 @@ namespace Asce.Managers.Utils
             // Use UnityEngine.Random to pick a random index
             int index = UnityEngine.Random.Range(0, list.Count);
             return list[index];
+        }
+
+        public static TKey GetKeyByValue<TKey, TValue>(this Dictionary<TKey, TValue> dict, TValue value)
+        {
+            if (dict == null || dict.Count == 0) return default;
+            return dict.FirstOrDefault(pair => EqualityComparer<TValue>.Default.Equals(pair.Value, value)).Key;
         }
     }
 }

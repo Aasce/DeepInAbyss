@@ -1,6 +1,7 @@
 using Asce.Game.Inventories;
 using Asce.Game.Items;
 using Asce.Game.UIs.ContextMenus;
+using Asce.Game.UIs.Equipments;
 using Asce.Managers.Pools;
 using Asce.Managers.UIs;
 using System;
@@ -13,7 +14,7 @@ namespace Asce.Game.UIs.Inventories
     /// <summary>
     ///     Represents the visual UI panel for displaying and interacting with a creature's inventory.
     /// </summary>
-    public class UIInventory : UIObject
+    public class UIInventory : UIObject, IUISlotController, IUIInventory
     {
         // Pools used for efficient management of UI elements
         [SerializeField] protected Pool<UIItemSlot> _slotsPool = new();
@@ -275,7 +276,6 @@ namespace Asce.Game.UIs.Inventories
                     return;
                 }
 
-                uiItem.Inventory = this;
                 uiItem.SetItem(item);
                 uiSlot.SetItem(uiItem);
             }
@@ -297,7 +297,6 @@ namespace Asce.Game.UIs.Inventories
             UIItem newUIItem = _itemsPool.Activate();
             if (newUIItem != null)
             {
-                newUIItem.Inventory = this;
                 newUIItem.SetItem(item);
             }
             return newUIItem;
@@ -337,15 +336,19 @@ namespace Asce.Game.UIs.Inventories
             }
 
             // Dropped into another inventory
-            if (targetSlot.Inventory != null && targetSlot.Inventory != this)
+            if (targetSlot.Inventory != null && targetSlot.Inventory != (IUISlotController)this)
             {
                 _itemsPool.Deactivate(sender);
-                InventorySystem.MoveItem(
-                    _inventoryController.Inventory,
-                    targetSlot.Inventory.Controller.Inventory,
-                    fromIndex,
-                    targetSlot.Index,
-                    _quantityToSplit);
+                if (targetSlot.Inventory is IUIInventory uIInventory)
+                {
+                    InventorySystem.MoveItem(
+                        _inventoryController.Inventory,
+                        uIInventory.Controller.Inventory,
+                        fromIndex,
+                        targetSlot.Index,
+                        _quantityToSplit);
+                    
+                }
                 return;
             }
 
@@ -395,15 +398,24 @@ namespace Asce.Game.UIs.Inventories
             }
 
             // Dropped into another inventory
-            if (targetSlot.Inventory != null && targetSlot.Inventory != this)
+            if (targetSlot.Inventory != null && targetSlot.Inventory != (IUISlotController)this)
             {
                 originSlot.ResetItemPosition();
-                InventorySystem.MoveItem(
-                    _inventoryController.Inventory,
-                    targetSlot.Inventory.Controller.Inventory,
-                    fromIndex,
-                    targetSlot.Index);
-
+                if (targetSlot.Inventory is IUIInventory uIInventory)
+                {
+                    InventorySystem.MoveItem(
+                        _inventoryController.Inventory,
+                        uIInventory.Controller.Inventory,
+                        fromIndex,
+                        targetSlot.Index);
+                }
+                else if (targetSlot.Inventory is IUIEquipment uiEquipment)
+                {
+                    InventorySystem.MoveItemToEquipment(
+                        _inventoryController.Inventory,
+                        uiEquipment.Controller,
+                        fromIndex);
+                }
                 return;
             }
 

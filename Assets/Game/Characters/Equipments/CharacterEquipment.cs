@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace Asce.Game.Entities.Characters
 {
-    public class CharacterEquipment : CreatureEquipment, IHasOwner<Character>, IEquipmentController, IHasWeaponSlot
+    public class CharacterEquipment : CreatureEquipment, IHasOwner<Character>, IEquipmentController, IHasWeaponSlot, IHasHeadSlot, IHasChestSlot, IHasLegsSlot, IHasFeetsSlot, IHasBackpackSlot
     {
         [SerializeField] protected HeadSlot _headSlot;
         [SerializeField] protected ChestSlot _chestSlot;
         [SerializeField] protected LegsSlot _legsSlot;
-        [SerializeField] protected FeetsSlot _feetSlot;
+        [SerializeField] protected FeetsSlot _feetsSlot;
         [SerializeField] protected BackpackSlot _backpackSlot;
 
         [Space]
@@ -27,7 +27,7 @@ namespace Asce.Game.Entities.Characters
         public HeadSlot HeadSlot => _headSlot;
         public ChestSlot ChestSlot => _chestSlot;
         public LegsSlot LegsSlot => _legsSlot;
-        public FeetsSlot FeetSlot => _feetSlot;
+        public FeetsSlot FeetsSlot => _feetsSlot;
         public BackpackSlot BackpackSlot => _backpackSlot;
 
         public WeaponSlot WeaponSlot => _weaponSlot;
@@ -40,7 +40,7 @@ namespace Asce.Game.Entities.Characters
             this.LoadComponent(out _headSlot);
             this.LoadComponent(out _chestSlot);
             this.LoadComponent(out _legsSlot);
-            this.LoadComponent(out _feetSlot);
+            this.LoadComponent(out _feetsSlot);
             this.LoadComponent(out _backpackSlot);
 
             this.LoadComponent(out _weaponSlot);
@@ -52,7 +52,7 @@ namespace Asce.Game.Entities.Characters
             HeadSlot.EquipmentOwner = this;
             ChestSlot.EquipmentOwner = this;
             LegsSlot.EquipmentOwner = this;
-            FeetSlot.EquipmentOwner = this;
+            FeetsSlot.EquipmentOwner = this;
             BackpackSlot.EquipmentOwner = this;
 
             WeaponSlot.EquipmentOwner = this;

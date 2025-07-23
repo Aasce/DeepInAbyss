@@ -39,10 +39,12 @@ namespace Asce.Game.Equipments
             this.Register();
         }
 
-        public virtual void RemoveEquipment()
+        public virtual Item RemoveEquipment()
         {
             this.Unregister();
+            Item item = EquipmentItem;
             EquipmentItem = null;
+            return item;
         }
 
         protected virtual void Register()

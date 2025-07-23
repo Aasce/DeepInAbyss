@@ -34,7 +34,11 @@ namespace Asce.Game.Items
 
         public ReadOnlyCollection<ItemProperty> Properties => _readonlyProperties ??= _properties.AsReadOnly();
 
-        public bool HasProperty(ItemPropertyType type) => _propertyType.HasFlag(type);
+        public bool HasProperty(ItemPropertyType type)
+        {
+            if (_propertyDictionary == null) InitDictionary();
+            return _propertyDictionary.ContainsKey(type);
+        }
         public ItemProperty GetPropertyByType(ItemPropertyType type)
         {
             if (_propertyDictionary == null) this.InitDictionary();
@@ -48,7 +52,7 @@ namespace Asce.Game.Items
         protected void InitDictionary()
         {
             _propertyDictionary = new();
-            foreach (var property in _properties)
+            foreach (ItemProperty property in _properties)
             {
                 if (property == null) continue;
                 if (_propertyDictionary.ContainsKey(property.PropertyType)) continue;
