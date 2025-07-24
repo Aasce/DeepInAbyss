@@ -1,4 +1,5 @@
 using Asce.Game.Entities;
+using Asce.Game.Enviroments;
 using Asce.Game.Equipments;
 using Asce.Game.Inventories;
 using Asce.Game.Items;
@@ -34,10 +35,16 @@ namespace Asce.Game.UIs.Equipments
         protected IEquipmentController _controller;
         protected UIItemContextMenu _itemContextMenu;
 
+        protected bool _isInitialized = false;
+
         public event Action<object, int> OnFocusAt;
 
         public IEquipmentController Controller => _controller;
 
+        protected virtual void Awake()
+        {
+            this.Init();
+        }
         protected virtual void Start()
         {
             _itemContextMenu = UIScreenCanvasManager.Instance.ContextMenusController.GetMenu<UIItemContextMenu>();
@@ -46,17 +53,11 @@ namespace Asce.Game.UIs.Equipments
             {
                 this.OnHide += (sender) => _itemContextMenu.Hide();
             }
-
-            this.LoadSlot(0, EquipmentType.Helmet, _headSlot);
-            this.LoadSlot(1, EquipmentType.Chest, _chestSlot);
-            this.LoadSlot(2, EquipmentType.Legging, _legsSlot);
-            this.LoadSlot(3, EquipmentType.Boots, _feetSlot);
-            this.LoadSlot(4, EquipmentType.Backpack, _backpackSlot);
-            this.LoadSlot(5, EquipmentType.Weapon, _weaponSlot);
         }
 
         public virtual void SetEquipment(IEquipmentController equipmentController)
         {
+            this.Init();
             if (_controller == equipmentController) return;
 
             this.Unregister();
@@ -105,9 +106,6 @@ namespace Asce.Game.UIs.Equipments
             if (_controller == null) return;
         }
 
-        /// <summary>
-        ///     Handles drag-and-drop logic and UI updates for inventory interactions.
-        /// </summary>
         public virtual void BeginDragItem(UIItem sender, PointerEventData eventData)
         {
             if (sender.UISlot == null || eventData.button == PointerEventData.InputButton.Right)
@@ -122,10 +120,6 @@ namespace Asce.Game.UIs.Equipments
             sender.IsDragging = true;
         }
 
-        /// <summary>
-        ///     Handles the logic when an item drag operation ends.
-        ///     Determines whether to move, drop, or revert the item.
-        /// </summary>
         public virtual void EndDragItem(UIItem sender, PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Right)
@@ -187,12 +181,48 @@ namespace Asce.Game.UIs.Equipments
         {
             if (_controller == null) return;
 
-            if (_controller is IHasHeadSlot hasHead) hasHead.HeadSlot.OnEquipmentChanged += HeadSlot_OnEquipmentChanged;
-            if (_controller is IHasChestSlot hasChest) hasChest.ChestSlot.OnEquipmentChanged += ChestSlot_OnEquipmentChanged;
-            if (_controller is IHasLegsSlot hasLegs) hasLegs.LegsSlot.OnEquipmentChanged += LegsSlot_OnEquipmentChanged;
-            if (_controller is IHasFeetsSlot hasFeets) hasFeets.FeetsSlot.OnEquipmentChanged += FeetsSlot_OnEquipmentChanged;
-            if (_controller is IHasBackpackSlot hasBackpack) hasBackpack.BackpackSlot.OnEquipmentChanged += BackpackSlot_OnEquipmentChanged;
-            if (_controller is IHasWeaponSlot hasWeapon) hasWeapon.WeaponSlot.OnEquipmentChanged += WeaponSlot_OnEquipmentChanged;
+            if (_controller is IHasHeadSlot hasHead) 
+            {
+                this.UpdateSlot(EquipmentType.Helmet, hasHead.HeadSlot.EquipmentItem);
+                hasHead.HeadSlot.OnEquipmentChanged += HeadSlot_OnEquipmentChanged;
+            }
+            else if (_slots.TryGetValue(EquipmentType.Helmet, out UIItemSlot slot)) slot.Hide();
+            
+            if (_controller is IHasChestSlot hasChest)
+            {
+                this.UpdateSlot(EquipmentType.Chest, hasChest.ChestSlot.EquipmentItem);
+                hasChest.ChestSlot.OnEquipmentChanged += ChestSlot_OnEquipmentChanged;
+            }
+            else if (_slots.TryGetValue(EquipmentType.Chest, out UIItemSlot slot)) slot.Hide();
+            
+            if (_controller is IHasLegsSlot hasLegs)
+            {
+                this.UpdateSlot(EquipmentType.Legging, hasLegs.LegsSlot.EquipmentItem);
+                hasLegs.LegsSlot.OnEquipmentChanged += LegsSlot_OnEquipmentChanged;
+            }
+            else if (_slots.TryGetValue(EquipmentType.Legging, out UIItemSlot slot)) slot.Hide();
+            
+            if (_controller is IHasFeetsSlot hasFeets)
+            {
+                this.UpdateSlot(EquipmentType.Boots, hasFeets.FeetsSlot.EquipmentItem);
+                hasFeets.FeetsSlot.OnEquipmentChanged += FeetsSlot_OnEquipmentChanged;
+            }
+            else if (_slots.TryGetValue(EquipmentType.Boots, out UIItemSlot slot)) slot.Hide();
+            
+            if (_controller is IHasBackpackSlot hasBackpack)
+            {
+                this.UpdateSlot(EquipmentType.Backpack, hasBackpack.BackpackSlot.EquipmentItem);
+                hasBackpack.BackpackSlot.OnEquipmentChanged += BackpackSlot_OnEquipmentChanged;
+            }
+            else if (_slots.TryGetValue(EquipmentType.Backpack, out UIItemSlot slot)) slot.Hide();
+            
+            if (_controller is IHasWeaponSlot hasWeapon)
+            {
+                this.UpdateSlot(EquipmentType.Weapon, hasWeapon.WeaponSlot.EquipmentItem);
+                hasWeapon.WeaponSlot.OnEquipmentChanged += WeaponSlot_OnEquipmentChanged;
+            }
+            else if (_slots.TryGetValue(EquipmentType.Weapon, out UIItemSlot slot)) slot.Hide();
+            
         }
         protected virtual void Unregister()
         {
@@ -204,6 +234,19 @@ namespace Asce.Game.UIs.Equipments
             if (_controller is IHasFeetsSlot hasFeets) hasFeets.FeetsSlot.OnEquipmentChanged -= FeetsSlot_OnEquipmentChanged;
             if (_controller is IHasBackpackSlot hasBackpack) hasBackpack.BackpackSlot.OnEquipmentChanged -= BackpackSlot_OnEquipmentChanged;
             if (_controller is IHasWeaponSlot hasWeapon) hasWeapon.WeaponSlot.OnEquipmentChanged -= WeaponSlot_OnEquipmentChanged;
+        }
+
+        protected virtual void Init()
+        {
+            if (_isInitialized) return;
+            _isInitialized = true;
+
+            this.LoadSlot(0, EquipmentType.Helmet, _headSlot);
+            this.LoadSlot(1, EquipmentType.Chest, _chestSlot);
+            this.LoadSlot(2, EquipmentType.Legging, _legsSlot);
+            this.LoadSlot(3, EquipmentType.Boots, _feetSlot);
+            this.LoadSlot(4, EquipmentType.Backpack, _backpackSlot);
+            this.LoadSlot(5, EquipmentType.Weapon, _weaponSlot);
         }
 
         protected virtual void LoadSlot(int index, EquipmentType type, UIItemSlot slot)
@@ -219,6 +262,7 @@ namespace Asce.Game.UIs.Equipments
         protected virtual void UpdateSlot(EquipmentType type, Item item)
         {
             if (!_slots.TryGetValue(type, out UIItemSlot uiSlot)) return;
+            uiSlot.Show();
 
             if (item.IsNull())
             {

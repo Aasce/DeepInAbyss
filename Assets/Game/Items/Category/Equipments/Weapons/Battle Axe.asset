@@ -22,6 +22,7 @@ MonoBehaviour:
   - rid: 5783465910747267358
   - rid: 5783465910747267359
   - rid: 5783465910747267360
+  - rid: 252983880651898959
   _equipmentType: 1
   _weaponType: 5
   _attackType: 2
@@ -31,6 +32,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 252983880651898959
+      type: {class: EquippableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
+      data:
+        _name: Equippable
+        _equipmentType: 1
     - rid: 5783465910747267358
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
