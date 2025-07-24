@@ -11,9 +11,10 @@ namespace Asce.Game.SaveLoads
     {
         public Vector2 position;
         public List<ItemData> inventory = new();
+        public EquiomentData equipment = new();
 
         public CharacterData() { }
-        public CharacterData(Character character) 
+        public CharacterData(Character character)
         {
             this.Save(character);
         }
@@ -23,14 +24,8 @@ namespace Asce.Game.SaveLoads
             if (target == null) return;
             position = target.transform.position;
 
-            // Set Inventory
-            if (target.Inventory == null) return;
-            var items = target.Inventory.Inventory.Items;
-            foreach (var item in items)
-            {
-                ItemData itemData = new(item);
-                inventory.Add(itemData);
-            }
+            this.SaveInventory(target);
+            this.SaveEquipment(target);
         }
 
         public bool Load(Character character)
@@ -45,8 +40,25 @@ namespace Asce.Game.SaveLoads
                 items.Add(item);
             }
             character.Inventory.Inventory.Load(items);
+            equipment.Load(character.Equipment);
             return true;
         }
 
+        private void SaveInventory(Character character)
+        {
+            if (character.Inventory == null) return;
+            var items = character.Inventory.Inventory.Items;
+            foreach (var item in items)
+            {
+                ItemData itemData = new(item);
+                inventory.Add(itemData);
+            }
+        }
+
+        private void SaveEquipment(Character character)
+        {
+            if (character.Equipment == null) return;
+            equipment.Save(character.Equipment);
+        }
     }
 }

@@ -1,11 +1,12 @@
 using Asce.Game.Items;
 using Asce.Managers;
+using Asce.Managers.SaveLoads;
 using System;
 using UnityEngine;
 
 namespace Asce.Game.Equipments
 {
-    public class EquipmentSlot : GameComponent, IEquipmentSlot
+    public class EquipmentSlot : GameComponent, IEquipmentSlot, IReceiveData<Item>
     {
         // Ref
         [SerializeField] protected IEquipmentController _equipmentOwner;
@@ -62,5 +63,11 @@ namespace Asce.Game.Equipments
         }
 
 
+        void IReceiveData<Item>.Receive(Item item)
+        {
+            if (item == null) return;
+            EquipmentItem = item;
+            this.Register();
+        }
     }
 }
