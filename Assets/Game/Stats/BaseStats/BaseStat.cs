@@ -65,12 +65,25 @@ namespace Asce.Game.Stats
         /// <param name="reason"> The reason the agent is applied. </param>
         /// <param name="value"> The amount the agent affects the stat. </param>
         /// <param name="type"> The type of value (flat or ratio). </param>
-        /// <param name="duration"> (Optional) The duration the agent remains active. </param>
         /// <param name="position"> (Optional) The position affect </param>
         /// <returns> The added <see cref="StatAgent"/>. </returns>
         public virtual T AddAgent(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat, Vector2 position = default)
         {
             T agent = CreateAgent(author, reason, value, type, position);
+            return this.AddAgent(agent);
+        }
+
+        /// <summary>
+        ///     Adds a new agent to the stat using specified parameters.
+        /// </summary>
+        /// <param name="author"> The source of the agent.</param>
+        /// <param name="reason"> The reason the agent is applied. </param>
+        /// <param name="statValue"> The value the agent affects the stat. </param>
+        /// <param name="position"> (Optional) The position affect </param>
+        /// <returns> The added <see cref="StatAgent"/>. </returns>
+        public virtual T AddAgent(GameObject author, string reason, StatValue statValue, Vector2 position = default)
+        {
+            T agent = CreateAgent(author, reason, statValue.Value, statValue.Type, position);
             return this.AddAgent(agent);
         }
 

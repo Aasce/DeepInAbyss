@@ -1,5 +1,6 @@
 using Asce.Game.Combats;
 using Asce.Game.Entities;
+using Asce.Managers;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using System;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace Asce.Game.Equipments 
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-    public class Projectile : MonoBehaviour
+    public class Projectile : GameComponent
     {
         // Ref
         [SerializeField, Readonly] protected Rigidbody2D _rigidbody;
@@ -27,8 +28,6 @@ namespace Asce.Game.Equipments
 
         [Space]
         [SerializeField] protected bool _isSetLayerOnLaunch = false;
-
-        [Space]
         [SerializeField] protected bool _isSetLayerOnHit = false;
 
         public event Action<object> OnLaunch;
@@ -86,8 +85,9 @@ namespace Asce.Game.Equipments
             set => _rigidbody.linearVelocity = value;
         }
 
-        protected virtual void Reset()
+        protected override void RefReset()
         {
+            base.RefReset();
             this.LoadComponent(out _rigidbody);
             this.LoadComponent(out _collider);
             if (this.LoadComponent(out _view)) View.Owner = this;
@@ -165,19 +165,22 @@ namespace Asce.Game.Equipments
             Destroy(gameObject);
         }
 
-        protected virtual void DealDamageTo(IEntity target, Vector2 position)
+        protected virtual DamageContainer DealDamageTo(IEntity target, Vector2 position)
         {
-            if (target == null) return;
-            if (target.Status.IsDead) return;
+            if (target == null) return null;
+            if (target.Status.IsDead) return null;
 
-            CombatSystem.DamageDealing(new DamageContainer(Owner, target as ITakeDamageable)
+            DamageContainer damageContainer = new (Owner, target as ITakeDamageable)
             {
                 Damage = _damage,
                 DamageType = _damageType,
                 Penetration = _penetration,
 
                 Position = position,
-            });
+            };
+
+            CombatSystem.DamageDealing(damageContainer);
+            return damageContainer;
         }
     }
 }

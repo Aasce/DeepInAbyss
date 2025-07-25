@@ -19,5 +19,7 @@ MonoBehaviour:
     _vfxPrefab: {fileID: 5295477076459251858, guid: c4769221497c71a4499d051a17c828b0, type: 3}
   - _name: Ignite
     _vfxPrefab: {fileID: 4680253437951845565, guid: 2fb1e0ef02f28e54a9bf1d506fafe3d4, type: 3}
+  - _name: Sunder
+    _vfxPrefab: {fileID: 3030484384429170589, guid: e1cf56c412f40ad4a9208a42a984da44, type: 3}
   - _name: Weakened
     _vfxPrefab: {fileID: 2104405065967204891, guid: cd73536ea165c794288520ec63216dfb, type: 3}

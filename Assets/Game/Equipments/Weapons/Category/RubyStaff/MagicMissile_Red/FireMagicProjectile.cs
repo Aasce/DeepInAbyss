@@ -11,16 +11,18 @@ namespace Asce.Game.Equipments
         [SerializeField, Min(0f)] private float _igniteStrength = 5f;
         [SerializeField, Min(0f)] private float _igniteDuration = 3f;
 
-        protected override void DealDamageTo(IEntity target, Vector2 position)
+        protected override DamageContainer DealDamageTo(IEntity target, Vector2 position)
         {
-            if (target == null) return;
-            if (target.Status.IsDead) return;
-            base.DealDamageTo(target, position);
+            DamageContainer damageContainer = base.DealDamageTo(target, position);
+            if (damageContainer == null) return null;
+
             StatusEffectsManager.Instance.SendEffect<Ignite_StatusEffect>(Owner, target as ICreature, new EffectDataContainer()
             {
                 Strength = _igniteStrength,
                 Duration = _igniteDuration
             });
+
+            return damageContainer;
         }
     }
 }

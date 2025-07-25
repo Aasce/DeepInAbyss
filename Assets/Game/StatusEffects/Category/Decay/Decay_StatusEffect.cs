@@ -17,6 +17,7 @@ namespace Asce.Game.StatusEffects
         public override void Apply()
         {
             _vfxObject = VFXsManager.Instance.RegisterAndSpawnEffect(Name, Target.gameObject.transform.position);
+            _vfxObject.DespawnTime.BaseTime = Duration.BaseTime;
             this.ApplyReducedMaxHealth();
         }
 
@@ -37,6 +38,7 @@ namespace Asce.Game.StatusEffects
             base.Stacking(stackEffect);
             this.StackDecayStrength(stackEffect);
             Duration.Reset();
+            _vfxObject.DespawnTime.Reset();
         }
 
         protected virtual void ApplyReducedMaxHealth()

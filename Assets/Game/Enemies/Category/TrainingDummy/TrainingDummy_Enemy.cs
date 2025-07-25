@@ -28,7 +28,7 @@ namespace Asce.Game.Entities.Enemies.Category
             _refreshCooldown.Update(Time.deltaTime);
             if (_refreshCooldown.IsComplete)
             {
-                CombatSystem.Healing(this, Stats, transform.position, Stats.HealthGroup.Health.Value);
+                CombatSystem.Healing(this, Stats, Stats.HealthGroup.Health.Value, position: transform.position);
                 Status.SetStatus(EntityStatusType.Alive);
 
                 _refreshCooldown.Reset();

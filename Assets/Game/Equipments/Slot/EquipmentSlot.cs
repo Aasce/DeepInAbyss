@@ -1,3 +1,4 @@
+using Asce.Game.Entities;
 using Asce.Game.Items;
 using Asce.Managers;
 using Asce.Managers.SaveLoads;
@@ -50,22 +51,27 @@ namespace Asce.Game.Equipments
 
         protected virtual void Register()
         {
-            if (_equipmentItem == null) return;
-
+            if (_equipmentOwner == null) return;
+            if (_equipmentItem.IsNull()) return;
+            if (!_equipmentItem.Information.HasProperty(ItemPropertyType.Equippable)) return;
+            if (_equipmentItem.Information.GetPropertyByType(ItemPropertyType.Equippable) is not EquippableItemProperty equippable) return;
+            if (equippable.EquipEvent != null) equippable.EquipEvent.OnEquip(_equipmentOwner.Owner);
         }
 
 
         protected virtual void Unregister()
         {
-            if (_equipmentItem == null) return;
-
-
+            if (_equipmentOwner == null) return;
+            if (_equipmentItem.IsNull()) return;
+            if (!_equipmentItem.Information.HasProperty(ItemPropertyType.Equippable)) return;
+            if (_equipmentItem.Information.GetPropertyByType(ItemPropertyType.Equippable) is not EquippableItemProperty equippable) return;
+            if (equippable.EquipEvent != null) equippable.EquipEvent.OnUnequip(_equipmentOwner.Owner);
         }
 
 
         void IReceiveData<Item>.Receive(Item item)
         {
-            if (item == null) return;
+            if (item.IsNull()) return;
             EquipmentItem = item;
             this.Register();
         }

@@ -37,6 +37,7 @@ MonoBehaviour:
       data:
         _name: Equippable
         _equipmentType: 1
+        _equipEvent: {fileID: 5422796126536681948, guid: 1335b28270b64b04293727192ce5dfa8, type: 3}
     - rid: 5783465910747267367
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:

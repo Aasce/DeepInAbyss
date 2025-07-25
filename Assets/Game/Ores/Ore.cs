@@ -58,7 +58,7 @@ namespace Asce.Game.Entities.Ores
             RegenCooldown.Update(Time.deltaTime);
             if (RegenCooldown.IsComplete)
             {
-                CombatSystem.Healing(this, Stats, transform.position, Stats.HealthGroup.Health.Value);
+                CombatSystem.Healing(this, Stats, Stats.HealthGroup.Health.Value, position: transform.position);
                 Status.SetStatus(EntityStatusType.Alive);
                 RegenCooldown.Reset();
             }

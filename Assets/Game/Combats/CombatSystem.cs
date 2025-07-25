@@ -169,12 +169,13 @@ namespace Asce.Game.Combats
         /// <returns>
         ///     Returns final heal value.
         /// </returns>
-        public static float Healing(IEntity healer, IHasHealth receiver, Vector2 position, float heal, StatValueType type = StatValueType.Plat)
+        public static float Healing(IEntity healer, IHasHealth receiver, float heal, StatValueType type = StatValueType.Plat, Vector2 position = default)
         {
             if (receiver == null) return 0f;
             if (receiver.IsDead) return 0f;
 
             float healValue = receiver.HealthGroup.Heal(healer, "Healing", heal, type);
+            position = position == default ? receiver.gameObject.transform.position : position;
 
             StatValuePopupManager.Instance.CreateHealPopupText(healValue, position);
             return healValue;

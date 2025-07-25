@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Asce.Game.Stats
 {
-    public interface IHasHealth
+    public interface IHasHealth : IGameObject
     {
         public bool IsDead { get; }
         public HealthGroupStats HealthGroup { get; }

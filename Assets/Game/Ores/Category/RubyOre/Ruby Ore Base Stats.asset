@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Ruby Ore Base Stats
   m_EditorClassIdentifier: 
   _maxHealth: 80
-  _armor: 50
-  _resistance: 50
+  _armor: 300
+  _resistance: 45
   _shield: 0
