@@ -1,5 +1,6 @@
 using Asce.Game.Enviroments;
 using Asce.Game.Players;
+using Asce.Game.Spawners;
 using Asce.Managers;
 using Asce.Managers.Utils;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace Asce.Game.SaveLoads
         public void LoadAll()
         {
             this.LoadMainCharacter();
+            this.LoadAllSavePoints();
             this.LoadAllBillboards();
             this.LoadAllChests();
         }
@@ -30,6 +32,7 @@ namespace Asce.Game.SaveLoads
         public void SaveAll()
         {
             SaveLoadSystem.Save(new CharacterData(Player.Instance.MainCharacter), "player/character.json");
+            this.SaveAllSavePoints();
             this.SaveAllBillboards();
             this.SaveAllChests();
         }
@@ -39,6 +42,35 @@ namespace Asce.Game.SaveLoads
             CharacterData characterData = SaveLoadSystem.Load<CharacterData>("player/character.json");
             characterData?.Load(Player.Instance.MainCharacter);
             Player.Instance.CameraController.ToTarget(Vector2.up * 10f);
+        }
+
+        private void SaveAllSavePoints()
+        {
+            AllSavePointData data = new();
+            var savePoints = SavePointManager.Instance.SavePoints;
+
+            foreach (ISavePoint savePoint in savePoints)
+            {
+                SavePointData savePointData = new();
+                savePointData.Save(savePoint);
+                data.savePoints.Add(savePointData);
+            }
+
+            SaveLoadSystem.Save(data, "scene/enviroments/savepoints.json");
+        }
+
+        private void LoadAllSavePoints()
+        {
+            AllSavePointData data = SaveLoadSystem.Load<AllSavePointData>("scene/enviroments/savepoints.json");
+            if (data == null) return;
+
+            var savePoints = SavePointManager.Instance.SavePoints;
+            foreach (ISavePoint savePoint in savePoints)
+            {
+                if (savePoint == null) continue;
+                SavePointData match = data.savePoints.Find(x => x.id == savePoint.ID);
+                match?.Load(savePoint);
+            }
         }
 
         private void SaveAllBillboards()
@@ -55,7 +87,7 @@ namespace Asce.Game.SaveLoads
 
             SaveLoadSystem.Save(data, "scene/enviroments/billboards.json");
         }
-        
+
         private void LoadAllBillboards()
         {
             AllBillboardData data = SaveLoadSystem.Load<AllBillboardData>("scene/enviroments/billboards.json");
@@ -65,6 +97,7 @@ namespace Asce.Game.SaveLoads
 
             foreach (Billboard billboard in billboards)
             {
+                if (billboard == null) continue;
                 BillboardData match = data.billboards.Find(x => x.id ==  billboard.ID);
                 match?.Load( billboard);
             }

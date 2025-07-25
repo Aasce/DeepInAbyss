@@ -82,7 +82,7 @@ namespace Asce.Managers.Utils
         /// <returns>
         ///     A list of all found components of type T in the active scene.
         /// </returns>
-        public static List<T> FindAllComponentsInScene<T>(bool includeInactive = true) where T : Component
+        public static List<T> FindAllComponentsInScene<T>(bool includeInactive = true)
         {
             List<T> result = new();
 
