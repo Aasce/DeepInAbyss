@@ -45,6 +45,7 @@ namespace Asce.Game.Enviroments
 
             window.SetBillboard(this);
             window.Show();
+            base.Interact(interactor);
         }
 
         public override void Focus()

@@ -57,6 +57,7 @@ namespace Asce.Game.Enviroments
         public override void Interact(GameObject interactor)
         {
             IsActive = true;
+            base.Interact(interactor);
         }
 
         public override void Focus()

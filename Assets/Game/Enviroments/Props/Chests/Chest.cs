@@ -73,6 +73,7 @@ namespace Asce.Game.Enviroments
 
             window.SetChest(this);
             window.Show();
+            base.Interact(interactor);
         }
 
         public override void Focus()

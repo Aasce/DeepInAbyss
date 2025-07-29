@@ -6,22 +6,5 @@ namespace Asce.Game.Enviroments
     public class Sign : InteractiveObject, IEnviromentComponent, IInteractableObject
     {
 
-        public override void Interact(GameObject interactor)
-        {
-
-        }
-
-        public override void Focus()
-        {
-            base.Focus();
-
-        }
-
-        public override void Unfocus()
-        {
-            base.Unfocus();
-
-        }
-
     }
 }

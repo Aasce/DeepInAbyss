@@ -7,6 +7,7 @@ namespace Asce.Game.Enviroments
     {
         public event Action<object> OnFocus;
         public event Action<object> OnUnfocus;
+        public event Action<object, GameObject> OnInteract;
 
         /// <summary> The maximum interaction distance from the player. </summary>
         public float InteractionRange { get; }

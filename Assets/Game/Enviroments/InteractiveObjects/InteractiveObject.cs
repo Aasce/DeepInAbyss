@@ -11,11 +11,15 @@ namespace Asce.Game.Enviroments
 
         public event Action<object> OnFocus;
         public event Action<object> OnUnfocus;
+        public event Action<object, GameObject> OnInteract;
 
         public virtual float InteractionRange => _interactionRange;
         public virtual Vector2 Offset => _offset;
 
-        public abstract void Interact(GameObject interactor);
+        public virtual void Interact(GameObject interactor)
+        {
+            OnInteract?.Invoke(this, interactor);
+        }
 
         public virtual void Focus()
         {
