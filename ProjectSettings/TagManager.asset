@@ -67,6 +67,9 @@ TagManager:
   - name: Tilemap
     uniqueID: 3001007757
     locked: 0
+  - name: Hidden Area
+    uniqueID: 2980234551
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

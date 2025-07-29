@@ -1,8 +1,11 @@
 using Asce.Game.Enviroments;
+using Asce.Game.Enviroments.HiddenAreas;
 using Asce.Game.Players;
 using Asce.Game.Spawners;
 using Asce.Managers;
+using Asce.Managers.SaveLoads;
 using Asce.Managers.Utils;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,18 +26,36 @@ namespace Asce.Game.SaveLoads
         public void LoadAll()
         {
             this.LoadMainCharacter();
-            this.LoadAllSavePoints();
-            this.LoadAllBillboards();
-            this.LoadAllChests();
+            LoadAllData<Chest, ChestData, AllChestData>(
+                "scene/enviroments/chests.json",
+                chest => data => data.id == chest.ID
+            );
+
+            LoadAllData<Billboard, BillboardData, AllBillboardData>(
+                "scene/enviroments/billboards.json",
+                billboard => data => data.id == billboard.ID
+            );
+
+            LoadAllData<ISavePoint, SavePointData, AllSavePointData>(
+                "scene/enviroments/savepoints.json",
+                savePoint => data => data.id == savePoint.ID
+            );
+
+            LoadAllData<HiddenArea, HiddenAreaData, AllHiddenAreaData>(
+                "scene/enviroments/hidden_areas.json",
+                hiddenArea => data => data.id == hiddenArea.ID
+            );
         }
 
 
         public void SaveAll()
         {
             SaveLoadSystem.Save(new CharacterData(Player.Instance.MainCharacter), "player/character.json");
-            this.SaveAllSavePoints();
-            this.SaveAllBillboards();
-            this.SaveAllChests();
+            SaveAllData<Chest, ChestData, AllChestData>("scene/enviroments/chests.json");
+            SaveAllData<Billboard, BillboardData, AllBillboardData>("scene/enviroments/billboards.json");
+            SaveAllData<ISavePoint, SavePointData, AllSavePointData>("scene/enviroments/savepoints.json");
+            SaveAllData<HiddenArea, HiddenAreaData, AllHiddenAreaData>("scene/enviroments/hidden_areas.json");
+            
         }
 
         private void LoadMainCharacter()
@@ -44,91 +65,67 @@ namespace Asce.Game.SaveLoads
             Player.Instance.CameraController.ToTarget(Vector2.up * 10f);
         }
 
-        private void SaveAllSavePoints()
-        {
-            AllSavePointData data = new();
-            var savePoints = SavePointManager.Instance.SavePoints;
 
-            foreach (ISavePoint savePoint in savePoints)
+        /// <summary>
+        ///     Saves all components of type <typeparamref name="TComponent"/> found in the scene to a file at the given path.
+        /// </summary>
+        /// <typeparam name="TComponent"> The component type to save. Must be a reference type. </typeparam>
+        /// <typeparam name="TData"> The data container type that knows how to save a component of type <typeparamref name="TComponent"/>. </typeparam>
+        /// <typeparam name="TGroupData"> The wrapper that holds a collection of <typeparamref name="TData"/> items. </typeparam>
+        /// <param name="path"> The file path where the data will be saved. </param>
+        private void SaveAllData<TComponent, TData, TGroupData>(string path)
+            where TComponent : class
+            where TData : ISaveData<TComponent>, new()
+            where TGroupData : IGroupData<TData>, new()
+        {
+            // Create a container for the group of data objects
+            TGroupData groupData = new();
+
+            // Find all components of the specified type in the active scene
+            List<TComponent> components = ComponentUtils.FindAllComponentsInScene<TComponent>();
+
+            // Serialize each component into its data representation
+            foreach (TComponent component in components)
             {
-                SavePointData savePointData = new();
-                savePointData.Save(savePoint);
-                data.savePoints.Add(savePointData);
+                TData data = new();
+                data.Save(component); // Copy the component's state into the data object
+                groupData.Items.Add(data); // Add to the group container
             }
 
-            SaveLoadSystem.Save(data, "scene/enviroments/savepoints.json");
+            // Save the group data to the specified file path
+            SaveLoadSystem.Save(groupData, path);
         }
 
-        private void LoadAllSavePoints()
+        /// <summary>
+        ///     Loads data from a file and applies it to components of type <typeparamref name="TComponent"/> in the scene.
+        /// </summary>
+        /// <typeparam name="TComponent"> The component type to apply the loaded data to. </typeparam>
+        /// <typeparam name="TData"> The data container type that knows how to load into a component of type <typeparamref name="TComponent"/>. </typeparam>
+        /// <typeparam name="TGroupData"> The wrapper that holds a collection of <typeparamref name="TData"/> items. </typeparam>
+        /// <param name="path"> The file path from which the data will be loaded. </param>
+        /// <param name="matchPredicateFactory">
+        ///     A function that, given a component, returns a predicate to find the matching data object from the loaded list.
+        /// </param>
+        private void LoadAllData<TComponent, TData, TGroupData>(
+            string path,
+            Func<TComponent, Predicate<TData>> matchPredicateFactory)
+            where TComponent : class
+            where TData : ILoadData<TComponent>
+            where TGroupData : IGroupData<TData>
         {
-            AllSavePointData data = SaveLoadSystem.Load<AllSavePointData>("scene/enviroments/savepoints.json");
-            if (data == null) return;
+            // Load the group data from the specified file path
+            TGroupData groupData = SaveLoadSystem.Load<TGroupData>(path);
+            if (groupData == null) return;
 
-            var savePoints = SavePointManager.Instance.SavePoints;
-            foreach (ISavePoint savePoint in savePoints)
+            // Find all components of the specified type in the active scene
+            List<TComponent> components = ComponentUtils.FindAllComponentsInScene<TComponent>();
+
+            // Attempt to find and load matching data for each component
+            foreach (TComponent component in components)
             {
-                if (savePoint == null) continue;
-                SavePointData match = data.savePoints.Find(x => x.id == savePoint.ID);
-                match?.Load(savePoint);
-            }
-        }
-
-        private void SaveAllBillboards()
-        {
-            AllBillboardData data = new();
-            List<Billboard> billboards = ComponentUtils.FindAllComponentsInScene<Billboard>();
-
-            foreach (Billboard billboard in billboards)
-            {
-                BillboardData billboardData = new();
-                billboardData.Save(billboard);
-                data.billboards.Add(billboardData);
-            }
-
-            SaveLoadSystem.Save(data, "scene/enviroments/billboards.json");
-        }
-
-        private void LoadAllBillboards()
-        {
-            AllBillboardData data = SaveLoadSystem.Load<AllBillboardData>("scene/enviroments/billboards.json");
-            if (data == null) return;
-
-            List<Billboard> billboards = ComponentUtils.FindAllComponentsInScene<Billboard>();
-
-            foreach (Billboard billboard in billboards)
-            {
-                if (billboard == null) continue;
-                BillboardData match = data.billboards.Find(x => x.id ==  billboard.ID);
-                match?.Load( billboard);
-            }
-        }
-
-        private void SaveAllChests()
-        {
-            AllChestData data = new ();
-            List<Chest> chests = ComponentUtils.FindAllComponentsInScene<Chest>();
-
-            foreach (Chest chest in chests)
-            {
-                ChestData chestData = new();
-                chestData.Save(chest);
-                data.chests.Add(chestData);
-            }
-
-            SaveLoadSystem.Save(data, "scene/enviroments/chests.json");
-        }
-
-        private void LoadAllChests()
-        {
-            var data = SaveLoadSystem.Load<AllChestData>("scene/enviroments/chests.json");
-            if (data == null) return;
-
-            List<Chest> chests = ComponentUtils.FindAllComponentsInScene<Chest>();
-
-            foreach (Chest chest in chests)
-            {
-                ChestData match = data.chests.Find(x => x.id == chest.ID);
-                match?.Load(chest);
+                var predicate = matchPredicateFactory(component); // Create a predicate based on this component
+                var match = groupData.Items.Find(predicate); // Find corresponding saved data
+                match?.Load(component); // Load data into the component if match found
             }
         }
 
