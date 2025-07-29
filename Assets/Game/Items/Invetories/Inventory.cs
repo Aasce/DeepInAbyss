@@ -76,6 +76,8 @@ namespace Asce.Game.Inventories
                 return AddStackableItem(addingItem.Information, addingItem.GetQuantity());
             
             int index = GetFirstEmptySlotIndex();
+            if (index < 0) return addingItem; // No empty slots available
+
             _items[index] = addingItem.Clone(); // Place the item directly if it has durability
             OnItemChanged?.Invoke(this, index);
             return null;

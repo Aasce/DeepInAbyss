@@ -12,6 +12,7 @@ namespace Asce.Game.Enviroments
     {
         [Tooltip("How much this layer moves relative to camera. 0 = static, 1 = same speed as camera.")]
         [SerializeField,Range(0f, 1f)] protected float _parallaxFactor = 0.5f;
+        [SerializeField,Range(0f, 1f)] protected float _parallaxFactorY = 1f;
         
         [SerializeField, Readonly] private Vector2 _startPosition;
         [SerializeField] protected Vector2 _startOffset = Vector2.zero;
@@ -35,7 +36,7 @@ namespace Asce.Game.Enviroments
             Vector2 delta = (Vector2)_camera.position - StartPosition;
             transform.position = (Vector3)StartPosition + (Vector3)_offset + new Vector3(
                 delta.x * _parallaxFactor,
-                delta.y * _parallaxFactor,
+                delta.y * _parallaxFactorY,
                 transform.position.z
             );
         }

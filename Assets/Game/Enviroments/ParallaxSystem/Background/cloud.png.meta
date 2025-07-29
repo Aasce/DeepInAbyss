@@ -116,7 +116,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 8
+        y: 59
         width: 258
         height: 95
       alignment: 0
@@ -137,10 +137,10 @@ TextureImporter:
       name: cloud_1
       rect:
         serializedVersion: 2
-        x: 149
-        y: 77
-        width: 77
-        height: 34
+        x: 282
+        y: 62
+        width: 270
+        height: 103
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,10 +159,10 @@ TextureImporter:
       name: cloud_2
       rect:
         serializedVersion: 2
-        x: 364
-        y: 2
-        width: 270
-        height: 104
+        x: 2
+        y: 3
+        width: 65
+        height: 19
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,10 +181,10 @@ TextureImporter:
       name: cloud_3
       rect:
         serializedVersion: 2
-        x: 430
-        y: 89
-        width: 118
-        height: 47
+        x: 160
+        y: 0
+        width: 77
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,10 +203,10 @@ TextureImporter:
       name: cloud_4
       rect:
         serializedVersion: 2
-        x: 117
-        y: 0
-        width: 65
-        height: 18
+        x: 279
+        y: 1
+        width: 118
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,12 +234,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      cloud_0: -6981827254641702772
-      cloud_1: -2459163954622720782
-      cloud_2: -7977753516566349660
-      cloud_3: -1962646913366674424
-      cloud_4: 969875869550938650
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

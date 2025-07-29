@@ -1,5 +1,6 @@
 using Asce.Managers.Attributes;
 using Asce.Managers.UIs;
+using Asce.Managers.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -37,12 +38,21 @@ namespace Asce.Game.UIs
 
         public void OnDrag(PointerEventData eventData)
         {
-            if (Window == null) return;
+            if (Window == null || UIScreenCanvasManager.Instance == null) return;
+
+            RectTransform canvasRect = UIScreenCanvasManager.Instance.Canvas.transform as RectTransform;
+            if (canvasRect == null) return;
+
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                Window.RectTransform.parent as RectTransform, eventData.position, eventData.pressEventCamera, out Vector2 pointerPos))
+                canvasRect, eventData.position, eventData.pressEventCamera, out Vector2 pointerPos))
             {
-                Window.RectTransform.localPosition = pointerPos - _offset;
+                Vector2 targetLocalPos = pointerPos - _offset;
+
+                // Clamp the window position within the canvas
+                Vector2 clampedPos = UICanvasUtils.ClampLocalAnchoredPosition(Window.RectTransform, canvasRect, targetLocalPos);
+                Window.RectTransform.localPosition = clampedPos;
             }
         }
+
     }
 }

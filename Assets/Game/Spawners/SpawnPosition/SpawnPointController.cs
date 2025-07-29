@@ -12,24 +12,24 @@ namespace Asce.Game.Spawners
         [SerializeField] protected int _currentPointIndex = 0;
         [SerializeField] protected List<Transform> _points = new();
 
+        protected Bounds _boundsCache;
 
         public override Bounds Bounds
         {
             get
             {
-                if (_points == null || _points.Count == 0)
+                if (_boundsCache == null)
                 {
-                    return new Bounds(transform.position, Vector3.zero);
+                    if (_points == null || _points.Count == 0)
+                    {
+                        _boundsCache = new Bounds(transform.position, Vector3.zero);
+                        return _boundsCache;
+                    }
+
+                    _boundsCache = new (_points[0].position, Vector3.zero);
+                    for (int i = 1; i < _points.Count; i++) _boundsCache.Encapsulate(_points[i].position);
                 }
-
-                Bounds bounds = new Bounds(_points[0].position, Vector3.zero);
-
-                for (int i = 1; i < _points.Count; i++)
-                {
-                    bounds.Encapsulate(_points[i].position);
-                }
-
-                return bounds;
+                return _boundsCache;
             }
         }
 
