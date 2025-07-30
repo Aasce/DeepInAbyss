@@ -9,7 +9,7 @@ namespace Asce.Managers
     ///     Ensures only one instance of a <see cref="MonoBehaviour"/> of type <typeparamref name="T"/> exists in the scene.
     /// </summary>
     /// <typeparam name="T"> Type of the <see cref="MonoBehaviour"/> to be singleton. </typeparam>
-    public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class MonoBehaviourSingleton<T> : GameComponent where T : MonoBehaviour
     {
         // Static reference to the singleton instance
         private static T _instance;

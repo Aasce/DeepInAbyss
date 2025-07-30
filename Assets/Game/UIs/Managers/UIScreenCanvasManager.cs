@@ -28,8 +28,9 @@ namespace Asce.Game.UIs
         public UIInteractableObjectController InteractableObjectController => _interactableObjectController;
 
 
-        protected virtual void Reset()
+        protected override void RefReset()
         {
+            base.RefReset();
             this.LoadComponent(out _canvas, includeInactive: true);
             this.LoadComponent(out _windowsController, includeInactive: true);
             this.LoadComponent(out _contextMenusController, includeInactive: true);

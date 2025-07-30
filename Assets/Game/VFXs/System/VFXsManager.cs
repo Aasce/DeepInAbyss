@@ -1,4 +1,5 @@
 using Asce.Managers;
+using Asce.Managers.Attributes;
 using Asce.Managers.Pools;
 using Asce.Managers.Utils;
 using System.Collections.Generic;
@@ -11,17 +12,28 @@ namespace Asce.Game.VFXs
     /// </summary>
     public class VFXsManager : MonoBehaviourSingleton<VFXsManager>
     {
-        [SerializeField] protected SO_StatusEffectVFXs _statusEffectVFXs;
-        [Space]
+        // Ref
+        [SerializeField, Readonly] protected FullScreenVFXController _fullScreenVFXController;
 
+        [Space]
+        [SerializeField] protected SO_StatusEffectVFXs _statusEffectVFXs;
+
+        [Space]
         [Tooltip("Cooldown to control how often deactivation checks are performed.")]
         [SerializeField] protected Cooldown _delayCheckCooldown = new(0.2f);
 
         /// <summary>  Dictionary storing pools of VFX objects by their prefab name. </summary>
         protected Dictionary<string, Pool<VFXObject>> _vfxPools = new();
 
+        public FullScreenVFXController FullScreenVFXController => _fullScreenVFXController;
         public SO_StatusEffectVFXs StatusEffectVFXs => _statusEffectVFXs;
 
+
+        protected override void RefReset()
+        {
+            base.RefReset();
+            this.LoadComponent(out  _fullScreenVFXController);
+        }
 
         protected virtual void Update()
         {
