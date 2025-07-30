@@ -8,7 +8,7 @@ namespace Asce.Game.Equipments.Events
     {
         [SerializeField] private StatValue _strengthValue = new(5f, StatValueType.Plat);
 
-        public string AddStrengthReason => "Iron Sword add strength";
+        public string Reason => "Iron Sword equipment";
         public StatValue StrengthValue => _strengthValue;
 
         public override void OnEquip(ICreature creature)
@@ -16,7 +16,7 @@ namespace Asce.Game.Equipments.Events
             if (creature == null) return;
             if (creature.Stats == null) return;
             if (creature.Stats is IHasStrength hasStrength)
-				hasStrength.Strength.AddAgent(creature.gameObject, AddStrengthReason, _strengthValue);
+				hasStrength.Strength.AddAgent(creature.gameObject, Reason, _strengthValue);
         }
 
         public override void OnUnequip(ICreature creature)
@@ -24,7 +24,7 @@ namespace Asce.Game.Equipments.Events
             if (creature == null) return;
             if (creature.Stats == null) return;
             if (creature.Stats is IHasStrength hasStrength)
-				hasStrength.Strength.RemoveAgent(creature.gameObject, AddStrengthReason);
+				hasStrength.Strength.RemoveAgent(creature.gameObject, Reason);
         }
     }
 }

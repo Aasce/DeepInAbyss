@@ -9,8 +9,14 @@ namespace Asce.Game.Entities
         [SerializeField] protected EntityStatus _status = new();
         [SerializeField] protected Vector2 _boundsSize = Vector2.one;
 
+        protected bool _isLoaded = false;
         public virtual SO_EntityInformation Information => _information;
         public virtual EntityStatus Status => _status;
+        public virtual bool IsLoaded
+        {
+            get => _isLoaded;
+            set => _isLoaded = value;
+        }
 
         bool IOptimizedComponent.IsActive => this.gameObject.activeSelf;
         Bounds IOptimizedComponent.Bounds => new ((Vector2)this.transform.position + Vector2.up * Status.Height * 0.5f, _boundsSize);

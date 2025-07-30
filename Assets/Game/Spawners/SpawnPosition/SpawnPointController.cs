@@ -13,21 +13,28 @@ namespace Asce.Game.Spawners
         [SerializeField] protected List<Transform> _points = new();
 
         protected Bounds _boundsCache;
+        protected bool _isBoundsDirty = true;
 
         public override Bounds Bounds
         {
             get
             {
-                if (_boundsCache == null)
+                if (_isBoundsDirty)
                 {
                     if (_points == null || _points.Count == 0)
                     {
                         _boundsCache = new Bounds(transform.position, Vector3.zero);
-                        return _boundsCache;
+                    }
+                    else
+                    {
+                        _boundsCache = new Bounds(_points[0].position, Vector3.zero);
+                        for (int i = 1; i < _points.Count; i++)
+                        {
+                            _boundsCache.Encapsulate(_points[i].position);
+                        }
                     }
 
-                    _boundsCache = new (_points[0].position, Vector3.zero);
-                    for (int i = 1; i < _points.Count; i++) _boundsCache.Encapsulate(_points[i].position);
+                    _isBoundsDirty = false;
                 }
                 return _boundsCache;
             }

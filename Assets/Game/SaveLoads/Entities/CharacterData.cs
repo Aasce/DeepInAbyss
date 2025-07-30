@@ -1,7 +1,6 @@
+using Asce.Game.Entities;
 using Asce.Game.Entities.Characters;
-using Asce.Game.Items;
 using Asce.Managers.SaveLoads;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.SaveLoads
@@ -10,8 +9,11 @@ namespace Asce.Game.SaveLoads
     public class CharacterData : SaveData, ISaveData<Character>, ILoadData<Character>
     {
         public Vector2 position;
-        public List<ItemData> inventory = new();
+        public EntityStatusType statusType = EntityStatusType.Alive;
+        public StatsData stats = new();
+        public InventoryData inventory = new();
         public EquiomentData equipment = new();
+        public StatusEffectsData statusEffects = new();
 
         public CharacterData() { }
         public CharacterData(Character character)
@@ -23,42 +25,27 @@ namespace Asce.Game.SaveLoads
         {
             if (target == null) return;
             position = target.transform.position;
+            statusType = target.Status.CurrentStatus;
 
-            this.SaveInventory(target);
-            this.SaveEquipment(target);
+            if (target.Stats != null) stats.Save(target.Stats);
+            if (target.Inventory.Inventory != null) inventory.Save(target.Inventory.Inventory);
+            if (target.Equipment != null) equipment.Save(target.Equipment);
+            if (target.StatusEffect != null) statusEffects.Save(target.StatusEffect);
         }
 
         public bool Load(Character character)
         {
             if (character == null) return false;
             character.transform.position = this.position;
+            character.Status.SetStatus(this.statusType);
 
-            List<Item> items = new();
-            foreach (ItemData itemData in this.inventory)
-            {
-                Item item = itemData.Create();
-                items.Add(item);
-            }
-            character.Inventory.Inventory.Load(items);
+            stats.Load(character.Stats);
+            inventory.Load(character.Inventory.Inventory);
             equipment.Load(character.Equipment);
+            statusEffects.Load(character.StatusEffect);
+
+            character.IsLoaded = true;
             return true;
-        }
-
-        private void SaveInventory(Character character)
-        {
-            if (character.Inventory == null) return;
-            var items = character.Inventory.Inventory.Items;
-            foreach (var item in items)
-            {
-                ItemData itemData = new(item);
-                inventory.Add(itemData);
-            }
-        }
-
-        private void SaveEquipment(Character character)
-        {
-            if (character.Equipment == null) return;
-            equipment.Save(character.Equipment);
         }
     }
 }

@@ -1,5 +1,4 @@
 using Asce.Game.Entities;
-using Asce.Game.Entities.AIs;
 using Asce.Game.Entities.Ores;
 using Asce.Game.FloatingTexts;
 using Asce.Game.Stats;
@@ -24,17 +23,17 @@ namespace Asce.Game.Combats
         public static void DamageDealing(DamageContainer container)
         {
             if (container == null) return;
-            if (container.Sender == null || container.Receiver == null) return;
-            if (container.Sender.IsDead ||  container.Receiver.IsDead) return;
+            if (container.Receiver == null) return;
+            if (container.Receiver.IsDead) return;
 
-            container.Sender.BeforeSendDamage(container);
+            if (container.Sender != null) container.Sender.BeforeSendDamage(container);
             container.Receiver.BeforeTakeDamage(container);
 
             if (container.Receiver is ICreature) DamageDealingCreature(container);
             else if (container.Receiver is IOre) DamageDealingOre(container);
 
             container.Receiver.AfterTakeDamage(container);
-            container.Sender.AfterSendDamage(container);
+            if (container.Sender != null) container.Sender.AfterSendDamage(container);
         }
 
         private static void DamageDealingCreature(DamageContainer container)

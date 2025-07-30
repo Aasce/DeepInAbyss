@@ -1,10 +1,11 @@
 using Asce.Game.StatusEffects;
+using Asce.Managers;
 using Asce.Managers.Attributes;
 using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CreatureStatusEffect : MonoBehaviour, IHasOwner<Creature>
+    public class CreatureStatusEffect : GameComponent, IHasOwner<Creature>
     {
         [SerializeField, Readonly] private Creature _owner;
 

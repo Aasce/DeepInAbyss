@@ -1,7 +1,9 @@
 ﻿using Asce.Game.Combats;
+using Asce.Game.SaveLoads;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Asce.Game.Entities
@@ -109,9 +111,14 @@ namespace Asce.Game.Entities
         protected override void Start()
         {
             base.Start();
-
-            if (Stats != null) Stats.LoadBaseStats();
             if (UI != null) UI.Register();
+            _ = this.Load();
+        }
+
+        protected virtual async Task Load()
+        {
+            await SaveLoadManager.Instance.WaitUntilLoadedAsync();
+            if (Stats != null) Stats.LoadBaseStats();
         }
 
 

@@ -1,14 +1,13 @@
 using Asce.Game.Stats;
 using Asce.Game.VFXs;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.StatusEffects
 {
     public class Decay_StatusEffect : StackStatusEffect
     {
-        protected StatAgent _decayHealthAgent;
         protected VFXObject _vfxObject;
-
 
         public override string Name => "Decay";
         public float DecayAmount => Mathf.Min(_strength, 0.99f);
@@ -43,16 +42,15 @@ namespace Asce.Game.StatusEffects
 
         protected virtual void ApplyReducedMaxHealth()
         {
-            if (Sender == null) return;
             if (Target == null || Target.Stats == null) return;
-            _decayHealthAgent = Target.Stats.HealthGroup.Health.AddAgent(Sender.gameObject, $"{Sender.Information.Name} decay", -DecayAmount, StatValueType.Ratio);
+            _agents["Health"] = Target.Stats.HealthGroup.Health.AddAgent(Author, $"decay effect", -DecayAmount, StatValueType.Ratio);
         }
 
         protected virtual void UnapplyReductedMaxHealth()
         {
             if (Target == null || Target.Stats == null) return;
-            Target.Stats.HealthGroup.Health.RemoveAgent(_decayHealthAgent);
-            Target.Stats.HealthGroup.Health.AddToCurrentValue(Sender.gameObject, $"{Sender.Information.Name} decay", DecayAmount, StatValueType.Ratio);
+            Target.Stats.HealthGroup.Health.RemoveAgent(_agents.GetValueOrDefault("Health"));
+            Target.Stats.HealthGroup.Health.AddToCurrentValue(Author, $"decay effect", DecayAmount, StatValueType.Ratio);
         }
 
         protected virtual void StackDecayStrength(StackStatusEffect stackEffect)
@@ -64,7 +62,7 @@ namespace Asce.Game.StatusEffects
             _strength = Mathf.Min(_strength, 0.99f);
 
             // Update agent value accordingly
-            _decayHealthAgent.Value = -DecayAmount;
+            _agents.GetValueOrDefault("Health").Value = -DecayAmount;
             Target.Stats.HealthGroup.Health.UpdateValue();
         }
     }

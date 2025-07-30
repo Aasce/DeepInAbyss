@@ -2,6 +2,7 @@ using Asce.Game.Combats;
 using Asce.Game.Stats;
 using Asce.Game.VFXs;
 using Asce.Managers.Utils;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.StatusEffects
@@ -9,8 +10,6 @@ namespace Asce.Game.StatusEffects
     public class Ignite_StatusEffect : StatusEffect
     {
         protected Cooldown _damageDealCooldown = new(0.5f);
-        protected StatAgent _healScaleAgent;
-
         protected VFXObject _vfxObject;
 
         public override string Name => "Ignite";
@@ -39,24 +38,21 @@ namespace Asce.Game.StatusEffects
 
         protected virtual void ApplyReducedHealing()
         {
-            if (Sender == null) return;
             if (Target == null || Target.Stats == null) return;
             if (Target.Stats is not IHasSurvivalStats hasSurvivalStats) return;
-            _healScaleAgent = hasSurvivalStats.HealthGroup.HealScale.AddAgent(Sender.gameObject, $"{Sender.Information.Name} Ignite", 0.5f, StatValueType.Scale);
+            _agents["HealScale"] = hasSurvivalStats.HealthGroup.HealScale.AddAgent(Author, $"ignite effect", 0.5f, StatValueType.Scale);
         }
 
         protected virtual bool UnapplyReducedHealing()
         {
-            if (Sender == null) return false;
             if (Target == null || Target.Stats == null) return false;
             if (Target.Stats is not IHasSurvivalStats hasSurvivalStats) return false;
-            hasSurvivalStats.HealthGroup.HealScale.RemoveAgent(_healScaleAgent);
+            hasSurvivalStats.HealthGroup.HealScale.RemoveAgent(_agents.GetValueOrDefault("HealScale"));
             return true;
         }
 
         protected virtual void DamageDealing(float deltaTime)
         {
-            if (Sender == null || Sender.Stats == null) return;
             if (Target == null || Target.Stats == null) return;
 
             _damageDealCooldown.Update(deltaTime);

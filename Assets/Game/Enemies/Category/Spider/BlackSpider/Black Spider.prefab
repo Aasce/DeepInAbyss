@@ -88,6 +88,7 @@ MonoBehaviour:
     _facingDirection: 0
     _height: 1
     _spawnPosition: {x: 0, y: 0}
+  _boundsSize: {x: 1, y: 1}
   _physicController: {fileID: 7038262948621639655}
   _action: {fileID: 3677679567140803873}
   _view: {fileID: 2246703753960340100}
@@ -97,9 +98,6 @@ MonoBehaviour:
   _equipment: {fileID: 0}
   _inventory: {fileID: 5395759436865822137}
   _spoils: {fileID: 6332237860088002789}
-  _targetLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
   _damageHitBox:
     _layer:
       serializedVersion: 2
@@ -266,27 +264,15 @@ MonoBehaviour:
       _changeStat:
         _statType: 0
         _value: 0
-        _agents:
-        - _author: {fileID: 0}
-          _reason: heal scale affect
-          _value: 1
-          _type: 3
-          _position: {x: 0, y: 0}
-          _isClearable: 1
+        _agents: []
       _isSelfChangeable: 1
       _changeInterval:
         _baseTime: 1
         _currentTime: 1
     _healScale:
       _statType: 2
-      _value: 1
-      _agents:
-      - _author: {fileID: 0}
-        _reason: base heal scale
-        _value: 1
-        _type: 0
-        _position: {x: 0, y: 0}
-        _isClearable: 0
+      _value: 0
+      _agents: []
   _stamina:
     _statType: 5
     _value: 0
@@ -367,16 +353,6 @@ MonoBehaviour:
     _statType: 30
     _value: 0
     _agents: []
-    _currentValue: 0
-    _currentAgents: []
-    _changeStat:
-      _statType: 0
-      _value: 0
-      _agents: []
-    _isSelfChangeable: 1
-    _changeInterval:
-      _baseTime: 1
-      _currentTime: 1
   _viewRadius:
     _statType: 32
     _value: 0
@@ -385,16 +361,6 @@ MonoBehaviour:
     _statType: 31
     _value: 0
     _agents: []
-    _currentValue: 0
-    _currentAgents: []
-    _changeStat:
-      _statType: 0
-      _value: 0
-      _agents: []
-    _isSelfChangeable: 1
-    _changeInterval:
-      _baseTime: 1
-      _currentTime: 1
 --- !u!1 &3434472477446549667
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,6 +534,7 @@ MonoBehaviour:
   _jumpCooldown:
     _baseTime: 0.2
     _currentTime: 0.2
+  _isStartAttack: 0
   _isAttacking: 0
   _canAttackWhenMoving: 0
   _canAttackInAir: 0
@@ -676,6 +643,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _owner: {fileID: 4847312806535791522}
+  _effectsController:
+    _statusEffects: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &8161821147268499335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1437,7 +1409,7 @@ SortingGroup:
   m_GameObject: {fileID: 6055197058573447222}
   m_Enabled: 1
   m_SortingLayerID: -1013492761
-  m_SortingLayer: -3
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!4 &6055197058573610006 stripped

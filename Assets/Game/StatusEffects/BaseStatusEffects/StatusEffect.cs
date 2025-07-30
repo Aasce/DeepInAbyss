@@ -1,5 +1,7 @@
 using Asce.Game.Entities;
+using Asce.Game.Stats;
 using Asce.Managers.Utils;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.StatusEffects
@@ -18,12 +20,16 @@ namespace Asce.Game.StatusEffects
         [SerializeField] protected float _strength = 0f;
         [SerializeField] protected Cooldown _duration = new(1f);
 
+        protected Dictionary<string, StatAgent> _agents = new();
+
         public abstract string Name { get; }
         public SO_StatusEffectInformation Information => _information;
 
         public ICreature Sender => _sender;
         public ICreature Target => _target;
-        
+
+        public GameObject Author => Sender == null ? null : Sender.gameObject;
+
         public int Level
         {
             get => _level;
@@ -35,6 +41,7 @@ namespace Asce.Game.StatusEffects
             set => _strength = value;
         }        
         public Cooldown Duration => _duration;
+        public Dictionary<string, StatAgent> Agents => _agents;
 
         public StatusEffect() { }
 
@@ -61,11 +68,11 @@ namespace Asce.Game.StatusEffects
             _duration.SetBaseTime(data.Duration);
         }
 
-        protected virtual void SetSender(ICreature sender)
+        public virtual void SetSender(ICreature sender)
         {
             _sender = sender;
         }
-        protected virtual void SetTarget(ICreature target)
+        public virtual void SetTarget(ICreature target)
         {
             _target = target;
         }

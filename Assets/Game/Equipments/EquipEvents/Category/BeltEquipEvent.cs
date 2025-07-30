@@ -7,7 +7,7 @@ namespace Asce.Game.Equipments.Events
     public sealed class BeltEquipEvent : EquipEvent
     {
         [SerializeField] private StatValue _armorValue = new(10f, StatValueType.Plat);
-        public string AddArmorReason => "Belt add armor";
+        public string Reason => "Belt equipment";
         public StatValue ArmorValue => _armorValue;
 
         public override void OnEquip(ICreature creature)
@@ -15,7 +15,7 @@ namespace Asce.Game.Equipments.Events
             if (creature == null) return;
             if (creature.Stats == null) return;
 			if (creature.Stats is IHasDefense hasDefense)
-				hasDefense.DefenseGroup.Armor.AddAgent(creature.gameObject, AddArmorReason, _armorValue);
+				hasDefense.DefenseGroup.Armor.AddAgent(creature.gameObject, Reason, _armorValue);
         }
 
         public override void OnUnequip(ICreature creature)
@@ -23,7 +23,7 @@ namespace Asce.Game.Equipments.Events
             if (creature == null) return;
             if (creature.Stats == null) return;
 			if (creature.Stats is IHasDefense hasDefense)
-				hasDefense.DefenseGroup.Armor.RemoveAgent(creature.gameObject, AddArmorReason);
+				hasDefense.DefenseGroup.Armor.RemoveAgent(creature.gameObject, Reason);
         }
     }
 }

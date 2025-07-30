@@ -110,6 +110,7 @@ namespace Asce.Game.StatusEffects
 
         protected void ApplyEffect(StatusEffect effect)
         {
+            if (effect.IsNull()) return;
             _statusEffects.Add(effect);
             effect.Apply();
             OnEffectAdded?.Invoke(this, effect);

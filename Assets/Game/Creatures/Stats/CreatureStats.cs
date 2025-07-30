@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CreatureStats : EntityStats, IHasOwner<Creature>, IStatsController<SO_CreatureBaseStats>, IHasSurvivalStats, IHasCombatStats, IHasUtilitiesStats
+    public class CreatureStats : EntityStats, IHasOwner<Creature>, IStatsController<SO_CreatureBaseStats>, IHasSurvivalStats, IHasStamina, IHasCombatStats, IHasUtilitiesStats
     {
         [Header("Survival")]
         [SerializeField] protected HealthGroupStats _healthGroup = new();
@@ -43,11 +43,14 @@ namespace Asce.Game.Entities
 
         public override void LoadBaseStats()
         {
+            if (Owner.IsLoaded) return;
             if (BaseStats == null) return;
 
             // Health
             HealthGroup.Health.AddAgent(gameObject, baseStatsReason, BaseStats.MaxHealth, StatValueType.Base).ToNotClearable();
             HealthGroup.Health.ChangeStat.AddAgent(gameObject, baseStatsReason, BaseStats.HealthRegen, StatValueType.Base).ToNotClearable();
+            HealthGroup.HealScale.AddAgent(gameObject, baseStatsReason, 1f, StatValueType.Base).ToNotClearable();
+            HealthGroup.Load();
 
             // Stamina
             Stamina.AddAgent(gameObject, baseStatsReason, BaseStats.MaxStamina, StatValueType.Base).ToNotClearable();

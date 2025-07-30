@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Asce.Game
+namespace Asce.Managers
 {
     public interface IGameObject
     {

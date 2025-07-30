@@ -1,6 +1,6 @@
 namespace Asce.Managers.SaveLoads
 {
-    public interface IUniqueIdentifiable
+    public interface IUniqueIdentifiable : IGameObject
     {
         public string ID { get; }
     }

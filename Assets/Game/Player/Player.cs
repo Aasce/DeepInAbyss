@@ -30,8 +30,9 @@ namespace Asce.Game.Players
         public Character MainCharacter => _mainCharacter;
         public ICreature ControlledCreature => _controlledCreature;
 
-        private void Reset()
+        protected override void RefReset()
         {
+            base.RefReset();
             this.LoadComponent(out _cameraController);
             if (this.LoadComponent(out _settings)) _settings.Player = this;
             if (this.LoadComponent(out _input)) _input.Player = this;
@@ -45,7 +46,6 @@ namespace Asce.Game.Players
             if (CameraController == null) return;
             if (ControlledCreature == null) return;
 
-            CameraController.Target = ControlledCreature.gameObject.transform;
             CameraController.ToTarget(Vector2.up * 10f);
         }
 
@@ -54,7 +54,7 @@ namespace Asce.Game.Players
             this.ControlUI();
             if (Input.IsControlUI)
             {
-                this.ResetControlCharacter();
+                this.ResetControl();
             }
             else
             {
@@ -100,18 +100,15 @@ namespace Asce.Game.Players
         {
             if (creature == null) return;
             ICreature oldControlledCreature = ControlledCreature;
-            this.ResetControlCharacter();
 
+            this.CreatureUnregister();
             _controlledCreature = creature;
+            this.CreatureRegister();
 
-            oldControlledCreature.UncontrolledByPlayer();
-            ControlledCreature.ControlledByPlayer();
-
-            CameraController.Target = ControlledCreature.gameObject.transform;
             OnControlledCreatureChanged?.Invoke(this, new ValueChangedEventArgs<ICreature>(oldControlledCreature, ControlledCreature));
         }
 
-        private void ResetControlCharacter()
+        private void ResetControl()
         {
             if (ControlledCreature == null) return;
 
@@ -140,5 +137,20 @@ namespace Asce.Game.Players
             focusObject.Interact(character.gameObject);
         }
 
+        private void CreatureRegister()
+        {
+            if (ControlledCreature == null) return;
+
+            CameraController.Target = ControlledCreature.gameObject.transform;
+            ControlledCreature.ControlledByPlayer();
+        }
+
+        private void CreatureUnregister()
+        {
+            if (ControlledCreature == null) return;
+
+            this.ResetControl();
+            ControlledCreature.UncontrolledByPlayer();
+        }
     }
 }

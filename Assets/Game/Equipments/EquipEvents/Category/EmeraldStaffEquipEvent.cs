@@ -9,8 +9,7 @@ namespace Asce.Game.Equipments.Events
         [SerializeField] private StatValue _healScaleValue = new(0.1f, StatValueType.Plat);
         [SerializeField] private StatValue _resistanceValue = new(15f, StatValueType.Plat);
 
-        public string AddHealScaleReason => "Emerald Staff add heal scale";
-        public string AddResistanceReason => "Emerald Staff add resistance";
+        public string Reason => "Emerald Staff equipment";
 
         public StatValue HealScaleValue => _healScaleValue;
         public StatValue ResistanceValue => _resistanceValue;
@@ -20,10 +19,10 @@ namespace Asce.Game.Equipments.Events
             if (creature == null) return;
             if (creature.Stats == null) return;
             if (creature.Stats is IHasHealth hasHealth)
-                hasHealth.HealthGroup.HealScale.AddAgent(creature.gameObject, AddHealScaleReason, _healScaleValue);
+                hasHealth.HealthGroup.HealScale.AddAgent(creature.gameObject, Reason, _healScaleValue);
 
             if (creature.Stats is IHasDefense hasDefense)
-                hasDefense.DefenseGroup.Resistance.AddAgent(creature.gameObject, AddResistanceReason, _resistanceValue);
+                hasDefense.DefenseGroup.Resistance.AddAgent(creature.gameObject, Reason, _resistanceValue);
         }
 
         public override void OnUnequip(ICreature creature)
@@ -31,10 +30,10 @@ namespace Asce.Game.Equipments.Events
             if (creature == null) return;
             if (creature.Stats == null) return;
             if (creature.Stats is IHasHealth hasHealth)
-                hasHealth.HealthGroup.HealScale.RemoveAgent(creature.gameObject, AddHealScaleReason);
+                hasHealth.HealthGroup.HealScale.RemoveAgent(creature.gameObject, Reason);
 
             if (creature.Stats is IHasDefense hasDefense)
-                hasDefense.DefenseGroup.Resistance.RemoveAgent(creature.gameObject, AddResistanceReason);
+                hasDefense.DefenseGroup.Resistance.RemoveAgent(creature.gameObject, Reason);
         }
     }
 }

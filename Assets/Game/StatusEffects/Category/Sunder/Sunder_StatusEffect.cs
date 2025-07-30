@@ -1,12 +1,12 @@
 using Asce.Game.Stats;
 using Asce.Game.VFXs;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.StatusEffects
 {
     public class Sunder_StatusEffect : StackStatusEffect
     {
-        protected StatAgent _sunderArmorAgent;
         protected VFXObject _vfxObject;
 
         public override string Name => "Sunder";
@@ -41,15 +41,14 @@ namespace Asce.Game.StatusEffects
 
         protected virtual void ApplyReducedArmor()
         {
-            if (Sender == null) return;
             if (Target == null || Target.Stats == null) return;
-            _sunderArmorAgent = Target.Stats.DefenseGroup.Armor.AddAgent(Sender.gameObject, $"{Sender.Information.Name} sunder", -_strength, StatValueType.Ratio);
+            _agents["Armor"] = Target.Stats.DefenseGroup.Armor.AddAgent(Author, $"sunder effect", -_strength, StatValueType.Ratio);
         }
 
         protected virtual void UnapplyReductedMaxArmor()
         {
             if (Target == null || Target.Stats == null) return;
-            Target.Stats.DefenseGroup.Armor.RemoveAgent(_sunderArmorAgent);
+            Target.Stats.DefenseGroup.Armor.RemoveAgent(_agents.GetValueOrDefault("Armor"));
         }
 
         protected virtual void StackStrength(StackStatusEffect stackEffect)
@@ -60,7 +59,7 @@ namespace Asce.Game.StatusEffects
             _strength += sunderEffect._strength;
 
             // Update agent value accordingly
-            _sunderArmorAgent.Value = -_strength;
+            _agents.GetValueOrDefault("Armor").Value = -_strength;
             Target.Stats.DefenseGroup.Armor.UpdateValue();
         }
     }

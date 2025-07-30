@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6ec7fb5d4d5e845a80e98f1a246007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boundSize: {x: 10, y: 10}
+  _boundSize: {x: 20, y: 20}
 --- !u!1 &2866243212140608744
 GameObject:
   m_ObjectHideFlags: 0

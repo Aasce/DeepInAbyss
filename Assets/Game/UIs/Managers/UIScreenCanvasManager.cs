@@ -1,4 +1,5 @@
 using Asce.Game.UIs.ContextMenus;
+using Asce.Game.UIs.Panels;
 using Asce.Managers;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
@@ -13,6 +14,7 @@ namespace Asce.Game.UIs
         [SerializeField, Readonly] protected Canvas _canvas;
 
         [SerializeField, Readonly] protected UIWindowsController _windowsController;
+        [SerializeField, Readonly] protected UIPanelsController _panelsController;
         [SerializeField, Readonly] protected UIContextMenusController _contextMenusController;
         [SerializeField, Readonly] protected UITooltip _tooltip;
 
@@ -22,6 +24,7 @@ namespace Asce.Game.UIs
         public Camera Camera => _camera;
         public Canvas Canvas => _canvas;
         public UIWindowsController WindowsController => _windowsController;
+        public UIPanelsController PanelsController => _panelsController;
         public UIContextMenusController ContextMenusController => _contextMenusController;
         public UITooltip Tooltip => _tooltip;
 
@@ -33,6 +36,7 @@ namespace Asce.Game.UIs
             base.RefReset();
             this.LoadComponent(out _canvas, includeInactive: true);
             this.LoadComponent(out _windowsController, includeInactive: true);
+            this.LoadComponent(out _panelsController, includeInactive: true);
             this.LoadComponent(out _contextMenusController, includeInactive: true);
             this.LoadComponent(out _tooltip, includeInactive: true);
             this.LoadComponent(out _interactableObjectController, includeInactive: true);

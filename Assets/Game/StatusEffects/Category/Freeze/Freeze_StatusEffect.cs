@@ -1,14 +1,12 @@
 using Asce.Game.Stats;
 using Asce.Game.VFXs;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.StatusEffects
 {
     public class Freeze_StatusEffect : StatusEffect
     {
-        protected StatAgent _freezeSpeedAgent;
-        protected StatAgent _freezeJumpForceAgent;
-
         protected VFXObject _vfxObject;
 
         public override string Name => "Freeze";
@@ -39,13 +37,13 @@ namespace Asce.Game.StatusEffects
             // Speed
             if (Target.Stats is IHasSpeed hasSpeed)
             {
-                _freezeSpeedAgent = hasSpeed.Speed.AddAgent(Sender.gameObject, $"{Sender.Information.Name} freeze", -_strength, StatValueType.Ratio);
+                _agents["Speed"] = hasSpeed.Speed.AddAgent(Author, $"freeze effect", -_strength, StatValueType.Ratio);
             }
 
             // Jump Force
             if (Target.Stats is IHasJumpForce hasJumpForce)
             {
-                _freezeJumpForceAgent = hasJumpForce.JumpForce.AddAgent(Sender.gameObject, $"{Sender.Information.Name} freeze", -_strength, StatValueType.Ratio);
+                _agents["JumpForce"] = hasJumpForce.JumpForce.AddAgent(Author, $"freeze effect", -_strength, StatValueType.Ratio);
             }
         }
 
@@ -56,13 +54,13 @@ namespace Asce.Game.StatusEffects
             // Speed
             if (Target.Stats is IHasSpeed hasSpeed)
             {
-                hasSpeed.Speed.RemoveAgent(_freezeSpeedAgent);
+                hasSpeed.Speed.RemoveAgent(_agents.GetValueOrDefault("Speed"));
             }
 
             // Jump Force
             if (Target.Stats is IHasJumpForce hasJumpForce)
             {
-                hasJumpForce.JumpForce.RemoveAgent(_freezeJumpForceAgent);
+                hasJumpForce.JumpForce.RemoveAgent(_agents.GetValueOrDefault("JumpForce"));
             }
         }
     }

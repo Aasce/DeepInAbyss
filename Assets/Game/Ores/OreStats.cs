@@ -22,10 +22,13 @@ namespace Asce.Game.Entities.Ores
 
         public override void LoadBaseStats()
         {
+            if (Owner.IsLoaded) return;
             if (BaseStats == null) return;
 
             // Health
             HealthGroup.Health.AddAgent(gameObject, baseStatsReason, BaseStats.MaxHealth, StatValueType.Base).ToNotClearable();
+            HealthGroup.HealScale.AddAgent(gameObject, baseStatsReason, 1f, StatValueType.Base).ToNotClearable();
+            HealthGroup.Load();
 
             // Defense
             DefenseGroup.Armor.AddAgent(gameObject, baseStatsReason, BaseStats.Armor, StatValueType.Base).ToNotClearable();

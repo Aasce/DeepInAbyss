@@ -21,7 +21,7 @@ namespace Asce.Game.Entities
             set => _owner = value;
         }
         public virtual SO_EntityBaseStats BaseStats => _baseStats;
-
+        
         public virtual bool IsDead => Owner.Status.IsDead;
         public virtual bool IsStatsUpdating
         {

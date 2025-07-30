@@ -13,7 +13,7 @@ namespace Asce.Game.Equipments.Events
         [SerializeField, Min(0f)] private float _sunderStrength = 0.05f;
         [SerializeField, Min(0f)] private float _sunderDuration = 10f;
 
-        public string AddStrengthReason => "Golden Sword add strength";
+        public string Reason => "Golden Sword equipment";
         public StatValue StrengthValue => _strengthValue;
         public float SunderStrength => _sunderStrength;
         public float SunderDuration => _sunderDuration;
@@ -23,7 +23,7 @@ namespace Asce.Game.Equipments.Events
             if (creature == null) return;
             if (creature.Stats == null) return;
             if (creature.Stats is IHasStrength hasStrength)
-                hasStrength.Strength.AddAgent(creature.gameObject, AddStrengthReason, _strengthValue);
+                hasStrength.Strength.AddAgent(creature.gameObject, Reason, _strengthValue);
 
             creature.OnBeforeSendDamage += Creature_OnBeforeSendDamage;
         }
@@ -33,7 +33,7 @@ namespace Asce.Game.Equipments.Events
             if (creature == null) return;
             if (creature.Stats == null) return;
             if (creature.Stats is IHasStrength hasStrength)
-                hasStrength.Strength.RemoveAgent(creature.gameObject, AddStrengthReason);
+                hasStrength.Strength.RemoveAgent(creature.gameObject, Reason);
 
             creature.OnBeforeSendDamage -= Creature_OnBeforeSendDamage;
         }

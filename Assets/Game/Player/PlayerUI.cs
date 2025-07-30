@@ -31,7 +31,9 @@ namespace Asce.Game.Players
         private void Start()
         {
             CharacterInformation.SetCreature(Player.ControlledCreature);
-            this.SetInventoryWindow();
+            this.SetWindows();
+            this.SetInteractableObject();
+            this.SetPanels();
             Player.OnControlledCreatureChanged += Player_OnCharacterChanged;
         }
 
@@ -73,11 +75,12 @@ namespace Asce.Game.Players
         private void Player_OnCharacterChanged(object sender, ValueChangedEventArgs<Entities.ICreature> args)
         {
             CharacterInformation.SetCreature(Player.ControlledCreature);
-            this.SetInventoryWindow();
+            this.SetWindows();
             this.SetInteractableObject();
+            this.SetPanels();
         }
 
-        private void SetInventoryWindow()
+        private void SetWindows()
         {
             UIs.Inventories.UIInventoryWindow inventoryWindow = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIs.Inventories.UIInventoryWindow>();
             if (inventoryWindow != null) inventoryWindow.SetCreature(Player.ControlledCreature);
@@ -88,5 +91,12 @@ namespace Asce.Game.Players
             UIInteractableObjectController controller = UIScreenCanvasManager.Instance.InteractableObjectController;
             if (controller != null) controller.SetCreature(Player.ControlledCreature);
         }
+
+        private void SetPanels()
+        {
+            UIs.Panels.UIDeathPanel deathPanel = UIScreenCanvasManager.Instance.PanelsController.GetPanel<UIs.Panels.UIDeathPanel>();
+            if (deathPanel != null) deathPanel.SetCreature(Player.ControlledCreature);
+        }
+
     }
 }

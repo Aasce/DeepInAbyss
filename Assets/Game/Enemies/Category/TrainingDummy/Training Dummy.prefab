@@ -117,6 +117,7 @@ MonoBehaviour:
   _jumpCooldown:
     _baseTime: 0.2
     _currentTime: 0.2
+  _isStartAttack: 0
   _isAttacking: 0
   _canAttackWhenMoving: 1
   _canAttackInAir: 1
@@ -186,27 +187,15 @@ MonoBehaviour:
       _changeStat:
         _statType: 0
         _value: 0
-        _agents:
-        - _author: {fileID: 0}
-          _reason: heal scale affect
-          _value: 1
-          _type: 3
-          _position: {x: 0, y: 0}
-          _isClearable: 1
+        _agents: []
       _isSelfChangeable: 1
       _changeInterval:
         _baseTime: 1
         _currentTime: 1
     _healScale:
       _statType: 2
-      _value: 1
-      _agents:
-      - _author: {fileID: 0}
-        _reason: base heal scale
-        _value: 1
-        _type: 0
-        _position: {x: 0, y: 0}
-        _isClearable: 0
+      _value: 0
+      _agents: []
   _stamina:
     _statType: 5
     _value: 0
@@ -287,16 +276,6 @@ MonoBehaviour:
     _statType: 30
     _value: 0
     _agents: []
-    _currentValue: 0
-    _currentAgents: []
-    _changeStat:
-      _statType: 0
-      _value: 0
-      _agents: []
-    _isSelfChangeable: 1
-    _changeInterval:
-      _baseTime: 1
-      _currentTime: 1
   _viewRadius:
     _statType: 32
     _value: 0
@@ -305,16 +284,6 @@ MonoBehaviour:
     _statType: 31
     _value: 0
     _agents: []
-    _currentValue: 0
-    _currentAgents: []
-    _changeStat:
-      _statType: 0
-      _value: 0
-      _agents: []
-    _isSelfChangeable: 1
-    _changeInterval:
-      _baseTime: 1
-      _currentTime: 1
 --- !u!1 &5622754434281700946
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,6 +380,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _owner: {fileID: 4869311589306203052}
+  _effectsController:
+    _statusEffects: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &6970645730452347403
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +443,7 @@ MonoBehaviour:
     _facingDirection: 0
     _height: 2.25
     _spawnPosition: {x: 0, y: 0}
+  _boundsSize: {x: 1, y: 1}
   _physicController: {fileID: 8445863198664236363}
   _action: {fileID: 3624889274091405363}
   _view: {fileID: 7049315219833258526}
@@ -478,6 +453,13 @@ MonoBehaviour:
   _equipment: {fileID: 0}
   _inventory: {fileID: 0}
   _spoils: {fileID: 0}
+  _damageHitBox:
+    _layer:
+      serializedVersion: 2
+      m_Bits: 0
+    _offset: {x: 0, y: 0}
+    _size: {x: 1, y: 1}
+    _angle: 0
   _refreshCooldown:
     _baseTime: 5
     _currentTime: 5
@@ -648,7 +630,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1013492761
-  m_SortingLayer: -3
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300184, guid: 7810966f0f690954c87305933cabf2b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

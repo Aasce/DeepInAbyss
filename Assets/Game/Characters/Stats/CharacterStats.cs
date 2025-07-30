@@ -22,6 +22,8 @@ namespace Asce.Game.Entities.Characters
 
         public override void LoadBaseStats()
         {
+            if (Owner.IsLoaded) return;
+            if (BaseStats == null) return;
             base.LoadBaseStats();
 
             JumpForce.AddAgent(gameObject, baseStatsReason, BaseStats.JumpForce, StatValueType.Base).ToNotClearable();

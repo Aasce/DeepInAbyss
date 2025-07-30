@@ -1,4 +1,4 @@
-﻿using Asce.Game.Entities;
+﻿using Asce.Managers;
 using System;
 using UnityEngine;
 

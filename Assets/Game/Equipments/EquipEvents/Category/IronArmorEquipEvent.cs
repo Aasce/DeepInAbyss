@@ -9,8 +9,7 @@ namespace Asce.Game.Equipments.Events
         [SerializeField] private StatValue _armorValue = new(15f, StatValueType.Plat);
         [SerializeField] private StatValue _resistanceValue = new(8f, StatValueType.Plat);
 
-        public string AddArmorReason => "Iron Armor add armor";
-        public string AddResistanceReason => "Iron Armor add resistance";
+        public string Reason => "Iron Armor equipment";
 
         public StatValue ArmorValue => _armorValue;
         public StatValue ResistanceValue => _resistanceValue;
@@ -21,8 +20,8 @@ namespace Asce.Game.Equipments.Events
             if (creature.Stats == null) return;
 			if (creature.Stats is IHasDefense hasDefense)
 			{
-				hasDefense.DefenseGroup.Armor.AddAgent(creature.gameObject, AddArmorReason, _armorValue);
-				hasDefense.DefenseGroup.Resistance.AddAgent(creature.gameObject, AddResistanceReason, _resistanceValue);
+				hasDefense.DefenseGroup.Armor.AddAgent(creature.gameObject, Reason, _armorValue);
+				hasDefense.DefenseGroup.Resistance.AddAgent(creature.gameObject, Reason, _resistanceValue);
 			}
         }
 
@@ -32,8 +31,8 @@ namespace Asce.Game.Equipments.Events
             if (creature.Stats == null) return;
 			if (creature.Stats is IHasDefense hasDefense)
 			{
-				hasDefense.DefenseGroup.Armor.RemoveAgent(creature.gameObject, AddArmorReason);
-				hasDefense.DefenseGroup.Resistance.RemoveAgent(creature.gameObject, AddResistanceReason);
+				hasDefense.DefenseGroup.Armor.RemoveAgent(creature.gameObject, Reason);
+				hasDefense.DefenseGroup.Resistance.RemoveAgent(creature.gameObject, Reason);
 			}
         }
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Asce.Managers;
+using UnityEngine;
 
 namespace Asce.Game.Entities
 {

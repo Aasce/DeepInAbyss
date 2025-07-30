@@ -7,20 +7,34 @@ using Asce.Managers.SaveLoads;
 using Asce.Managers.Utils;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Asce.Game.SaveLoads
 {
+    [DefaultExecutionOrder(-1000)]
     public class SaveLoadManager : MonoBehaviourSingleton<SaveLoadManager>
     {
-        private void Start()
+        private TaskCompletionSource<bool> _loadCompletedSource = new();
+        
+
+        private async void Start()
         {
-            this.LoadAll();
+            await LoadAllAsync();
+            _loadCompletedSource.TrySetResult(true); // Signal load completion
+            
         }
 
         private void OnApplicationQuit()
         {
             this.SaveAll();
+        }
+
+        public Task WaitUntilLoadedAsync() => _loadCompletedSource.Task;
+        private async Task LoadAllAsync()
+        {
+            await Task.Delay(1000);
+            this.LoadAll();
         }
 
         public void LoadAll()

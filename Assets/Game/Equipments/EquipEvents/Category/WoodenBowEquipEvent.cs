@@ -9,8 +9,7 @@ namespace Asce.Game.Equipments.Events
         [SerializeField] private StatValue _strengthValue = new(10f, StatValueType.Plat);
         [SerializeField] private StatValue _viewRadiusValue = new(6f, StatValueType.Plat);
 
-        public string AddStrengthReason => "Wooden Bow add strength";
-        public string AddViewReason => "Wooden Bow add view";
+        public string Reason => "Wooden Bow equipment";
 
         public StatValue StrengthValue => _strengthValue;
         public StatValue ViewRadiusValue => _viewRadiusValue;
@@ -20,10 +19,10 @@ namespace Asce.Game.Equipments.Events
             if (creature == null) return;
             if (creature.Stats == null) return;
             if (creature.Stats is IHasStrength hasStrength)
-				hasStrength.Strength.AddAgent(creature.gameObject, AddStrengthReason, _strengthValue);
+				hasStrength.Strength.AddAgent(creature.gameObject, Reason, _strengthValue);
 			
 			if (creature.Stats is IHasViewRadius hasViewRadius)
-				hasViewRadius.ViewRadius.AddAgent(creature.gameObject, AddViewReason, _viewRadiusValue);
+				hasViewRadius.ViewRadius.AddAgent(creature.gameObject, Reason, _viewRadiusValue);
         }
 
         public override void OnUnequip(ICreature creature)
@@ -31,10 +30,10 @@ namespace Asce.Game.Equipments.Events
             if (creature == null) return;
             if (creature.Stats == null) return;
             if (creature.Stats is IHasStrength hasStrength)
-				hasStrength.Strength.RemoveAgent(creature.gameObject, AddStrengthReason);
+				hasStrength.Strength.RemoveAgent(creature.gameObject, Reason);
 			
 			if (creature.Stats is IHasViewRadius hasViewRadius)
-				hasViewRadius.ViewRadius.RemoveAgent(creature.gameObject, AddViewReason);
+				hasViewRadius.ViewRadius.RemoveAgent(creature.gameObject, Reason);
         }
     }
 }
