@@ -1,5 +1,5 @@
 using Asce.Game.Entities;
-using Asce.Game.Players;
+using Asce.Game.Spawners;
 using Asce.Managers;
 using Asce.Managers.Utils;
 using System.Collections;

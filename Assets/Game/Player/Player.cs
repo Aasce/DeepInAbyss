@@ -62,6 +62,8 @@ namespace Asce.Game.Players
                 this.InteractWithObject();
                 this.ControlCharacter();
             }
+
+            this.Test();
         }
 
         private void ControlCharacter()
@@ -151,6 +153,24 @@ namespace Asce.Game.Players
 
             this.ResetControl();
             ControlledCreature.UncontrolledByPlayer();
+        }
+
+        private void Test()
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Quests.QuestsManager.Instance.AcceptQuest("Kill Toxic Slime");
+            }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Quests.QuestsManager.Instance.AcceptQuest("Kill Black Spider");
+            }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                Quests.QuestsManager.Instance.AcceptQuest("Collect Gold Ore");
+            }
         }
     }
 }

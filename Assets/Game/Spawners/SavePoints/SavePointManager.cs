@@ -1,4 +1,3 @@
-using Asce.Game.Spawners;
 using Asce.Managers;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
@@ -6,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 
-namespace Asce.Game
+namespace Asce.Game.Spawners
 {
     public class SavePointManager : MonoBehaviourSingleton<SavePointManager>
     {
