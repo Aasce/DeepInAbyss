@@ -159,17 +159,17 @@ namespace Asce.Game.Players
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Quests.QuestsManager.Instance.AcceptQuest("Kill Toxic Slime");
+                Quests.QuestsManager.Instance.AcceptQuest("Clean the Spider Web");
             }
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
             {
-                Quests.QuestsManager.Instance.AcceptQuest("Kill Black Spider");
+                Quests.QuestsManager.Instance.AcceptQuest("Clean up Slime");
             }
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3))
             {
-                Quests.QuestsManager.Instance.AcceptQuest("Collect Gold Ore");
+                Quests.QuestsManager.Instance.AcceptQuest("Mining Gold");
             }
         }
     }

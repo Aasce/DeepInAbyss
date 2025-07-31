@@ -14,9 +14,7 @@ namespace Asce.Game.UIs
     [RequireComponent(typeof(Button))]
     public class UIInventoryButton : UIObject
     {
-        /// <summary>
-        ///     The button component attached to this object.
-        /// </summary>
+        /// <summary> The button component attached to this object. </summary>
         [SerializeField, Readonly] protected Button _button;
 
         /// <summary>
@@ -24,24 +22,15 @@ namespace Asce.Game.UIs
         /// </summary>
         protected UIInventoryWindow _inventoryWindow;
 
-        /// <summary>
-        ///     Public accessor for the button component.
-        /// </summary>
+        /// <summary> Public accessor for the button component. </summary>
         public Button Button => _button;
 
-        /// <summary>
-        ///     Automatically finds and assigns the Button component.
-        ///     Called by Unity or the editor when resetting references.
-        /// </summary>
         protected override void RefReset()
         {
             base.RefReset();
-            this.LoadComponent(out _button); // Custom helper for GetComponent
+            this.LoadComponent(out _button);
         }
 
-        /// <summary>
-        ///     Subscribes the click listener to the button on startup.
-        /// </summary>
         protected virtual void Start()
         {
             if (Button != null)

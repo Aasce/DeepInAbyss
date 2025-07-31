@@ -1,6 +1,8 @@
 using Asce.Game.Combats;
 using Asce.Game.Entities;
 using Asce.Game.Entities.Ores;
+using Asce.Managers;
+using System;
 using UnityEngine;
 
 namespace Asce.Game.Quests
@@ -14,11 +16,19 @@ namespace Asce.Game.Quests
         [SerializeField] protected int _currentQuantity;
         [SerializeField] protected float _currentDistance;
 
+        public event Action<object, ValueChangedEventArgs<int>> OnCurrentQuantityChanged;
+
+
         public SO_QuestCondition Information => _conditionInformation;
         public int CurrentQuantity
         {
             get => _currentQuantity;
-            set => _currentQuantity = value;
+            set
+            {
+                int oldQuantity = _currentQuantity;
+                _currentQuantity = value;
+                OnCurrentQuantityChanged?.Invoke(this, new ValueChangedEventArgs<int>(oldQuantity, _currentQuantity));
+            }
         }
 
         public float CurrentDistance
