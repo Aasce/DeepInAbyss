@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5313fa3651417d449664625316477c9, type: 3}
+  m_Name: Collect Gold Ore Quest
+  m_EditorClassIdentifier: 
+  _name: Collect Gold Ore
+  _description: Collect 3 Gold Ore
+  _icon: {fileID: 21300000, guid: 68f03904aa02ba244a61e03fee3f6293, type: 3}
+  _conditions:
+  - {fileID: 11400000, guid: 50bd64207625ab743bf11d4372b25eb0, type: 2}
+  _spoils: {fileID: 11400000, guid: debfb6644e43d404b869eff23262c89f, type: 2}

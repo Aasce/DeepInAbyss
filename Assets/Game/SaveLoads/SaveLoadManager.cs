@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Asce.Game.SaveLoads
 {
-    [DefaultExecutionOrder(-1000)]
+    [DefaultExecutionOrder(-100)]
     public class SaveLoadManager : MonoBehaviourSingleton<SaveLoadManager>
     {
         private TaskCompletionSource<bool> _loadCompletedSource = new();
@@ -33,13 +33,14 @@ namespace Asce.Game.SaveLoads
         public Task WaitUntilLoadedAsync() => _loadCompletedSource.Task;
         private async Task LoadAllAsync()
         {
-            await Task.Delay(1000);
+            await Task.Delay(500);
             this.LoadAll();
         }
 
         public void LoadAll()
         {
             this.LoadMainCharacter();
+            this.LoadQuests();
             LoadAllData<Chest, ChestData, AllChestData>(
                 "scene/enviroments/chests.json",
                 chest => data => data.id == chest.ID
@@ -65,6 +66,7 @@ namespace Asce.Game.SaveLoads
         public void SaveAll()
         {
             SaveLoadSystem.Save(new CharacterData(Player.Instance.MainCharacter), "player/character.json");
+            SaveLoadSystem.Save(new ActiveQuestsData(), "player/active_quests.json");
             SaveAllData<Chest, ChestData, AllChestData>("scene/enviroments/chests.json");
             SaveAllData<Billboard, BillboardData, AllBillboardData>("scene/enviroments/billboards.json");
             SaveAllData<ISavePoint, SavePointData, AllSavePointData>("scene/enviroments/savepoints.json");
@@ -77,6 +79,12 @@ namespace Asce.Game.SaveLoads
             CharacterData characterData = SaveLoadSystem.Load<CharacterData>("player/character.json");
             characterData?.Load(Player.Instance.MainCharacter);
             Player.Instance.CameraController.ToTarget(Vector2.up * 10f);
+        }
+
+        private void LoadQuests()
+        {
+            ActiveQuestsData quests = SaveLoadSystem.Load<ActiveQuestsData>("player/active_quests.json");
+            quests?.Load();
         }
 
 

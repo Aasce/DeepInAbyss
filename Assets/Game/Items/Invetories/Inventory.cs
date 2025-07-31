@@ -83,6 +83,20 @@ namespace Asce.Game.Inventories
             return null;
         }
 
+        public virtual List<Item> AddItems(List<Item> addingItems)
+        {
+            List<Item> remainingItems = new();
+            if (addingItems == null) return remainingItems;
+            if (addingItems.Count == 0) return remainingItems;
+
+            foreach (Item item in addingItems)
+            {
+                Item remaining = this.AddItem(item);
+                if (!remaining.IsNull()) remainingItems.Add(remaining);
+            }
+            return remainingItems;
+        }
+
         /// <summary>
         ///     Adds an item into a specific slot in the inventory. Will attempt merge if stackable and same type.
         /// </summary>

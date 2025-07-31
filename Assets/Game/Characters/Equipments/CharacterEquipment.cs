@@ -1,7 +1,10 @@
 using Asce.Game.Combats;
 using Asce.Game.Equipments;
 using Asce.Game.Equipments.Weapons;
+using Asce.Game.Items;
 using Asce.Managers.Utils;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.Entities.Characters
@@ -104,7 +107,19 @@ namespace Asce.Game.Entities.Characters
         protected override void Status_OnDeath(object sender)
         {
             base.Status_OnDeath(sender);
-            WeaponSlot.RemoveEquipment();
+
+            List<Item> items = new()
+            {
+                WeaponSlot.RemoveEquipment(),
+                HeadSlot.RemoveEquipment(),
+                ChestSlot.RemoveEquipment(),
+                LegsSlot.RemoveEquipment(),
+                FeetsSlot.RemoveEquipment(),
+                BackpackSlot.RemoveEquipment()
+            };
+
+            Vector2 position = (Vector2)Owner.transform.position + Vector2.up;
+            StartCoroutine(this.DropDelay(items, position));
         }
 
         protected virtual void WeaponSlot_OnWeaponChanged(object sender, Managers.ValueChangedEventArgs<WeaponObject> args)
@@ -149,6 +164,22 @@ namespace Asce.Game.Entities.Characters
 
             Owner.Action.AttackType = WeaponSlot.CurrentWeapon.AttackType;
             Owner.Action.MeleeAttackType = WeaponSlot.CurrentWeapon.MeleeAttackType;
+        }
+
+        protected virtual IEnumerator DropDelay(List<Item> items, Vector2 position)
+        {
+            if (items == null || items.Count == 0) yield break;
+            foreach (Item dropped in items)
+            {
+                if (dropped.IsNull()) continue;
+
+                ItemObject itemObject = ItemObjectsManager.Instance.Spawn(dropped, position);
+                if (itemObject == null) continue;
+
+                Vector2 force = Vector2.right * Random.Range(-0.5f, 0.5f) * 200f + Vector2.up * Random.Range(0f, 1f) * 200f;
+                itemObject.Rigidbody.AddForce(force);
+                yield return null;
+            }
         }
     }
 }

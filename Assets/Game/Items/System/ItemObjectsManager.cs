@@ -1,5 +1,7 @@
 using Asce.Managers;
 using Asce.Managers.Pools;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.Items
@@ -77,6 +79,15 @@ namespace Asce.Game.Items
             return itemObject;
         }
 
+
+        public virtual void Spawns(List<Item> items, Vector2 position, bool isAutoDespawn = true)
+        {
+            if (items == null) return;
+            foreach (Item item in items)
+            {
+                this.Spawn(item, position, isAutoDespawn);
+            }
+        }
 
         public virtual void Despawn(ItemObject itemObject)
         {
