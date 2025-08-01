@@ -102,6 +102,22 @@ namespace Asce.Game.UIs
         }
 
         /// <summary>
+        ///     Gets a window by name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public UIWindow GetWindowByName(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return null;
+            foreach (UIWindow window in _windows)
+            {
+                if (window == null) continue;
+                if (window.name == name) return window;
+            }
+            return null;
+        }
+
+        /// <summary>
         ///     Called when a window is hidden. Automatically shifts focus to the next top-most window.
         /// </summary>
         /// <param name="sender"> The window that was hidden. </param>

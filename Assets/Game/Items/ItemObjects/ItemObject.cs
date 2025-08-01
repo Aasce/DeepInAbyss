@@ -1,4 +1,5 @@
 using Asce.Game.Entities;
+using Asce.Managers;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace Asce.Game.Items
 {
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
-    public class ItemObject : MonoBehaviour
+    public class ItemObject : GameComponent
     {
         // Ref
         [SerializeField, Readonly] protected ItemObjectView _view;
@@ -44,8 +45,9 @@ namespace Asce.Game.Items
         }
         public Cooldown DespawnCooldown => _despawnCooldown;
 
-        protected virtual void Reset()
+        protected override void RefReset()
         {
+            base.RefReset();
             this.LoadComponent(out _view);
             this.LoadComponent(out _rigidbody);
             this.LoadComponent(out _collider);

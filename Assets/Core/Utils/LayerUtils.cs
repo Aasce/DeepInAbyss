@@ -27,5 +27,15 @@ namespace Asce.Managers.Utils
         {
             return IsInLayerMask(collider.gameObject.layer, mask);
         }
+
+        public static int LayerToInt(LayerMask layer)
+        {
+            int value = layer.value;
+            if (value != 0 && (value & (value - 1)) == 0)
+            {
+                return (int)Mathf.Log(value, 2);
+            }
+            return LayerMask.NameToLayer("Default");
+        }
     }
 }

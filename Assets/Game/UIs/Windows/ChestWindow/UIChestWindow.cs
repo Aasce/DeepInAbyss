@@ -1,4 +1,3 @@
-using Asce.Game.Entities;
 using Asce.Game.Enviroments;
 using Asce.Game.Inventories;
 using Asce.Game.UIs.Inventories;
@@ -13,7 +12,7 @@ namespace Asce.Game.UIs.Chests
     {
         [Header("Chest Window")]
         [SerializeField, Readonly] protected UIInventory _inventory;
-        [SerializeField] protected Button _sortButton;
+        [SerializeField] protected Button _cleanButton;
         [SerializeField] protected Button _lootButton;
 
         protected Chest _chest;
@@ -30,10 +29,15 @@ namespace Asce.Game.UIs.Chests
         protected override void Start()
         {
             base.Start();
-            if (_sortButton != null) _sortButton.onClick.AddListener(SortButton_OnClick);
+            if (_cleanButton != null) _cleanButton.onClick.AddListener(CleanButton_OnClick);
             if (_lootButton != null) _lootButton.onClick.AddListener(LootButton_OnClick);
         }
 
+        public override void Show()
+        {
+            if (_chest == null) return;
+            base.Show();
+        }
         public override void Hide()
         {
             base.Hide();
@@ -65,10 +69,10 @@ namespace Asce.Game.UIs.Chests
             _chest.IsOpened = false;
         }
 
-        protected virtual void SortButton_OnClick()
+        protected virtual void CleanButton_OnClick()
         {
             if (_inventory == null) return;
-            _inventory.Controller.Inventory.SortAndMerge();
+            _inventory.Controller.Inventory.CleanAndMerge();
         }
 
         protected virtual void LootButton_OnClick()

@@ -48,7 +48,9 @@ namespace Asce.Game.UIs
 
         public virtual void SetVerticalPosition(float height)
         {
-            transform.localPosition = Vector2.up * height;
+            Vector3 position = transform.localPosition;
+            position.y = height;
+            transform.localPosition = position;
         }
     }
 }

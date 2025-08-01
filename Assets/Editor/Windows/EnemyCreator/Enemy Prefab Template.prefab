@@ -500,7 +500,7 @@ MonoBehaviour:
   currentVelocity: {x: 0, y: 0}
   _groundCheckLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   _groundLiftMaxSpeed: 7.5
   _slideMaxSpeed: 5
   _surfaceAngleLimit: 46

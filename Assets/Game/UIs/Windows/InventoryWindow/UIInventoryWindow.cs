@@ -3,6 +3,7 @@ using Asce.Game.Items;
 using Asce.Game.UIs.Equipments;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,8 @@ namespace Asce.Game.UIs.Inventories
         [SerializeField, Readonly] protected UIEquipment _equipment;        
         [SerializeField, Readonly] protected UIInventory _inventory;        
         [SerializeField, Readonly] protected UIItemDetails _itemDetails; // Reference to the item information display panel (tooltip/details panel)
-        [SerializeField] protected Button _sortButton;
+        [SerializeField] protected Button _cleanButton;
+        [SerializeField] TextMeshProUGUI _name;
 
         protected ICreature _creature;
 
@@ -33,11 +35,26 @@ namespace Asce.Game.UIs.Inventories
         protected override void Start()
         {
             base.Start();
+            Players.Player.Instance.CameraController.IsActiveRenderCamera = this.IsShow;
             if (_itemDetails != null) _itemDetails.Set(null);
             if (_inventory != null) _inventory.OnFocusAt += Inventory_OnFocusAt;
             if (_equipment != null) _equipment.OnFocusAt += Equipment_OnFocusAt;
-            if (_sortButton != null) _sortButton.onClick.AddListener(SortButton_OnClick);
+            if (_cleanButton != null) _cleanButton.onClick.AddListener(CleanButton_OnClick);
         }
+
+        public override void Show()
+        {
+            if (this.IsShow) return;
+            base.Show();
+            Players.Player.Instance.CameraController.IsActiveRenderCamera = true;
+        }
+        public override void Hide()
+        {
+            if (!this.IsShow) return;
+            base.Hide();
+            Players.Player.Instance.CameraController.IsActiveRenderCamera = false;
+        }
+
         public void SetCreature(ICreature creature)
         {
             if (_creature == creature) return;
@@ -50,6 +67,7 @@ namespace Asce.Game.UIs.Inventories
         protected virtual void Register() 
         {
             if (_creature == null) return;
+            if (_name != null) _name.text = _creature.Information.Name;
             if (_inventory != null)
                 _inventory.SetInventory(_creature.Inventory);
             if (_equipment != null) 
@@ -81,10 +99,10 @@ namespace Asce.Game.UIs.Inventories
             _itemDetails.Set(item);
         }
 
-        protected virtual void SortButton_OnClick()
+        protected virtual void CleanButton_OnClick()
         {
             if (_inventory == null) return;
-            _inventory.Controller.Inventory.SortAndMerge();
+            _inventory.Controller.Inventory.CleanAndMerge();
         }
 
     }

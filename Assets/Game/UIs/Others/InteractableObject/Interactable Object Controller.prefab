@@ -54,6 +54,7 @@ MonoBehaviour:
     _activities: []
     _isSetActive: 1
     _parent: {fileID: 1414633325662853789}
+    _worldPositionStays: 0
 --- !u!114 &9067768686640375216
 MonoBehaviour:
   m_ObjectHideFlags: 0

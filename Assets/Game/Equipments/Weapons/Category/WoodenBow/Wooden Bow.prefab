@@ -285,6 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4069808401436306776}
   - component: {fileID: 8403061198646186739}
+  - component: {fileID: 2786474748063232653}
   m_Layer: 0
   m_Name: View
   m_TagString: Untagged
@@ -322,12 +323,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0d539cde6bca141a2652f23c48a0f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 3957683002977499372}
   _alpha: 1
+  _weapon: {fileID: 3957683002977499372}
   _renderer: {fileID: 2367184389973474174}
   _stringRenderer: {fileID: 6014099901888746895}
   _rigString: {fileID: 4011004200359477241}
   _isStringPulled: 0
+--- !u!210 &2786474748063232653
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8580473835947498129}
+  m_Enabled: 1
+  m_SortingLayerID: -1013492761
+  m_SortingLayer: -4
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &8626953628607564443
 GameObject:
   m_ObjectHideFlags: 0

@@ -855,11 +855,13 @@ MonoBehaviour:
     _activities: []
     _isSetActive: 1
     _parent: {fileID: 7025746338832941332}
+    _worldPositionStays: 0
   _uiQuestConditionPool:
     _prefab: {fileID: -4647725192778960183, guid: 2eeec2d01058dc646be1aa8d9e19a862, type: 3}
     _activities: []
     _isSetActive: 1
-    _parent: {fileID: 0}
+    _parent: {fileID: 8301534164988163364}
+    _worldPositionStays: 0
 --- !u!114 &1312933978402246308
 MonoBehaviour:
   m_ObjectHideFlags: 0

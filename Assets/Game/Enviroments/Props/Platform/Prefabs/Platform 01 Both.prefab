@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4653334977532371105}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Left End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,8 @@ GameObject:
   - component: {fileID: 6700141202007587407}
   - component: {fileID: 2296355512687552236}
   - component: {fileID: 6891402036067656779}
-  m_Layer: 6
+  - component: {fileID: -3105530215800634611}
+  m_Layer: 7
   m_Name: Platform 01 Both
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +144,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 1783
+    m_Bits: 2049
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 1
@@ -151,6 +152,59 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &-3105530215800634611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3446400976338158599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 0
+  m_ComponentVersion: 5
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: a79cd3638f52261febc5d5922b94beb075631b15894aa767e75397c325a3c12f8dbedfb237c5a2b1000000009b0bbec7
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 2296355512687552236}
+  m_ShadowShape2DProvider:
+    rid: 4017500067609444482
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0.75, y: -0.15000153, z: 0}
+      m_Extent: {x: 2.199997, y: 0.12499237, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0.05
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 2
+  m_PreviousTrimEdge: 0.05
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 2
+  m_PreviousShadowShape2DSource: {fileID: 2296355512687552236}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4017500067609444482
+      type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 
 --- !u!1 &8907374971802975628
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,7 +214,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 270678938027950588}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Right End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,6 +289,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform Right Start
       objectReference: {fileID: 0}
+    - target: {fileID: 6859395856485155287, guid: 59530c3d1dc2d4e40aa03476eeda070e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -257,9 +315,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform Mid 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1308172202832597231, guid: 1f2f259bb9238394a9313ac7f050aaa7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3249034288041132860, guid: 1f2f259bb9238394a9313ac7f050aaa7, type: 3}
       propertyPath: m_SortingLayer
-      value: -9
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 3249034288041132860, guid: 1f2f259bb9238394a9313ac7f050aaa7, type: 3}
       propertyPath: m_SortingLayerID
@@ -366,6 +428,10 @@ PrefabInstance:
     - target: {fileID: 5343454971024521677, guid: 969576f37d471594db1e4a4c86afa600, type: 3}
       propertyPath: m_Name
       value: Platform Left Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343454971024521677, guid: 969576f37d471594db1e4a4c86afa600, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

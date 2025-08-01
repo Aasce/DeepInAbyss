@@ -142,7 +142,6 @@ namespace Asce.Game.Players
         private void CreatureRegister()
         {
             if (ControlledCreature == null) return;
-
             CameraController.Target = ControlledCreature.gameObject.transform;
             ControlledCreature.ControlledByPlayer();
         }

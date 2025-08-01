@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7439338223135898807}
   - component: {fileID: 6038468435888843661}
   - component: {fileID: 188807793197536956}
-  m_Layer: 6
+  - component: {fileID: -389331185627732488}
+  m_Layer: 7
   m_Name: Ladder Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,6 +103,59 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.5, y: 3}
   m_EdgeRadius: 0
+--- !u!114 &-389331185627732488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148456473058377526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 0
+  m_ComponentVersion: 5
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: a79cd3638f52261febc5d5922b94beb075631b15894aa767e75397c325a3c12f8dbedfb237c5a2b1000000009b0bbec7
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 188807793197536956}
+  m_ShadowShape2DProvider:
+    rid: 4017500067609444440
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0, y: 0, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0
+  m_PreviousEdgeProcessing: -1
+  m_PreviousShadowCastingSource: -1
+  m_PreviousShadowShape2DSource: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4017500067609444440
+      type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 
 --- !u!1001 &1356146336579827458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -236,7 +290,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 852773016203707603, guid: f0d00055c0dcfce41a8adf84c890e7f1, type: 3}
       propertyPath: m_SortingLayer
-      value: -9
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 852773016203707603, guid: f0d00055c0dcfce41a8adf84c890e7f1, type: 3}
       propertyPath: m_SortingOrder

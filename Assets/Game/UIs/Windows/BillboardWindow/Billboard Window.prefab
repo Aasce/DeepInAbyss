@@ -764,6 +764,7 @@ MonoBehaviour:
     _activities: []
     _isSetActive: 0
     _parent: {fileID: 709699081187682989}
+    _worldPositionStays: 0
   _billboard: {fileID: 0}
 --- !u!1 &9080061740314863634 stripped
 GameObject:

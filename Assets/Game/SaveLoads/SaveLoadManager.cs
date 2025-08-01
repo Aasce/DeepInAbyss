@@ -40,7 +40,44 @@ namespace Asce.Game.SaveLoads
         public void LoadAll()
         {
             this.LoadMainCharacter();
+            this.LoadUIs();
             this.LoadQuests();
+            this.LoadEnviroment();
+        }
+
+
+        public void SaveAll()
+        {
+            SaveLoadSystem.Save(new CharacterData(Player.Instance.MainCharacter), "player/character.json");
+            SaveLoadSystem.Save(new ActiveQuestsData(), "player/active_quests.json");
+            SaveLoadSystem.Save(new UIAllData(), "player/ui.json");
+            this.SaveEnviroment();            
+        }
+
+        private void LoadMainCharacter()
+        {
+            CharacterData characterData = SaveLoadSystem.Load<CharacterData>("player/character.json");
+            characterData?.Load(Player.Instance.MainCharacter);
+            Player.Instance.CameraController.ToTarget(Vector2.up * 10f);
+        }
+
+        private void LoadQuests()
+        {
+            ActiveQuestsData quests = SaveLoadSystem.Load<ActiveQuestsData>("player/active_quests.json");
+            quests?.Load();
+        }
+
+        private void LoadUIs()
+        {
+            UIAllData uis = SaveLoadSystem.Load<UIAllData>("player/ui.json");
+            uis?.Load();
+        }
+
+        private void LoadEnviroment()
+        {
+            AllItemObjectsData allItemObjects = SaveLoadSystem.Load<AllItemObjectsData>("scene/enviroments/item_objects.json");
+            allItemObjects?.Load();
+
             LoadAllData<Chest, ChestData, AllChestData>(
                 "scene/enviroments/chests.json",
                 chest => data => data.id == chest.ID
@@ -62,31 +99,14 @@ namespace Asce.Game.SaveLoads
             );
         }
 
-
-        public void SaveAll()
+        private void SaveEnviroment()
         {
-            SaveLoadSystem.Save(new CharacterData(Player.Instance.MainCharacter), "player/character.json");
-            SaveLoadSystem.Save(new ActiveQuestsData(), "player/active_quests.json");
+            SaveLoadSystem.Save(new AllItemObjectsData(), "scene/enviroments/item_objects.json");
             SaveAllData<Chest, ChestData, AllChestData>("scene/enviroments/chests.json");
             SaveAllData<Billboard, BillboardData, AllBillboardData>("scene/enviroments/billboards.json");
             SaveAllData<ISavePoint, SavePointData, AllSavePointData>("scene/enviroments/savepoints.json");
             SaveAllData<HiddenArea, HiddenAreaData, AllHiddenAreaData>("scene/enviroments/hidden_areas.json");
-            
         }
-
-        private void LoadMainCharacter()
-        {
-            CharacterData characterData = SaveLoadSystem.Load<CharacterData>("player/character.json");
-            characterData?.Load(Player.Instance.MainCharacter);
-            Player.Instance.CameraController.ToTarget(Vector2.up * 10f);
-        }
-
-        private void LoadQuests()
-        {
-            ActiveQuestsData quests = SaveLoadSystem.Load<ActiveQuestsData>("player/active_quests.json");
-            quests?.Load();
-        }
-
 
         /// <summary>
         ///     Saves all components of type <typeparamref name="TComponent"/> found in the scene to a file at the given path.

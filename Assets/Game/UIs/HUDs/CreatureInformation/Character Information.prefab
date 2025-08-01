@@ -354,6 +354,7 @@ MonoBehaviour:
     _activities: []
     _isSetActive: 1
     _parent: {fileID: 2532019441075671900}
+    _worldPositionStays: 0
 --- !u!1 &1547107227704182339
 GameObject:
   m_ObjectHideFlags: 0
@@ -1814,6 +1815,7 @@ MonoBehaviour:
     _activities: []
     _isSetActive: 0
     _parent: {fileID: 3546515481207372354}
+    _worldPositionStays: 0
 --- !u!114 &8268147043970171809
 MonoBehaviour:
   m_ObjectHideFlags: 0

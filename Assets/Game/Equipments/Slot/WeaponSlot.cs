@@ -20,7 +20,6 @@ namespace Asce.Game.Equipments
                 if (_currentWeapon == value) return;
                 WeaponObject oldWeapon = _currentWeapon;
                 _currentWeapon = value;
-
                 OnWeaponChanged?.Invoke(this, new ValueChangedEventArgs<WeaponObject>(oldWeapon, _currentWeapon));
             }
         }

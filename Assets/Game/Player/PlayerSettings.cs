@@ -1,16 +1,18 @@
-﻿using Asce.Managers.Attributes;
+﻿using Asce.Managers;
+using Asce.Managers.Attributes;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Asce.Game.Players
 {
-    public class PlayerSettings : MonoBehaviour, IPlayerComponent
+    public class PlayerSettings : GameComponent, IPlayerComponent
     {
         // Ref
         [SerializeField, Readonly] private Player _player;
 
         [SerializeField] private LayerMask _mouseLayerMask = default;
         [SerializeField] private LayerMask _interactiveLayerMask;
+        [SerializeField] private LayerMask _renderCreatureLayerMask;
 
         [Header("Control Creature")]
         [SerializeField] private KeyCode _runKey = KeyCode.LeftShift;
@@ -66,6 +68,12 @@ namespace Asce.Game.Players
         {
             get => _interactiveLayerMask;
             set => _interactiveLayerMask = value;
+        }
+
+        public LayerMask RenderCreatureLayer
+        {
+            get => _renderCreatureLayerMask;
+            set => _renderCreatureLayerMask = value;
         }
 
         public KeyCode RunKey

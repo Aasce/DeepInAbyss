@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6671505022551876225}
   - component: {fileID: 4027443896001159515}
   - component: {fileID: 4402099677663081139}
-  m_Layer: 6
+  - component: {fileID: -2423695399105079518}
+  m_Layer: 7
   m_Name: Platform Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +108,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 1783
+    m_Bits: 2049
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 1
@@ -115,6 +116,59 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &-2423695399105079518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6975662614476639560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_Priority: 0
+  m_ComponentVersion: 5
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: a79cd3638f52261febc5d5922b94beb075631b15894aa767e75397c325a3c12f8dbedfb237c5a2b1000000009b0bbec7
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 4027443896001159515}
+  m_ShadowShape2DProvider:
+    rid: 4017500067609444478
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0, y: 0, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0.05
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 2
+  m_PreviousTrimEdge: 0
+  m_PreviousEdgeProcessing: -1
+  m_PreviousShadowCastingSource: -1
+  m_PreviousShadowShape2DSource: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4017500067609444478
+      type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 
 --- !u!1001 &1264926808371415018
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -167,6 +221,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Beam L
       objectReference: {fileID: 0}
+    - target: {fileID: 7229310112334629687, guid: 89ec242488998ce498e3e9feaef5ddc1, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -188,6 +246,10 @@ PrefabInstance:
     - target: {fileID: 4736530371104727663, guid: e805d40b2b2190142b921280ad4a077e, type: 3}
       propertyPath: m_Name
       value: Beam
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736530371104727663, guid: e805d40b2b2190142b921280ad4a077e, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5344204214269114661, guid: e805d40b2b2190142b921280ad4a077e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -251,6 +313,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Beam (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4736530371104727663, guid: e805d40b2b2190142b921280ad4a077e, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5344204214269114661, guid: e805d40b2b2190142b921280ad4a077e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.75
@@ -312,6 +378,10 @@ PrefabInstance:
     - target: {fileID: 2096534460428329649, guid: 3b0e4970a3d1ff4448f502d057d7d440, type: 3}
       propertyPath: m_Name
       value: Beam R
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096534460428329649, guid: 3b0e4970a3d1ff4448f502d057d7d440, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3514903094674333909, guid: 3b0e4970a3d1ff4448f502d057d7d440, type: 3}
       propertyPath: m_LocalPosition.x

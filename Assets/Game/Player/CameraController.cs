@@ -1,3 +1,4 @@
+using Asce.Managers;
 using UnityEngine;
 
 namespace Asce.Game.Players
@@ -5,9 +6,10 @@ namespace Asce.Game.Players
     /// <summary>
     ///     Controls the camera to follow a target (usually the character) in game.
     /// </summary>
-    public class CameraController : MonoBehaviour
+    public class CameraController : GameComponent
     {
         [SerializeField] private Camera _camera;
+        [SerializeField] private Camera _renderCamera;
 
         [Tooltip("The target (usually the player) to follow")]
         [SerializeField] private Transform _target;
@@ -25,10 +27,14 @@ namespace Asce.Game.Players
         [Tooltip("Distance threshold to boost camera speed")]
         [SerializeField] private float _distanceToIncreaseSpeed = 100f;
 
+        [Header("Render Creature")]
+        [SerializeField] private bool _isActiveRenderCamera = true;
+
         /// <summary>
         ///     The camera this controller is managing.
         /// </summary>
         public Camera Camera => _camera;
+        public Camera RenderCamera => _renderCamera;
 
         /// <summary>
         ///     The target the camera should follow.
@@ -75,6 +81,11 @@ namespace Asce.Game.Players
             set => _distanceToIncreaseSpeed = value;
         }
 
+        public bool IsActiveRenderCamera
+        {
+            get => _isActiveRenderCamera;
+            set => _isActiveRenderCamera = value;
+        }
 
         private void Update()
         {
@@ -94,6 +105,31 @@ namespace Asce.Game.Players
                 Vector2 newPosition = Vector2.Lerp(Camera.transform.position, targetPosition, currentSpeed * Time.deltaTime);
                 Camera.transform.position = new Vector3(newPosition.x, newPosition.y, Camera.transform.position.z);
             }
+        }
+
+        private void LateUpdate()
+        {
+            if (RenderCamera == null) return;
+
+            if (!_isActiveRenderCamera)
+            {
+                RenderCamera.gameObject.SetActive(false); // always disable if not active render camera
+                return;
+            }
+
+            if (Player.Instance.ControlledCreature == null)
+            {
+                RenderCamera.gameObject.SetActive(false); // disable because no target to follow
+                return;
+            }
+
+            RenderCamera.gameObject.SetActive(true); // enable camera
+
+            // update camera position
+            Vector2 position = Player.Instance.ControlledCreature.gameObject.transform.position;
+            float height = Player.Instance.ControlledCreature.Status.Height;
+            RenderCamera.transform.position = new Vector3(position.x, position.y + height * 0.5f, RenderCamera.transform.position.z);
+
         }
 
         /// <summary>

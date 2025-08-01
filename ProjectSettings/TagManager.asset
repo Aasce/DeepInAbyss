@@ -14,13 +14,13 @@ TagManager:
   - Water
   - UI
   - Ground
-  - Climbable
+  - Platform
   - Entity
   - Interactable
   - Zone
   - Item
-  - 
-  - 
+  - Render Creature
+  - Render Creature Light
   - 
   - 
   - 

@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ca3d6e6baf90343895b732f0f5f57a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 7548386229065747226}
   _alpha: 1
+  _weapon: {fileID: 7548386229065747226}
   _renderer: {fileID: 60203273547054753}
 --- !u!1 &2534022616946478948
 GameObject:
@@ -4949,7 +4949,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 0c156a3039485ed4e905d1ef61db8e3a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4967,8 +4967,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1013492761
+  m_SortingLayer: -4
   m_SortingOrder: 0
   m_Sprite: {fileID: 33424830, guid: b217a154a8231e54bbb50405bdfafbaf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

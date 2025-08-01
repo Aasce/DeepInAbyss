@@ -51,6 +51,19 @@ namespace Asce.Game
             }
         }
 
+        public virtual int Layer
+        {
+            get => (Renderers.Count <= 0 || Renderers[0] == null) ? LayerMask.NameToLayer("Default") : Renderers[0].gameObject.layer;
+            set
+            {
+                foreach (Renderer renderer in Renderers)
+                {
+                    if (renderer == null) continue;
+                    renderer.gameObject.layer = value;
+                }
+            }
+        }
+
         protected virtual void Reset()
         {
 

@@ -27,7 +27,8 @@ namespace Asce.Managers.Pools
         [SerializeField] protected bool _isSetActive = true;
 
         [Tooltip("Parent transform to attach activated objects to")]
-        [SerializeField] protected Transform _parent;           
+        [SerializeField] protected Transform _parent;
+        [SerializeField] protected bool _worldPositionStays = true;
 
         /// <summary>
         ///     The prefab used to instantiate new objects.
@@ -71,6 +72,14 @@ namespace Asce.Managers.Pools
             set => _parent = value;
         }
 
+        /// <summary>
+        ///     See also <see cref="Transform.SetParent(Transform, bool)"/>
+        /// </summary>
+        public virtual bool WorldPositionStays
+        {
+            get => _worldPositionStays;
+            set => _worldPositionStays = value;
+        }
 
         public Pool() : this (null, null, true) { }
         public Pool(T prefab, Transform parent) : this(prefab, parent, true) { }
@@ -94,7 +103,7 @@ namespace Asce.Managers.Pools
             action?.Invoke(obj);
 
             if (IsSetActive) obj.gameObject.SetActive(true);
-            obj.transform.SetParent(Parent != null ? Parent : null); // Assign to parent if available
+            obj.transform.SetParent(Parent != null ? Parent : null, _worldPositionStays); // Assign to parent if available
 
             return obj;
         }
@@ -173,7 +182,7 @@ namespace Asce.Managers.Pools
                 return null;
             }
 
-            T obj = GameObject.Instantiate(Prefab);
+            T obj = GameObject.Instantiate(Prefab, Parent != null ? Parent : null, _worldPositionStays);
             _activities.Add(obj);
             return obj;
         }

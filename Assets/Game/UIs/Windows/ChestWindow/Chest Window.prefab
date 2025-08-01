@@ -192,11 +192,13 @@ MonoBehaviour:
     _activities: []
     _isSetActive: 1
     _parent: {fileID: 5443849971389150042}
+    _worldPositionStays: 0
   _itemsPool:
     _prefab: {fileID: 5019353318173625804, guid: 73a390f06a8136f43878304c7993bf03, type: 3}
     _activities: []
     _isSetActive: 1
-    _parent: {fileID: 0}
+    _parent: {fileID: 7437191559216916442}
+    _worldPositionStays: 0
 --- !u!114 &4931697723684540578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,7 +462,7 @@ GameObject:
   - component: {fileID: 3708229525761454471}
   - component: {fileID: 795972062844009067}
   m_Layer: 0
-  m_Name: Sort Button
+  m_Name: Clean Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -691,7 +693,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort
+  m_text: Clean
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d9cc5b633dc76e24bbeb3ebe769fd205, type: 2}
   m_sharedMaterial: {fileID: -1581110197714964126, guid: d9cc5b633dc76e24bbeb3ebe769fd205, type: 2}
@@ -1169,6 +1171,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!224 &7437191559216916442 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5937238006103764024, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+  m_PrefabInstance: {fileID: 3842547758089833442}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8829737129547682300 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5754192883996383774, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
@@ -1191,7 +1198,7 @@ MonoBehaviour:
   _exitButton: {fileID: 8886344943287082865}
   _helpButton: {fileID: 3155453691070665096}
   _inventory: {fileID: 5528470125790823338}
-  _sortButton: {fileID: 795972062844009067}
+  _cleanButton: {fileID: 795972062844009067}
   _lootButton: {fileID: 7004431913405933233}
 --- !u!114 &8886344943287082865 stripped
 MonoBehaviour:

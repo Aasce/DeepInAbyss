@@ -9,6 +9,13 @@ namespace Asce.Game.UIs.Billboards
         [SerializeField] protected Pool<UIBillboardNotice> _noticePool = new();
         [SerializeField] protected Billboard _billboard;
 
+
+        public override void Show()
+        {
+            if (_billboard == null) return;
+            base.Show();
+        }
+
         public void SetBillboard(Billboard billboard)
         {
             if (_billboard == billboard) return;

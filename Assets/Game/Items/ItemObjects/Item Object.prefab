@@ -50,10 +50,11 @@ MonoBehaviour:
   _view: {fileID: 9013796536958871848}
   _rigidbody: {fileID: 6878786918775805180}
   _collider: {fileID: 2096401797380088244}
-  _information: {fileID: 0}
-  _quantity: 1
-  _autoDespawn: 1
+  _item:
+    _information: {fileID: 0}
+  _pickable: 0
   _isPicked: 0
+  _autoDespawn: 1
   _despawnCooldown:
     _baseTime: 30
     _currentTime: 30
@@ -80,7 +81,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 721
+    m_Bits: 192
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295

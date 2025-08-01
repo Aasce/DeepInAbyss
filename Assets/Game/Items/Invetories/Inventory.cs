@@ -316,7 +316,7 @@ namespace Asce.Game.Inventories
         /// <summary>
         ///     Merges all similar items and sorts them to occupy fewer slots.
         /// </summary>
-        public virtual void SortAndMerge()
+        public virtual void CleanAndMerge()
         {
             Dictionary<SO_ItemInformation, int> merged = new();
             List<Item> others = new();

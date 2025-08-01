@@ -1,13 +1,5 @@
 fileFormatVersion: 2
 guid: dc1c8eeed0f73d045b98dc0e4111f900
-ShaderImporter:
-  externalObjects: {}
-  defaultTextures: []
-  nonModifiableTextures: []
-  preprocessorOverride: 0
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
 AssetOrigin:
   serializedVersion: 1
   productId: 202071
@@ -16,3 +8,10 @@ AssetOrigin:
   assetPath: Assets/Cainos/Pixel Art Monster - Dungeon/Shader/ASE Pixel Monster -
     Alpha Cut.shader
   uploadId: 696247
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
