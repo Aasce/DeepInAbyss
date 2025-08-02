@@ -1,5 +1,7 @@
 ﻿using Asce.Game.Combats;
 using Asce.Game.SaveLoads;
+using Asce.Game.Stats;
+using Asce.Game.StatusEffects;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using System;
@@ -8,7 +10,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public abstract class Creature : Entity, ICreature, IOptimizedComponent,
+    public abstract class Creature : Entity, ICreature, IOptimizedComponent, IHasPhysicController<CreaturePhysicController>,
         IHasView<CreatureView>, IHasUI<CreatureUI>, IHasAction<CreatureAction>, 
         IHasStats<CreatureStats, SO_CreatureBaseStats>, IHasStatusEffect<CreatureStatusEffect>, ISendDamageable, ITakeDamageable,
         IHasEquipment<CreatureEquipment>, IHasInventory<CreatureInventory>, IHasSpoils<CreatureSpoils>
@@ -24,7 +26,6 @@ namespace Asce.Game.Entities
         [SerializeField, Readonly] private CreatureSpoils _spoils;
 
         private bool _isControled = false;
-
 
         public event Action<object, DamageContainer> OnBeforeSendDamage;
         public event Action<object, DamageContainer> OnAfterSendDamage;
@@ -111,6 +112,8 @@ namespace Asce.Game.Entities
         protected override void Start()
         {
             base.Start();
+            if (PhysicController != null) PhysicController.OnLand += PhysicController_OnLand;
+            if (Stats != null) this.InitStats();
             if (UI != null) UI.Register();
             _ = this.Load();
         }
@@ -140,6 +143,53 @@ namespace Asce.Game.Entities
         {
             OnAfterTakeDamage?.Invoke(this, container);
             if (this.Stats.HealthGroup.Health.IsEmpty) this.Status.SetStatus(EntityStatusType.Dead);
+        }
+
+        protected virtual void InitStats()
+        {
+            Stats.SustenanceGroup.Hunger.OnCurrentValueChanged += Hunger_OnCurrentValueChanged;
+            Stats.SustenanceGroup.Thirst.OnCurrentValueChanged += Thirst_OnCurrentValueChanged;
+        }
+
+        protected virtual void PhysicController_OnLand(object sender)
+        {
+            CombatSystem.DealFallingDamage(this, PhysicController.currentVelocity.y);
+        }
+
+        protected virtual void Hunger_OnCurrentValueChanged(object sender, Managers.ValueChangedEventArgs args)
+        {
+            TimeBasedResourceStat hunger = sender as TimeBasedResourceStat;
+            if (hunger.IsEmpty) StatusEffectsManager.Instance.SendEffect<Hungry_StatusEffect>(null, this, new EffectDataContainer()
+            {
+                Strength = 0.1f,
+                Duration = float.PositiveInfinity,
+            });
+            else StatusEffectsManager.Instance.RemoveEffect<Hungry_StatusEffect>(this);
+
+            if (hunger.Ratio >= 0.8f)
+            {
+                if (Stats.HealthGroup.HealScale.FindAgents(null, "self full") == null)
+                    Stats.HealthGroup.HealScale.AddAgent(null, "self full", 1f, StatValueType.Ratio);
+            }
+            else Stats.HealthGroup.HealScale.RemoveAllAgents(null, "self full");
+        }
+
+        protected virtual void Thirst_OnCurrentValueChanged(object sender, Managers.ValueChangedEventArgs args)
+        {
+            TimeBasedResourceStat thirst = sender as TimeBasedResourceStat;
+            if (thirst.IsEmpty) StatusEffectsManager.Instance.SendEffect<Thirsty_StatusEffect>(null, this, new EffectDataContainer()
+            {
+                Strength = 10f,
+                Duration = float.PositiveInfinity,
+            });
+            else StatusEffectsManager.Instance.RemoveEffect<Thirsty_StatusEffect>(this);
+
+            if (thirst.Ratio >= 0.5f)
+            {
+                if (Stats.Stamina.ChangeStat.FindAgents(null, "self regen") == null)
+                    Stats.Stamina.ChangeStat.AddAgent(null, "self regen", 2f, StatValueType.Scale);
+            }
+            else Stats.Stamina.ChangeStat.RemoveAllAgents(null, "self regen");
         }
     }
 }

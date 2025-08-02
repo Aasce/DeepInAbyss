@@ -192,7 +192,11 @@ MonoBehaviour:
   _targetPosition: {x: 0, y: 0}
   _isMoveEnable: 1
   _isMoving: 0
+  _isRunEnable: 1
   _isRunning: 0
+  _runStaminaCooldown:
+    _baseTime: 0.25
+    _currentTime: 0.25
   _baseSpeed: 3
   _walkSpeedScale: 1
   _walkAcceleration: 10
@@ -207,6 +211,10 @@ MonoBehaviour:
   _dashAcceleration: 20
   _climbSpeedScale: 0.5
   _climbFastSpeedScale: 0.75
+  _staminaCostRun: 2
+  _staminaCostDash: 15
+  _staminaCostJump: 5
+  _staminaCostDodge: 20
   _isDashEnabled: 1
   _isDashing: 0
   _dashingTime:
@@ -929,7 +937,6 @@ MonoBehaviour:
       _value: 0
       _agents: []
       _currentValue: 0
-      _currentAgents: []
       _changeStat:
         _statType: 0
         _value: 0
@@ -947,7 +954,6 @@ MonoBehaviour:
     _value: 0
     _agents: []
     _currentValue: 0
-    _currentAgents: []
     _changeStat:
       _statType: 0
       _value: 0
@@ -962,7 +968,6 @@ MonoBehaviour:
       _value: 0
       _agents: []
       _currentValue: 0
-      _currentAgents: []
       _changeStat:
         _statType: 0
         _value: 0
@@ -976,7 +981,6 @@ MonoBehaviour:
       _value: 0
       _agents: []
       _currentValue: 0
-      _currentAgents: []
       _changeStat:
         _statType: 0
         _value: 0
@@ -990,7 +994,6 @@ MonoBehaviour:
       _value: 0
       _agents: []
       _currentValue: 0
-      _currentAgents: []
       _changeStat:
         _statType: 0
         _value: 0
@@ -1017,7 +1020,6 @@ MonoBehaviour:
       _value: 0
       _agents: []
       _currentValue: 0
-      _currentAgents: []
   _speed:
     _statType: 30
     _value: 0

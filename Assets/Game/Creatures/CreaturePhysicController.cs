@@ -1,4 +1,5 @@
 ﻿using Asce.Game.Enviroments;
+using Asce.Managers;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using System;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public class CreaturePhysicController : MonoBehaviour, IHasOwner<Creature>
+    public class CreaturePhysicController : GameComponent, IHasOwner<Creature>
     {
         #region - FIELDS -
 
@@ -98,6 +99,12 @@ namespace Asce.Game.Entities
         {
             get => _weight;
             set => _weight = value;
+        }
+
+        public virtual float GravityScale
+        {
+            get => _gravityScale;
+            set => _gravityScale = value;
         }
 
         #region - GROUND PROPERTIES -
@@ -257,8 +264,9 @@ namespace Asce.Game.Entities
         #region - METHODS -
 
         #region - UNITY METHODS -
-        protected virtual void Reset()
+        protected override void RefReset()
         {
+            base.RefReset();
             transform.LoadComponent(out _rigidbody);
             if (transform.LoadComponent(out _owner))
             {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities
 {
-    public interface ICreature : IEntity, 
+    public interface ICreature : IEntity, IHasPhysicController<CreaturePhysicController>,
         IHasView<CreatureView>, IHasUI<CreatureUI>, IHasAction<CreatureAction>, 
         IHasStats<CreatureStats, SO_CreatureBaseStats>, IHasStatusEffect<CreatureStatusEffect>, ISendDamageable, ITakeDamageable,
         IHasEquipment<CreatureEquipment>, IHasInventory<CreatureInventory>, IHasSpoils<CreatureSpoils>

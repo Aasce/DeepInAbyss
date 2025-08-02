@@ -5,5 +5,6 @@ namespace Asce.Game.Combats
         Default = 0,
         Ability = 2,
         Effect = 3,
+        Falling =4,
     }
 }

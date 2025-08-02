@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Asce.Game.Entities.Characters
 {
-    public class Character : Creature, IControllableCharacter, 
+    public class Character : Creature, IControllableCharacter, IHasPhysicController<CharacterPhysicController>,
         IHasView<CharacterView>, IHasUI<CharacterUI>, IHasAction<CharacterAction>, IHasInteraction<CharacterInteraction>,
         IHasStats<CharacterStats, SO_CharacterBaseStats>, 
         IHasEquipment<CharacterEquipment>, IHasInventory<CharacterInventory>

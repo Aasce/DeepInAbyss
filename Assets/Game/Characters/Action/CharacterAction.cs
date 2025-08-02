@@ -25,7 +25,9 @@ namespace Asce.Game.Entities.Characters
         [SerializeField] protected bool _isMoving;
 
         [Tooltip("Is the character running")]
+        [SerializeField] protected bool _isRunEnable = true;
         [SerializeField] protected bool _isRunning;
+        [SerializeField] protected Cooldown _runStaminaCooldown = new(0.25f);
 
         protected float _idleTime;
         protected int _horizontalMoveDirection = 1; // move direction, 1: forward, -1:backward
@@ -80,6 +82,11 @@ namespace Asce.Game.Entities.Characters
         [Tooltip("Speed scale when character climbing Ladder and runing")]
         [SerializeField] protected float _climbFastSpeedScale = 1.5f;
 
+        [Header("Stamina Costs")]
+        [SerializeField] protected float _staminaCostRun = 2f;
+        [SerializeField] protected float _staminaCostDash = 15f;
+        [SerializeField] protected float _staminaCostJump = 10f;
+        [SerializeField] protected float _staminaCostDodge = 12f;
 
         [Header("UpdateDash")]
         [SerializeField] protected bool _isDashEnabled = true;
@@ -263,6 +270,12 @@ namespace Asce.Game.Entities.Characters
                 if (_isMoving) OnMoveStart?.Invoke(this);
                 else OnMoveEnd?.Invoke(this);
             }
+        }
+
+        public bool IsRunEnable
+        {
+            get => _isRunEnable;
+            set => _isRunEnable = value;
         }
 
         public bool IsRunning
@@ -738,7 +751,7 @@ namespace Asce.Game.Entities.Characters
             this.HandleUpdateMove(MoveDirection.x);
             this.HandleUpdateJump(deltaTime);
             this.HandleUpdateLadderClimb(deltaTime, MoveDirection.y);
-            this.HandleUpdateDodge(deltaTime);
+            this.HandleDodge(deltaTime);
             this.HandleUpdateLedgeClimb();
         }
 
@@ -753,12 +766,19 @@ namespace Asce.Game.Entities.Characters
 
         public void Running(bool state)
         {
-            RunState = state;
-            if (state)
+            if (Owner.Stats.Stamina.CurrentValue < _staminaCostRun)
             {
-                // Run cancels crouch and crawl
-                CrouchState = false;
-                CrawlState = false;
+                RunState = false;
+            }
+            else
+            {
+                RunState = state;
+                if (state)
+                {
+                    // Run cancels crouch and crawl
+                    CrouchState = false;
+                    CrawlState = false;
+                }
             }
         }
 
@@ -873,6 +893,20 @@ namespace Asce.Game.Entities.Characters
             //idle timer
             if (IsIdle) IdleTime += deltaTime;
             else IdleTime = 0f;
+
+            // Run stamina drain using Cooldown
+            _runStaminaCooldown.Update(deltaTime);
+            if (IsRunning && Owner.PhysicController.IsGrounded)
+            {
+                if (_runStaminaCooldown.IsComplete)
+                {
+                    if (Owner.Stats.TryConsumeStamina(_staminaCostRun))
+                    {
+                        _runStaminaCooldown.Reset();
+                    }
+                    else RunState = false; // Stop running if not enough stamina
+                }
+            }
         }
 
         protected override void UpdateFacing()
@@ -924,12 +958,14 @@ namespace Asce.Game.Entities.Characters
                 return;
             }
 
-            // Disallow running backward
-            if (Owner.View.IsLookingAtTarget && Mathf.Sign(direction) != Owner.Status.FacingDirectionValue)
-            {
-                IsRunning = false;
-            }
-            else IsRunning = isRunning;
+            if (IsRunEnable)
+                // Disallow running backward
+                if (Owner.View.IsLookingAtTarget && Mathf.Sign(direction) != Owner.Status.FacingDirectionValue)
+                {
+                    IsRunning = false;
+                }
+                else IsRunning = isRunning;
+            else IsRunning = false;
 
             // Is the character moving backward
             HorizontalMoveDirection = (Mathf.Sign(direction) * Owner.Status.FacingDirectionValue) == 1 ? 1 : -1;
@@ -1013,6 +1049,7 @@ namespace Asce.Game.Entities.Characters
             DashTrigger = false;
 
             if (!IsCanDash()) return;
+            if (!Owner.Stats.TryConsumeStamina(_staminaCostDash)) return;
 
             Owner.PhysicController.Accelerate(DashStartSpeed * Owner.Status.FacingDirectionValue);
 
@@ -1145,6 +1182,7 @@ namespace Asce.Game.Entities.Characters
                 _jumpCooldown.Update(deltaTime);
 
             if (!JumpTrigger || !_jumpCooldown.IsComplete) return;
+            if (!Owner.Stats.TryConsumeStamina(_staminaCostJump)) return;
 
             this.HandleStartJumpVelocity(horizontalDirection);
             _jumpCooldown.Reset();
@@ -1349,7 +1387,7 @@ namespace Asce.Game.Entities.Characters
         #endregion
 
         #region - DODGE METHODS -
-        protected virtual void HandleUpdateDodge(float deltaTime)
+        protected virtual void HandleDodge(float deltaTime)
         {
             // Snap character to ground better when dodging
             if (IsDodging && Owner.PhysicController.AirTime > 0.01f)
@@ -1381,6 +1419,7 @@ namespace Asce.Game.Entities.Characters
             if (Owner.PhysicController.AirTime > 0.1f) return;
             if (!_dodgeCooldown.IsComplete) return;
             if (Mathf.Abs(direction) < Constants.MOVE_THRESHOLD) return;
+            if (!Owner.Stats.TryConsumeStamina(_staminaCostDodge)) return;
 
             // Set dodge direction
             if (direction * Owner.Status.FacingDirectionValue > 0) DodgeDirection = 1;

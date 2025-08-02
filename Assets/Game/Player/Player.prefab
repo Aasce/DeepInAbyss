@@ -50,9 +50,9 @@ MonoBehaviour:
   _renderCamera: {fileID: 2673007238381461615}
   _target: {fileID: 0}
   _isFollowCamera: 1
-  _speed: 1
+  _speed: 2
   _offset: {x: 0, y: 2.5}
-  _distanceToIncreaseSpeed: 100
+  _distanceToIncreaseSpeed: 10
   _isActiveRenderCamera: 0
 --- !u!1 &918903922289420942
 GameObject:

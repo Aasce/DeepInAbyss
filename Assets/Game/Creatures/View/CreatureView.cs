@@ -116,6 +116,7 @@ namespace Asce.Game.Entities
         protected virtual void Owner_OnAfterTakeDamage(object sender, Combats.DamageContainer container)
         {
             if (container == null) return;
+            if (container.Sender == null) return;
             if (container.SourceType == Combats.DamageSourceType.Effect) return; // Ignore effects damage
             if (Animator == null) return; 
             GameObject other = container.Sender.gameObject;

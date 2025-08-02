@@ -1,5 +1,8 @@
 using Asce.Game.VFXs;
+using Asce.Managers;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
+using System;
 using UnityEngine;
 
 namespace Asce.Game.Enviroments
@@ -10,20 +13,22 @@ namespace Asce.Game.Enviroments
     ///     Triggers effects and wave propagation when objects interact with the liquid.
     /// </summary>
     [RequireComponent(typeof(BoxCollider2D))]
-    public class LiquidTriggerHandler : MonoBehaviour
+    public class LiquidTriggerHandler : GameComponent
     {
+        [SerializeField, Readonly] protected Liquid _liquid;
+
+        [Space]
         /// <summary> The layer mask defining which layers can interact with the liquid. </summary>
         [SerializeField] protected LayerMask _interactiveLayer;
         [SerializeField] protected VFXObject _splashParticles;
 
-        protected Liquid _liquid;
+        public event Action<object, Collider2D> OnObjectEnter;
+        public event Action<object, Collider2D> OnObjectExit;
 
-
-        public virtual Liquid Liquid => _liquid;
-
-        protected virtual void Awake()
+        public virtual Liquid Liquid
         {
-            _liquid = GetComponent<Liquid>();
+            get => _liquid;
+            set => _liquid = value;
         }
 
         protected virtual void Start()
@@ -43,6 +48,7 @@ namespace Asce.Game.Enviroments
                     float velocity = CalculateVelocityToLiquid(rb.linearVelocityY);
                     Liquid.Splash(other.transform.position, other.bounds.extents.x, velocity);
                 }
+                OnObjectEnter?.Invoke(this, other);
             }
         }
 
@@ -58,6 +64,7 @@ namespace Asce.Game.Enviroments
                     float velocity = CalculateVelocityToLiquid(rb.linearVelocityY);
                     Liquid.Splash(other.transform.position, other.bounds.extents.x, velocity);
                 }
+                OnObjectExit?.Invoke(this, other);
             }
         }
 

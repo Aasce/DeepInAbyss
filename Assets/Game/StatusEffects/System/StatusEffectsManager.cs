@@ -16,6 +16,7 @@ namespace Asce.Game.StatusEffects
 
         public T SendEffect<T>(ICreature sender, ICreature target, EffectDataContainer data) where T : StatusEffect, new()
         {
+            if (target == null || target.StatusEffect == null) return null;
             if (data == null) return null;
             T effect = new();
 
@@ -24,8 +25,7 @@ namespace Asce.Game.StatusEffects
 
             effect.SetInformation(information);
             effect.Set(sender, target, data);
-            if (target != null && target.StatusEffect != null)
-                target.StatusEffect.AddEffect(effect);
+            target.StatusEffect.AddEffect(effect);
             return effect;
         }
 
@@ -37,6 +37,12 @@ namespace Asce.Game.StatusEffects
             effect.SetTarget(target);
             if (target != null && target.StatusEffect != null)
                 target.StatusEffect.AddEffect(effect);
+        }
+
+        public void RemoveEffect<T>(ICreature target) where T : StatusEffect
+        {
+            if (target == null || target.StatusEffect == null) return;
+            target.StatusEffect.Controller.RemoveEffectByType<T>();
         }
 
         public StatusEffect CreateEffectByName(string name)

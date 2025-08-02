@@ -17,9 +17,15 @@ MonoBehaviour:
     _vfxPrefab: {fileID: 7267034227269862871, guid: 85567feff077c604c91bb47de17093b4, type: 3}
   - _name: Freeze
     _vfxPrefab: {fileID: 5295477076459251858, guid: c4769221497c71a4499d051a17c828b0, type: 3}
+  - _name: Hungry
+    _vfxPrefab: {fileID: 8807388834959900268, guid: cca56f261740ad14bac3ee4711f8f2c3, type: 3}
   - _name: Ignite
     _vfxPrefab: {fileID: 4680253437951845565, guid: 2fb1e0ef02f28e54a9bf1d506fafe3d4, type: 3}
   - _name: Sunder
     _vfxPrefab: {fileID: 3030484384429170589, guid: e1cf56c412f40ad4a9208a42a984da44, type: 3}
+  - _name: Thirsty
+    _vfxPrefab: {fileID: 3142396670783606410, guid: 3e2c977ffd9dfb4439ef7700adeab66a, type: 3}
+  - _name: Underwater
+    _vfxPrefab: {fileID: 6128177344463023210, guid: 2d7162b3730590340afb6247969897e3, type: 3}
   - _name: Weakened
     _vfxPrefab: {fileID: 2104405065967204891, guid: cd73536ea165c794288520ec63216dfb, type: 3}

@@ -80,6 +80,21 @@ namespace Asce.Game.StatusEffects
             }
         }
 
+        public void RemoveEffectByType<T>() where T : StatusEffect
+        {
+            for (int i = _statusEffects.Count - 1; i >= 0; i--)
+            {
+                StatusEffect effect = _statusEffects[i];
+                if (effect.IsNull()) continue;
+
+                if (effect.GetType() != typeof(T)) continue;
+
+                effect.Unapply();
+                _statusEffects.RemoveAt(i);
+                OnEffectRemoved?.Invoke(this, effect);
+            }
+        }
+
         public void RemoveAll(Func<StatusEffect, bool> func)
         {
             if (func == null) return;

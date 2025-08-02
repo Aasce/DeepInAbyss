@@ -20,7 +20,6 @@ namespace Asce.Game.Stats
 
         [Header("Resource Stat")]
         [SerializeField] protected float _currentValue;
-        [SerializeField] protected List<StatAgent> _currentAgents = new();
 
         private ReadOnlyCollection<StatAgent> _readOnlyCurrentAgents;
 
@@ -75,13 +74,6 @@ namespace Asce.Game.Stats
         /// </summary>
         public bool IsEmpty => Value >= 0 && CurrentValue <= 0f;
 
-
-        /// <summary>
-        ///     A list of active <see cref="StatAgent"/>s currently affecting the <see cref="CurrentValue"/>.
-        /// </summary>
-        public ReadOnlyCollection<StatAgent> CurrentAgents => _readOnlyCurrentAgents ??= _currentAgents.AsReadOnly();
-
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="ResourceStat"/> class.
         /// </summary>
@@ -114,13 +106,11 @@ namespace Asce.Game.Stats
         public override void Clear(bool forceClear = false)
         {
             base.Clear(forceClear);
-            _currentAgents.Clear();
         }
 
         public override void Reset()
         {
             base.Reset();
-            _currentAgents.Clear();
 
             this.ToFull(null, "Reset", false);
         }
@@ -133,12 +123,8 @@ namespace Asce.Game.Stats
         /// <param name="reason"> The reason for the change. </param>
         /// <param name="value"> The value to add. </param>
         /// <param name="type"> (Optionals) The type of value (flat or ratio). </param>
-        /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="_currentAgents"/> </param>
-        public virtual void AddToCurrentValue(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat, bool isAddToAgent = true)
+        public virtual void AddToCurrentValue(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat)
         {
-            if (isAddToAgent) 
-                _currentAgents.Add(new StatAgent(author, reason, value, type));
-
             CurrentValue = type switch
             {
                 StatValueType.Plat => CurrentValue + value,
@@ -153,13 +139,8 @@ namespace Asce.Game.Stats
         /// <param name="author"> The source of the change. </param>
         /// <param name="reason"> The reason for the change. </param>
         /// <param name="value"> The new value to set. </param>
-        /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="_currentAgents"/> </param>
-        public virtual void SetCurrentValue(GameObject author, string reason, float value, bool isAddToAgent = true)
+        public virtual void SetCurrentValue(GameObject author, string reason, float value)
         {
-            // The value is the difference between the value to be changed and the current value
-            if (isAddToAgent) 
-                _currentAgents.Add(new StatAgent(author, reason, value - CurrentValue));
-
             CurrentValue = value;
         }
 
@@ -171,7 +152,7 @@ namespace Asce.Game.Stats
         /// <param name="author"> The source of the change. </param>
         /// <param name="reason"> The reason for the change. </param>
         /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="_currentAgents"/> </param>
-        public virtual void ToEmpty(GameObject author, string reason, bool isAddToAgent = true) => this.SetCurrentValue(author, reason, 0f, isAddToAgent);
+        public virtual void ToEmpty(GameObject author, string reason, bool isAddToAgent = true) => this.SetCurrentValue(author, reason, 0f);
 
         /// <summary>
         ///     Sets <see cref="CurrentValue"/> to the max <see cref="Value"/>.
@@ -181,7 +162,7 @@ namespace Asce.Game.Stats
         /// <param name="author"> The source of the change. </param>
         /// <param name="reason"> The reason for the change. </param>
         /// <param name="isAddToAgent"> (Optionals) If true, create agent and and to <see cref="_currentAgents"/> </param>
-        public virtual void ToFull(GameObject author, string reason, bool isAddToAgent = true) => this.SetCurrentValue(author, reason, Value, isAddToAgent);
+        public virtual void ToFull(GameObject author, string reason, bool isAddToAgent = true) => this.SetCurrentValue(author, reason, Value);
 
     }
 }

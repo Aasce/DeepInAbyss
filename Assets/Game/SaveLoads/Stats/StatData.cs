@@ -29,7 +29,7 @@ namespace Asce.Game.SaveLoads
             target.StatType = type;
 
             this.LoadAgents(target, statAgents);
-            if (target is ResourceStat resourceTarget) resourceTarget.SetCurrentValue(null, "", currentValue, isAddToAgent: false);
+            if (target is ResourceStat resourceTarget) resourceTarget.SetCurrentValue(null, "", currentValue);
             if (target is TimeBasedResourceStat timeBasedTarget) this.LoadAgents(timeBasedTarget.ChangeStat, changeStatAgents);
 
             return true;
@@ -40,6 +40,7 @@ namespace Asce.Game.SaveLoads
             foreach (StatAgent agent in target.Agents)
             {
                 if (agent == null) continue;
+                if (agent.Reason.Contains("self")) continue; // Not save self agent
                 if (agent.Reason.Contains("effect")) continue; // Not save status effect agent
                 if (agent.Reason.Contains("equipment")) continue; // Not save equipment agent
                 StatAgentData data = new();

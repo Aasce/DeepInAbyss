@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a12b5381c742541af9c3f45313df26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _triggerHandler: {fileID: 841640559128434640}
   _collider: {fileID: 7065796564928336376}
   _meshRenderer: {fileID: 3205638912914841611}
   _meshFilter: {fileID: 5633108254512347662}
@@ -218,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e71def5f0956148b1456e595fafe60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _liquid: {fileID: 1150615448488098800}
   _interactiveLayer:
     serializedVersion: 2
     m_Bits: 257
@@ -330,6 +332,6 @@ SortingGroup:
   m_GameObject: {fileID: 6532291876380790332}
   m_Enabled: 1
   m_SortingLayerID: 801219365
-  m_SortingLayer: -2
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_SortAtRoot: 0

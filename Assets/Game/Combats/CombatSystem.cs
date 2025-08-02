@@ -15,6 +15,8 @@ namespace Asce.Game.Combats
         ///     A constant value used to balance the damage reduction formula.
         /// </summary>
         public static readonly float deductDamageBalance = 100f;
+        public static readonly float fallingSpeedThreshold = 10f;
+        public static readonly float scale = 10f;
 
         /// <summary>
         ///     Calculates and applies damage from a sender to a receiver, accounting for defenses, penetration, and shields.
@@ -158,6 +160,26 @@ namespace Asce.Game.Combats
             }
         }
 
+        public static DamageContainer DealFallingDamage(ITakeDamageable receiver, float fallingSpeed)
+        {
+            fallingSpeed = Mathf.Abs(fallingSpeed);
+            DamageContainer damageContainer = new (null, receiver)
+            {
+                DamageType = DamageType.TrueDamage,
+                SourceType = DamageSourceType.Falling,
+            };
+
+            if (fallingSpeed <= fallingSpeedThreshold)
+            {
+                damageContainer.Damage = 0f;
+                return damageContainer;
+            }
+
+            damageContainer.Damage = Mathf.Pow(fallingSpeed - fallingSpeedThreshold, 2) + fallingSpeedThreshold;
+            DamageDealing(damageContainer);
+            return damageContainer;
+        }
+
         /// <summary>
         ///     Heals the receiver by a specified amount, scaled by any healing modifiers.
         /// </summary>
@@ -188,8 +210,11 @@ namespace Asce.Game.Combats
         /// <param name="damage"> The final damage amount to apply. </param>
         protected static void SendDamage(ISendDamageable sender, IHasHealth receiver, float damage)
         {
-            if (sender == null || receiver == null) return;
-            receiver.HealthGroup.Health.AddToCurrentValue(sender.gameObject, "Damage Dealt", -damage);
+            if (receiver == null) return;
+            if (receiver.IsDead) return;
+
+            GameObject author = sender != null ? sender.gameObject : null;
+            receiver.HealthGroup.Health.AddToCurrentValue(author, "Damage Dealt", -damage);
         }
     }
 }

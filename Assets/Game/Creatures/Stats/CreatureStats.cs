@@ -115,5 +115,21 @@ namespace Asce.Game.Entities
             Speed.Reset();
             ViewRadius.Reset();
         }
+
+        /// <summary>
+        /// Try to consume stamina before performing an action.
+        /// </summary>
+        /// <param name="requiredStamina">Stamina required to perform the action</param>
+        /// <returns>True if enough stamina and deducted, otherwise false</returns>
+        public virtual bool TryConsumeStamina(float requiredStamina)
+        {
+            if (Stamina.CurrentValue < requiredStamina)
+                return false;
+
+            Stamina.AddToCurrentValue(null, "self deduct", -requiredStamina);
+            Stamina.ChangeInterval.CurrentTime = 2f;
+            return true;
+        }
+
     }
 }

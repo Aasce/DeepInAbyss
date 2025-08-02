@@ -71,7 +71,7 @@ namespace Asce.Game.Stats
         /// </summary>
         public virtual void ApplyChange()
         {
-            this.AddToCurrentValue(null, "time-based change", ChangeStat.Value, StatValueType.Plat, isAddToAgent: false);
+            this.AddToCurrentValue(null, "time-based change", ChangeStat.Value, StatValueType.Plat);
         }
 
         /// <summary>

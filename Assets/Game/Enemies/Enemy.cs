@@ -4,7 +4,10 @@ using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies 
 { 
-    public class Enemy : Creature, IHasView<EnemyView>, IHasAction<EnemyAction>, IHasStats<EnemyStats, SO_EnemyBaseStats>, IHasUI<EnemyUI>, IHasSpoils<EnemySpoils>
+    public class Enemy : Creature, IHasPhysicController<EnemyPhysicController>,
+        IHasView<EnemyView>, IHasUI<EnemyUI>, 
+        IHasAction<EnemyAction>, IHasStats<EnemyStats, SO_EnemyBaseStats>, 
+        IHasSpoils<EnemySpoils>
     {
         [Space]
         [SerializeField] protected HitBox _damageHitBox = new();

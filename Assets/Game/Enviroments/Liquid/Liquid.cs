@@ -1,5 +1,6 @@
 using Asce.Game.Utils;
 using Asce.Managers;
+using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,9 +18,10 @@ namespace Asce.Game.Enviroments
         public const int NUM_OF_Y_VERTICES = 2;
 
         // Reference
-        [SerializeField, HideInInspector] protected BoxCollider2D _collider;
-        [SerializeField, HideInInspector] protected MeshRenderer _meshRenderer;
-        [SerializeField, HideInInspector] protected MeshFilter _meshFilter;
+        [SerializeField, Readonly] protected LiquidTriggerHandler _triggerHandler;
+        [SerializeField, Readonly] protected BoxCollider2D _collider;
+        [SerializeField, Readonly] protected MeshRenderer _meshRenderer;
+        [SerializeField, Readonly] protected MeshFilter _meshFilter;
 
         [Header("Mesh Generator")]
         [Tooltip("Number of horizontal vertices used to generate the mesh.")]
@@ -109,9 +111,10 @@ namespace Asce.Game.Enviroments
         protected override void RefReset()
         {
             base.RefReset();
-            if (_meshRenderer == null) _meshRenderer = GetComponent<MeshRenderer>();
-            if (_meshFilter == null) _meshFilter = GetComponent<MeshFilter>();
-            if (_collider == null) _collider = GetComponent<BoxCollider2D>();
+            if (this.LoadComponent(out _triggerHandler)) _triggerHandler.Liquid = this;
+            this.LoadComponent(out _meshRenderer);
+            this.LoadComponent(out _meshFilter);
+            this.LoadComponent(out _collider);
         }
 
         protected virtual void Start()
