@@ -43,6 +43,7 @@ namespace Asce.Game.Enviroments.HiddenAreas
             _coveredObject.SetActive(false);
             if (_vfxObject != null) VFXs.VFXsManager.Instance.Spawn(_vfxObject, transform.position);
             _isOpened = true;
+            _opener.IsInteractable = false;
         }
 
         void IReceiveData<bool>.Receive(bool isOpened)
@@ -50,6 +51,7 @@ namespace Asce.Game.Enviroments.HiddenAreas
             _isOpened = isOpened;
             if (_coveredObject == null) return;
             _coveredObject.SetActive(!isOpened);
+            _opener.IsInteractable = !isOpened;
         }
     }
 }

@@ -57,6 +57,7 @@ namespace Asce.Game.Enviroments
         public override void Interact(GameObject interactor)
         {
             IsActive = true;
+            IsInteractable = false;
             base.Interact(interactor);
         }
 
@@ -76,6 +77,7 @@ namespace Asce.Game.Enviroments
         {
             _isActive = isActive;
             if (GlowRenderer != null) GlowRenderer.gameObject.SetActive(_isActive);
+            IsInteractable = !isActive;
         }
     }
 }

@@ -6,6 +6,8 @@ namespace Asce.Game.Enviroments
 {
     public abstract class InteractiveObject : GameComponent, IInteractableObject
     {
+        [SerializeField] protected string _name;
+        [SerializeField] protected bool _isInteractable = true;
         [SerializeField, Min(0f)] protected float _interactionRange = 0f;
         [SerializeField] protected Vector2 _offset = Vector2.zero;
 
@@ -13,6 +15,12 @@ namespace Asce.Game.Enviroments
         public event Action<object> OnUnfocus;
         public event Action<object, GameObject> OnInteract;
 
+        public string Name => string.IsNullOrEmpty(_name) ? gameObject.name : _name;
+        public virtual bool IsInteractable
+        {
+            get => _isInteractable;
+            set => _isInteractable = value;
+        }
         public virtual float InteractionRange => _interactionRange;
         public virtual Vector2 Offset => _offset;
 

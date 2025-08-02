@@ -2,6 +2,7 @@ using Asce.Game.Items;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using UnityEngine;
 
 namespace Asce.Game.Inventories
@@ -169,6 +170,153 @@ namespace Asce.Game.Inventories
             OnItemChanged?.Invoke(this, index);
             return item;
         }
+
+        /// <summary>
+        ///     Removes items with the specified information from the inventory,
+        ///     until the requested quantity is reached.
+        ///     For stackable items, removes quantity.
+        ///     For non-stackable items, each item counts as 1.
+        /// </summary>
+        /// <param name="information">The item type to remove.</param>
+        /// <param name="quantity">The total quantity (or count) to remove.</param>
+        /// <returns>A list of removed items, or empty list if nothing was removed.</returns>
+        public virtual List<Item> RemoveWithQuantity(SO_ItemInformation information, int quantity)
+        {
+            List<Item> removedItems = new();
+            if (information == null || quantity <= 0) return removedItems;
+
+            for (int i = 0; i < _items.Count && quantity > 0; i++)
+            {
+                Item item = _items[i]; 
+                if (item.IsNull()) continue;
+                if (item.Information != information) continue;
+
+                if (item.HasQuantity())
+                {
+                    int currentQuantity = item.GetQuantity();
+                    int removeAmount = Math.Min(currentQuantity, quantity);
+
+                    Item removed = item.Clone();
+                    removed.SetQuantity(removeAmount);
+                    removedItems.Add(removed);
+
+                    if (removeAmount == currentQuantity)
+                    {
+                        _items[i] = null;
+                    }
+                    else
+                    {
+                        item.SetQuantity(currentQuantity - removeAmount);
+                    }
+
+                    quantity -= removeAmount;
+                }
+                else
+                {
+                    removedItems.Add(item);
+                    _items[i] = null;
+                    quantity -= 1;
+                }
+
+                OnItemChanged?.Invoke(this, i);
+            }
+
+            return removedItems;
+        }
+
+
+
+        /// <summary>
+        ///     Checks whether the inventory contains at least one item with the specified information.
+        /// </summary>
+        /// <param name="information">The item information to search for.</param>
+        /// <returns>True if at least one item with the specified information exists; otherwise, false.</returns>
+        public virtual bool Contains(SO_ItemInformation information)
+        {
+            if (information == null) return false;
+
+            foreach (Item item in _items)
+            {
+                if (item.IsNull()) continue;
+                if (item.Information == information)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        ///     Checks whether the inventory contains at least the specified quantity of the given item type.
+        /// </summary>
+        /// <param name="information">The item information to search for.</param>
+        /// <param name="requiredQuantity">The required quantity to check against.</param>
+        /// <returns>True if total quantity of items with the specified information is greater than or equal to the required quantity; otherwise, false.</returns>
+        public virtual bool ContainsWithQuantity(SO_ItemInformation information, int requiredQuantity)
+        {
+            if (information == null) return false;
+            if (requiredQuantity <= 0) return false;
+
+            int total = 0;
+
+            foreach (Item item in _items)
+            {
+                if (item.IsNull()) continue;
+                if (item.Information != information) continue;
+                if (item.HasQuantity())
+                {
+                    total += item.GetQuantity();
+                }
+                else total++;
+
+                if (total >= requiredQuantity)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check if the given item would overflow if added to this inventory.
+        /// This does not modify the inventory.
+        /// </summary>
+        /// <param name="addingItem">Item to check</param>
+        /// <returns>True if the item would overflow (partially or completely not fit)</returns>
+        public virtual bool WouldItemOverflow(Item addingItem)
+        {
+            if (addingItem.IsNull()) return false;
+
+            if (addingItem.HasQuantity())
+            {
+                int quantityToAdd = addingItem.GetQuantity();
+                int maxStack = addingItem.Information.GetMaxStack();
+                int stackableRoom = 0;
+
+                for (int i = 0; i < _items.Count; i++)
+                {
+                    Item existing = _items[i];
+                    if (existing.IsNull())
+                    {
+                        // Each empty slot can hold a full new stack
+                        stackableRoom += maxStack;
+                    }
+                    else if (existing.Information == addingItem.Information && existing.HasQuantity())
+                    {
+                        stackableRoom += (maxStack - existing.GetQuantity());
+                    }
+
+                    if (stackableRoom >= quantityToAdd)
+                        return false;
+                }
+
+                return true; // Not enough room
+            }
+            else
+            {
+                // Count empty slots
+                int emptySlotCount = _items.Count(item => item.IsNull());
+                return emptySlotCount <= 0;
+            }
+        }
+
 
         /// <summary>
         ///     Splits a specified quantity of an item from one slot to another within the inventory.

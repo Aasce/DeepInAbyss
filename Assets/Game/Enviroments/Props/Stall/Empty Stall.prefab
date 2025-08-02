@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4433355245095846667}
   - component: {fileID: 7907167949564657226}
   m_Layer: 7
-  m_Name: Stall
+  m_Name: Empty Stall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -188,6 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906422d359a699940be4649883d94204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: Iron Chest
+  _isInteractable: 1
   _interactionRange: 2
   _offset: {x: 0, y: 0.5}
   _id: 

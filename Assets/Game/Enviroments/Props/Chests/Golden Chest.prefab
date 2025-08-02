@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 799071870652121678}
   - component: {fileID: 4897587873026093485}
   m_Layer: 9
-  m_Name: 'Golden Chest '
+  m_Name: Golden Chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906422d359a699940be4649883d94204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: 'Golden Chest '
+  _isInteractable: 1
   _interactionRange: 2
   _offset: {x: 0, y: 0.5}
   _id: 

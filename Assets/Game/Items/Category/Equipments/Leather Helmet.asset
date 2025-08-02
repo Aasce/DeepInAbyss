@@ -15,7 +15,7 @@ MonoBehaviour:
   _name: Leather Helmet
   _description: 
   _icon: {fileID: 21300000, guid: 5ff9b869a12e70b4db7a137f84ed920b, type: 3}
-  _type: 0
+  _type: 10
   _rarity: 0
   _propertyType: 15616
   _properties:
@@ -31,6 +31,7 @@ MonoBehaviour:
       data:
         _name: Equippable
         _equipmentType: 10
+        _equipEvent: {fileID: 0}
     - rid: 252983843496657107
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:

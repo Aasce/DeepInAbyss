@@ -77,6 +77,7 @@ namespace Asce.Game.Entities.Characters
             foreach (IInteractableObject obj in _interactableObjects)
             {
                 if (obj == null) continue;
+                if (!obj.IsInteractable) continue;
                 Vector2 interactableObjectPosition = (Vector2)obj.gameObject.transform.position + obj.Offset;
                 float distance = Vector2.Distance(point, interactableObjectPosition);
 
@@ -101,6 +102,7 @@ namespace Asce.Game.Entities.Characters
             foreach (var collider in _results)
             {
                 if (!collider || !collider.TryGetComponent(out IInteractableObject obj)) continue;
+                if (!obj.IsInteractable) continue;
 
                 Vector2 interactableObjectPosition = (Vector2)obj.gameObject.transform.position + obj.Offset;
                 float distance = Vector2.Distance(center, interactableObjectPosition);

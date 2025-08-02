@@ -94,7 +94,7 @@ namespace Asce.Game.UIs
         protected virtual void SetName()
         {
             if (_name == null) return;
-            _name.text = $"{_interactableObject.gameObject.name}";
+            _name.text = $"{_interactableObject.Name}";
         }
 
         protected virtual void SetTip()

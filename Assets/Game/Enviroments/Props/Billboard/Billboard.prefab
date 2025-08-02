@@ -49,6 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e35ad1f3486f2469476f4d37822aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: Billboard
+  _isInteractable: 1
   _interactionRange: 4
   _offset: {x: 0, y: 1.5}
   _id: c163844b-dd6f-4121-8b86-aa92ca60f5e4
@@ -58,6 +60,7 @@ MonoBehaviour:
     _activities: []
     _isSetActive: 1
     _parent: {fileID: 1984539564207462275}
+    _worldPositionStays: 1
   _notices: []
   _maxAttempts: 20
   _minNotifiesDistance: 0.2

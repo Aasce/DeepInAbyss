@@ -157,6 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d765fcb1fb5e94a9b79bbcb3a7aff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: Stone of Recall
+  _isInteractable: 1
   _interactionRange: 2
   _offset: {x: 0, y: 0.5}
   _id: 

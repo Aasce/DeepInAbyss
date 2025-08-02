@@ -1,4 +1,3 @@
-using Asce.Game.Entities;
 using Asce.Game.Equipments;
 using Asce.Game.Items;
 using System;
@@ -103,6 +102,25 @@ namespace Asce.Game.Inventories
             {
                 slot.RemoveEquipment();
             }
+        }
+
+
+        public static void Buy(Inventory inventory, ShopItem buyItem, ShopItemCost cost)
+        {
+            if (inventory == null) return;
+            if (buyItem == null) return;
+            if (cost == null) return;
+
+            bool isEnough = inventory.ContainsWithQuantity(cost.CostType, cost.Cost);
+            if (!isEnough) return;
+
+            Item addingItem = new(buyItem.Item);
+            addingItem.SetQuantity(buyItem.Quantity);
+            addingItem.SetDurability(addingItem.Information.GetMaxDurability());
+            if (inventory.WouldItemOverflow(addingItem)) return;
+
+            inventory.AddItem(addingItem);
+            inventory.RemoveWithQuantity(cost.CostType, cost.Cost);
         }
     }
 }
