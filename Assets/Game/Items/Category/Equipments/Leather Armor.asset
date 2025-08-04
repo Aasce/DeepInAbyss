@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Leather Armor
   m_EditorClassIdentifier: 
   _name: Leather Armor
-  _description: 
+  _description: Lightweight body armor crafted from toughened leather. Offers decent
+    protection while allowing greater mobility in combat.
   _icon: {fileID: 21300000, guid: e37ee0b1cbe20c5458102626b95a6b7c, type: 3}
   _type: 10
   _rarity: 0
@@ -31,7 +32,7 @@ MonoBehaviour:
       data:
         _name: Equippable
         _equipmentType: 11
-        _equipEvent: {fileID: 0}
+        _equipEvent: {fileID: 3116377857691409380, guid: efd89e39a40b1b840b614eb9ad4952d8, type: 3}
     - rid: 252983843496657099
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:

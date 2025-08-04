@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9c7c670fd4bd745b6bbe63388b920d, type: 3}
+  m_Name: The Underground Shelter - Silver Chest 1
+  m_EditorClassIdentifier: 
+  _items:
+  - _name: 
+    _information: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 6e69319ac831fbc4d83a3d3cb9dfd1cf, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+    _quantity: 15
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+    _quantity: 23
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: b8398d7c76032374a94d712fd7f4154b, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+    _quantity: 3
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: b8398d7c76032374a94d712fd7f4154b, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+    _quantity: 2
+    _durationRatio: 0

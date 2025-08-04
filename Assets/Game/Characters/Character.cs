@@ -72,7 +72,7 @@ namespace Asce.Game.Entities.Characters
 
                 CombatSystem.DamageDealing(new DamageContainer(this, entity as ITakeDamageable)
                 {
-                    Damage = Stats.Strength.Value * 0.4f,
+                    Damage = Stats.Strength.Value,
                     DamageType = DamageType.Physical,
                 });
 

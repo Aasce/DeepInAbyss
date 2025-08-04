@@ -65,7 +65,7 @@ namespace Asce.Game.Stats
         /// <returns>
         ///     Returns final heal value.
         /// </returns>
-        public virtual float Heal(IEntity healer, string reason, float healAmount, StatValueType type = StatValueType.Plat)
+        public virtual float Heal(IEntity healer, string reason, float healAmount, StatValueType type = StatValueType.Flat)
         {
             float heal = healAmount * HealScale.Value;
             Health.AddToCurrentValue(healer.gameObject, reason, heal, type);

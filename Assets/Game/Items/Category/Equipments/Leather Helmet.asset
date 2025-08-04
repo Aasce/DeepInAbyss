@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Leather Helmet
   m_EditorClassIdentifier: 
   _name: Leather Helmet
-  _description: 
+  _description: A flexible leather cap that shields the head without sacrificing
+    comfort. Favored by agile fighters and scouts.
   _icon: {fileID: 21300000, guid: 5ff9b869a12e70b4db7a137f84ed920b, type: 3}
   _type: 10
   _rarity: 0
@@ -31,7 +32,7 @@ MonoBehaviour:
       data:
         _name: Equippable
         _equipmentType: 10
-        _equipEvent: {fileID: 0}
+        _equipEvent: {fileID: 9006962219739359940, guid: f21b4427315a2ef42825b1f6707c2d37, type: 3}
     - rid: 252983843496657107
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:

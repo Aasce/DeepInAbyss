@@ -13,7 +13,7 @@
         /// <summary>
         ///     A flat value added to the stat.
         /// </summary>
-        Plat,
+        Flat,
 
         /// <summary>
         ///     A ratio or percentage modifier for the stat.

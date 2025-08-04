@@ -108,6 +108,7 @@ namespace Asce.Game.UIs.Inventories
             _itemContextMenu.RectTransform.position = position;
 
             _itemContextMenu.Index = index;
+            _itemContextMenu.IsItemInInventory = true;
             _itemContextMenu.Set(item);
             _itemContextMenu.Show();
         }

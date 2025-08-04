@@ -10,7 +10,7 @@ namespace Asce.Game.Items
     {
         [Header("Basic Info")]
         [SerializeField] protected string _name = string.Empty;
-        [SerializeField, TextArea] protected string _description = string.Empty;
+        [SerializeField, TextArea(3, 10)] protected string _description = string.Empty;
         [SerializeField, SpritePreview] protected Sprite _icon = null;
 
         [Space]

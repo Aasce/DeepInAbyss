@@ -27,7 +27,7 @@ MonoBehaviour:
   _weaponType: 20
   _attackType: 4096
   _meleeAttackType: 2
-  _meleeDamageScale: 0.6
+  _meleeDamageScale: 1.2
   _weaponObject: {fileID: 7548386229065747226, guid: 18591b24fadacdb4b904c70668a1ce07, type: 3}
   references:
     version: 2
@@ -37,6 +37,7 @@ MonoBehaviour:
       data:
         _name: Equippable
         _equipmentType: 1
+        _equipEvent: {fileID: 0}
     - rid: 5783465910747267370
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:

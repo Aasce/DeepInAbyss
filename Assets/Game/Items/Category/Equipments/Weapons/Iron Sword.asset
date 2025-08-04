@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Iron Sword
   m_EditorClassIdentifier: 
   _name: Iron Sword
-  _description: 
+  _description: "A reliable weapon that strikes for <color=\"orange\">200% Physical
+    Damage</color> based on the wielder\u2019s Strength. No frills\u2014just raw,
+    dependable power."
   _icon: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
   _type: 11
   _rarity: 10
@@ -27,7 +29,7 @@ MonoBehaviour:
   _weaponType: 2
   _attackType: 2
   _meleeAttackType: 4
-  _meleeDamageScale: 1.25
+  _meleeDamageScale: 2
   _weaponObject: {fileID: 510132762145398444, guid: 996b77ac879cfd94aa07b8a28bcf0261, type: 3}
   references:
     version: 2

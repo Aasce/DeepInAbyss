@@ -113,7 +113,7 @@ namespace Asce.Game.Combats
 
             float effectiveDefense = penetrationType switch
             {
-                StatValueType.Plat => defence - penetration,
+                StatValueType.Flat => defence - penetration,
                 StatValueType.Ratio => defence - (defence * penetration),
                 _ => defence,
             };
@@ -190,7 +190,7 @@ namespace Asce.Game.Combats
         /// <returns>
         ///     Returns final heal value.
         /// </returns>
-        public static float Healing(IEntity healer, IHasHealth receiver, float heal, StatValueType type = StatValueType.Plat, Vector2 position = default)
+        public static float Healing(IEntity healer, IHasHealth receiver, float heal, StatValueType type = StatValueType.Flat, Vector2 position = default)
         {
             if (receiver == null) return 0f;
             if (receiver.IsDead) return 0f;

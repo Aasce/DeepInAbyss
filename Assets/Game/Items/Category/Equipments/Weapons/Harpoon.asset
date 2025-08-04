@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Harpoon
   m_EditorClassIdentifier: 
   _name: Harpoon
-  _description: 
+  _description: "Pierces foes directly ahead, dealing <color=\"orange\">160% Physical
+    Damage</color> based on the wielder\u2019s Strength. Best used to skewer enemies
+    lined up in a straight path."
   _icon: {fileID: 0}
   _type: 11
   _rarity: 10
@@ -27,7 +29,7 @@ MonoBehaviour:
   _weaponType: 8
   _attackType: 4
   _meleeAttackType: 4
-  _meleeDamageScale: 1.5
+  _meleeDamageScale: 1.6
   _weaponObject: {fileID: 2801868788685183788, guid: 1f29cc246c652ac4d91213b64bce640a, type: 3}
   references:
     version: 2

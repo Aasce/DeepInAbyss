@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Emerald Staff
   m_EditorClassIdentifier: 
   _name: Emerald Staff
-  _description: 
+  _description: Fires a green projectile that explodes upon hitting a target or terrain,
+    dealing <color="purple">15 Magical Damage</color> to all enemies in the blast
+    radius. Heals the wielder for <color="green">20%</color> of the total damage
+    dealt.
   _icon: {fileID: 21300000, guid: c66629df5b6254a4e8dc8c1b69369863, type: 3}
   _type: 11
   _rarity: 11
@@ -27,7 +30,7 @@ MonoBehaviour:
   _weaponType: 20
   _attackType: 16384
   _meleeAttackType: 2
-  _meleeDamageScale: 0.6
+  _meleeDamageScale: 1.2
   _weaponObject: {fileID: 265788639356558122, guid: 450e9b630c32c604198012fa054c1e4a, type: 3}
   references:
     version: 2

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Leather Boot
   m_EditorClassIdentifier: 
   _name: Leather Boot
-  _description: 
+  _description: Soft but durable boots that enhance movement speed and agility. Ideal
+    for quick repositioning and evasive maneuvers.
   _icon: {fileID: 21300000, guid: 29a1226f7b5e20240942612e151c3c4c, type: 3}
   _type: 10
   _rarity: 0
@@ -31,7 +32,7 @@ MonoBehaviour:
       data:
         _name: Equippable
         _equipmentType: 13
-        _equipEvent: {fileID: 0}
+        _equipEvent: {fileID: 481603206375092463, guid: 4d6d4fa19a4637c4fa723cfc3a64decb, type: 3}
     - rid: 252983843496657103
       type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:

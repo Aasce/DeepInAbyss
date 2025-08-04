@@ -6,7 +6,7 @@ namespace Asce.Game.Equipments.Events
 {
     public sealed class BeltEquipEvent : EquipEvent
     {
-        [SerializeField] private StatValue _armorValue = new(10f, StatValueType.Plat);
+        [SerializeField] private StatValue _armorValue = new(StatType.Armor, 10f, StatValueType.Flat);
         public string Reason => "Belt equipment";
         public StatValue ArmorValue => _armorValue;
 
@@ -25,5 +25,7 @@ namespace Asce.Game.Equipments.Events
 			if (creature.Stats is IHasDefense hasDefense)
 				hasDefense.DefenseGroup.Armor.RemoveAgent(creature.gameObject, Reason);
         }
+
+        public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _armorValue);
     }
 }

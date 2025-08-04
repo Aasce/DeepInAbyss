@@ -19,6 +19,7 @@ namespace Asce.Game.SaveLoads
         {
             if (target == null) return false;
             inventory.Load(target.Inventory);
+            (target as IReceiveData<bool>).Receive(true);
             return true;
         }
     }

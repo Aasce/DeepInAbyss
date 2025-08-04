@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9c7c670fd4bd745b6bbe63388b920d, type: 3}
+  m_Name: The Mine Below Abyss Station - Silver Chest 1
+  m_EditorClassIdentifier: 
+  _items:
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 11400000, guid: 8e3c247b715da344c85763dbad8ab6fb, type: 2}
+    _quantity: 1
+    _durationRatio: 0.38
+  - _name: None
+    _information: {fileID: 11400000, guid: 3cc07ff42d2aa7e4a875815aabddeec7, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: Rope
+    _information: {fileID: 11400000, guid: 0dc81b14c6365fe4885d04ec676b059a, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: Bone
+    _information: {fileID: 11400000, guid: 28fb7655023896344ac27be79088b416, type: 2}
+    _quantity: 3
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: Iron Armor
+    _information: {fileID: 11400000, guid: a076f470b8d5fa94989aec737968c0dd, type: 2}
+    _quantity: 1
+    _durationRatio: 0.62
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: Iron Sword
+    _information: {fileID: 11400000, guid: 6e69319ac831fbc4d83a3d3cb9dfd1cf, type: 2}
+    _quantity: 3
+    _durationRatio: 0
+  - _name: Ruby
+    _information: {fileID: 11400000, guid: 2ff0a9bd0623cde4681768b0cc0deb1e, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: Iron Boot
+    _information: {fileID: 11400000, guid: 9ecb65f6557527546947018802340e45, type: 2}
+    _quantity: 1
+    _durationRatio: 0.24
+  - _name: Fabric
+    _information: {fileID: 11400000, guid: d31c07e742d21a84db7a198f81a08178, type: 2}
+    _quantity: 4
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0

@@ -7,7 +7,7 @@ namespace Asce.Game.Equipments.Events
 {
     public sealed class GoldenSwordEquipEvent : EquipEvent
     {
-        [SerializeField] private StatValue _strengthValue = new(10f, StatValueType.Plat);
+        [SerializeField] private StatValue _strengthValue = new(StatType.Strength, 10f, StatValueType.Flat);
 
         [Space]
         [SerializeField, Min(0f)] private float _sunderStrength = 0.05f;
@@ -55,5 +55,6 @@ namespace Asce.Game.Equipments.Events
             });
         }
 
+        public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _strengthValue);
     }
 }

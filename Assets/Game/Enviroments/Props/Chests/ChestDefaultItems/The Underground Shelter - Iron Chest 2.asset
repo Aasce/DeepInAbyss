@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9c7c670fd4bd745b6bbe63388b920d, type: 3}
+  m_Name: The Underground Shelter - Iron Chest 2
+  m_EditorClassIdentifier: 
+  _items:
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: Apple
+    _information: {fileID: 11400000, guid: a11dd4059b9260843b7490ac899eba0c, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: Wood Log
+    _information: {fileID: 11400000, guid: 3cc07ff42d2aa7e4a875815aabddeec7, type: 2}
+    _quantity: 5
+    _durationRatio: 0
+  - _name: Bread
+    _information: {fileID: 11400000, guid: ec3bd10a30a52ee49a9db3f797c9ad63, type: 2}
+    _quantity: 3
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: Iron Armor
+    _information: {fileID: 11400000, guid: 8b9e7e9bcdb98244d9b9281c51bfa7bd, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: String
+    _information: {fileID: 11400000, guid: e5eb4b5b0a18d8f47b4a51b9b34c1dda, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: Iron Armor
+    _information: {fileID: 11400000, guid: 5bf503a7d5f988040b8cca0997d383c3, type: 2}
+    _quantity: 1
+    _durationRatio: 0.4
+  - _name: Bread
+    _information: {fileID: 11400000, guid: 395858a527968224f8d3b6dcb4688c8b, type: 2}
+    _quantity: 3
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: Apple
+    _information: {fileID: 11400000, guid: e1065f40413f6664da4ceaadfd6d7239, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: Empty Bottle
+    _information: {fileID: 11400000, guid: 0b3f379ee03f4784a8e674485920ee94, type: 2}
+    _quantity: 1
+    _durationRatio: 0

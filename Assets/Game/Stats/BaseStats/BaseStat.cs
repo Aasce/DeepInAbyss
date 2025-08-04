@@ -67,7 +67,7 @@ namespace Asce.Game.Stats
         /// <param name="type"> The type of value (flat or ratio). </param>
         /// <param name="position"> (Optional) The position affect </param>
         /// <returns> The added <see cref="StatAgent"/>. </returns>
-        public virtual T AddAgent(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat, Vector2 position = default)
+        public virtual T AddAgent(GameObject author, string reason, float value, StatValueType type = StatValueType.Flat, Vector2 position = default)
         {
             T agent = CreateAgent(author, reason, value, type, position);
             return this.AddAgent(agent);
@@ -83,7 +83,7 @@ namespace Asce.Game.Stats
         /// <returns> The added <see cref="StatAgent"/>. </returns>
         public virtual T AddAgent(GameObject author, string reason, StatValue statValue, Vector2 position = default)
         {
-            T agent = CreateAgent(author, reason, statValue.Value, statValue.Type, position);
+            T agent = CreateAgent(author, reason, statValue.Value, statValue.ValueType, position);
             return this.AddAgent(agent);
         }
 

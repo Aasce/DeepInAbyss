@@ -6,8 +6,8 @@ namespace Asce.Game.Equipments.Events
 {
     public sealed class SickleEquipEvent : EquipEvent
     {
-        [SerializeField] private StatValue _strengthValue = new(5f, StatValueType.Plat);
-        [SerializeField] private StatValue _speedValue = new(0.6f, StatValueType.Plat);
+        [SerializeField] private StatValue _strengthValue = new(StatType.Strength, 5f, StatValueType.Flat);
+        [SerializeField] private StatValue _speedValue = new(StatType.Speed, 0.6f, StatValueType.Flat);
 
         public string Reason => "Sickle equipment";
 
@@ -35,5 +35,7 @@ namespace Asce.Game.Equipments.Events
 			if (creature.Stats is IHasSpeed hasSpeed)
 				hasSpeed.Speed.RemoveAgent(creature.gameObject, Reason);
         }
+
+        public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _strengthValue, _speedValue);
     }
 }

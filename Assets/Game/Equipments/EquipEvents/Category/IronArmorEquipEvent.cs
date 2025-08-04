@@ -6,8 +6,8 @@ namespace Asce.Game.Equipments.Events
 {
     public sealed class IronArmorEquipEvent : EquipEvent
     {
-        [SerializeField] private StatValue _armorValue = new(15f, StatValueType.Plat);
-        [SerializeField] private StatValue _resistanceValue = new(8f, StatValueType.Plat);
+        [SerializeField] private StatValue _armorValue = new(StatType.Armor, 15f, StatValueType.Flat);
+        [SerializeField] private StatValue _resistanceValue = new(StatType.Resistance, 8f, StatValueType.Flat);
 
         public string Reason => "Iron Armor equipment";
 
@@ -35,5 +35,7 @@ namespace Asce.Game.Equipments.Events
 				hasDefense.DefenseGroup.Resistance.RemoveAgent(creature.gameObject, Reason);
 			}
         }
+
+        public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _armorValue, _resistanceValue);
     }
 }

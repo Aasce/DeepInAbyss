@@ -77,13 +77,13 @@ namespace Asce.Game.Combats
         }
 
         public DamageContainer() 
-            : this(null, null, 0f, DamageType.TrueDamage, 0f, StatValueType.Plat, default) { }
+            : this(null, null, 0f, DamageType.TrueDamage, 0f, StatValueType.Flat, default) { }
         public DamageContainer(ISendDamageable sender, ITakeDamageable receiver) 
             : this(sender, receiver, 0f, DamageType.TrueDamage, default) { }
         public DamageContainer(ISendDamageable sender, ITakeDamageable receiver, float damageValue, float penetration = 0f, Vector2 position = default) 
-            : this(sender, receiver, damageValue, DamageType.TrueDamage, penetration, StatValueType.Plat, position) { }
+            : this(sender, receiver, damageValue, DamageType.TrueDamage, penetration, StatValueType.Flat, position) { }
 
-        public DamageContainer(ISendDamageable sender, ITakeDamageable receiver, float damageValue, DamageType type, float penetration = 0f, StatValueType penetrationType = StatValueType.Plat, Vector2 position = default)
+        public DamageContainer(ISendDamageable sender, ITakeDamageable receiver, float damageValue, DamageType type, float penetration = 0f, StatValueType penetrationType = StatValueType.Flat, Vector2 position = default)
         {
             _sender = sender;
             _receiver = receiver;

@@ -123,11 +123,11 @@ namespace Asce.Game.Stats
         /// <param name="reason"> The reason for the change. </param>
         /// <param name="value"> The value to add. </param>
         /// <param name="type"> (Optionals) The type of value (flat or ratio). </param>
-        public virtual void AddToCurrentValue(GameObject author, string reason, float value, StatValueType type = StatValueType.Plat)
+        public virtual void AddToCurrentValue(GameObject author, string reason, float value, StatValueType type = StatValueType.Flat)
         {
             CurrentValue = type switch
             {
-                StatValueType.Plat => CurrentValue + value,
+                StatValueType.Flat => CurrentValue + value,
                 StatValueType.Ratio => CurrentValue + Value * value,
                 _ => 0f,
             };

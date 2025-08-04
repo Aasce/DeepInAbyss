@@ -165,7 +165,8 @@ MonoBehaviour:
   _collider: {fileID: 7991457806302819658}
   _glowRenderer: {fileID: 6444746743016395875}
   _activeVFXPrefab: {fileID: 1370081043114677426, guid: c1a9a793cf0fe2a48a6e2871e363f2f8, type: 3}
-  _isActive: 1
+  _isActive: 0
+  _isDefaultActive: 0
 --- !u!61 &7991457806302819658
 BoxCollider2D:
   m_ObjectHideFlags: 0

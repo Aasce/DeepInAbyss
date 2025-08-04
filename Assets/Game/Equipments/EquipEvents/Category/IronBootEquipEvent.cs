@@ -6,8 +6,8 @@ namespace Asce.Game.Equipments.Events
 {
     public sealed class IronBootEquipEvent : EquipEvent
     {
-        [SerializeField] private StatValue _armorValue = new(10f, StatValueType.Plat);
-        [SerializeField] private StatValue _speedValue = new(0.5f, StatValueType.Plat);
+        [SerializeField] private StatValue _armorValue = new(StatType.Armor, 10f, StatValueType.Flat);
+        [SerializeField] private StatValue _speedValue = new(StatType.Speed, 0.5f, StatValueType.Flat);
 
         public string Reason => "Iron Boot equipment";
 
@@ -35,5 +35,7 @@ namespace Asce.Game.Equipments.Events
 			if (creature.Stats is IHasSpeed hasSpeed)
 				hasSpeed.Speed.RemoveAgent(creature.gameObject, Reason);
         }
+
+        public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _armorValue, _speedValue);
     }
 }

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9c7c670fd4bd745b6bbe63388b920d, type: 3}
+  m_Name: The Abyss Extraction Station - Silver Chest 1
+  m_EditorClassIdentifier: 
+  _items:
+  - _name: Iron Sword
+    _information: {fileID: 11400000, guid: ead80cfbda9ea6b4a8296a2c2f2f35e8, type: 2}
+    _quantity: 1
+    _durationRatio: 0.2
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: Cut Ruby
+    _information: {fileID: 11400000, guid: 2134d3e927e70bb48be9867967094f22, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 11400000, guid: cdbab21ee606a4646a7e29a8c0080f4e, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 11400000, guid: 0d2a67bbab649e14ea60ce1bc41370ab, type: 2}
+    _quantity: 1
+    _durationRatio: 0.84
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: Iron Armor
+    _information: {fileID: 11400000, guid: 8b9e7e9bcdb98244d9b9281c51bfa7bd, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: Wizard Hat
+    _information: {fileID: 11400000, guid: 75780f29032e38846b85554caddd54c2, type: 2}
+    _quantity: 1
+    _durationRatio: 0.71
+  - _name: Golden Coin
+    _information: {fileID: 11400000, guid: b8398d7c76032374a94d712fd7f4154b, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: Book
+    _information: {fileID: 11400000, guid: 1420a86a8db932f4da642762cba6d69d, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0

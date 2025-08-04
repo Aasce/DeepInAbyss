@@ -8,6 +8,7 @@ namespace Asce.Game.UIs.Inventories
 {
     public class UIItemDetails : UIObject
     {
+        [Space]
         [SerializeField] protected RectTransform _content;
 
         [Space]
@@ -17,14 +18,24 @@ namespace Asce.Game.UIs.Inventories
 
         [Space]
         [SerializeField] protected TextMeshProUGUI _name;
-        [SerializeField] protected UIItemEnchantInformation _enchant;
+        [SerializeField] protected UIItemDescriptionInformation _description;
 
         [Space]
         [SerializeField] protected TextMeshProUGUI _quantity;
+        [SerializeField] protected TextButton _useOrEquipButton;
 
         protected Item _item;
+        protected int _itemIndex;
+        protected bool _isItemInInventory;
 
-        public virtual void Set(Item item)
+
+        protected virtual void Start()
+        {
+            if (_useOrEquipButton != null) _useOrEquipButton.Button.onClick.AddListener(UseOrEquipButton_OnClick);
+        }
+
+
+        public virtual void Set(Item item, int index, bool isInventory = true)
         {
             _item = item;
             if (_item.IsNull())
@@ -33,12 +44,15 @@ namespace Asce.Game.UIs.Inventories
                 return;
             }
             
+            _itemIndex = index;
+            _isItemInInventory = isInventory;
             _content.gameObject.SetActive(true);
             this.SetName();
             this.SetIcon();
             this.SetQuantity();
             this.SetDurability();
-            this.SetEnchant();
+            this.SetDescription();
+            this.SetUseOrEquipButton();
         }
 
 
@@ -88,16 +102,54 @@ namespace Asce.Game.UIs.Inventories
             _durability.maxValue = _item.Information.GetMaxDurability();
             _durability.value = _item.GetDurability();
         }
-        protected virtual void SetEnchant()
+        protected virtual void SetDescription()
         {
-            if (_enchant == null) return;
-            if (!_item.Information.HasProperty(ItemPropertyType.Enchantable))
+            if (_description == null) return;
+            _description.Set(_item.Information);
+        }
+        protected virtual void SetUseOrEquipButton()
+        {
+            if (_useOrEquipButton == null) return;
+            if (_item.Information.HasProperty(ItemPropertyType.Equippable))
             {
-                _enchant.gameObject.SetActive(false);
+                _useOrEquipButton.gameObject.SetActive(true);
+                if (_isItemInInventory) _useOrEquipButton.Text.text = "Equip";
+                else _useOrEquipButton.Text.text = "Unequip";
+
                 return;
             }
 
-            _enchant.gameObject.SetActive(true);
+            if (_item.Information.HasProperty(ItemPropertyType.Usable))
+            {
+                _useOrEquipButton.gameObject.SetActive(true);
+                _useOrEquipButton.Text.text = "Use";
+
+                return;
+            }
+
+            _useOrEquipButton.gameObject.SetActive(false);
+        }
+
+        protected virtual void UseOrEquipButton_OnClick()
+        {
+            if (_item.IsNull()) return;
+            if (_item.Information.HasProperty(ItemPropertyType.Equippable))
+            {
+                if(_item.Information.GetPropertyByType(ItemPropertyType.Equippable) is EquippableItemProperty equipProperty)
+                {
+                    UIInventoryWindow window = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIInventoryWindow>();
+                    if (window != null)
+                    {
+                        if (_isItemInInventory) window.Equip(_itemIndex);
+                        else window.Unequip(equipProperty.EquipmentType);
+                    }
+                }
+            }
+
+            if (_item.Information.HasProperty(ItemPropertyType.Usable))
+            {
+
+            }
         }
     }
 }

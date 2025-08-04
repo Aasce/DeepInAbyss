@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Wooden Bow
   m_EditorClassIdentifier: 
   _name: Wooden Bow
-  _description: 
+  _description: "Draws an arrow and, after a brief delay, fires a straight-flying
+    shot that stops upon hitting a target or terrain. Deals <color=\"orange\">100%
+    Physical Damage</color> based on the wielder\u2019s Strength to the first enemy
+    struck."
   _icon: {fileID: 21300000, guid: bbf8638a8a75d9c42b93639213c92c9b, type: 3}
   _type: 11
   _rarity: 10
@@ -27,7 +30,7 @@ MonoBehaviour:
   _weaponType: 10
   _attackType: 2097152
   _meleeAttackType: 2
-  _meleeDamageScale: 0.6
+  _meleeDamageScale: 1.2
   _weaponObject: {fileID: 3957683002977499372, guid: 054d8eba8caac2a448c56964717a31a7, type: 3}
   references:
     version: 2

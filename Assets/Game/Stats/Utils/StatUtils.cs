@@ -27,7 +27,7 @@ namespace Asce.Game.Stats
                 switch (agent.ValueType)
                 {
                     case StatValueType.Base:
-                    case StatValueType.Plat:
+                    case StatValueType.Flat:
                         plat += agent.Value;
                         break;
 

@@ -6,8 +6,8 @@ namespace Asce.Game.Equipments.Events
 {
     public sealed class EmeraldStaffEquipEvent : EquipEvent
     {
-        [SerializeField] private StatValue _healScaleValue = new(0.1f, StatValueType.Plat);
-        [SerializeField] private StatValue _resistanceValue = new(15f, StatValueType.Plat);
+        [SerializeField] private StatValue _healScaleValue = new(StatType.HealthScale, 0.1f, StatValueType.Flat);
+        [SerializeField] private StatValue _resistanceValue = new(StatType.Resistance, 15f, StatValueType.Flat);
 
         public string Reason => "Emerald Staff equipment";
 
@@ -35,5 +35,7 @@ namespace Asce.Game.Equipments.Events
             if (creature.Stats is IHasDefense hasDefense)
                 hasDefense.DefenseGroup.Resistance.RemoveAgent(creature.gameObject, Reason);
         }
+
+        public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _healScaleValue, _resistanceValue);
     }
 }

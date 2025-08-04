@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d14e5eb6d9e34b41b2d0f77f5534f09, type: 3}
+  m_Name: The Abyss Extraction Station - Shop 1
+  m_EditorClassIdentifier: 
+  _items:
+  - _name: Iron Sword
+    _item: {fileID: 11400000, guid: 55a667ae6da71534084e7381528594a2, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 20
+    - _costType: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+      _cost: 2
+  - _name: Iron Helmet
+    _item: {fileID: 11400000, guid: 4e25bdf3ecd3ef545a74aa693d16e137, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 20
+    - _costType: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+      _cost: 2
+  - _name: Iron Armor
+    _item: {fileID: 11400000, guid: 5bf503a7d5f988040b8cca0997d383c3, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 20
+    - _costType: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+      _cost: 2
+  - _name: Belt
+    _item: {fileID: 11400000, guid: a076f470b8d5fa94989aec737968c0dd, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 20
+    - _costType: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+      _cost: 2
+  - _name: Iron Boot
+    _item: {fileID: 11400000, guid: 9ecb65f6557527546947018802340e45, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 20
+    - _costType: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+      _cost: 2
+  - _name: Blue Potion
+    _item: {fileID: 11400000, guid: b1fe54a6cda8849489178ccbcaa02a7c, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 40
+    - _costType: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+      _cost: 4
+  - _name: Green Potion
+    _item: {fileID: 11400000, guid: 8b9e7e9bcdb98244d9b9281c51bfa7bd, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 40
+    - _costType: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+      _cost: 4
+  - _name: Green Potion
+    _item: {fileID: 11400000, guid: eb724983c6f9ebc4292365cf836e2740, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 6
+  - _name: Ham
+    _item: {fileID: 11400000, guid: 998f6daf80b25f74195322bf9ed986b3, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 10
+    - _costType: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+      _cost: 1
+  - _name: Bread
+    _item: {fileID: 11400000, guid: ec3bd10a30a52ee49a9db3f797c9ad63, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 2
+  - _name: Bread
+    _item: {fileID: 11400000, guid: 395858a527968224f8d3b6dcb4688c8b, type: 2}
+    _quantity: 1
+    _costs:
+    - _costType: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+      _cost: 2
+  - _name: Silver Coin
+    _item: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+    _quantity: 10
+    _costs:
+    - _costType: {fileID: 11400000, guid: b8398d7c76032374a94d712fd7f4154b, type: 2}
+      _cost: 1
+  - _name: Silver Coin
+    _item: {fileID: 11400000, guid: a56701cb492a06148bdc1e92563ab172, type: 2}
+    _quantity: 10
+    _costs:
+    - _costType: {fileID: 11400000, guid: 753ac64453792174e823b17d09f9fe73, type: 2}
+      _cost: 1

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9c7c670fd4bd745b6bbe63388b920d, type: 3}
+  m_Name: The Well of Abyss - Iron Chest 1
+  m_EditorClassIdentifier: 
+  _items:
+  - _name: 
+    _information: {fileID: 11400000, guid: e1065f40413f6664da4ceaadfd6d7239, type: 2}
+    _quantity: 5
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 0b3f379ee03f4784a8e674485920ee94, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 75e055be68515064388907a68d5ef7ff, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: eb724983c6f9ebc4292365cf836e2740, type: 2}
+    _quantity: 3
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: eb724983c6f9ebc4292365cf836e2740, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 75e055be68515064388907a68d5ef7ff, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 9e6333d900ce3174891a3d34e6fb91fb, type: 2}
+    _quantity: 5
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 9e6333d900ce3174891a3d34e6fb91fb, type: 2}
+    _quantity: 5
+    _durationRatio: 0

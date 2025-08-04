@@ -79,7 +79,7 @@ namespace Asce.Game.Stats
         ///     with default values.
         /// </summary>
         public StatAgent() 
-            : this (null, string.Empty, 0f, StatValueType.Plat, default) 
+            : this (null, string.Empty, 0f, StatValueType.Flat, default) 
         { }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Asce.Game.Stats
         /// <param name="author"> The <see cref="GameObject"/> applying the stat modification. </param>
         /// <param name="reason"> The reason or description of the stat modification. </param>
         public StatAgent(GameObject author, string reason)
-            : this (author, reason, 0f, StatValueType.Plat, default)
+            : this (author, reason, 0f, StatValueType.Flat, default)
         { }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Asce.Game.Stats
         /// <param name="value"> The value of the modification. </param>
         /// <param name="position"> The position affect. </param>
         public StatAgent(GameObject author, string reason, float value, Vector2 position = default)
-            : this (author, reason, value, StatValueType.Plat, position)
+            : this (author, reason, value, StatValueType.Flat, position)
         { }
 
         /// <summary>

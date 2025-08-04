@@ -1,4 +1,5 @@
 using Asce.Game.Entities;
+using Asce.Game.Inventories;
 using Asce.Game.Items;
 using Asce.Game.UIs.Equipments;
 using Asce.Managers.Attributes;
@@ -36,7 +37,7 @@ namespace Asce.Game.UIs.Inventories
         {
             base.Start();
             Players.Player.Instance.CameraController.IsActiveRenderCamera = this.IsShow;
-            if (_itemDetails != null) _itemDetails.Set(null);
+            if (_itemDetails != null) _itemDetails.Set(null, -1);
             if (_inventory != null) _inventory.OnFocusAt += Inventory_OnFocusAt;
             if (_equipment != null) _equipment.OnFocusAt += Equipment_OnFocusAt;
             if (_cleanButton != null) _cleanButton.onClick.AddListener(CleanButton_OnClick);
@@ -64,6 +65,18 @@ namespace Asce.Game.UIs.Inventories
             this.Register();
         }
 
+        public virtual void Equip(int index)
+        {
+            if (_creature == null) return;
+            InventorySystem.MoveItemToEquipment(_creature.Inventory.Inventory, _creature.Equipment, index);
+        }
+
+        public virtual void Unequip(Game.Equipments.EquipmentType type)
+        {
+            if (_creature == null) return;
+            InventorySystem.MoveEquipmentToInventory(_creature.Equipment, _creature.Inventory.Inventory, type);
+        }
+
         protected virtual void Register() 
         {
             if (_creature == null) return;
@@ -84,7 +97,7 @@ namespace Asce.Game.UIs.Inventories
             Item item = _inventory.Controller.Inventory.GetItem(index);
             if (item.IsNull()) return;
 
-            _itemDetails.Set(item);
+            _itemDetails.Set(item, index, isInventory: true);
         }
 
         protected virtual void Equipment_OnFocusAt(object sender, int index)
@@ -96,7 +109,7 @@ namespace Asce.Game.UIs.Inventories
             Item item = slot.Item.Item;
             if (item.IsNull()) return;
 
-            _itemDetails.Set(item);
+            _itemDetails.Set(item, index, isInventory: false);
         }
 
         protected virtual void CleanButton_OnClick()

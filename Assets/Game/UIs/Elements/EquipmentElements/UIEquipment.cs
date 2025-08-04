@@ -97,6 +97,7 @@ namespace Asce.Game.UIs.Equipments
             _itemContextMenu.RectTransform.position = position;
 
             _itemContextMenu.Index = index;
+            _itemContextMenu.IsItemInInventory = false;
             _itemContextMenu.Set(item);
             _itemContextMenu.Show();
         }
@@ -319,7 +320,5 @@ namespace Asce.Game.UIs.Equipments
         {
             UpdateSlot(EquipmentType.Weapon, args.NewValue);
         }
-
-
     }
 }

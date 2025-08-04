@@ -6,8 +6,8 @@ namespace Asce.Game.Equipments.Events
 {
     public sealed class IronHelmetEquipEvent : EquipEvent
     {
-        [SerializeField] private StatValue _armorValue = new(10f, StatValueType.Plat);
-        [SerializeField] private StatValue _viewRadiusValue = new(5f, StatValueType.Plat);
+        [SerializeField] private StatValue _armorValue = new(StatType.Armor, 10f, StatValueType.Flat);
+        [SerializeField] private StatValue _viewRadiusValue = new(StatType.ViewRadius, 5f, StatValueType.Flat);
 
         public string Reason => "Iron Helmet equipment";
 
@@ -35,5 +35,7 @@ namespace Asce.Game.Equipments.Events
 			if (creature.Stats is IHasViewRadius hasViewRadius)
 				hasViewRadius.ViewRadius.RemoveAgent(creature.gameObject, Reason);
         }
+
+        public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _armorValue, _viewRadiusValue);
     }
 }

@@ -3,6 +3,7 @@ using Asce.Managers.Attributes;
 using Asce.Managers.SaveLoads;
 using Asce.Managers.Utils;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Asce.Game.Enviroments
@@ -17,7 +18,9 @@ namespace Asce.Game.Enviroments
         [SerializeField] protected VFXs.ParticleVFXObject _activeVFXPrefab;
 
         [Header("Stone of Recall")]
-        [SerializeField] protected bool _isActive = true;
+        [SerializeField] protected bool _isActive = false;
+        [SerializeField] protected bool _isDefaultActive = false;
+        protected bool _isLoaded = false;
 
         public event Action<object> OnActivate;
 
@@ -51,8 +54,17 @@ namespace Asce.Game.Enviroments
 
         protected virtual void Start()
         {
-            IsActive = false;
+            _ = this.Load();
         }
+
+        protected virtual async Task Load()
+        {
+            await SaveLoads.SaveLoadManager.Instance.WaitUntilLoadedAsync();
+            if (_isLoaded) return;
+            IsActive = _isDefaultActive;
+            IsInteractable = !_isDefaultActive;
+        }
+
 
         public override void Interact(GameObject interactor)
         {
@@ -78,6 +90,7 @@ namespace Asce.Game.Enviroments
             _isActive = isActive;
             if (GlowRenderer != null) GlowRenderer.gameObject.SetActive(_isActive);
             IsInteractable = !isActive;
+            _isLoaded = true;
         }
     }
 }

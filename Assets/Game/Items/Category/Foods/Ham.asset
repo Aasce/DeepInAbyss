@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ham
   m_EditorClassIdentifier: 
   _name: Ham
-  _description: 
+  _description: A thick-cut slice of cured ham.
   _icon: {fileID: 21300000, guid: c1101a972f67d164db2754844fbeeda2, type: 3}
   _type: 7
   _rarity: 0

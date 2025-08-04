@@ -1,4 +1,5 @@
 using Asce.Game.Items;
+using Asce.Game.UIs.Inventories;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,16 +13,29 @@ namespace Asce.Game.UIs.ContextMenus
 
         [SerializeField] protected TextMeshProUGUI _name;
 
+        [Space]
+        [SerializeField] protected RectTransform _quantityHolder;
         [SerializeField] protected Slider _quantitySlider;
         [SerializeField] protected TextMeshProUGUI _quantityText;
 
+        [Space]
+        [SerializeField] protected RectTransform _useOrEquipButtonHolder;
+        [SerializeField] protected TextButton _useOrEquipButton;
+
         protected Item _item;
-        protected int _index;
+        protected int _itemIndex;
+        protected bool _isItemInInventory;
 
         public int Index
         {
-            get => _index;
-            set => _index = value;
+            get => _itemIndex;
+            set => _itemIndex = value;
+        }
+
+        public bool IsItemInInventory
+        {
+            get => _isItemInInventory;
+            set => _isItemInInventory = value;
         }
 
         /// <summary>
@@ -29,9 +43,12 @@ namespace Asce.Game.UIs.ContextMenus
         /// </summary>
         public int QuantityToSplit => _quantitySlider != null ? Mathf.RoundToInt(_quantitySlider.value) : -1;
 
+        public TextButton UseOrEquipButton => _useOrEquipButton;
+
         protected virtual void Start()
         {
             if (_quantitySlider != null) _quantitySlider.onValueChanged.AddListener(QuantitySlider_OnValueChanged);
+            if (_useOrEquipButton != null) _useOrEquipButton.Button.onClick.AddListener(UseOrEquipButton_OnClick);
         }
 
         public virtual void Set(Item item)
@@ -42,7 +59,7 @@ namespace Asce.Game.UIs.ContextMenus
             this.SetIcon();
             this.SetName();
             this.SetQuantity();
-            this.SetQuantityText();
+            this.SetUseOrEquipButton();
         }
 
         public virtual void SetIcon()
@@ -66,20 +83,23 @@ namespace Asce.Game.UIs.ContextMenus
 
         public virtual void SetQuantity()
         {
-            if (_quantitySlider == null) return;
+            if (_quantityHolder == null) return;
             if (!_item.Information.HasProperty(ItemPropertyType.Stackable))
             {
-                if (_quantityText != null) _quantityText.gameObject.SetActive(false);
-                _quantitySlider.gameObject.SetActive(false);
+                _quantityHolder.gameObject.SetActive(false);
                 return;
             }
 
-            if (_quantityText != null) _quantityText.gameObject.SetActive(true);
-            _quantitySlider.gameObject.SetActive(true);
+            _quantityHolder.gameObject.SetActive(false);
 
             int quantity = _item.GetQuantity();
-            _quantitySlider.maxValue = quantity;
-            _quantitySlider.value = Mathf.RoundToInt(Mathf.Ceil(quantity*0.5f));
+            if (_quantitySlider != null)
+            {
+                _quantitySlider.maxValue = quantity;
+                _quantitySlider.value = Mathf.RoundToInt(Mathf.Ceil(quantity * 0.5f));
+            }
+
+            this.SetQuantityText();
         }
 
         public virtual void SetQuantityText()
@@ -88,9 +108,56 @@ namespace Asce.Game.UIs.ContextMenus
             _quantityText.text = $"{_quantitySlider.value}/{_quantitySlider.maxValue}";
         }
 
+        public virtual void SetUseOrEquipButton()
+        {
+            if (_useOrEquipButton == null) return;
+            if (_item.Information.HasProperty(ItemPropertyType.Equippable))
+            {
+                if (_useOrEquipButtonHolder != null) _useOrEquipButtonHolder.gameObject.SetActive(true);
+                if (_isItemInInventory) _useOrEquipButton.Text.text = "Equip";
+                else _useOrEquipButton.Text.text = "Unequip";
+
+                return;
+            }
+
+            if (_item.Information.HasProperty(ItemPropertyType.Usable))
+            {
+                if (_useOrEquipButtonHolder != null) _useOrEquipButtonHolder.gameObject.SetActive(true);
+                _useOrEquipButton.Text.text = "Use";
+
+                return;
+            }
+
+            if (_useOrEquipButtonHolder != null) _useOrEquipButtonHolder.gameObject.SetActive(false);
+        }
+
         protected virtual void QuantitySlider_OnValueChanged(float value)
         {
             this.SetQuantityText();
+        }
+
+        protected virtual void UseOrEquipButton_OnClick()
+        {
+            if (_item.IsNull()) return;
+            if (_item.Information.HasProperty(ItemPropertyType.Equippable))
+            {
+                if (_item.Information.GetPropertyByType(ItemPropertyType.Equippable) is EquippableItemProperty equipProperty)
+                {
+                    UIInventoryWindow window = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIInventoryWindow>();
+                    if (window != null)
+                    {
+                        if (_isItemInInventory) window.Equip(_itemIndex);
+                        else window.Unequip(equipProperty.EquipmentType);
+                    }
+                    this.Hide();
+                    return;
+                }
+            }
+
+            if (_item.Information.HasProperty(ItemPropertyType.Usable))
+            {
+
+            }
         }
     }
 }

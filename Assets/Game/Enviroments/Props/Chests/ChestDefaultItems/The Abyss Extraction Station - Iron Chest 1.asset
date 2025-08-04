@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9c7c670fd4bd745b6bbe63388b920d, type: 3}
+  m_Name: The Abyss Extraction Station - Iron Chest 1
+  m_EditorClassIdentifier: 
+  _items:
+  - _name: None
+    _information: {fileID: 11400000, guid: 0ab5c08a07580494dad50e3eb36bcee0, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 11400000, guid: 364cdb4d852b5ab4385408565c749284, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 11400000, guid: 28fb7655023896344ac27be79088b416, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 11400000, guid: 364cdb4d852b5ab4385408565c749284, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 11400000, guid: 0ab5c08a07580494dad50e3eb36bcee0, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 11400000, guid: 28fb7655023896344ac27be79088b416, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: None
+    _information: {fileID: 11400000, guid: 28fb7655023896344ac27be79088b416, type: 2}
+    _quantity: 3
+    _durationRatio: 0

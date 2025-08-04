@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Sickle
   m_EditorClassIdentifier: 
   _name: Sickle
-  _description: 
+  _description: "Spins in a wide arc, slashing nearby enemies for <color=\"orange\">175%
+    Physical Damage</color> based on the wielder\u2019s Strength. A perfect tool
+    for crowd control at close range."
   _icon: {fileID: 0}
   _type: 11
   _rarity: 10
@@ -27,7 +29,7 @@ MonoBehaviour:
   _weaponType: 7
   _attackType: 2
   _meleeAttackType: 2
-  _meleeDamageScale: 1.7
+  _meleeDamageScale: 1.75
   _weaponObject: {fileID: 5125074530604338735, guid: 9d0ce3363f7a55f4babcc513deaf7a2a, type: 3}
   references:
     version: 2

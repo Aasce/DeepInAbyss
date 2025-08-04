@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Golden Sword
   m_EditorClassIdentifier: 
   _name: Golden Sword
-  _description: 
+  _description: "Delivers a precise blow dealing <color=\"orange\">250% Physical
+    Damage</color> based on the wielder\u2019s Strength. Each hit reduces the target\u2019s
+    current armor by <color=\"green\">5%</color> for 10s. Stacks infinitely."
   _icon: {fileID: 21300000, guid: 90e99a7fde056a4418b9fe16084adb5c, type: 3}
   _type: 11
   _rarity: 12
@@ -27,7 +29,7 @@ MonoBehaviour:
   _weaponType: 2
   _attackType: 2
   _meleeAttackType: 4
-  _meleeDamageScale: 2.2
+  _meleeDamageScale: 2.5
   _weaponObject: {fileID: 2703363152124429903, guid: 4965b23779c27434da97fde90c7011e0, type: 3}
   references:
     version: 2

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9c7c670fd4bd745b6bbe63388b920d, type: 3}
+  m_Name: The Mine Below Abyss Station - Iron Chest 1
+  m_EditorClassIdentifier: 
+  _items:
+  - _name: 
+    _information: {fileID: 11400000, guid: 55a667ae6da71534084e7381528594a2, type: 2}
+    _quantity: 1
+    _durationRatio: 0.75
+  - _name: 
+    _information: {fileID: 11400000, guid: 28fb7655023896344ac27be79088b416, type: 2}
+    _quantity: 2
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 5bf503a7d5f988040b8cca0997d383c3, type: 2}
+    _quantity: 1
+    _durationRatio: 0.25
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 1420a86a8db932f4da642762cba6d69d, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 11400000, guid: 2ff0a9bd0623cde4681768b0cc0deb1e, type: 2}
+    _quantity: 1
+    _durationRatio: 0
+  - _name: 
+    _information: {fileID: 0}
+    _quantity: 0
+    _durationRatio: 0

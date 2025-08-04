@@ -6,8 +6,8 @@ namespace Asce.Game.Equipments.Events
 {
     public sealed class WoodenBowEquipEvent : EquipEvent
     {
-        [SerializeField] private StatValue _strengthValue = new(10f, StatValueType.Plat);
-        [SerializeField] private StatValue _viewRadiusValue = new(6f, StatValueType.Plat);
+        [SerializeField] private StatValue _strengthValue = new(StatType.Strength, 10f, StatValueType.Flat);
+        [SerializeField] private StatValue _viewRadiusValue = new(StatType.ViewRadius, 6f, StatValueType.Flat);
 
         public string Reason => "Wooden Bow equipment";
 
@@ -35,5 +35,7 @@ namespace Asce.Game.Equipments.Events
 			if (creature.Stats is IHasViewRadius hasViewRadius)
 				hasViewRadius.ViewRadius.RemoveAgent(creature.gameObject, Reason);
         }
+
+        public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _strengthValue, _viewRadiusValue);
     }
 }

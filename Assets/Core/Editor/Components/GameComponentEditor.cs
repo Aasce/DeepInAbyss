@@ -63,20 +63,14 @@ namespace Asce.Editors
                 return;
             }
 
-            string currentID = (string)field.GetValue(obj);
+            Undo.RecordObject(obj, "Generate ID");
+            string newID = System.Guid.NewGuid().ToString();
+            field.SetValue(obj, newID);
 
-            if (string.IsNullOrEmpty(currentID))
-            {
-                Undo.RecordObject(obj, "Generate ID");
-                string newID = System.Guid.NewGuid().ToString();
-                field.SetValue(obj, newID);
+            Debug.Log($"Generated new ID for {obj.name}: {newID}");
 
-                Debug.Log($"Generated new ID for {obj.name}: {newID}");
-
-                EditorUtility.SetDirty(obj);
-                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(((Component)obj).gameObject.scene);
-            }
-            else Debug.LogWarning($"{obj.name} already has ID: {currentID}");
+            EditorUtility.SetDirty(obj);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(((Component)obj).gameObject.scene);
         }
         #endregion
 

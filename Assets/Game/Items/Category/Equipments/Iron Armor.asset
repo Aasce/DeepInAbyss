@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Iron Armor
   m_EditorClassIdentifier: 
   _name: Iron Armor
-  _description: 
+  _description: Heavy torso armor forged from solid iron. Grants substantial protection
+    against physical damage and keeps the wearer standing through brutal skirmishes.
   _icon: {fileID: 21300000, guid: 567fdd2e557fefc478f8aaa7ae56fb11, type: 3}
   _type: 10
   _rarity: 0

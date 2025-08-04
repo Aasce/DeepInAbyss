@@ -49,13 +49,16 @@ namespace Asce.Game.Inventories
 
                 // Attempt to add to target
                 Item remaining = target.AddItem(item);
-                if (remaining.IsNull()) continue; // If nothing remains, item was fully looted
+                if (remaining.IsNull()) // If nothing remains, item was fully looted
+                {
+                    source.RemoveAt(i); // Auto remove if loot all
+                    continue;
+                }
 
                 int lootedQuantity = item.GetQuantity() - remaining.GetQuantity();
                 if (lootedQuantity > 0)
                 {
-                    // Remove the quantity that was looted
-                    source.RemoveAt(i, lootedQuantity); // Auto remove if loot all
+                    source.RemoveAt(i, lootedQuantity);
                 }
             }
         }
@@ -98,6 +101,22 @@ namespace Asce.Game.Inventories
             if (item.IsNull()) return;
 
             Item remaining = inventory.AddAt(item, toIndex);
+            if (remaining.IsNull())
+            {
+                slot.RemoveEquipment();
+            }
+        }
+
+        public static void MoveEquipmentToInventory(IEquipmentController equipment, Inventory inventory, EquipmentType type)
+        {
+            if (inventory == null || equipment == null) return;
+            EquipmentSlot slot = equipment.GetSlot(type);
+            if (slot == null) return;
+
+            Item item = slot.EquipmentItem;
+            if (item.IsNull()) return;
+
+            Item remaining = inventory.AddItem(item);
             if (remaining.IsNull())
             {
                 slot.RemoveEquipment();
