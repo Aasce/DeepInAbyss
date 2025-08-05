@@ -170,6 +170,11 @@ namespace Asce.Game.Players
             {
                 Quests.QuestsManager.Instance.AcceptQuest("Mining Gold");
             }
+
+            if (UnityEngine.Input.GetKeyDown (KeyCode.E))
+            {
+                ControlledCreature.Stats.SustenanceGroup.Hunger.AddToCurrentValue(null, "", 10f);
+            }
         }
     }
 }

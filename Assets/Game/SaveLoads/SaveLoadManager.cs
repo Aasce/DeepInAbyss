@@ -39,16 +39,18 @@ namespace Asce.Game.SaveLoads
 
         public void LoadAll()
         {
-            this.LoadMainCharacter();
             this.LoadUIs();
             this.LoadQuests();
             this.LoadEnviroment();
+            this.LoadSpawners();
+            this.LoadMainCharacter();
         }
 
 
         public void SaveAll()
         {
-            SaveLoadSystem.Save(new CharacterData(Player.Instance.MainCharacter), "player/character.json");
+            SaveLoadSystem.Save(new AllSpawnersData(), "scene/spawners.json");
+            SaveLoadSystem.Save(new CreatureData(Player.Instance.MainCharacter), "player/character.json");
             SaveLoadSystem.Save(new ActiveQuestsData(), "player/active_quests.json");
             SaveLoadSystem.Save(new UIAllData(), "player/ui.json");
             this.SaveEnviroment();            
@@ -56,7 +58,7 @@ namespace Asce.Game.SaveLoads
 
         private void LoadMainCharacter()
         {
-            CharacterData characterData = SaveLoadSystem.Load<CharacterData>("player/character.json");
+            CreatureData characterData = SaveLoadSystem.Load<CreatureData>("player/character.json");
             characterData?.Load(Player.Instance.MainCharacter);
             Player.Instance.CameraController.ToTarget(Vector2.up * 10f);
         }
@@ -71,6 +73,12 @@ namespace Asce.Game.SaveLoads
         {
             UIAllData uis = SaveLoadSystem.Load<UIAllData>("player/ui.json");
             uis?.Load();
+        }
+
+        private void LoadSpawners()
+        {
+            AllSpawnersData spawners = SaveLoadSystem.Load<AllSpawnersData>("scene/spawners.json");
+            spawners?.Load();
         }
 
         private void LoadEnviroment()

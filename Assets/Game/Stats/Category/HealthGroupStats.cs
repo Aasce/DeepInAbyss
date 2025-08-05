@@ -10,7 +10,7 @@ namespace Asce.Game.Stats
     [Serializable]
     public class HealthGroupStats : IGroupStats
     {
-        private readonly string _healScaleAffectReason = "heal scale affect";
+        private readonly string _healScaleAffectReason = "self heal scale";
 
         [Tooltip("The health stat that represents the entity's health.")]
         [SerializeField] protected TimeBasedResourceStat _health = new(StatType.Health);
@@ -90,7 +90,7 @@ namespace Asce.Game.Stats
             }
 
             _healScaleAgent.Value = HealScale.Value;
-            _health.UpdateValue();
+            Health.ChangeStat.UpdateValue();
         }
 
     }
