@@ -1,3 +1,4 @@
+using Asce.Game.Combats;
 using UnityEngine;
 
 namespace Asce.Game.Equipments.Weapons
@@ -34,6 +35,13 @@ namespace Asce.Game.Equipments.Weapons
         {
             if (projectile == null) return;
             projectile.Launching(Force);
+        }
+
+        public override void StartAttacking(AttackType attackType = AttackType.None)
+        {
+            base.StartAttacking(attackType);
+            if (attackType == AttackType.Swipe)
+                Sounds.AudioManager.Instance.PlaySFX("Weapon Slash", Owner.gameObject.transform.position, 0.1f);
         }
     }
 }

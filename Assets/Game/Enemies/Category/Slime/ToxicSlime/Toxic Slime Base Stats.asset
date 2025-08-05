@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Toxic Slime Base Stats
   m_EditorClassIdentifier: 
   _maxHealth: 60
-  _healthRegen: 2
+  _healthRegen: 1.2
   _maxStamina: 100
   _staminaRegen: 75
   _maxHunger: 100

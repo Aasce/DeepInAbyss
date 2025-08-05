@@ -29,7 +29,7 @@ namespace Asce.Game.Spawners
         public string ID => _id;
         public SpawnPositionController PositionController => _positionController;
         public List<T> Entities => _entities;
-        public bool IsMaxSpawnCount => _maxSpawnCount != -1 && _entities.Count >= _maxSpawnCount;
+        public bool IsMaxSpawnCount => _maxSpawnCount < 0 && _entities.Count >= _maxSpawnCount;
 
         bool IOptimizedComponent.IsActive => this.enabled;
         Bounds IOptimizedComponent.Bounds => PositionController != null ? PositionController.Bounds : new Bounds(transform.position, Vector2.one);
@@ -62,7 +62,8 @@ namespace Asce.Game.Spawners
         }
 
         public virtual T Spawn(Vector2 position)
-        {            
+        {
+            if (IsMaxSpawnCount) return null;
             if (_prefab == null) return null;
             T newEntity = EntitiesSpawnManager.Instance.Spawn<T>(_prefab, position, Quaternion.identity);
             if (newEntity == null) return null;
@@ -100,30 +101,27 @@ namespace Asce.Game.Spawners
         /// </summary>
         protected virtual void QueueSpawn()
         {
+            if (_maxSpawnCount > 0) 
+            {
+                int count = _maxSpawnCount - _entities.Count;
+                if (_pendingSpawns.Count >= count) return;
+            }
+
             Vector2 position = (_positionController != null) ? _positionController.GetPosition() : transform.position;
             _pendingSpawns.Add(new PendingSpawnData { position = position });
         }
 
         /// <summary>
-        /// Execute all queued spawns immediately.
+        ///     Execute all queued spawns immediately.
         /// </summary>
         protected virtual void ExecutePendingSpawns()
         {
-            if (_prefab == null) return;
-
-            for (int i = _pendingSpawns.Count - 1; i >= 0; i--)
+            foreach (var spawnData in _pendingSpawns)
             {
-                var spawnData = _pendingSpawns[i];
-                T newEntity = EntitiesSpawnManager.Instance.Spawn<T>(_prefab, spawnData.position, Quaternion.identity);
-                if (newEntity != null)
-                {
-                    _entities.Add(newEntity);
-                    newEntity.transform.position = spawnData.position;
-                    newEntity.Status.SpawnPosition = spawnData.position;
-                    newEntity.Status.SetStatus(EntityStatusType.Alive);
-                }
-                _pendingSpawns.RemoveAt(i);
+                this.Spawn(spawnData.position);
+                if (IsMaxSpawnCount) break;
             }
+            _pendingSpawns.Clear();
         }
 
         void IOptimizedComponent.SetActivate(bool state)

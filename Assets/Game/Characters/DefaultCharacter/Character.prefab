@@ -718,7 +718,7 @@ MonoBehaviour:
     _baseTime: 0.1
     _currentTime: 0.1
   _pickItemEnable: 1
-  _pickRadius: 3
+  _pickRadius: 1.5
   _itemLayerMask:
     serializedVersion: 2
     m_Bits: 2048

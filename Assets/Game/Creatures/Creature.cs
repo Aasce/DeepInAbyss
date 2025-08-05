@@ -153,6 +153,7 @@ namespace Asce.Game.Entities
 
         protected virtual void PhysicController_OnLand(object sender)
         {
+            Sounds.AudioManager.Instance.PlaySFX("Creature Landing", transform.position);
             CombatSystem.DealFallingDamage(this, PhysicController.currentVelocity.y);
         }
 

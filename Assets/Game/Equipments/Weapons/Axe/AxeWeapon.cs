@@ -51,6 +51,12 @@ namespace Asce.Game.Equipments.Weapons
             _hitCreatures.Add(entity);
         }
 
+        public override void StartAttacking(AttackType attackType = AttackType.None)
+        {
+            base.StartAttacking(attackType);
+            Sounds.AudioManager.Instance.PlaySFX("Weapon Slash", Owner.gameObject.transform.position, 0.1f);
+        }
+
         public override void EndAttacking(AttackType attackType = AttackType.None)
         {
             base.EndAttacking(attackType);

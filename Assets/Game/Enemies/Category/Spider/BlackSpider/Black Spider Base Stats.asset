@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Black Spider Base Stats
   m_EditorClassIdentifier: 
   _maxHealth: 80
-  _healthRegen: 1
+  _healthRegen: 0.75
   _maxStamina: 100
   _staminaRegen: 75
   _maxHunger: 40

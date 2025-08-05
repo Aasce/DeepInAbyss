@@ -41,6 +41,7 @@ namespace Asce.Game.Players
 
         private void Start()
         {
+            Sounds.AudioManager.Instance.PlayMusic("Ancient Ruins");
             if (_mainCharacter != null) this.SetControlledCreature(_mainCharacter);
 
             if (CameraController == null) return;
@@ -174,6 +175,16 @@ namespace Asce.Game.Players
             if (UnityEngine.Input.GetKeyDown (KeyCode.E))
             {
                 ControlledCreature.Stats.SustenanceGroup.Hunger.AddToCurrentValue(null, "", 10f);
+            }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.LeftBracket))
+            {
+                Sounds.AudioManager.Instance.CrossfadeMusic("Ancient Ruins");
+            }
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.RightBracket))
+            {
+                Sounds.AudioManager.Instance.CrossfadeMusic("Mysterious");
             }
         }
     }

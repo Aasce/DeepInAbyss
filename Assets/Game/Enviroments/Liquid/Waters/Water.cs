@@ -8,6 +8,9 @@ namespace Asce.Game.Enviroments
     [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter), typeof(BoxCollider2D))]
     public class Water : Liquid
     {
+        [Header("Water")]
+        [SerializeField] protected bool _isSendEffect = true;
+
         protected override void Start()
         {
             base.Start();
@@ -23,8 +26,11 @@ namespace Asce.Game.Enviroments
         {
             if (collider == null) return;
             if (!collider.TryGetComponent(out ICreature creature)) return;
+
+            if (creature.IsControlByPlayer()) Sounds.AudioManager.Instance.PlaySFX("Controlled Creature Submerged", creature.gameObject.transform.position);
+
             if (creature.Stats is not IHasSustenance hasSuustenance) return;
-            StatusEffectsManager.Instance.SendEffect<Underwater_StatusEffect>(null, creature, new EffectDataContainer()
+            if (_isSendEffect) StatusEffectsManager.Instance.SendEffect<Underwater_StatusEffect>(null, creature, new EffectDataContainer()
             {
                 Strength = 3f,
                 Duration = float.PositiveInfinity,
@@ -36,7 +42,7 @@ namespace Asce.Game.Enviroments
             if (collider == null) return;
             if (!collider.TryGetComponent(out ICreature creature)) return;
             if (creature.Stats is not IHasSustenance hasSuustenance) return;
-            StatusEffectsManager.Instance.RemoveEffect<Underwater_StatusEffect>(creature);
+            if (_isSendEffect) StatusEffectsManager.Instance.RemoveEffect<Underwater_StatusEffect>(creature);
         }
     }
 }

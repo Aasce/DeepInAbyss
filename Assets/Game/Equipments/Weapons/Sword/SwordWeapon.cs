@@ -29,5 +29,11 @@ namespace Asce.Game.Equipments.Weapons
                 this.DealingDamage(creature, collider.ClosestPoint(transform.position));
             }
         }
+
+        public override void StartAttacking(AttackType attackType = AttackType.None)
+        {
+            base.StartAttacking(attackType);
+            Sounds.AudioManager.Instance.PlaySFX("Weapon Slash", Owner.gameObject.transform.position, 0.1f);
+        }
     }
 }

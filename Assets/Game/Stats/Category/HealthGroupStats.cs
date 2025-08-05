@@ -34,8 +34,11 @@ namespace Asce.Game.Stats
 
         public virtual void Load()
         {
-            _healScaleAgent = Health.ChangeStat.AddAgent(null, _healScaleAffectReason, HealScale.Value, StatValueType.Scale);
-            _healScaleAgent.ToNotClearable();
+            if (_healScaleAgent == null)
+            {
+                _healScaleAgent = Health.ChangeStat.AddAgent(null, _healScaleAffectReason, HealScale.Value, StatValueType.Scale);
+                _healScaleAgent.ToNotClearable();
+            }
         }
 
         public virtual void Update(float deltaTime)

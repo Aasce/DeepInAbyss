@@ -40,15 +40,22 @@ namespace Asce.Game.StatusEffects
         protected virtual void ApplyReducedSpeed()
         {
             if (Target == null || Target.Stats == null) return;
-            if (Target.Stats is not IHasSpeed hasSpeed) return;
-            _agents["Speed"] = hasSpeed.Speed.AddAgent(Author, $"thirtsy effect", 0.1f, StatValueType.Scale);
+            if (Target.Stats is IHasSpeed hasSpeed)
+                _agents["Speed"] = hasSpeed.Speed.AddAgent(Author, $"thirtsy effect", 0.2f, StatValueType.Scale);
+
+            if (Target.Stats is IHasJumpForce hasJumpForce)
+                _agents["JumpForce"] = hasJumpForce.JumpForce.AddAgent(Author, $"thirtsy effect", 0.4f, StatValueType.Scale);
         }
 
         protected virtual bool UnapplyReducedSpeed()
         {
             if (Target == null || Target.Stats == null) return false;
-            if (Target.Stats is not IHasSpeed hasSpeed) return false;
-            hasSpeed.Speed.RemoveAgent(_agents.GetValueOrDefault("Speed"));
+            if (Target.Stats is IHasSpeed hasSpeed)
+                hasSpeed.Speed.RemoveAgent(_agents.GetValueOrDefault("Speed"));
+
+            if (Target.Stats is IHasJumpForce hasJumpForce)
+                hasJumpForce.JumpForce.RemoveAgent(_agents.GetValueOrDefault("JumpForce"));
+
             return true;
         }
 

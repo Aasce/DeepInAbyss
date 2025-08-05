@@ -1,3 +1,4 @@
+using Asce.Game.Combats;
 using UnityEngine;
 
 namespace Asce.Game.Equipments.Weapons
@@ -37,6 +38,15 @@ namespace Asce.Game.Equipments.Weapons
             projectile.SetDamage(_damage, _penetration, Combats.DamageType.Magical);
 
             projectile.Launching(Speed);
+            Sounds.AudioManager.Instance.PlaySFX("Magic Projectile Launch", position);
+        }
+
+
+        public override void StartAttacking(AttackType attackType = AttackType.None)
+        {
+            base.StartAttacking(attackType);
+            if (attackType == AttackType.Swipe)
+                Sounds.AudioManager.Instance.PlaySFX("Weapon Slash", Owner.gameObject.transform.position, 0.1f);
         }
     }
 }

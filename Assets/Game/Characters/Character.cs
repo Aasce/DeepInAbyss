@@ -55,11 +55,14 @@ namespace Asce.Game.Entities.Characters
         {
             base.Start();
             Action.OnAttackHit += Action_OnAttackHit;
+            Action.OnJump += Action_OnJump;
+            PhysicController.OnFootstepEvent += PhysicController_OnFootstepEvent;
         }
 
         protected virtual void Action_OnAttackHit(object sender, AttackEventArgs args)
         {
             if (Equipment.WeaponSlot.CurrentWeapon != null) return;
+            Sounds.AudioManager.Instance.PlaySFX("Creature Base Attack", this.transform.position);
             _damagedObject.Clear();
 
             Collider2D[] colliders = _damageHitBox.Hit(transform.position, Status.FacingDirectionValue);
@@ -78,6 +81,17 @@ namespace Asce.Game.Entities.Characters
 
                 _damagedObject.Add(collider.gameObject);
             }
+        }
+
+        private void Action_OnJump(object obj)
+        {
+            Sounds.AudioManager.Instance.PlaySFX("Creature Jumping", this.transform.position);
+        }
+
+
+        private void PhysicController_OnFootstepEvent(object sender)
+        {
+            Sounds.AudioManager.Instance.PlaySFX("Creature Footstep", this.transform.position);
         }
     }
 }

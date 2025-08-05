@@ -1550,7 +1550,7 @@ namespace Asce.Game.Entities.Characters
 
         #endregion
 
-        #region - ATTACK -
+        #region - ATTACK METHODS -
         protected virtual void UpdateAttack(float deltaTime)
         {
             WeaponObject weapon = Owner.Equipment.WeaponSlot.CurrentWeapon;

@@ -18,6 +18,8 @@ namespace Asce.Game.SaveLoads
             foreach(Creature creature in target.Entities)
             {
                 if (creature == null) continue;
+                if (creature.Status.IsDead) continue;
+
                 CreatureData data = new();
                 data.Save(creature);
                 creatures.Add(data);
