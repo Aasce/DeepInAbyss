@@ -16,7 +16,7 @@ MonoBehaviour:
   _description: A thick-cut slice of cured ham.
   _icon: {fileID: 21300000, guid: c1101a972f67d164db2754844fbeeda2, type: 3}
   _type: 7
-  _rarity: 0
+  _rarity: 10
   _propertyType: 130
   _properties:
   - rid: 5783465910747267222

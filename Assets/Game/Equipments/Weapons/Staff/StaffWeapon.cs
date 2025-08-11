@@ -44,6 +44,7 @@ namespace Asce.Game.Equipments.Weapons
 
         public override void StartAttacking(AttackType attackType = AttackType.None)
         {
+            if (Owner == null) return;
             base.StartAttacking(attackType);
             if (attackType == AttackType.Swipe)
                 Sounds.AudioManager.Instance.PlaySFX("Weapon Slash", Owner.gameObject.transform.position, 0.1f);

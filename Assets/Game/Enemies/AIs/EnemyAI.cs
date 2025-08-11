@@ -32,7 +32,6 @@ namespace Asce.Game.Entities.AIs
             _behaviour.Blackboard.Set<LayerMask>("TargetLayerMask", _targetLayerMask);
             _behaviour.Blackboard.Set<LayerMask>("GroundLayerMask", _groundLayerMask);
             _behaviour.Blackboard.Set<Character>("Target", null);
-            _behaviour.Blackboard.Set<Vector2>("DirectionToTarget", default);
             _behaviour.Blackboard.Set<float>("RunningRange", _runningRange);
             _behaviour.Blackboard.Set<float>("AttackRange", _attackRange);
         }
@@ -48,22 +47,25 @@ namespace Asce.Game.Entities.AIs
                 new BranchNode(
                     condition: new IsKeyNotEqualsNode<Character>("Target", null), // Check if the target is not null
                     onTrue: new SequenceNode(
-                        new ActionNode(() =>
-                        {
-                            Character target = _behaviour.Blackboard.Get<Character>("Target");
-                            Vector2 direction = target.transform.position - transform.position;
-                            _behaviour.Blackboard.Set("DirectionToTarget", direction);
-                        }),
                         // Check the distance to the target, if target not in range, return Node.Failure -> stop Sequence
                         new TargetInViewRadiusCheckerNode("Self", "Target"),
+                        
+                        new LookingTargetNode("Self", "Target"),
+                        new CreatureRunningNode("Self", () =>
+                        {
+                            Enemy self = _behaviour.Blackboard.Get<Enemy>("Self");
+                            Character target = _behaviour.Blackboard.Get<Character>("Target");
+                            float runningRange = _behaviour.Blackboard.Get<float>("RunningRange");
+                            Vector2 direction = target.transform.position - self.transform.position;
+                            return direction.magnitude > runningRange;
+                        }),
+
                         // If the target is in range, execute the following actions. if distance is greater than 3, run towards the target
                         new ActionNode(() =>
                         {
                             Enemy self = _behaviour.Blackboard.Get<Enemy>("Self");
-                            self.Action.Looking(true, _behaviour.Blackboard.Get<Character>("Target").transform.position);
-
-                            float runningRange = _behaviour.Blackboard.Get<float>("RunningRange");
-                            self.Action.Running(_behaviour.Blackboard.Get<Vector2>("DirectionToTarget").magnitude > runningRange);
+                            Character target = _behaviour.Blackboard.Get<Character>("Target");
+                            Vector2 direction = target.transform.position - self.transform.position;
 
                             Vector2 facingRayPosition = (Vector2)self.transform.position + Vector2.up * self.Status.Height * 0.5f;
                             Vector2 facingRayDirection = Vector2.right * self.Status.FacingDirectionValue;
@@ -71,8 +73,8 @@ namespace Asce.Game.Entities.AIs
 
                             RaycastHit2D hit = Physics2D.Raycast(facingRayPosition, facingRayDirection, 1f, groundLayerMask);
                             Debug.DrawRay(facingRayPosition, facingRayDirection, Color.red);
-                            
-                            
+
+
                             float xDeltaDistance = (hit.collider != null) ? hit.point.x - facingRayPosition.x : self.Status.FacingDirectionValue;
                             Vector2 jumpRayPosition = (Vector2)self.transform.position + Vector2.right * xDeltaDistance + Vector2.up * 3f;
 
@@ -89,7 +91,13 @@ namespace Asce.Game.Entities.AIs
                         // If the target is in range, check if the target is close enough to attack, otherwise move towards the target
                         new BranchNode(
                             condition: new CheckRangeNode(
-                                () => _behaviour.Blackboard.Get<Vector2>("DirectionToTarget").magnitude, 
+                                () =>
+                                {
+                                    Enemy self = _behaviour.Blackboard.Get<Enemy>("Self");
+                                    Character target = _behaviour.Blackboard.Get<Character>("Target");
+                                    Vector2 direction = target.transform.position - self.transform.position;
+                                    return direction.magnitude;
+                                }, 
                                 _behaviour.Blackboard.Get<float>("AttackRange")),
                             onTrue: new ActionNode(() =>
                             {
@@ -97,7 +105,13 @@ namespace Asce.Game.Entities.AIs
                                 self.Action.Attacking(true);
                                 self.Action.Moving(Vector2.zero);
                             }),
-                            onFalse: new ActionNode(() => _behaviour.Blackboard.Get<Enemy>("Self").Action.Moving(new Vector2(_behaviour.Blackboard.Get<Vector2>("DirectionToTarget").x, 0f)))
+                            onFalse: new ActionNode(() =>
+                            {
+                                Enemy self = _behaviour.Blackboard.Get<Enemy>("Self");
+                                Character target = _behaviour.Blackboard.Get<Character>("Target");
+                                Vector2 direction = target.transform.position - self.transform.position;
+                                self.Action.Moving(new Vector2(direction.x, 0f));
+                            })
                         )
                     ),
 

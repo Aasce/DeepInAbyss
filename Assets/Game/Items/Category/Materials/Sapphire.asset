@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Sapphire
   m_EditorClassIdentifier: 
   _name: Sapphire
-  _description: 
+  _description: A deep-blue gemstone that shimmers like the ocean. Often used in
+    fine jewelry and magical artifacts.
   _icon: {fileID: 21300000, guid: 7c317a7b1aef9e64e9ca3d82d64f843c, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 11
   _propertyType: 2
   _properties:
   - rid: 5783465910747267300

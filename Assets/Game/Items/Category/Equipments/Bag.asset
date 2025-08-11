@@ -16,7 +16,7 @@ MonoBehaviour:
   _description: A simple pouch, essential for long journeys and extended battles.
   _icon: {fileID: 21300000, guid: 93dbc8f96dc6c00418ba8f1a8e8992e4, type: 3}
   _type: 10
-  _rarity: 0
+  _rarity: 10
   _propertyType: 15616
   _properties:
   - rid: 252983843496657074
@@ -45,4 +45,4 @@ MonoBehaviour:
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable
-        _maxDurability: 100
+        _maxDurability: 150

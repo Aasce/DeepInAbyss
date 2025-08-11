@@ -92,11 +92,19 @@ namespace Asce.Game.Players
 
         private void ControlUI()
         {
+            if (Input.IsBackUIInput)
+            {
+                bool isUnfocusWindow = UI.UnfocusWindow();
+                if (!isUnfocusWindow)
+                {
+                    UI.ToggleSettings();
+                }
+            }
+
             if (Input.ToggleInventoryInput)
             {
                 UI.ToggleInventory();
             }
-
         }
 
         public void SetControlledCreature(ICreature creature)

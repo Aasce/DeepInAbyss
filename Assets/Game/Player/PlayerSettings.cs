@@ -46,6 +46,7 @@ namespace Asce.Game.Players
         };
 
         [Header("Control UI")]
+        [SerializeField] private KeyCode _backUIKey = KeyCode.Escape;
         [SerializeField] private KeyCode _inventoryWindowKey = KeyCode.B;
 
         [Header("Interactions")]
@@ -133,6 +134,11 @@ namespace Asce.Game.Players
         public List<KeyCode> UseToolKeys => _useToolKeys;
         public List<KeyCode> UseItemKeys => _useItemKeys;
 
+        public KeyCode BackUIKey
+        {
+            get => _backUIKey;
+            set => _backUIKey = value;
+        }
         public KeyCode InventoryWindowKey
         {
             get => _inventoryWindowKey;

@@ -16,7 +16,7 @@ MonoBehaviour:
   _description: A crisp red apple.
   _icon: {fileID: 21300000, guid: da7129ed6a246f048a49d8d97de2d2d4, type: 3}
   _type: 7
-  _rarity: 0
+  _rarity: 10
   _propertyType: 130
   _properties:
   - rid: 5783465910747267216

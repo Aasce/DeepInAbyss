@@ -27,6 +27,7 @@ namespace Asce.Game.Players
         [SerializeField] private bool _meleeAttackInput;
 
         [Space]
+        [SerializeField] private bool _isBackUIInput;
         [SerializeField] private bool _toggleInventoryInput;
 
         [Space]
@@ -59,6 +60,7 @@ namespace Asce.Game.Players
         public bool AttackInput => _attackInput;
         public bool MeleeAttackInput => _meleeAttackInput;
 
+        public bool IsBackUIInput => _isBackUIInput;
         public bool ToggleInventoryInput => _toggleInventoryInput;
 
         public bool InteractionInput => _interactionInput;
@@ -91,6 +93,7 @@ namespace Asce.Game.Players
             _attackInput = Input.GetKey(Player.Settings.AttackKey);
             _meleeAttackInput = Input.GetKey(Player.Settings.MeleeAttackKey);
 
+            _isBackUIInput = Input.GetKeyDown(Player.Settings.BackUIKey);
             _toggleInventoryInput = Input.GetKeyDown(Player.Settings.InventoryWindowKey);
 
             _interactionInput = Input.GetKeyDown(Player.Settings.InteractionKey);

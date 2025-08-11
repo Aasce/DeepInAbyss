@@ -61,7 +61,7 @@ namespace Asce.Editors
                         bool isVisible = cameraBounds.Intersects(bounds);
 
                         Color color = isVisible ? Color.green : Color.blue;
-                        SceneEditorUtils.DrawBounds(bounds, color, color.WithAlpha(0.1f));
+                        SceneEditorUtils.DrawBounds(bounds, color, color.WithAlpha(0.05f));
                     }
                 }
             }

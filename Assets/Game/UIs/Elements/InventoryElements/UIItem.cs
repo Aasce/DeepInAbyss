@@ -1,6 +1,8 @@
 using Asce.Game.Items;
+using Asce.Managers;
 using Asce.Managers.Attributes;
 using Asce.Managers.UIs;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -47,10 +49,17 @@ namespace Asce.Game.UIs.Inventories
         /// <param name="item"> The item to represent. </param>
         public virtual void SetItem(Item item)
         {
+            this.Unregister();
             _item = item;
-            if (_item == null || _item.Information == null)
+            this.Register();
+            
+        }
+
+        protected virtual void Register()
+        {
+            if (_item.IsNull())
             {
-                this.ClearItem();
+                this.Clear();
                 return;
             }
 
@@ -59,10 +68,18 @@ namespace Asce.Game.UIs.Inventories
             this.SetDurability();
         }
 
+        protected virtual void Unregister()
+        {
+            if (_item.IsNull()) return;
+
+            DurabilityPropertyData durability = _item.GetProperty<DurabilityPropertyData>(ItemPropertyType.Durabilityable);
+            if (durability != null) durability.OnDurabilityChanged -= Item_OnDurabilityChanged;
+        }
+
         /// <summary>
         ///     Hides all visuals when the item is null or invalid.
         /// </summary>
-        public virtual void ClearItem()
+        public virtual void Clear()
         {
             if (_icon != null) _icon.gameObject.SetActive(false);
             if (_quantity != null) _quantity.gameObject.SetActive(false);
@@ -116,12 +133,19 @@ namespace Asce.Game.UIs.Inventories
                 _durability.maxValue = maxDurability;
                 _durability.value = _item.GetDurability();
             }
+            DurabilityPropertyData durability = _item.GetProperty<DurabilityPropertyData>(ItemPropertyType.Durabilityable);
+            if (durability != null) durability.OnDurabilityChanged += Item_OnDurabilityChanged;
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
             if (_uiSlot == null) return;
             _uiSlot.Focus(eventData);
+        }
+
+        protected virtual void Item_OnDurabilityChanged(object sender, ValueChangedEventArgs<float> args)
+        {
+            _durability.value = args.NewValue;
         }
 
         /// <summary>

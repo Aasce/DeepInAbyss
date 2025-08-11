@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Coal
   m_EditorClassIdentifier: 
   _name: Coal
-  _description: 
+  _description: A dense chunk of carbon. Burns hot and long, perfect for fueling
+    forges and furnaces.
   _icon: {fileID: 21300000, guid: 7d58fd33da0c1714e83ed3c55ae05bb9, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267312

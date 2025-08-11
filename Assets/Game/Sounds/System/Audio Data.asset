@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Audio Data
   m_EditorClassIdentifier: 
   _audio:
+  - {fileID: 11400000, guid: 65424b2344fc9b14cae2b41247ed25fd, type: 2}
+  - {fileID: 11400000, guid: 5be501f06875a2f4e81ce1393fe5c331, type: 2}
+  - {fileID: 11400000, guid: e8d2742c3b2aa754a9396dddf025a811, type: 2}
+  - {fileID: 11400000, guid: 96b4565a78a4b4b45990bf197ab80741, type: 2}
   - {fileID: 11400000, guid: a3ccb631984bc6043ad7df55ac75c198, type: 2}
   - {fileID: 11400000, guid: 9f329603382c8f748a0fe714b1d7f32b, type: 2}
   - {fileID: 11400000, guid: 7258a4c3c88df0a47a7f0add45fe3174, type: 2}

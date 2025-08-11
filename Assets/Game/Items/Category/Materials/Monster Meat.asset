@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Monster Meat
   m_EditorClassIdentifier: 
   _name: Monster Meat
-  _description: 
+  _description: A slab of flesh from a monster. Edible if cooked - risky if not.
   _icon: {fileID: 21300000, guid: d44f6865f42ca39448500daef88c4c16, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267319

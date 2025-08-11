@@ -1,3 +1,4 @@
+using Asce.Game.Combats;
 using Asce.Game.Entities;
 using Asce.Game.Stats;
 using UnityEngine;
@@ -6,6 +7,9 @@ namespace Asce.Game.Equipments.Events
 {
     public sealed class WoodenBowEquipEvent : EquipEvent
     {
+        [SerializeField] private float DeductDurability = 10f;
+
+        [Space]
         [SerializeField] private StatValue _strengthValue = new(StatType.Strength, 10f, StatValueType.Flat);
         [SerializeField] private StatValue _viewRadiusValue = new(StatType.ViewRadius, 6f, StatValueType.Flat);
 
@@ -23,6 +27,12 @@ namespace Asce.Game.Equipments.Events
 			
 			if (creature.Stats is IHasViewRadius hasViewRadius)
 				hasViewRadius.ViewRadius.AddAgent(creature.gameObject, Reason, _viewRadiusValue);
+
+            creature.OnAfterSendDamage += Creature_OnAfterSendDamage;
+            if (creature.Action is IAttackable attackable) 
+            {
+                attackable.OnAttackEnd += Creature_OnAttackEnd;
+            }
         }
 
         public override void OnUnequip(ICreature creature)
@@ -34,8 +44,31 @@ namespace Asce.Game.Equipments.Events
 			
 			if (creature.Stats is IHasViewRadius hasViewRadius)
 				hasViewRadius.ViewRadius.RemoveAgent(creature.gameObject, Reason);
+
+            creature.OnAfterSendDamage -= Creature_OnAfterSendDamage;
+            if (creature.Action is IAttackable attackable)
+            {
+                attackable.OnAttackEnd -= Creature_OnAttackEnd;
+            }
         }
 
         public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _strengthValue, _viewRadiusValue);
+
+        private void Creature_OnAfterSendDamage(object sender, Combats.DamageContainer container)
+        {
+            ICreature creature = (ICreature)sender;
+            if (container.SourceType != Combats.DamageSourceType.Default) return;
+            if (creature.Equipment is not IHasWeaponSlot weaponSlot) return;
+
+            weaponSlot.WeaponSlot.DeductDurability(container.Damage * DeductDurabilityScale);
+        }
+
+        private void Creature_OnAttackEnd(object sender, AttackEventArgs args)
+        {
+            ICreature creature = (ICreature)sender;
+            if (creature.Equipment is not IHasWeaponSlot weaponSlot) return;
+
+            weaponSlot.WeaponSlot.DeductDurability(DeductDurability * DeductDurabilityScale);
+        }
     }
 }

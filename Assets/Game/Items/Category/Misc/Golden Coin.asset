@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Golden Coin
   m_EditorClassIdentifier: 
   _name: Golden Coin
-  _description: 
+  _description: The gleam of wealth and power. Universally accepted and highly valued
+    in trade.
   _icon: {fileID: 21300000, guid: 394899dbf2938874ca7d1025f7598406, type: 3}
   _type: 4
-  _rarity: 0
+  _rarity: 12
   _propertyType: 18
   _properties:
   - rid: 5783465910747267383

@@ -85,10 +85,14 @@ namespace Asce.Game.UIs.Inventories
                 _inventory.SetInventory(_creature.Inventory);
             if (_equipment != null) 
                 _equipment.SetEquipment(_creature.Equipment);
+            if (_creature.Inventory != null)
+                _creature.Inventory.Inventory.OnItemChanged += _itemDetails.Inventory_OnItemChanged;
         }
         protected virtual void Unregister() 
         {
             if (_creature == null) return;
+            if (_creature.Inventory != null)
+                _creature.Inventory.Inventory.OnItemChanged -= _itemDetails.Inventory_OnItemChanged;
         }
 
         protected virtual void Inventory_OnFocusAt(object sender, int index)

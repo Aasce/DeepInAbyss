@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Copper Ingot
   m_EditorClassIdentifier: 
   _name: Copper Ingot
-  _description: 
+  _description: A refined bar of copper. A basic yet essential material for crafting
+    and trade.
   _icon: {fileID: 21300000, guid: b579a157263b8ae4d8dfeebb072e44f2, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267311

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Fabric
   m_EditorClassIdentifier: 
   _name: Fabric
-  _description: 
+  _description: A woven sheet of cloth. Useful for clothing, banners, and upholstery.
   _icon: {fileID: 21300000, guid: e577f30c6bd976a429addedf4c4ad662, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267229

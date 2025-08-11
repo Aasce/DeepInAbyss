@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4288187664758258788}
   - component: {fileID: 332777851392267814}
   - component: {fileID: 8892782392850764525}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4807164730949685611}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Sliding Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 3383864075676382636}
   - component: {fileID: 7642555094464732717}
   - component: {fileID: 5488682417727140776}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 6691094245084842483}
   - component: {fileID: 5612425150028062765}
   - component: {fileID: 2587664336332341343}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Scrollbar Vertical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 709699081187682989}
   - component: {fileID: 8128218779305463499}
   - component: {fileID: 2904877411698532479}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,7 +412,7 @@ GameObject:
   m_Component:
   - component: {fileID: 306964838173520757}
   - component: {fileID: 437524381591802886}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Action Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -469,7 +469,7 @@ GameObject:
   - component: {fileID: 7382089233972241921}
   - component: {fileID: 6593151874981019697}
   - component: {fileID: 2380035993264187468}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Notices
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -555,6 +555,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 601869216321719946, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1051159074588373234, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -586,15 +590,35 @@ PrefabInstance:
     - target: {fileID: 1084058725999402359, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1309147738331526718, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1602440296881747005, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
       propertyPath: m_text
       value: Billboard Window
       objectReference: {fileID: 0}
+    - target: {fileID: 2249609722358736202, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2364831353344957562, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
       propertyPath: _window
       value: 
       objectReference: {fileID: 7633433452137089916}
+    - target: {fileID: 2582691549775857805, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4449191443414346676, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881845722870032950, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5652481108870313097, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -602,6 +626,10 @@ PrefabInstance:
     - target: {fileID: 5754192883996383774, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
       propertyPath: m_Name
       value: Billboard Window
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754192883996383774, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5937238006103764024, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
       propertyPath: m_Pivot.x
@@ -682,6 +710,30 @@ PrefabInstance:
     - target: {fileID: 5937238006103764024, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310856982425984450, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737710005350277458, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352008367866523824, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7823557669232679139, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8311838088629330695, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8443506650484409279, guid: 49ea0c83cfdb0b04bbe04cd48a87b153, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

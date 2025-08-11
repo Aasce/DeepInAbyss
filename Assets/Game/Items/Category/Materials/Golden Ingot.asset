@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Golden Ingot
   m_EditorClassIdentifier: 
   _name: Golden Ingot
-  _description: 
+  _description: A bar of refined gold. Valuable for trade, luxury goods, and magical
+    crafts.
   _icon: {fileID: 21300000, guid: 39d66829824cb1d4da958035ee18213a, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 12
   _propertyType: 2
   _properties:
   - rid: 5783465910747267304

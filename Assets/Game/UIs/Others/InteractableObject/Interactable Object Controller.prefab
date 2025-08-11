@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1414633325662853789}
   - component: {fileID: 1950180016284890179}
   - component: {fileID: 9067768686640375216}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Interactable Object Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}

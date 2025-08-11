@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Feather
   m_EditorClassIdentifier: 
   _name: Feather
-  _description: 
+  _description: A light, delicate plume. Used in crafting arrows, quills, and decorative
+    attire.
   _icon: {fileID: 21300000, guid: 5319e90cdef08eb4a90ed29d73271916, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267316

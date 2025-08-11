@@ -6,6 +6,7 @@ namespace Asce.Game.Equipments.Events
 {
     public sealed class SickleEquipEvent : EquipEvent
     {
+        [Space]
         [SerializeField] private StatValue _strengthValue = new(StatType.Strength, 5f, StatValueType.Flat);
         [SerializeField] private StatValue _speedValue = new(StatType.Speed, 0.6f, StatValueType.Flat);
 
@@ -23,6 +24,8 @@ namespace Asce.Game.Equipments.Events
 			
 			if (creature.Stats is IHasSpeed hasSpeed)
 				hasSpeed.Speed.AddAgent(creature.gameObject, Reason, _speedValue);
+
+            creature.OnAfterSendDamage += Creature_OnAfterSendDamage;
         }
 
         public override void OnUnequip(ICreature creature)
@@ -34,8 +37,20 @@ namespace Asce.Game.Equipments.Events
 			
 			if (creature.Stats is IHasSpeed hasSpeed)
 				hasSpeed.Speed.RemoveAgent(creature.gameObject, Reason);
+
+            creature.OnAfterSendDamage -= Creature_OnAfterSendDamage;
         }
 
         public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _strengthValue, _speedValue);
+
+        private void Creature_OnAfterSendDamage(object sender, Combats.DamageContainer container)
+        {
+            ICreature creature = (ICreature)sender;
+            if (container.SourceType != Combats.DamageSourceType.Default) return;
+            if (creature.Equipment is not IHasWeaponSlot weaponSlot) return;
+
+            weaponSlot.WeaponSlot.DeductDurability(container.Damage * DeductDurabilityScale);
+        }
+
     }
 }

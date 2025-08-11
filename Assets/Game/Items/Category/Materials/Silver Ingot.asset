@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Silver Ingot
   m_EditorClassIdentifier: 
   _name: Silver Ingot
-  _description: 
+  _description: A refined bar of silver. Valued for trade, crafting, and ceremonial
+    purposes.
   _icon: {fileID: 21300000, guid: d5d7f95582604484a87a97c246803bc7, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 11
   _propertyType: 2
   _properties:
   - rid: 5783465910747267299

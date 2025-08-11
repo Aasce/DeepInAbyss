@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Crystal
   m_EditorClassIdentifier: 
   _name: Crystal
-  _description: 
+  _description: A shimmering shard infused with latent energy. Coveted for its beauty
+    and magical potential.
   _icon: {fileID: 21300000, guid: 8f6d58fd471ba8a45a4b681953e29c26, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 12
   _propertyType: 2
   _properties:
   - rid: 5783465910747267310

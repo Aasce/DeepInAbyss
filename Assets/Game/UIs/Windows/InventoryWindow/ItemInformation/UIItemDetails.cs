@@ -1,4 +1,6 @@
+using Asce.Game.Inventories;
 using Asce.Game.Items;
+using Asce.Managers;
 using Asce.Managers.UIs;
 using TMPro;
 using UnityEngine;
@@ -14,7 +16,9 @@ namespace Asce.Game.UIs.Inventories
         [Space]
         [SerializeField] protected Image _iconHolder;
         [SerializeField] protected Image _icon;
+
         [SerializeField] protected Slider _durability;
+        [SerializeField] protected TextMeshProUGUI _durabilityText;
 
         [Space]
         [SerializeField] protected TextMeshProUGUI _name;
@@ -37,15 +41,21 @@ namespace Asce.Game.UIs.Inventories
 
         public virtual void Set(Item item, int index, bool isInventory = true)
         {
+            this.Unregister();
             _item = item;
+            _itemIndex = index;
+            _isItemInInventory = isInventory;
+            this.Register();
+        }
+
+        protected virtual void Register()
+        {
             if (_item.IsNull())
             {
                 _content.gameObject.SetActive(false);
                 return;
             }
-            
-            _itemIndex = index;
-            _isItemInInventory = isInventory;
+
             _content.gameObject.SetActive(true);
             this.SetName();
             this.SetIcon();
@@ -53,8 +63,17 @@ namespace Asce.Game.UIs.Inventories
             this.SetDurability();
             this.SetDescription();
             this.SetUseOrEquipButton();
+
+            DurabilityPropertyData durability = _item.GetProperty<DurabilityPropertyData>(ItemPropertyType.Durabilityable);
+            if (durability != null) durability.OnDurabilityChanged += Item_OnDurabilityChanged;
         }
 
+        protected virtual void Unregister()
+        {
+            if (_item.IsNull()) return;
+            DurabilityPropertyData durability = _item.GetProperty<DurabilityPropertyData>(ItemPropertyType.Durabilityable);
+            if (durability != null) durability.OnDurabilityChanged -= Item_OnDurabilityChanged;
+        }
 
         protected virtual void SetName()
         {
@@ -101,6 +120,7 @@ namespace Asce.Game.UIs.Inventories
             _durability.gameObject.SetActive(true);
             _durability.maxValue = _item.Information.GetMaxDurability();
             _durability.value = _item.GetDurability();
+            if (_durabilityText != null) _durabilityText.text = $"{_durability.value:0}/{_durability.maxValue:0}";
         }
         protected virtual void SetDescription()
         {
@@ -142,6 +162,7 @@ namespace Asce.Game.UIs.Inventories
                     {
                         if (_isItemInInventory) window.Equip(_itemIndex);
                         else window.Unequip(equipProperty.EquipmentType);
+                        return;
                     }
                 }
             }
@@ -151,5 +172,18 @@ namespace Asce.Game.UIs.Inventories
 
             }
         }
+
+        public virtual void Inventory_OnItemChanged(object sender, int index)
+        {
+            if (index != _itemIndex) return;
+            if (sender is not Inventory inventory) return;
+            this.Set(inventory.GetItem(index), index, true);
+        }
+
+        protected virtual void Item_OnDurabilityChanged(object sender, ValueChangedEventArgs<float> args)
+        {
+            this.SetDurability();
+        }
+
     }
 }

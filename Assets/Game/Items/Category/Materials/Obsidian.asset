@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Obsidian
   m_EditorClassIdentifier: 
   _name: Obsidian
-  _description: 
+  _description: A dark volcanic glass, sharp and unyielding. Perfect for durable
+    tools and deadly blades.
   _icon: {fileID: 21300000, guid: edcbd57032ccbd44e9f228cdd323ab50, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 12
   _propertyType: 2
   _properties:
   - rid: 5783465910747267303

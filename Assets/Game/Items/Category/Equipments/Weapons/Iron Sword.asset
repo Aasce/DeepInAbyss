@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Iron Sword
   _description: "A reliable weapon that strikes for <color=\"orange\">200% Physical
-    Damage</color> based on the wielder\u2019s Strength. No frills\u2014just raw,
-    dependable power."
+    Damage</color> based on the wielder\u2019s Strength. No frills-just raw, dependable
+    power."
   _icon: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
   _type: 11
   _rarity: 10
@@ -53,4 +53,4 @@ MonoBehaviour:
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable
-        _maxDurability: 100
+        _maxDurability: 200

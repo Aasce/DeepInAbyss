@@ -61,6 +61,19 @@ namespace Asce.Game.Players
             return false; // Pointer is not over Screen Space UI
         }
 
+        public bool UnfocusWindow() => UIScreenCanvasManager.Instance.WindowsController.Unfocus();
+        public bool ToggleSettings()
+        {
+
+            UIs.UISettingsWindow settingsWindow = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIs.UISettingsWindow>();
+            if (settingsWindow != null)
+            {
+                settingsWindow.Toggle();
+                return settingsWindow.IsShow;
+            }
+            return false;
+        }
+
         public bool ToggleInventory()
         {
             UIs.Inventories.UIInventoryWindow inventoryWindow = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIs.Inventories.UIInventoryWindow>();

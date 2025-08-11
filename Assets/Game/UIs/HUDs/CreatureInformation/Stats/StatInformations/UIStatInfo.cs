@@ -1,16 +1,19 @@
 using Asce.Game.Stats;
+using Asce.Game.StatusEffects;
+using Asce.Managers.Attributes;
 using Asce.Managers.UIs;
 using Asce.Managers.Utils;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Asce.Game.UIs.Stats
 {
-    public class UIStatInfo : UIObject
+    public class UIStatInfo : UIObject, IPointerEnterHandler, IPointerMoveHandler, IPointerExitHandler
     {
-        [SerializeField, HideInInspector] protected Image _icon;
-        [SerializeField, HideInInspector] protected TextMeshProUGUI _valueText;
+        [SerializeField, Readonly] protected Image _icon;
+        [SerializeField, Readonly] protected TextMeshProUGUI _valueText;
         protected Stat _stat;
 
         public Image Icon => _icon;
@@ -56,6 +59,29 @@ namespace Asce.Game.UIs.Stats
         {
             if (ValueText == null) return;
             ValueText.text = Stat.Value.ToString("0.#");
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (_stat == null) return;
+
+            UIScreenCanvasManager.Instance.Tooltip.Caller = RectTransform;
+            UIScreenCanvasManager.Instance.Tooltip.SetTooltip(
+                size: new Vector2(200f, 67f),
+                title: $"{_stat.StatType}",
+                content: $"Value: {_stat.Value:#.#}\n{_stat.GetContent()}"
+            );
+            UIScreenCanvasManager.Instance.Tooltip.Show();
+        }
+
+        public void OnPointerMove(PointerEventData eventData)
+        {
+            UIScreenCanvasManager.Instance.Tooltip.SetPositionFromScreen(eventData.position, new Vector2(4f, -4f));
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            UIScreenCanvasManager.Instance.Tooltip.Hide();
         }
     }
 }

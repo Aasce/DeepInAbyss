@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Egg
   m_EditorClassIdentifier: 
   _name: Egg
-  _description: 
+  _description: A fragile shell holding potential life within. Can be cooked, hatched,
+    or traded.
   _icon: {fileID: 21300000, guid: ce993d5f7ca6ea8459974fd88e71861d, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267315

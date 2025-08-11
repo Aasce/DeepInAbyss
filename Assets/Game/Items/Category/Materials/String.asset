@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: String
   m_EditorClassIdentifier: 
   _name: String
-  _description: 
+  _description: A thin but strong fiber.
   _icon: {fileID: 21300000, guid: 90192622496cded43ac060f5e25e20e8, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267233

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Monster Egg
   m_EditorClassIdentifier: 
   _name: Monster Egg
-  _description: 
+  _description: An unhatched egg from a dangerous creature. Handle with care... or
+    not at all.
   _icon: {fileID: 21300000, guid: d62fc87d7e2c1d740b3afc4193abf641, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 12
   _propertyType: 2
   _properties:
   - rid: 5783465910747267317

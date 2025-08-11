@@ -7,6 +7,10 @@ namespace Asce.Game.Equipments.Events
 {
     public abstract class EquipEvent : GameComponent
     {
+        [SerializeField] protected float _deductDurabilityScale = 0.2f;
+
+        public float DeductDurabilityScale => _deductDurabilityScale;
+
         public abstract void OnEquip(ICreature creature);
         public abstract void OnUnequip(ICreature creature);
         public abstract string GetDescription(bool isPretty = false);

@@ -17,6 +17,8 @@ namespace Asce.Game.Equipments.Events
             if (creature.Stats == null) return;
             if (creature.Stats is IHasStrength hasStrength)
 				hasStrength.Strength.AddAgent(creature.gameObject, Reason, _strengthValue);
+
+            creature.OnAfterSendDamage += Creature_OnAfterSendDamage;
         }
 
         public override void OnUnequip(ICreature creature)
@@ -25,8 +27,20 @@ namespace Asce.Game.Equipments.Events
             if (creature.Stats == null) return;
             if (creature.Stats is IHasStrength hasStrength)
 				hasStrength.Strength.RemoveAgent(creature.gameObject, Reason);
+
+            creature.OnAfterSendDamage -= Creature_OnAfterSendDamage;
         }
 
         public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _strengthValue);
+
+        private void Creature_OnAfterSendDamage(object sender, Combats.DamageContainer container)
+        {
+            ICreature creature = (ICreature)sender;
+            if (container.SourceType != Combats.DamageSourceType.Default) return;
+            if (creature.Equipment is not IHasWeaponSlot weaponSlot) return;
+
+            weaponSlot.WeaponSlot.DeductDurability(container.Damage * DeductDurabilityScale);
+        }
+
     }
 }

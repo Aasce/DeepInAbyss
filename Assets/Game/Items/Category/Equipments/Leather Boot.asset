@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: Leather Boot
   m_EditorClassIdentifier: 
   _name: Leather Boot
-  _description: Soft but durable boots that enhance movement speed and agility. Ideal
-    for quick repositioning and evasive maneuvers.
+  _description: 'Reduces falling damage by 15%.
+
+    Soft but durable boots that
+    enhance movement speed and agility. Ideal for quick repositioning and evasive
+    maneuvers.'
   _icon: {fileID: 21300000, guid: 29a1226f7b5e20240942612e151c3c4c, type: 3}
   _type: 10
-  _rarity: 0
-  _propertyType: 15616
+  _rarity: 10
+  _propertyType: 8448
   _properties:
   - rid: 252983843496657102
-  - rid: 252983843496657103
-  - rid: 252983843496657104
   - rid: 252983843496657105
   references:
     version: 2
@@ -33,15 +34,6 @@ MonoBehaviour:
         _name: Equippable
         _equipmentType: 13
         _equipEvent: {fileID: 481603206375092463, guid: 4d6d4fa19a4637c4fa723cfc3a64decb, type: 3}
-    - rid: 252983843496657103
-      type: {class: CraftableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
-      data:
-        _name: Craftable
-        _ingredients: []
-    - rid: 252983843496657104
-      type: {class: EnchantableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
-      data:
-        _name: Enchantable
     - rid: 252983843496657105
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:

@@ -1,4 +1,5 @@
 using Asce.Game.Entities;
+using Asce.Game.Items;
 
 namespace Asce.Game.Equipments
 {
@@ -40,5 +41,19 @@ namespace Asce.Game.Equipments
             }
             return null;
         }
+
+        public static bool DeductDurability(this EquipmentSlot slot, float amount)
+        {
+            if (slot.EquipmentItem.IsNull()) return false;
+            DurabilityPropertyData durability = slot.EquipmentItem.GetProperty<DurabilityPropertyData>(ItemPropertyType.Durabilityable);
+            if (durability == null) return false;
+
+            durability.Durability -= amount;
+            if (durability.Durability > 0f) return false;
+            
+            slot.RemoveEquipment();
+            return true;
+        }
+
     }
 }

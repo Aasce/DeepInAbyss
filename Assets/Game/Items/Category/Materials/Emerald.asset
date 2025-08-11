@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Emerald
   m_EditorClassIdentifier: 
   _name: Emerald
-  _description: 
+  _description: A radiant green gem. Coveted for its beauty and mystical properties.
   _icon: {fileID: 21300000, guid: 1fe19ffae1abab0479d7d9716bcbbb9c, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 11
   _propertyType: 2
   _properties:
   - rid: 5783465910747267305

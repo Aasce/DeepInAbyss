@@ -16,7 +16,7 @@ MonoBehaviour:
   _description: A slice of aged cheese.
   _icon: {fileID: 21300000, guid: 988aad686dc1fec48bbc0dee20cead64, type: 3}
   _type: 7
-  _rarity: 0
+  _rarity: 10
   _propertyType: 130
   _properties:
   - rid: 5783465910747267219

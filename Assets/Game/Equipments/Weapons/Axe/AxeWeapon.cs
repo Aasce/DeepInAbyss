@@ -18,6 +18,7 @@ namespace Asce.Game.Equipments.Weapons
 
         public override void Attacking()
         {
+            if (Owner == null) return;
             Collider2D[] colliders = _bladeHitBox.Hit(Owner.gameObject.transform.position, Owner.Status.FacingDirectionValue);
             foreach (Collider2D collider in colliders)
             {
@@ -53,6 +54,7 @@ namespace Asce.Game.Equipments.Weapons
 
         public override void StartAttacking(AttackType attackType = AttackType.None)
         {
+            if (Owner == null) return;
             base.StartAttacking(attackType);
             Sounds.AudioManager.Instance.PlaySFX("Weapon Slash", Owner.gameObject.transform.position, 0.1f);
         }

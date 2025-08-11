@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Ruby
   m_EditorClassIdentifier: 
   _name: Ruby
-  _description: 
+  _description: A brilliant crimson gem said to hold the warmth of fire within.
   _icon: {fileID: 21300000, guid: 67d92be28ed43314bbaf848a1d873f6c, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 11
   _propertyType: 2
   _properties:
   - rid: 5783465910747267301

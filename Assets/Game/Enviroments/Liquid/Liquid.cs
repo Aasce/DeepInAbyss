@@ -76,7 +76,15 @@ namespace Asce.Game.Enviroments
         public MeshFilter MeshFilter => _meshFilter;
 
         bool IOptimizedComponent.IsActive => this.gameObject.activeSelf;
-        Bounds IOptimizedComponent.Bounds => Collider != null ? Collider.bounds : new Bounds(transform.position, new Vector2(Width, Height));
+        Bounds IOptimizedComponent.Bounds
+        {
+            get
+            {
+                Bounds bounds = Collider != null ? Collider.bounds : new Bounds(transform.position, new Vector2(Width, Height));
+                bounds.Expand(5f);
+                return bounds;
+            }
+        }
         OptimizeBehavior IOptimizedComponent.OptimizeBehavior => OptimizeBehavior.DeactivateOutsideView;
 
         public int NumOfHorizontalVertices => _numOfHorizontalVertices;

@@ -32,7 +32,7 @@ namespace Asce.Game.Entities.Enemies
         protected override void Start()
         {
             base.Start();
-            Action.OnAttack += Action_OnAttack;
+            Action.OnAttackHit += Action_OnAttackHit;
         }
 
         protected virtual void Update()
@@ -40,7 +40,7 @@ namespace Asce.Game.Entities.Enemies
             
         }
 
-        protected virtual void Action_OnAttack(object sender)
+        protected virtual void Action_OnAttackHit(object sender, AttackEventArgs args)
         {
             _damagedObject.Clear();
 

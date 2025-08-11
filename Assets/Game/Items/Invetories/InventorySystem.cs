@@ -124,22 +124,23 @@ namespace Asce.Game.Inventories
         }
 
 
-        public static void Buy(Inventory inventory, ShopItem buyItem, ShopItemCost cost)
+        public static bool Buy(Inventory inventory, ShopItem buyItem, ShopItemCost cost)
         {
-            if (inventory == null) return;
-            if (buyItem == null) return;
-            if (cost == null) return;
+            if (inventory == null) return false;
+            if (buyItem == null) return false;
+            if (cost == null) return false;
 
             bool isEnough = inventory.ContainsWithQuantity(cost.CostType, cost.Cost);
-            if (!isEnough) return;
+            if (!isEnough) return false;
 
             Item addingItem = new(buyItem.Item);
             addingItem.SetQuantity(buyItem.Quantity);
             addingItem.SetDurability(addingItem.Information.GetMaxDurability());
-            if (inventory.WouldItemOverflow(addingItem)) return;
+            if (inventory.WouldItemOverflow(addingItem)) return false;
 
             inventory.AddItem(addingItem);
             inventory.RemoveWithQuantity(cost.CostType, cost.Cost);
+            return true;
         }
     }
 }

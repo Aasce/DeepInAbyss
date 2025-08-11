@@ -16,7 +16,7 @@ MonoBehaviour:
   _description: A tangy green apple.
   _icon: {fileID: 21300000, guid: c1d0e6764d9c5f8458571840fb1d57d3, type: 3}
   _type: 7
-  _rarity: 0
+  _rarity: 10
   _propertyType: 130
   _properties:
   - rid: 5783465910747267221

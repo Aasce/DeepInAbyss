@@ -113,15 +113,18 @@ namespace Asce.Game.Entities
         {
             base.Start();
             if (PhysicController != null) PhysicController.OnLand += PhysicController_OnLand;
-            if (Stats != null) this.InitStats();
             if (UI != null) UI.Register();
-            _ = this.Load();
+            if (Stats != null)
+            {
+                Stats.LoadBaseStats();
+                this.InitStats();
+            }
         }
 
         protected virtual async Task Load()
         {
             await SaveLoadManager.Instance.WaitUntilLoadedAsync();
-            if (Stats != null) Stats.LoadBaseStats();
+            
         }
 
 

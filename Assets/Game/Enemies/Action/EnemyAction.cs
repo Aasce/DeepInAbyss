@@ -1,3 +1,4 @@
+using Asce.Game.Combats;
 using Asce.Managers;
 using Asce.Managers.Utils;
 using System;
@@ -67,8 +68,9 @@ namespace Asce.Game.Entities.Enemies
 
         public event Action<object> OnJump;
 
-        public event Action<object> OnAttack;
-
+        public event Action<object, AttackEventArgs> OnAttackStart;
+        public event Action<object, AttackEventArgs> OnAttackHit;
+        public event Action<object, AttackEventArgs> OnAttackEnd;
         #endregion
 
 
@@ -159,7 +161,12 @@ namespace Asce.Game.Entities.Enemies
         public bool IsStartAttack
         {
             get => _isStartAttack;
-            set => _isStartAttack = value;
+            set
+            {
+                if (_isStartAttack == value) return;
+                _isStartAttack = value;
+                if (_isStartAttack) OnAttackStart?.Invoke(Owner, new AttackEventArgs(AttackType.Special));
+            }
         }
         public bool IsAttacking
         {
@@ -419,7 +426,7 @@ namespace Asce.Game.Entities.Enemies
 
         public virtual void AttackEventCalling()
         {
-            OnAttack?.Invoke(this);
+            OnAttackHit?.Invoke(Owner, new AttackEventArgs(AttackType.Special));
             IsAttacking = false; // Reset attacking state after attack event is called
         }
         public virtual void FootStepEventCalling() => OnFootstep?.Invoke(this);

@@ -22,7 +22,6 @@ namespace Asce.Game.Entities.Ores
 
         public override void LoadBaseStats()
         {
-            if (Owner.IsLoaded) return;
             if (BaseStats == null) return;
 
             // Health

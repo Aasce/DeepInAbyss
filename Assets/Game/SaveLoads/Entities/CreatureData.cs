@@ -43,7 +43,6 @@ namespace Asce.Game.SaveLoads
             equipment.Load(creature.Equipment);
             statusEffects.Load(creature.StatusEffect);
 
-            creature.IsLoaded = true;
             return true;
         }
     }

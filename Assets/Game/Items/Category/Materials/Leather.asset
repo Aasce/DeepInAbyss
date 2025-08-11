@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Leather
   m_EditorClassIdentifier: 
   _name: Leather
-  _description: 
+  _description: Tough and flexible hide, tanned for durability. A reliable material
+    for armor and gear.
   _icon: {fileID: 21300000, guid: c0e7217a07e49364db48c62cc2e2b376, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267230

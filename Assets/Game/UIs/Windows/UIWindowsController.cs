@@ -90,6 +90,22 @@ namespace Asce.Game.UIs
         }
 
         /// <summary>
+        ///     Unfocus the current focused window by hiding it.
+        ///     Focus will automatically shift to the next active window via Window_OnHide.
+        /// </summary>
+        /// <returns>
+        ///     True if a focused window was unfocused, false if there was no focused window.
+        /// </returns>
+        public virtual bool Unfocus()
+        {
+            if (FocusWindow == null)
+                return false;
+
+            FocusWindow.Hide();
+            return true;
+        }
+
+        /// <summary>
         ///     Gets a window of a specific type, if registered.
         /// </summary>
         /// <typeparam name="T"> Type of <see cref="UIWindow"/> to retrieve. </typeparam>

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Monster Eye
   m_EditorClassIdentifier: 
   _name: Monster Eye
-  _description: 
+  _description: "A watchful eye from a defeated beast. Still seems to twitch when
+    you\u2019re not looking."
   _icon: {fileID: 21300000, guid: 4461c87bad5222349b14c22b26d43b95, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267318

@@ -16,7 +16,7 @@ MonoBehaviour:
   _description: 'A bottle of aged wine. '
   _icon: {fileID: 21300000, guid: ea55e0ae186d59d41a0b270559045dd7, type: 3}
   _type: 7
-  _rarity: 0
+  _rarity: 10
   _propertyType: 130
   _properties:
   - rid: 5783465910747267226

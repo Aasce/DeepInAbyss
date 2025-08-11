@@ -44,5 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9288a368b3d828d4fab6d55bbdf8339f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _igniteStrength: 5
-  _igniteDuration: 3
+  _deductDurabilityScale: 0.15
+  _strengthValue:
+    _type: 10
+    _value: 10
+    _valueType: 1
+  _sunderStrength: 0.1
+  _sunderDuration: 10

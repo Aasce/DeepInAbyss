@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Pearl
   m_EditorClassIdentifier: 
   _name: Pearl
-  _description: 
+  _description: A smooth, lustrous gem formed within a shell. Highly prized in jewelry
+    and trade.
   _icon: {fileID: 21300000, guid: 2c523fa3ca4e1fc4b9a5713e504e6cce, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 11
   _propertyType: 2
   _properties:
   - rid: 5783465910747267302

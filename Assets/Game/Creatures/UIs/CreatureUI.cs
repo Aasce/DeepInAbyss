@@ -35,6 +35,7 @@ namespace Asce.Game.Entities
 
         protected virtual void Stats_OnValueChanged(object sender, ValueChangedEventArgs args)
         {
+            if (Owner.Status.IsDead) return;
             _hideCooldown.Reset();
         }
     }

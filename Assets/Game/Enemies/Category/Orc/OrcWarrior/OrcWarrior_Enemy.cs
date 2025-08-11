@@ -12,10 +12,10 @@ namespace Asce.Game.Entities.Enemies.Category
             Action.OnFootstep += Action_OnFootstepEvent;
         }
 
-        protected override void Action_OnAttack(object sender)
+        protected override void Action_OnAttackHit(object sender, AttackEventArgs args)
         {
             Sounds.AudioManager.Instance.PlaySFX("Creature Base Attack", this.transform.position);
-            base.Action_OnAttack(sender);
+            base.Action_OnAttackHit(sender, args);
         }
 
 

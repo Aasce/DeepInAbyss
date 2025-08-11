@@ -16,7 +16,7 @@ MonoBehaviour:
   _description: A hearty loaf of bread.
   _icon: {fileID: 21300000, guid: 1a58749f555f75e48baa41893215b26e, type: 3}
   _type: 7
-  _rarity: 0
+  _rarity: 10
   _propertyType: 130
   _properties:
   - rid: 5783465910747267218

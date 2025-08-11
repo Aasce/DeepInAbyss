@@ -14,5 +14,7 @@ namespace Asce.Game.Combats
         Cast = 1 << 14,
 
         Archery = 1 << 21,
+
+        Special = 1 << 25,
     }
 }

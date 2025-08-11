@@ -16,7 +16,7 @@ MonoBehaviour:
   _description: A mug of frothy ale.
   _icon: {fileID: 21300000, guid: d0c05b9125ed56349a5385e1a77547b7, type: 3}
   _type: 7
-  _rarity: 0
+  _rarity: 10
   _propertyType: 130
   _properties:
   - rid: 5783465910747267217

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Wood Log
   m_EditorClassIdentifier: 
   _name: Wood Log
-  _description: 
+  _description: A freshly cut log from a tree.
   _icon: {fileID: 21300000, guid: 0e1ccb64303778e4081913a6d9cca677, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267234

@@ -16,33 +16,6 @@ namespace Asce.Game.Entities.AIs
         private string _groundLayerMaskKey;
 
         /// <summary>
-        ///     Key used to retrieve the "self" creature.
-        /// </summary>
-        public string SelfKey
-        {
-            get => _selfKey;
-            set => _selfKey = value;
-        }
-
-        /// <summary>
-        ///     Key used to store the target found.
-        /// </summary>
-        public string TargetKey
-        {
-            get => _targetKey;
-            set => _targetKey = value;
-        }
-
-        /// <summary>
-        ///     Key used to retrieve the target layer mask.
-        /// </summary>
-        public string TargetLayerMaskKey
-        {
-            get => _targetLayerMaskKey;
-            set => _targetLayerMaskKey = value;
-        }
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="TargetFinderNode{T}"/> class.
         /// </summary>
         /// <param name="selfKey"> Key to retrieve the self creature from the blackboard. </param>

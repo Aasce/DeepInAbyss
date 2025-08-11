@@ -4886,8 +4886,8 @@ Transform:
   m_Children:
   - {fileID: 9099780210334618808}
   - {fileID: 8660431918374950458}
-  - {fileID: 5893153836017172079}
   - {fileID: 5913553617007322218}
+  - {fileID: 5893153836017172079}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7263761408480313562
@@ -4919,7 +4919,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5893153836017172079
 Transform:
   m_ObjectHideFlags: 0
@@ -5505,8 +5505,8 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    gravitySource: 0
-    maxNumParticles: 1000
+    gravitySource: 1
+    maxNumParticles: 1
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0

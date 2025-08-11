@@ -38,7 +38,6 @@ namespace Asce.Game.SaveLoads
 
             stats.Load(ore.Stats);
 
-            ore.IsLoaded = true;
             return true;
         }
     }

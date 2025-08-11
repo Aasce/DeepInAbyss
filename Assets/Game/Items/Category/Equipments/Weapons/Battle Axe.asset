@@ -53,4 +53,4 @@ MonoBehaviour:
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable
-        _maxDurability: 100
+        _maxDurability: 200

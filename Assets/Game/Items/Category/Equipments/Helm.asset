@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: Helm
   m_EditorClassIdentifier: 
   _name: Helm
-  _description: 
+  _description: 'When you deal damage, gain a Shield equal to 25% of the damage dealt.
+
+    Forged
+    for warriors who turn offense into defense, this helm drinks from the wounds
+    you inflict, weaving their pain into your armor.'
   _icon: {fileID: 21300000, guid: 6509adb73ba1de04d898264b898cdf2e, type: 3}
   _type: 10
-  _rarity: 0
+  _rarity: 12
   _propertyType: 15616
   _properties:
   - rid: 252983843496657082
@@ -45,4 +49,4 @@ MonoBehaviour:
       type: {class: DurabilityableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Durabilityable
-        _maxDurability: 100
+        _maxDurability: 250

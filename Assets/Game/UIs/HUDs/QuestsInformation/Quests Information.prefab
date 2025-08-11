@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8477020380262921283}
   - component: {fileID: 798211141319138340}
   - component: {fileID: 3223790531881748114}
+  - component: {fileID: 3915072555683891710}
   m_Layer: 0
   m_Name: Toggle Button
   m_TagString: Untagged
@@ -103,6 +104,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3915072555683891710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488888567461592364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81db4219324393e4096e7bb300b172be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 3223790531881748114}
+  _soundName: Button Click
 --- !u!1 &1559051950544788923
 GameObject:
   m_ObjectHideFlags: 0

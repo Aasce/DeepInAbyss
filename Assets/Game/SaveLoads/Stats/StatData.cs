@@ -41,6 +41,7 @@ namespace Asce.Game.SaveLoads
             {
                 if (agent == null) continue;
                 if (agent.Reason.Contains("self")) continue; // Not save self agent
+                if (agent.Reason.Contains("base")) continue; // Not save base agent
                 if (agent.Reason.Contains("effect")) continue; // Not save status effect agent
                 if (agent.Reason.Contains("equipment")) continue; // Not save equipment agent
                 StatAgentData data = new();

@@ -67,7 +67,9 @@ namespace Asce.Game.UIs.Shops
         protected virtual void Button_OnClick()
         {
             if (_details == null) return;
-            _details.ShopWindow.Buy(_itemCost);
+            bool isBougth = _details.ShopWindow.Buy(_itemCost);
+            if (isBougth) Sounds.AudioManager.Instance.PlaySFX("Buy Success");
+            else Sounds.AudioManager.Instance.PlaySFX("Buy Failure");
         }
     }
 }

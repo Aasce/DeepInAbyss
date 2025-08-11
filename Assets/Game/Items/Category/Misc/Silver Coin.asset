@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Silver Coin
   m_EditorClassIdentifier: 
   _name: Silver Coin
-  _description: 
+  _description: A coin of moderate worth, often used for fair trades and honest deals.
   _icon: {fileID: 21300000, guid: 83f2beb3e2ba2e347b4b0d5d63d0373b, type: 3}
   _type: 4
-  _rarity: 0
+  _rarity: 11
   _propertyType: 18
   _properties:
   - rid: 5783465910747267384

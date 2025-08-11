@@ -62,16 +62,16 @@ namespace Asce.Game.UIs.Shops
         }
 
 
-        public virtual void Buy(ShopItemCost cost) 
+        public virtual bool Buy(ShopItemCost cost) 
         {
-            if (_details == null) return;
-            if (_inventoryController == null) return;
+            if (_details == null) return false;
+            if (_inventoryController == null) return false;
 
             ShopItem buyItem = _details.Item;
-            if (buyItem == null) return;
-            if (!buyItem.Costs.Contains(cost)) return;
+            if (buyItem == null) return false;
+            if (!buyItem.Costs.Contains(cost)) return false;
 
-            InventorySystem.Buy(_inventoryController.Inventory, buyItem, cost);
+            return InventorySystem.Buy(_inventoryController.Inventory, buyItem, cost);
         }
 
 

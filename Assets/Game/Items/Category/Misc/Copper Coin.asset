@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Copper Coin
   m_EditorClassIdentifier: 
   _name: Copper Coin
-  _description: 
+  _description: The humble currency of common folk. Small in value, but every fortune
+    starts here.
   _icon: {fileID: 21300000, guid: 4605338a5a51383478a6b8eb3707e90c, type: 3}
   _type: 4
-  _rarity: 0
+  _rarity: 10
   _propertyType: 18
   _properties:
   - rid: 5783465910747267382

@@ -44,9 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5c3a95a323a13c438f1524c183d017b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deductDurabilityScale: 0.1
   _armorValue:
+    _type: 1
     _value: 20
-    _type: 1
+    _valueType: 1
   _resistanceValue:
-    _value: 25
     _type: 1
+    _value: 25
+    _valueType: 1
+  _shieldScale: 0.5

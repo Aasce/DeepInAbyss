@@ -26,6 +26,7 @@ namespace Asce.Game.Equipments.Events
                 hasStrength.Strength.AddAgent(creature.gameObject, Reason, _strengthValue);
 
             creature.OnBeforeSendDamage += Creature_OnBeforeSendDamage;
+            creature.OnAfterSendDamage += Creature_OnAfterSendDamage;
         }
 
         public override void OnUnequip(ICreature creature)
@@ -36,16 +37,15 @@ namespace Asce.Game.Equipments.Events
                 hasStrength.Strength.RemoveAgent(creature.gameObject, Reason);
 
             creature.OnBeforeSendDamage -= Creature_OnBeforeSendDamage;
+            creature.OnAfterSendDamage -= Creature_OnAfterSendDamage;
         }
 
         private void Creature_OnBeforeSendDamage(object sender, Combats.DamageContainer args)
         {
             if (args == null) return;
 
-            ICreature owner = sender as ICreature;
-            ICreature creature = args.Receiver as ICreature;
-
-            if (owner == null || creature == null) return;
+            if (sender is not ICreature owner) return;
+            if (args.Receiver is not ICreature creature) return;
             if (args.SourceType != Combats.DamageSourceType.Default) return;
 
             StatusEffectsManager.Instance.SendEffect<Sunder_StatusEffect>(owner, creature, new EffectDataContainer()
@@ -56,5 +56,15 @@ namespace Asce.Game.Equipments.Events
         }
 
         public override string GetDescription(bool isPretty = false) => this.GenerateDescription(isPretty, _strengthValue);
+
+        private void Creature_OnAfterSendDamage(object sender, Combats.DamageContainer container)
+        {
+            ICreature creature = (ICreature)sender;
+            if (container.SourceType != Combats.DamageSourceType.Default) return;
+            if (creature.Equipment is not IHasWeaponSlot weaponSlot) return;
+
+            weaponSlot.WeaponSlot.DeductDurability(container.Damage * DeductDurabilityScale);
+        }
+
     }
 }

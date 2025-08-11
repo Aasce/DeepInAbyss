@@ -37,6 +37,12 @@ namespace Asce.Game.UIs
             if (ExitButton != null) ExitButton.onClick.AddListener(ExitButton_OnClick);
         }
 
+        public override void Hide()
+        {
+            base.Hide();
+            Sounds.AudioManager.Instance.PlaySFX("Close Window");
+        }
+
         public virtual void Focus()
         {
             if (Controller != null) Controller.Focus(this);

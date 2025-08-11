@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Diamond
   m_EditorClassIdentifier: 
   _name: Diamond
-  _description: 
+  _description: A flawless crystal of unmatched hardness. Perfect for fine tools,
+    jewelry, and enchantments.
   _icon: {fileID: 21300000, guid: 3faa68d4e2f05f04786133598667ac36, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 12
   _propertyType: 2
   _properties:
   - rid: 5783465910747267306

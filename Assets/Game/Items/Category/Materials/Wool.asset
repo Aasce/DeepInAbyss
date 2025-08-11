@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Wool
   m_EditorClassIdentifier: 
   _name: Wool
-  _description: 
+  _description: Soft, insulating fibers shorn from animals.
   _icon: {fileID: 21300000, guid: 046f821c76a004e4c91b9f27ee906194, type: 3}
   _type: 2
-  _rarity: 0
+  _rarity: 10
   _propertyType: 2
   _properties:
   - rid: 5783465910747267236

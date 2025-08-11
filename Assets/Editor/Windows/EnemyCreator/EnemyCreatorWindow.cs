@@ -1,4 +1,5 @@
 using Asce.Editors.Templates;
+using Asce.Editors.Utils;
 using Asce.Game.Entities;
 using Asce.Game.Entities.Enemies;
 using Asce.Game.Items;
@@ -341,11 +342,11 @@ namespace Asce.Editors.Windows
             }
 
             // Assign main script
-            TypeUtils.AssignScriptToPrefab(prefabInstance, scriptPath);
+            ScriptUtils.AssignScriptToPrefab(prefabInstance, scriptPath);
 
             // Assign AI script
             if (_isCreateAIScript)
-                TypeUtils.AssignScriptToPrefab(prefabInstance, scriptAIPath);
+                ScriptUtils.AssignScriptToPrefab(prefabInstance, scriptAIPath);
 
             // Save and unload the prefab
             PrefabUtility.SaveAsPrefabAsset(prefabInstance, prefabPath);

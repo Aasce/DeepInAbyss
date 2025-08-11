@@ -68,6 +68,7 @@ namespace Asce.Game.Equipments.Weapons
         public virtual void OnAttach(ICreature creature)
         {
             Owner = creature;
+            if (Owner == null) return;
             View.Alpha = Owner.View.Alpha;
 
             Collider.isTrigger = true;
@@ -93,6 +94,7 @@ namespace Asce.Game.Equipments.Weapons
 
         public virtual void Attacking()
         {
+            if (Owner == null) return;
             Collider2D[] colliders = _hitBox.Hit(Owner.gameObject.transform.position, Owner.Status.FacingDirectionValue);
             foreach (Collider2D collider in colliders)
             {
@@ -111,6 +113,7 @@ namespace Asce.Game.Equipments.Weapons
 
         public virtual void DealingDamage(IEntity entity, Vector2 position = default)
         {
+            if (Owner == null) return;
             float damageScale = (Information != null) ? Information.MeleeDamageScale : 1f;
             CombatSystem.DamageDealing(new DamageContainer(Owner, entity as ITakeDamageable)
             {
