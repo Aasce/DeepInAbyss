@@ -63,8 +63,6 @@ namespace Asce.Game.Players
                 this.InteractWithObject();
                 this.ControlCharacter();
             }
-
-            this.Test();
         }
 
         private void ControlCharacter()
@@ -161,39 +159,6 @@ namespace Asce.Game.Players
 
             this.ResetControl();
             ControlledCreature.UncontrolledByPlayer();
-        }
-
-        private void Test()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                Quests.QuestsManager.Instance.AcceptQuest("Clean the Spider Web");
-            }
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                Quests.QuestsManager.Instance.AcceptQuest("Clean up Slime");
-            }
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                Quests.QuestsManager.Instance.AcceptQuest("Mining Gold");
-            }
-
-            if (UnityEngine.Input.GetKeyDown (KeyCode.E))
-            {
-                ControlledCreature.Stats.SustenanceGroup.Hunger.AddToCurrentValue(null, "", 10f);
-            }
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.LeftBracket))
-            {
-                Sounds.AudioManager.Instance.CrossfadeMusic("Ancient Ruins");
-            }
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.RightBracket))
-            {
-                Sounds.AudioManager.Instance.CrossfadeMusic("Mysterious");
-            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Asce.Game.Players
             if (Input.GetKeyDown(KeyCode.F12)) // Press F12 to take screenshot
             {
                 string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                string filename = $"{Application.persistentDataPath}/Screenshots/{timestamp}.png";
+                string filename = $"{Application.persistentDataPath}/screenshots/{timestamp}.png";
                 ScreenCapture.CaptureScreenshot(filename);
                 Debug.Log("Screenshot saved to: " + filename);
             }
