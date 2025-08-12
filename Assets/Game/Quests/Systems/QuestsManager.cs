@@ -34,7 +34,7 @@ namespace Asce.Game.Quests
         public void AcceptQuest(Quest quest)
         {
             if (quest.IsNull()) return; 
-            if (_activeQuests.Any(q => !q.IsNull() && q.Information.Name == quest.Information.Name))
+            if (_activeQuests.Contains(quest))
             {
                 return;
             }
@@ -88,6 +88,17 @@ namespace Asce.Game.Quests
             if (QuestsData == null) return null;
 
             SO_QuestInformation information = QuestsData.GetQuestByName(questName);
+            return this.CreateQuest(information);
+        }
+
+        public Quest CreateRandomQuest()
+        {
+            if (QuestsData == null) return null;
+            if (QuestsData.Data.Count == 0) return null;
+
+            int random = UnityEngine.Random.Range(0, _questsData.Data.Count);
+
+            SO_QuestInformation information = QuestsData.Data[random];
             return this.CreateQuest(information);
         }
 

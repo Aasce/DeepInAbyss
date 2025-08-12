@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5313fa3651417d449664625316477c9, type: 3}
+  m_Name: Mining Copper Quest
+  m_EditorClassIdentifier: 
+  _name: Mining Gold
+  _description: Extract copper ore from the nearby mine.
+  _icon: {fileID: 21300000, guid: b3b726454eda80b40a1b30ac1a7a0c7a, type: 3}
+  _conditions:
+  - {fileID: 11400000, guid: e0e8728d49ad37f42b4e797164545e67, type: 2}
+  _spoils: {fileID: 11400000, guid: 8394c491f091fac4bb942a4b90934546, type: 2}

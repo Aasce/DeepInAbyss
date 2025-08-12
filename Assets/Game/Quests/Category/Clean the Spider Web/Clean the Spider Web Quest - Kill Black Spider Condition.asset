@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Kill Black Spider
   _enemyInformation: {fileID: 11400000, guid: 29e801530e8f3214794d4197d425b21f, type: 2}
-  _quantity: 4
+  _quantity: 3

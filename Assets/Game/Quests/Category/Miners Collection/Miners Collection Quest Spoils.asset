@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88789a64dee6c6844a8e6b8f46dc70d1, type: 3}
+  m_Name: Miners Collection Quest Spoils
+  m_EditorClassIdentifier: 
+  _droppedSpoils:
+  - _item: {fileID: 11400000, guid: b8398d7c76032374a94d712fd7f4154b, type: 2}
+    _dropChance: 1
+    _quantityRange: {x: 2, y: 2}
+    _durationRatioRange: {x: 0, y: 0}
+  - _item: {fileID: 11400000, guid: ea7f5936e3421a047ab6bd9238170786, type: 2}
+    _dropChance: 1
+    _quantityRange: {x: 1, y: 1}
+    _durationRatioRange: {x: 1, y: 1}
+  - _item: {fileID: 11400000, guid: ead80cfbda9ea6b4a8296a2c2f2f35e8, type: 2}
+    _dropChance: 1
+    _quantityRange: {x: 1, y: 1}
+    _durationRatioRange: {x: 1, y: 1}
+  - _item: {fileID: 11400000, guid: 4271f3bef300738418a389f8c5cd8a65, type: 2}
+    _dropChance: 1
+    _quantityRange: {x: 1, y: 1}
+    _durationRatioRange: {x: 0, y: 0}

@@ -1,3 +1,4 @@
+using Asce.Game.Quests;
 using Asce.Game.UIs;
 using Asce.Game.UIs.Billboards;
 using Asce.Managers.Attributes;
@@ -20,11 +21,15 @@ namespace Asce.Game.Enviroments
         [SerializeField] protected Pool<BillboardNotice> _pool = new();
         [SerializeField] protected List<Notice> _notices = new();
 
+        [Space]
         [Header("Configs")]
         [SerializeField, Range(0, 20)] protected int _maxAttempts = 20;
 
         [Tooltip("Minimum distance between notifications")]
-        [SerializeField, Min(0f)] protected float _minNotifiesDistance = 0.5f;
+        [SerializeField, Min(0f)] protected float _minNoticesDistance = 0.5f;
+
+        [Space]
+        [SerializeField] protected int _maxNoticesCount = 5;
 
         protected ReadOnlyCollection<BillboardNotice> _readonlyNotifyObjects;
 
@@ -35,7 +40,7 @@ namespace Asce.Game.Enviroments
         protected override void RefReset()
         {
             base.RefReset();
-            this.LoadComponent(out  _collider);
+            this.LoadComponent(out _collider);
         }
 
         public override void Interact(GameObject interactor)
@@ -45,13 +50,40 @@ namespace Asce.Game.Enviroments
 
             window.SetBillboard(this);
             window.Show();
+
+            for (int i = _notices.Count - 1; i >= 0; i--)
+            {
+                Notice notice = _notices[i];
+                if (notice == null)
+                {
+                    _notices.RemoveAt(i);
+                    _pool.DeactivateAt(0);
+                    continue;
+                }
+
+                if (notice.Quest.IsComplete())
+                {
+                    _notices.RemoveAt(i);
+                    _pool.DeactivateAt(0);
+                    continue;
+                }
+            }
+
+            while (_notices.Count < _maxNoticesCount)
+            {
+                Notice notice = new();
+                Quest quest = QuestsManager.Instance.CreateRandomQuest();
+                notice.SetQuest(quest);
+                AddNotice(notice);
+            }
+
             base.Interact(interactor);
         }
 
         public override void Focus()
         {
             base.Focus();
-
+            
         }
 
         public override void Unfocus()
@@ -105,7 +137,7 @@ namespace Asce.Game.Enviroments
                 foreach (BillboardNotice existing in _pool.Activities)
                 {
                     if (existing == null) continue;
-                    if (Vector3.Distance(existing.transform.position, candidatePos) < _minNotifiesDistance)
+                    if (Vector3.Distance(existing.transform.position, candidatePos) < _minNoticesDistance)
                     {
                         tooClose = true;
                         break;

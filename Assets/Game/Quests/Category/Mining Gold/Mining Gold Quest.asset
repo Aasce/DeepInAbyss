@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mining Gold Quest
   m_EditorClassIdentifier: 
   _name: Mining Gold
-  _description: Collect 3 Gold Ore
+  _description: Extract gold ore from the nearby mine.
   _icon: {fileID: 21300000, guid: 68f03904aa02ba244a61e03fee3f6293, type: 3}
   _conditions:
   - {fileID: 11400000, guid: 50bd64207625ab743bf11d4372b25eb0, type: 2}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Clean the Spider Web Quest
   m_EditorClassIdentifier: 
   _name: Clean the Spider Web
-  _description: Kill 5 Black Spider
+  _description: The area is crawling with spiders. Eliminate them to clear the webs.
   _icon: {fileID: 21300000, guid: 90192622496cded43ac060f5e25e20e8, type: 3}
   _conditions:
   - {fileID: 11400000, guid: 20e8cab776c83464097e6d1b3a4eaf43, type: 2}

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Kill Toxic Slime
   _enemyInformation: {fileID: 11400000, guid: 42c6b0aee4402894c8ea8fe45912cd55, type: 2}
-  _quantity: 4
+  _quantity: 3

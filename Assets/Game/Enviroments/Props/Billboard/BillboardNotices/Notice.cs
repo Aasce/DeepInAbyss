@@ -1,3 +1,4 @@
+using Asce.Game.Quests;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,19 +7,13 @@ namespace Asce.Game.Enviroments
     [System.Serializable]
     public class Notice
     {
-        [SerializeField] protected string _name = string.Empty;
-        [SerializeField, TextArea] protected string _description = string.Empty;
+        [SerializeField] protected Quest _quest;
 
-        public string Name 
-        { 
-            get => _name; 
-            set => _name = value;
-        }
+        public Quest Quest => _quest;
 
-        public string Description
+        public void SetQuest(Quest quest)
         {
-            get => _description;
-            set => _description = value;
+            _quest = quest;
         }
     }
 }

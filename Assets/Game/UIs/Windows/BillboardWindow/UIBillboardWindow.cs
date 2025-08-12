@@ -14,6 +14,11 @@ namespace Asce.Game.UIs.Billboards
         {
             if (_billboard == null) return;
             base.Show();
+            foreach (UIBillboardNotice notice in _noticePool.Activities)
+            {
+                if (notice == null) continue;
+                notice.Refresh();
+            }
         }
 
         public void SetBillboard(Billboard billboard)

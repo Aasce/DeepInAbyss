@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Clean up Slime Quest
   m_EditorClassIdentifier: 
   _name: Clean up Slime
-  _description: Kill 4 Toxic Slime
+  _description: Slimes are causing a mess in the area. Defeat them to restore order.
   _icon: {fileID: 21300000, guid: d1f94eb541d98c94c9e0a776707e9c7c, type: 3}
   _conditions:
   - {fileID: 11400000, guid: 846a6d65347cb714180ce52a392f3dff, type: 2}
