@@ -20,9 +20,18 @@ MonoBehaviour:
   _propertyType: 130
   _properties:
   - rid: 5783465910747267220
+  - rid: 4017500319139233796
   references:
     version: 2
     RefIds:
+    - rid: 4017500319139233796
+      type: {class: UsableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
+      data:
+        _name: Usable
+        _costType: 1
+        _quantityCost: 1
+        _durabilityCost: 0
+        _useEvent: {fileID: 5677333504185351608, guid: 59bebead636923a4590b0d9d01f5c29f, type: 3}
     - rid: 5783465910747267220
       type: {class: StackableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:

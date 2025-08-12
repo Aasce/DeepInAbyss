@@ -23,6 +23,7 @@ namespace Asce.Game.Items
                 ItemPropertyType.Craftable => new CraftableItemProperty(),
                 ItemPropertyType.Enchantable => new EnchantableItemProperty(),
                 ItemPropertyType.Equippable => new EquippableItemProperty(),
+				ItemPropertyType.Usable => new UsableItemProperty(),
                 _ => null,
             };
         }
@@ -55,6 +56,7 @@ namespace Asce.Game.Items
                     return new EnchantPropertyData(enchantProperty);
 
                 case ItemPropertyType.Equippable:
+                case ItemPropertyType.Usable:
                 case ItemPropertyType.Craftable:
                 default:
                     return null;

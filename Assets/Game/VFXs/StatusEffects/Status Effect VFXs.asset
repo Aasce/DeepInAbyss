@@ -13,14 +13,22 @@ MonoBehaviour:
   m_Name: Status Effect VFXs
   m_EditorClassIdentifier: 
   _vfxs:
+  - _name: Blue Potion Buff
+    _vfxPrefab: {fileID: 7188162567273382848, guid: 40468bbba5cb21e42b44ec917f8971fa, type: 3}
   - _name: Decay
     _vfxPrefab: {fileID: 7267034227269862871, guid: 85567feff077c604c91bb47de17093b4, type: 3}
   - _name: Freeze
     _vfxPrefab: {fileID: 5295477076459251858, guid: c4769221497c71a4499d051a17c828b0, type: 3}
+  - _name: Elixir Of Renewal Buff
+    _vfxPrefab: {fileID: 7476568851855942338, guid: 81ff25a7def5bfe47966ba2dfd2b83f0, type: 3}
+  - _name: Green Potion Buff
+    _vfxPrefab: {fileID: 3012851826396192223, guid: 5366428b7838d554e950c130cff919cb, type: 3}
   - _name: Hungry
     _vfxPrefab: {fileID: 8807388834959900268, guid: cca56f261740ad14bac3ee4711f8f2c3, type: 3}
   - _name: Ignite
     _vfxPrefab: {fileID: 4680253437951845565, guid: 2fb1e0ef02f28e54a9bf1d506fafe3d4, type: 3}
+  - _name: Red Potion Buff
+    _vfxPrefab: {fileID: 8610087406237880857, guid: 9b0f685ab75e16a43b25f6367ef4116d, type: 3}
   - _name: Sunder
     _vfxPrefab: {fileID: 3030484384429170589, guid: e1cf56c412f40ad4a9208a42a984da44, type: 3}
   - _name: Thirsty

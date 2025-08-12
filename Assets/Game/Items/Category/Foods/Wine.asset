@@ -14,17 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Wine
   _description: 'A bottle of aged wine. '
-  _icon: {fileID: 21300000, guid: ea55e0ae186d59d41a0b270559045dd7, type: 3}
+  _icon: {fileID: 21300000, guid: d1b0810a7bee633469a729543f4e6659, type: 3}
   _type: 7
-  _rarity: 10
+  _rarity: 11
   _propertyType: 130
   _properties:
-  - rid: 5783465910747267226
+  - rid: 5783465910747267225
+  - rid: 4017500319139233801
   references:
     version: 2
     RefIds:
-    - rid: 5783465910747267226
+    - rid: 4017500319139233801
+      type: {class: UsableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
+      data:
+        _name: Usable
+        _costType: 1
+        _quantityCost: 1
+        _durabilityCost: 0
+        _useEvent: {fileID: 3942969954959118329, guid: 1905d32983c247146b2feff5e8ee6912, type: 3}
+    - rid: 5783465910747267225
       type: {class: StackableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:
         _name: Stackable
-        _maxStack: 10
+        _maxStack: 5

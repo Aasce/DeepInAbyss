@@ -150,13 +150,18 @@ namespace Asce.Game.UIs.ContextMenus
                         else window.Unequip(equipProperty.EquipmentType);
                     }
                     this.Hide();
-                    return;
                 }
+                return;
             }
 
             if (_item.Information.HasProperty(ItemPropertyType.Usable))
             {
-
+                UIInventoryWindow window = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIInventoryWindow>();
+                if (window != null)
+                {
+                    window.UseItem(_itemIndex);
+                }
+                return;
             }
         }
     }

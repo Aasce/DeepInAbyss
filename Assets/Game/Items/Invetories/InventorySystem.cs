@@ -142,5 +142,41 @@ namespace Asce.Game.Inventories
             inventory.RemoveWithQuantity(cost.CostType, cost.Cost);
             return true;
         }
+
+        public static bool UseItemAt(Inventory inventory, int index, UseEventArgs args)
+        {
+            if (inventory == null) return false;
+            if (args == null) return false;
+
+            Item item = inventory.GetItem(index);
+            if (item.IsNull()) return false;
+
+            if (item.Information.GetPropertyByType(ItemPropertyType.Usable) is not UsableItemProperty property) return false;
+            if (property.UseEvent == null) return false;
+            
+            switch (property.CostType)
+            {
+                case ItemUseCostType.RemoveQuantity:
+                    inventory.RemoveAt(index, property.QuantityCost);
+                    break;
+
+                case ItemUseCostType.DeductDurability:
+                    if (!item.HasDurability()) return false;
+
+                    float resultDurability = item.GetDurability() - property.DurabilityCost;
+                    if (resultDurability < 0) inventory.RemoveAt(index, 1);
+                    else item.SetDurability(resultDurability);
+                    break;
+
+                case ItemUseCostType.None:
+                default:
+                    break;
+            }
+
+            bool isUseSuccess = property.UseEvent.OnUse(item, args);
+            if (!isUseSuccess) return false;
+
+            return true;
+        }
     }
 }

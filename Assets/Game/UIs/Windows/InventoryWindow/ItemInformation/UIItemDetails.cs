@@ -1,8 +1,11 @@
 using Asce.Game.Inventories;
 using Asce.Game.Items;
 using Asce.Managers;
+using Asce.Managers.Attributes;
 using Asce.Managers.UIs;
+using Asce.Managers.Utils;
 using TMPro;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +13,8 @@ namespace Asce.Game.UIs.Inventories
 {
     public class UIItemDetails : UIObject
     {
+        [SerializeField, Readonly] protected UIInventoryWindow _window;
+
         [Space]
         [SerializeField] protected RectTransform _content;
 
@@ -31,6 +36,16 @@ namespace Asce.Game.UIs.Inventories
         protected Item _item;
         protected int _itemIndex;
         protected bool _isItemInInventory;
+
+
+        public UIInventoryWindow Window => _window;
+
+
+        protected override void RefReset()
+        {
+            base.RefReset();
+            this.LoadComponent(out _window);
+        }
 
 
         protected virtual void Start()
@@ -153,23 +168,25 @@ namespace Asce.Game.UIs.Inventories
         protected virtual void UseOrEquipButton_OnClick()
         {
             if (_item.IsNull()) return;
+            if (_window == null) return;
+
             if (_item.Information.HasProperty(ItemPropertyType.Equippable))
             {
                 if(_item.Information.GetPropertyByType(ItemPropertyType.Equippable) is EquippableItemProperty equipProperty)
                 {
-                    UIInventoryWindow window = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIInventoryWindow>();
-                    if (window != null)
-                    {
-                        if (_isItemInInventory) window.Equip(_itemIndex);
-                        else window.Unequip(equipProperty.EquipmentType);
-                        return;
-                    }
+                    if (_isItemInInventory) _window.Equip(_itemIndex);
+                    else _window.Unequip(equipProperty.EquipmentType);
+                    return;
                 }
             }
 
             if (_item.Information.HasProperty(ItemPropertyType.Usable))
             {
-
+                if (_item.Information.GetPropertyByType(ItemPropertyType.Usable) is UsableItemProperty useProperty)
+                {
+                    _window.UseItem(_itemIndex);
+                    return;
+                }
             }
         }
 

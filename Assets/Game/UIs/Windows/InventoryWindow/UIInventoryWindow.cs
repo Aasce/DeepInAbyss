@@ -77,6 +77,17 @@ namespace Asce.Game.UIs.Inventories
             InventorySystem.MoveEquipmentToInventory(_creature.Equipment, _creature.Inventory.Inventory, type);
         }
 
+        public virtual void UseItem(int index)
+        {
+            if (_creature == null) return;
+            if (_creature.Inventory == null) return;
+
+            InventorySystem.UseItemAt(_creature.Inventory.Inventory, index, new UseEventArgs()
+            {
+                User = _creature,
+            });
+        }
+
         protected virtual void Register() 
         {
             if (_creature == null) return;

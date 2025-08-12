@@ -2393,6 +2393,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3265881361002864415, guid: aac48607adc379b46bbb4370a6683c31, type: 3}
+      propertyPath: _window
+      value: 
+      objectReference: {fileID: 5427208183863721277}
+    - target: {fileID: 3265881361002864415, guid: aac48607adc379b46bbb4370a6683c31, type: 3}
       propertyPath: _inventotyWindow
       value: 
       objectReference: {fileID: 5427208183863721277}
@@ -2510,7 +2514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4818829624514717035, guid: aac48607adc379b46bbb4370a6683c31, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4859600811856214310, guid: aac48607adc379b46bbb4370a6683c31, type: 3}
       propertyPath: m_Layer

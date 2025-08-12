@@ -71,7 +71,8 @@ namespace Asce.Game.Stats
         public virtual float Heal(IEntity healer, string reason, float healAmount, StatValueType type = StatValueType.Flat)
         {
             float heal = healAmount * HealScale.Value;
-            Health.AddToCurrentValue(healer.gameObject, reason, heal, type);
+            GameObject author = healer != null ? healer.gameObject : null;
+            Health.AddToCurrentValue(author, reason, heal, type);
             OnHealing?.Invoke(this);
             return heal;
         }

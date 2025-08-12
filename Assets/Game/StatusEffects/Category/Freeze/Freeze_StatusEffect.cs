@@ -31,7 +31,6 @@ namespace Asce.Game.StatusEffects
 
         protected virtual void ApplyReductedSpeedAndJumpSpeed()
         {
-            if (Sender == null) return;
             if (Target == null || Target.Stats == null) return;
 
             // Speed
