@@ -89,8 +89,8 @@ namespace Asce.Game.UIs.ContextMenus
                 _quantityHolder.gameObject.SetActive(false);
                 return;
             }
-
-            _quantityHolder.gameObject.SetActive(false);
+;
+            _quantityHolder.gameObject.SetActive(true);
 
             int quantity = _item.GetQuantity();
             if (_quantitySlider != null)
