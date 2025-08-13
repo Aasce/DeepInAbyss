@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f77d24d91a02743b4fc6ff40fb4739, type: 3}
+  m_Name: Health Buff Information
+  m_EditorClassIdentifier: 
+  _name: Health Buff
+  _description: Buff Health by <i>Strength</i>.
+  _icon: {fileID: -1131055115, guid: faa4fcccfbe4e2049b04c9f7c2988684, type: 3}
+  _type: 1
+  _applyType: 3
+  _maxStack: -1

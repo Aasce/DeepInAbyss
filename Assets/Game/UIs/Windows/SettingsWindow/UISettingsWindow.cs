@@ -1,5 +1,6 @@
 using Asce.Manager.Sounds;
 using Asce.Managers;
+using Asce.Managers.UIs;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -70,11 +71,50 @@ namespace Asce.Game.UIs
 
         private void ExitGameButton_OnClick()
         {
-            Game.SaveLoads.SaveLoadManager.Instance.SaveAll();
-            Application.Quit();
+            UIAlert alert = UISystem.GetAlert();
+            if (alert == null)
+            {
+                QuitGame();
+                return;
+            }
+
+            alert.Set(
+                title: "Quit Game :(",
+                description: "Are you want to quit?",
+                buttonATitle: "No",
+                buttonBTitle: "Yes",
+                onButtonAClick: () => { },
+                onButtonBClick: QuitGame
+            );
         }
         
         private void BackMenuButton_OnClick()
+        {
+
+            UIAlert alert = UISystem.GetAlert();
+            if (alert == null)
+            {
+                BackMenu();
+                return;
+            }
+
+            alert.Set(
+                title: "Back Menu",
+                description: "Are you want to back Menu?",
+                buttonATitle: "No",
+                buttonBTitle: "Yes",
+                onButtonAClick: () => { },
+                onButtonBClick: BackMenu
+            );
+        }
+
+        private void QuitGame()
+        {
+            Game.SaveLoads.SaveLoadManager.Instance.SaveAll();
+            Application.Quit();
+        }
+
+        private void BackMenu()
         {
             Game.SaveLoads.SaveLoadManager.Instance.SaveAll();
             SceneLoader.Instance.LoadScene("MainMenu", doneDelay: 0.5f);

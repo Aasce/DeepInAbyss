@@ -31,7 +31,7 @@ MonoBehaviour:
         _costType: 1
         _quantityCost: 1
         _durabilityCost: 0
-        _useEvent: {fileID: 3163663220600314564, guid: 5161dfaa246fe664280fe8191143617b, type: 3}
+        _useEvent: {fileID: 4382079277081737840, guid: 5161dfaa246fe664280fe8191143617b, type: 3}
     - rid: 5783465910747267224
       type: {class: StackableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
       data:

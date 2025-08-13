@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Sunder Information
   m_EditorClassIdentifier: 
   _name: Sunder
-  _description: 
+  _description: Debuff Armor ratio by <i>Strength</i>.
   _icon: {fileID: 21300000, guid: 031aafa21c8a7bb4687fa36b35407ee2, type: 3}
-  _type: 1
+  _type: 2
   _applyType: 1
   _maxStack: -1

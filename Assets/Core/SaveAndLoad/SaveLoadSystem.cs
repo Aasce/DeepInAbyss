@@ -139,5 +139,30 @@ namespace Asce.Managers
                 }
             }
         }
+
+        /// <summary>
+        ///     Delete all files and folders inside persistentDataPath to reset the game.
+        /// </summary>
+        public static void DeleteAllPersistentData()
+        {
+            string path = Application.persistentDataPath;
+
+            if (Directory.Exists(path))
+            {
+                DirectoryInfo directory = new DirectoryInfo(path);
+
+                // Delete all files
+                foreach (FileInfo file in directory.GetFiles())
+                {
+                    file.Delete();
+                }
+
+                // Delete all subdirectories
+                foreach (DirectoryInfo subDir in directory.GetDirectories())
+                {
+                    subDir.Delete(true);
+                }
+            }
+        }
     }
 }

@@ -1051,7 +1051,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6274341692127111409, guid: 5886a09ef8f8aea488b60837f786c79a, type: 3}
       propertyPath: m_Name
-      value: Settings Button
+      value: New Game Button
       objectReference: {fileID: 0}
     - target: {fileID: 6632866328284342527, guid: 5886a09ef8f8aea488b60837f786c79a, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1071,7 +1071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6737837072470927659, guid: 5886a09ef8f8aea488b60837f786c79a, type: 3}
       propertyPath: m_text
-      value: Settings
+      value: New Game
       objectReference: {fileID: 0}
     - target: {fileID: 6737837072470927659, guid: 5886a09ef8f8aea488b60837f786c79a, type: 3}
       propertyPath: m_fontSize
@@ -1332,7 +1332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playButton: {fileID: 6353954564176032462}
-  _settingsButton: {fileID: 1256389041}
+  _newGameButton: {fileID: 1256389041}
   _quitButton: {fileID: 932534591}
 --- !u!4 &1476339653
 Transform:

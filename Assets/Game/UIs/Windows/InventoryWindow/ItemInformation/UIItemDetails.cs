@@ -5,7 +5,6 @@ using Asce.Managers.Attributes;
 using Asce.Managers.UIs;
 using Asce.Managers.Utils;
 using TMPro;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
 

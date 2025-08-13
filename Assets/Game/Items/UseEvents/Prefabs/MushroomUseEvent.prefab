@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8817178421051912789}
-  - component: {fileID: 3163663220600314564}
+  - component: {fileID: 4382079277081737840}
   m_Layer: 0
   m_Name: MushroomUseEvent
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3163663220600314564
+--- !u!114 &4382079277081737840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,8 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 246161386225537215}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 794756b13ccc20c45b10f3aba0563295, type: 3}
+  m_Script: {fileID: 11500000, guid: c4d212fe4fe0cca409b8a5d401a805db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _description: Eat to restore <color=orange>10 Hunger</color>.
+  _description: 'Eat to restore <color=orange>10 Hunger</color>.
+
+    Has a 50% chance
+    to inflict Poisoned Hunger, causing increased hunger loss.'
   _value: 10
+  _hungryPerTime: 4
+  _hungryDuration: 10

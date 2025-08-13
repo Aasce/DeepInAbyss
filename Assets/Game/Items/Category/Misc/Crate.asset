@@ -18,7 +18,16 @@ MonoBehaviour:
   _type: 3
   _rarity: 12
   _propertyType: 128
-  _properties: []
+  _properties:
+  - rid: 4017500344175820898
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4017500344175820898
+      type: {class: UsableItemProperty, ns: Asce.Game.Items, asm: Asce.Game}
+      data:
+        _name: Usable
+        _costType: 1
+        _quantityCost: 1
+        _durabilityCost: 0
+        _useEvent: {fileID: 4969276144871783737, guid: 0ffefb605afd1c247899a80dc6508c19, type: 3}

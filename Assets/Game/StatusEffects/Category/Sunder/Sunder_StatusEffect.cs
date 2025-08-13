@@ -42,13 +42,21 @@ namespace Asce.Game.StatusEffects
         protected virtual void ApplyReducedArmor()
         {
             if (Target == null || Target.Stats == null) return;
-            _agents["Armor"] = Target.Stats.DefenseGroup.Armor.AddAgent(Author, $"sunder effect", -_strength, StatValueType.Ratio);
+			
+			if (Target.Stats is IHasDefense hasDefense)
+			{
+				_agents["Armor"] = hasDefense.DefenseGroup.Armor.AddAgent(Author, $"sunder effect", -_strength, StatValueType.Ratio);
+			}
         }
 
         protected virtual void UnapplyReductedMaxArmor()
         {
             if (Target == null || Target.Stats == null) return;
-            Target.Stats.DefenseGroup.Armor.RemoveAgent(_agents.GetValueOrDefault("Armor"));
+			
+			if (Target.Stats is IHasDefense hasDefense)
+			{
+				hasDefense.DefenseGroup.Armor.RemoveAgent(_agents.GetValueOrDefault("Armor"));
+			}
         }
 
         protected virtual void StackStrength(StackStatusEffect stackEffect)
@@ -56,11 +64,15 @@ namespace Asce.Game.StatusEffects
             if (stackEffect is not Sunder_StatusEffect sunderEffect) return;
             if (Target == null || Target.Stats == null) return;
 
-            _strength += sunderEffect._strength;
+			if (Target.Stats is IHasDefense hasDefense)
+			{
+				_strength += sunderEffect._strength;
 
-            // Update agent value accordingly
-            _agents.GetValueOrDefault("Armor").Value = -_strength;
-            Target.Stats.DefenseGroup.Armor.UpdateValue();
+				if (!_agents.TryGetValue("Armor", out StatAgent agent)) return;
+				// Update agent value accordingly
+				agent.Value = -_strength;
+				hasDefense.DefenseGroup.Armor.UpdateValue();
+			}
         }
     }
 }

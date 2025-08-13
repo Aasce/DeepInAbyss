@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Thirsty Information
   m_EditorClassIdentifier: 
   _name: Thirsty
-  _description: 
+  _description: When Thirst reaches 0, a <i>Strength</i>second countdown begins.
+    If it reaches the end, the entity dies. During this time, Speed and Jump Force
+    are reduced by 30%.
   _icon: {fileID: 21300000, guid: 969459af73c8ea04e9eda67e289e873b, type: 3}
   _type: 0
   _applyType: 3

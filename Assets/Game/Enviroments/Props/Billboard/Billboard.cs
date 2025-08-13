@@ -48,9 +48,6 @@ namespace Asce.Game.Enviroments
             UIBillboardWindow window = UIScreenCanvasManager.Instance.WindowsController.GetWindow<UIBillboardWindow>();
             if (window == null) return;
 
-            window.SetBillboard(this);
-            window.Show();
-
             for (int i = _notices.Count - 1; i >= 0; i--)
             {
                 Notice notice = _notices[i];
@@ -76,6 +73,9 @@ namespace Asce.Game.Enviroments
                 notice.SetQuest(quest);
                 AddNotice(notice);
             }
+
+            window.SetBillboard(this);
+            window.Show();
 
             base.Interact(interactor);
         }

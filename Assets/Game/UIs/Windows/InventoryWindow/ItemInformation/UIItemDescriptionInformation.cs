@@ -35,6 +35,17 @@ namespace Asce.Game.UIs.Inventories
                         _useOrEquipDescription.text = descriptionText;
                     }
                 }
+                else if (information.HasProperty(ItemPropertyType.Usable))
+                {
+                    if (information.GetPropertyByType(ItemPropertyType.Usable) is UsableItemProperty useProperty)
+                    {
+                        _useOrEquipDescription.gameObject.SetActive(true);
+                        if (_divider != null) _divider.gameObject.SetActive(true);
+
+                        string descriptionText = useProperty.UseEvent != null ? useProperty.UseEvent.Description : string.Empty;
+                        _useOrEquipDescription.text = descriptionText;
+                    }
+                }
                 else
                 {
                     _useOrEquipDescription.gameObject.SetActive(false);
