@@ -4,6 +4,7 @@ using Asce.Game.Enviroments;
 using Asce.Managers;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
+using Asce.Manager.Sounds;
 using System;
 using UnityEngine;
 
@@ -41,7 +42,7 @@ namespace Asce.Game.Players
 
         private void Start()
         {
-            Sounds.AudioManager.Instance.PlayMusic("Ancient Ruins");
+            AudioManager.Instance.PlayMusic("Ancient Ruins");
             if (_mainCharacter != null) this.SetControlledCreature(_mainCharacter);
 
             if (CameraController == null) return;

@@ -1,6 +1,7 @@
 using Asce.Game.Items;
 using Asce.Managers.Attributes;
 using Asce.Managers.UIs;
+using Asce.Manager.Sounds;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,8 +69,8 @@ namespace Asce.Game.UIs.Shops
         {
             if (_details == null) return;
             bool isBougth = _details.ShopWindow.Buy(_itemCost);
-            if (isBougth) Sounds.AudioManager.Instance.PlaySFX("Buy Success");
-            else Sounds.AudioManager.Instance.PlaySFX("Buy Failure");
+            if (isBougth) AudioManager.Instance.PlaySFX("Buy Success");
+            else AudioManager.Instance.PlaySFX("Buy Failure");
         }
     }
 }

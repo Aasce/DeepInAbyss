@@ -1,4 +1,5 @@
 using Asce.Game.Combats;
+using Asce.Manager.Sounds;
 using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies.Category
@@ -14,20 +15,20 @@ namespace Asce.Game.Entities.Enemies.Category
 
         protected override void Action_OnAttackHit(object sender, AttackEventArgs args)
         {
-            Sounds.AudioManager.Instance.PlaySFX("Creature Base Attack", this.transform.position);
+            AudioManager.Instance.PlaySFX("Creature Base Attack", this.transform.position);
             base.Action_OnAttackHit(sender, args);
         }
 
 
         private void Action_OnJump(object obj)
         {
-            Sounds.AudioManager.Instance.PlaySFX("Creature Jumping", this.transform.position);
+            AudioManager.Instance.PlaySFX("Creature Jumping", this.transform.position);
         }
 
 
         private void Action_OnFootstepEvent(object sender)
         {
-            Sounds.AudioManager.Instance.PlaySFX("Creature Footstep", this.transform.position);
+            AudioManager.Instance.PlaySFX("Creature Footstep", this.transform.position);
         }
     }
 }

@@ -1,6 +1,7 @@
 using Asce.Managers.Attributes;
 using Asce.Managers.UIs;
 using Asce.Managers.Utils;
+using Asce.Manager.Sounds;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -40,7 +41,7 @@ namespace Asce.Game.UIs
         public override void Hide()
         {
             base.Hide();
-            Sounds.AudioManager.Instance.PlaySFX("Close Window");
+            AudioManager.Instance.PlaySFX("Close Window");
         }
 
         public virtual void Focus()

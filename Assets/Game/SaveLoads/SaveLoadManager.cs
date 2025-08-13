@@ -33,8 +33,8 @@ namespace Asce.Game.SaveLoads
         public Task WaitUntilLoadedAsync() => _loadCompletedSource.Task;
         private async Task LoadAllAsync()
         {
-            await Task.Delay(500);
             this.LoadAll();
+            await Task.Delay(100);
         }
 
         public void LoadAll()

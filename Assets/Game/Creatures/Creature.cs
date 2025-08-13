@@ -4,6 +4,7 @@ using Asce.Game.Stats;
 using Asce.Game.StatusEffects;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
+using Asce.Manager.Sounds;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -156,7 +157,7 @@ namespace Asce.Game.Entities
 
         protected virtual void PhysicController_OnLand(object sender)
         {
-            Sounds.AudioManager.Instance.PlaySFX("Creature Landing", transform.position);
+            AudioManager.Instance.PlaySFX("Creature Landing", transform.position);
             CombatSystem.DealFallingDamage(this, PhysicController.currentVelocity.y);
         }
 

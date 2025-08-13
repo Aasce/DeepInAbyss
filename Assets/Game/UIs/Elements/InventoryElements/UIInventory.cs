@@ -38,18 +38,6 @@ namespace Asce.Game.UIs.Inventories
             base.RefReset();
         }
 
-
-        protected virtual void Start() 
-        {
-            _itemContextMenu = UIScreenCanvasManager.Instance.ContextMenusController.GetMenu<UIItemContextMenu>();
-
-            if (_itemContextMenu != null)
-            {
-                this.OnHide += (sender) => _itemContextMenu.Hide();
-            }
-        }
-
-
         /// <summary>
         ///     Sets the inventory to display in this UI panel.
         /// </summary>

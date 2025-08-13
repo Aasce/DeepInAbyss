@@ -1,3 +1,4 @@
+using Asce.Manager.Sounds;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Asce.Managers
 
             GameManager.CreateInstance();
             SceneLoader.CreateInstance();
+            AudioManager.CreateInstance();
         }
 
         private IEnumerator Start()

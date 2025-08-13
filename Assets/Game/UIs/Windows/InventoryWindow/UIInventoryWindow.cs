@@ -1,6 +1,7 @@
 using Asce.Game.Entities;
 using Asce.Game.Inventories;
 using Asce.Game.Items;
+using Asce.Game.UIs.ContextMenus;
 using Asce.Game.UIs.Equipments;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
@@ -41,6 +42,7 @@ namespace Asce.Game.UIs.Inventories
             if (_inventory != null) _inventory.OnFocusAt += Inventory_OnFocusAt;
             if (_equipment != null) _equipment.OnFocusAt += Equipment_OnFocusAt;
             if (_cleanButton != null) _cleanButton.onClick.AddListener(CleanButton_OnClick);
+
         }
 
         public override void Show()
@@ -54,6 +56,9 @@ namespace Asce.Game.UIs.Inventories
             if (!this.IsShow) return;
             base.Hide();
             Players.Player.Instance.CameraController.IsActiveRenderCamera = false;
+
+            UIItemContextMenu itemContextMenu = UIScreenCanvasManager.Instance.ContextMenusController.GetMenu<UIItemContextMenu>();
+            if (itemContextMenu != null) itemContextMenu.Hide();
         }
 
         public void SetCreature(ICreature creature)

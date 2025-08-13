@@ -1,6 +1,7 @@
 using Asce.Game.Entities;
 using Asce.Game.Stats;
 using Asce.Game.StatusEffects;
+using Asce.Manager.Sounds;
 using UnityEngine;
 
 namespace Asce.Game.Enviroments
@@ -27,7 +28,7 @@ namespace Asce.Game.Enviroments
             if (collider == null) return;
             if (!collider.TryGetComponent(out ICreature creature)) return;
 
-            if (creature.IsControlByPlayer()) Sounds.AudioManager.Instance.PlaySFX("Controlled Creature Submerged", creature.gameObject.transform.position);
+            if (creature.IsControlByPlayer()) AudioManager.Instance.PlaySFX("Controlled Creature Submerged", creature.gameObject.transform.position);
 
             if (creature.Stats is not IHasSustenance hasSuustenance) return;
             if (_isSendEffect) StatusEffectsManager.Instance.SendEffect<Underwater_StatusEffect>(null, creature, new EffectDataContainer()

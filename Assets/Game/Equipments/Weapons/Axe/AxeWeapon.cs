@@ -1,5 +1,6 @@
 using Asce.Game.Combats;
 using Asce.Game.Entities;
+using Asce.Manager.Sounds;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -56,7 +57,7 @@ namespace Asce.Game.Equipments.Weapons
         {
             if (Owner == null) return;
             base.StartAttacking(attackType);
-            Sounds.AudioManager.Instance.PlaySFX("Weapon Slash", Owner.gameObject.transform.position, 0.1f);
+            AudioManager.Instance.PlaySFX("Weapon Slash", Owner.gameObject.transform.position, 0.1f);
         }
 
         public override void EndAttacking(AttackType attackType = AttackType.None)

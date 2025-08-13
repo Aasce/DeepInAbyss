@@ -30,7 +30,7 @@ namespace Asce.Managers
         {
             OnLoadingStarted?.Invoke();
 
-            SceneManager.LoadScene("Loading"); // Load Loading Scene
+            SceneManager.LoadSceneAsync("Loading"); // Load Loading Scene
             yield return null; // Wait 1 frame for Loading Scene showing
 
             // Start load scene target

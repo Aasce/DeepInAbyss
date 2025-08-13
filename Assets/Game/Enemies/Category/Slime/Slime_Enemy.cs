@@ -1,4 +1,5 @@
 using Asce.Game.Combats;
+using Asce.Manager.Sounds;
 using UnityEngine;
 
 namespace Asce.Game.Entities.Enemies.Category
@@ -7,7 +8,7 @@ namespace Asce.Game.Entities.Enemies.Category
     {
         protected override void Action_OnAttackHit(object sender, AttackEventArgs args)
         {
-            Sounds.AudioManager.Instance.PlaySFX("Slime Attack", transform.position);
+            AudioManager.Instance.PlaySFX("Slime Attack", transform.position);
             base.Action_OnAttackHit(sender, args);
         }
     }

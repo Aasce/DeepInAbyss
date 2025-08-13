@@ -2,6 +2,7 @@ using Asce.Game.Spawners;
 using Asce.Managers.Attributes;
 using Asce.Managers.SaveLoads;
 using Asce.Managers.Utils;
+using Asce.Manager.Sounds;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -40,7 +41,7 @@ namespace Asce.Game.Enviroments
                 if (GlowRenderer != null) GlowRenderer.gameObject.SetActive(_isActive);
                 if (_isActive)
                 {
-                    Sounds.AudioManager.Instance.PlaySFX("Stone Of Recall Active", transform.position);
+                    AudioManager.Instance.PlaySFX("Stone Of Recall Active", transform.position);
                     VFXs.VFXsManager.Instance.Spawn(_activeVFXPrefab, Position);
                     OnActivate?.Invoke(this);
                 }

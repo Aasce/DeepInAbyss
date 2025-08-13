@@ -1,6 +1,7 @@
 using Asce.Game.Combats;
 using Asce.Managers.Attributes;
 using Asce.Managers.Utils;
+using Asce.Manager.Sounds;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,7 +63,7 @@ namespace Asce.Game.Entities.Characters
         protected virtual void Action_OnAttackHit(object sender, AttackEventArgs args)
         {
             if (Equipment.WeaponSlot.CurrentWeapon != null) return;
-            Sounds.AudioManager.Instance.PlaySFX("Creature Base Attack", this.transform.position);
+            Manager.Sounds.AudioManager.Instance.PlaySFX("Creature Base Attack", this.transform.position);
             _damagedObject.Clear();
 
             Collider2D[] colliders = _damageHitBox.Hit(transform.position, Status.FacingDirectionValue);
@@ -85,13 +86,13 @@ namespace Asce.Game.Entities.Characters
 
         private void Action_OnJump(object obj)
         {
-            Sounds.AudioManager.Instance.PlaySFX("Creature Jumping", this.transform.position);
+            AudioManager.Instance.PlaySFX("Creature Jumping", this.transform.position);
         }
 
 
         private void PhysicController_OnFootstepEvent(object sender)
         {
-            Sounds.AudioManager.Instance.PlaySFX("Creature Footstep", this.transform.position);
+            AudioManager.Instance.PlaySFX("Creature Footstep", this.transform.position);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Asce.Manager.Sounds;
 using Asce.Managers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,7 @@ public class MainMenuManager : MonoBehaviourSingleton<MainMenuManager>
         if (SettingsButton != null) SettingsButton.onClick.AddListener(SettingsButton_OnClick);
         if (QuitButton != null) QuitButton.onClick.AddListener(QuitButton_OnClick);
 
+        AudioManager.Instance.PlayMusic("Town Theme");
     }
 
     private void PlayButton_OnClick()
